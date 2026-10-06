@@ -1,0 +1,203 @@
+{
+ "actions": [],
+ "creation": "2026-06-16 00:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "section_break_spapi",
+  "lwa_client_id",
+  "lwa_client_secret",
+  "lwa_refresh_token",
+  "column_break_spapi",
+  "marketplace_id",
+  "seller_id",
+  "sp_api_region",
+  "section_break_sap",
+  "sap_card_code",
+  "sap_series",
+  "sap_credit_note_series",
+  "sap_warehouse_code",
+  "column_break_sap",
+  "sap_tax_code",
+  "sap_pay_to_code",
+  "section_break_sync",
+  "sync_watermark",
+  "lookback_days",
+  "fba_sync_watermark",
+  "section_break_posting_safety",
+  "posting_cutoff_date",
+  "section_break_alerts",
+  "alert_email"
+ ],
+ "fields": [
+  {
+   "fieldname": "section_break_spapi",
+   "fieldtype": "Section Break",
+   "label": "Amazon SP-API Credentials"
+  },
+  {
+   "fieldname": "lwa_client_id",
+   "fieldtype": "Data",
+   "label": "LWA Client ID",
+   "reqd": 1
+  },
+  {
+   "fieldname": "lwa_client_secret",
+   "fieldtype": "Password",
+   "label": "LWA Client Secret",
+   "reqd": 1
+  },
+  {
+   "fieldname": "lwa_refresh_token",
+   "fieldtype": "Password",
+   "label": "LWA Refresh Token",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_spapi",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "ATVPDKIKX0DER",
+   "fieldname": "marketplace_id",
+   "fieldtype": "Data",
+   "label": "Marketplace ID",
+   "reqd": 1
+  },
+  {
+   "fieldname": "seller_id",
+   "fieldtype": "Data",
+   "label": "Seller ID (Merchant ID)"
+  },
+  {
+   "default": "us-east-1",
+   "fieldname": "sp_api_region",
+   "fieldtype": "Data",
+   "label": "SP-API Region"
+  },
+  {
+   "fieldname": "section_break_sap",
+   "fieldtype": "Section Break",
+   "label": "SAP B1 Defaults (INC Entity)"
+  },
+  {
+   "default": "C00001",
+   "fieldname": "sap_card_code",
+   "fieldtype": "Data",
+   "label": "SAP CardCode (Amazon USA BP)",
+   "reqd": 1
+  },
+  {
+   "default": "120",
+   "fieldname": "sap_series",
+   "fieldtype": "Int",
+   "label": "AR Invoice Series",
+   "reqd": 1
+  },
+  {
+   "default": "121",
+   "fieldname": "sap_credit_note_series",
+   "fieldtype": "Int",
+   "label": "AR Credit Note Series",
+   "reqd": 1
+  },
+  {
+   "default": "AMZ-FBA",
+   "fieldname": "sap_warehouse_code",
+   "fieldtype": "Data",
+   "label": "Warehouse Code",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_sap",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "etax0",
+   "fieldname": "sap_tax_code",
+   "fieldtype": "Data",
+   "label": "Tax Code",
+   "reqd": 1
+  },
+  {
+   "default": "Amazon USA-B2C",
+   "fieldname": "sap_pay_to_code",
+   "fieldtype": "Data",
+   "label": "PayToCode (Bill-To)",
+   "reqd": 1
+  },
+  {
+   "fieldname": "section_break_sync",
+   "fieldtype": "Section Break",
+   "label": "Incremental Sync State"
+  },
+  {
+   "fieldname": "sync_watermark",
+   "fieldtype": "Datetime",
+   "label": "Last Incremental Sync At",
+   "read_only": 1,
+   "description": "Auto-updated after each successful background sync. Clear to force a 30-day catch-up on next run."
+  },
+  {
+   "default": "7",
+   "fieldname": "lookback_days",
+   "fieldtype": "Int",
+   "label": "Sync Lookback Days",
+   "description": "Days subtracted from watermark on each sync. 7 covers peak-period FBA SLAs and SP-API eventual-consistency lag."
+  },
+  {
+   "fieldname": "fba_sync_watermark",
+   "fieldtype": "Date",
+   "label": "Last FBA Shipment Sync Date",
+   "read_only": 1,
+   "description": "Auto-advanced only on a successful daily sync -- never advanced on failure, so the next run retries the same window instead of silently skipping it. Clear to force a fresh INCREMENTAL_LOOKBACK_DAYS catch-up."
+  },
+  {
+   "fieldname": "section_break_posting_safety",
+   "fieldtype": "Section Break",
+   "label": "Posting Safety"
+  },
+  {
+   "default": "2026-06-01",
+   "fieldname": "posting_cutoff_date",
+   "fieldtype": "Date",
+   "label": "Posting Cutoff Date",
+   "description": "Invoices, credit notes and retries are refused for any order shipped (or purchased, if unshipped) before this date. Set past the last date Finance booked manually in SAP from the MTR report, so this pipeline can never duplicate it — SAP's NumAtCard dedup only catches orders this system posted itself."
+  },
+  {
+   "fieldname": "section_break_alerts",
+   "fieldtype": "Section Break",
+   "label": "Alerting"
+  },
+  {
+   "fieldname": "alert_email",
+   "fieldtype": "Data",
+   "label": "Health Check Alert Email",
+   "options": "Email",
+   "description": "Daily health check emails here if a scheduled sync is stale or posted orders are piling up without a ship date. Leave blank to disable."
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "issingle": 1,
+ "links": [],
+ "modified": "2026-06-16 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Khanal Tech Integrations",
+ "name": "Amazon US Settings",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "print": 1,
+   "read": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

@@ -1,0 +1,42 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2025-03-03 18:38:49.215290",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "map_item"
+ ],
+ "fields": [
+  {
+   "fieldname": "map_item",
+   "fieldtype": "Table",
+   "label": "map_item",
+   "options": "Table_Map"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "issingle": 1,
+ "links": [],
+ "modified": "2025-03-03 23:07:26.761167",
+ "modified_by": "Administrator",
+ "module": "Khanal Tech Integrations",
+ "name": "Itemmap",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "print": 1,
+   "read": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "creation",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1
+}

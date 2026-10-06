@@ -1,0 +1,205 @@
+{
+ "actions": [],
+ "allow_rename": 0,
+ "autoname": "GHEEDRAFT-.YYYY.-.####",
+ "creation": "2026-06-26 00:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "status",
+  "current_step",
+  "column_break_header",
+  "source_item_code",
+  "new_item_code",
+  "doc_date",
+  "new_item_warehouse",
+  "remarks",
+  "section_batches",
+  "selected_batches_json",
+  "section_output",
+  "output_batch_nos_json",
+  "section_cost",
+  "cost_split_json",
+  "section_po",
+  "po_entry",
+  "po_doc_num",
+  "section_completion",
+  "goods_issue_doc",
+  "goods_receipt_doc",
+  "goods_receipt_2_doc",
+  "po_closed",
+  "cost_summary_json",
+  "section_error",
+  "error_message"
+ ],
+ "fields": [
+  {
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Status",
+   "options": "Draft\nPO Created\nCompleted\nError",
+   "default": "Draft",
+   "reqd": 1
+  },
+  {
+   "fieldname": "current_step",
+   "fieldtype": "Int",
+   "in_list_view": 1,
+   "label": "Current Step",
+   "default": "1",
+   "description": "1=Select FG, 2=BOM/Cost, 3=Output Batches, 4=Review+Create, 5=Complete"
+  },
+  {
+   "fieldname": "column_break_header",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "source_item_code",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Source Item Code",
+   "description": "FG being reversed, e.g. FGHN0132"
+  },
+  {
+   "fieldname": "new_item_code",
+   "fieldtype": "Data",
+   "label": "Output Item Code",
+   "description": "BOM header item, e.g. RMHN0094"
+  },
+  {
+   "fieldname": "doc_date",
+   "fieldtype": "Date",
+   "label": "Document Date"
+  },
+  {
+   "fieldname": "new_item_warehouse",
+   "fieldtype": "Data",
+   "label": "Output Warehouse",
+   "default": "HN-WIP"
+  },
+  {
+   "fieldname": "remarks",
+   "fieldtype": "Small Text",
+   "label": "Remarks"
+  },
+  {
+   "fieldname": "section_batches",
+   "fieldtype": "Section Break",
+   "label": "Source Batches"
+  },
+  {
+   "fieldname": "selected_batches_json",
+   "fieldtype": "Long Text",
+   "label": "Selected Batches (JSON)",
+   "description": "Array: [{batch_no, source_qty, warehouse, calc_price, batch_number, qty_available}]"
+  },
+  {
+   "fieldname": "section_output",
+   "fieldtype": "Section Break",
+   "label": "Output Batch Numbers"
+  },
+  {
+   "fieldname": "output_batch_nos_json",
+   "fieldtype": "Long Text",
+   "label": "Output Batch Numbers (JSON)",
+   "description": "Object: {item_code: batch_no}"
+  },
+  {
+   "fieldname": "section_cost",
+   "fieldtype": "Section Break",
+   "label": "Cost Split Preview"
+  },
+  {
+   "fieldname": "cost_split_json",
+   "fieldtype": "Long Text",
+   "label": "Cost Split Preview (JSON)",
+   "description": "Full response from preview_cost_split API"
+  },
+  {
+   "fieldname": "section_po",
+   "fieldtype": "Section Break",
+   "label": "Production Order"
+  },
+  {
+   "fieldname": "po_entry",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "PO DocEntry"
+  },
+  {
+   "fieldname": "po_doc_num",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "PO DocNum"
+  },
+  {
+   "fieldname": "section_completion",
+   "fieldtype": "Section Break",
+   "label": "Completion Results"
+  },
+  {
+   "fieldname": "goods_issue_doc",
+   "fieldtype": "Data",
+   "label": "Goods Issue Document"
+  },
+  {
+   "fieldname": "goods_receipt_doc",
+   "fieldtype": "Data",
+   "label": "Goods Receipt 1 (RMHN0094)"
+  },
+  {
+   "fieldname": "goods_receipt_2_doc",
+   "fieldtype": "Data",
+   "label": "Goods Receipt 2 (By-products)"
+  },
+  {
+   "fieldname": "po_closed",
+   "fieldtype": "Check",
+   "label": "PO Closed in SAP"
+  },
+  {
+   "fieldname": "cost_summary_json",
+   "fieldtype": "Long Text",
+   "label": "Cost Summary (JSON)",
+   "description": "total_gi_cost, total_gr_cost, jar_cost, scrap_cost, fg_residual, balanced"
+  },
+  {
+   "fieldname": "section_error",
+   "fieldtype": "Section Break",
+   "label": "Error"
+  },
+  {
+   "fieldname": "error_message",
+   "fieldtype": "Small Text",
+   "label": "Error Message"
+  }
+ ],
+ "in_create": 0,
+ "index_web_pages_for_search": 0,
+ "links": [],
+ "modified": "2026-06-26 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Khanal Tech Integrations",
+ "name": "Ghee Production Draft",
+ "naming_rule": "Expression (using autoname)",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 0,
+   "export": 0,
+   "print": 0,
+   "read": 1,
+   "report": 0,
+   "role": "All",
+   "share": 0,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "track_changes": 0,
+ "track_seen": 0
+}

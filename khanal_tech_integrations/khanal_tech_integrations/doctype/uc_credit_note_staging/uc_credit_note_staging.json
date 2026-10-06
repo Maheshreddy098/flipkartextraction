@@ -1,0 +1,111 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2026-03-27 00:00:00.000000",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "uc_return_id",
+  "uc_order_id",
+  "parent_sap_doc_entry",
+  "return_date",
+  "return_type",
+  "items_json",
+  "status",
+  "sap_credit_doc_entry",
+  "attempt_count",
+  "last_error"
+ ],
+ "fields": [
+  {
+   "fieldname": "uc_return_id",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "UC Return ID",
+   "reqd": 1,
+   "unique": 1
+  },
+  {
+   "fieldname": "uc_order_id",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "UC Order ID",
+   "options": "Unicommerce Orders",
+   "reqd": 1
+  },
+  {
+   "fieldname": "return_date",
+   "fieldtype": "Date",
+   "in_list_view": 1,
+   "label": "Return Date"
+  },
+  {
+   "fieldname": "return_type",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Return Type",
+   "options": "customer\ncourier"
+  },
+  {
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Status",
+   "options": "pending\nposting\nposted\nfailed\ndead"
+  },
+  {
+   "fieldname": "parent_sap_doc_entry",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Parent SAP Doc Entry"
+  },
+  {
+   "fieldname": "sap_credit_doc_entry",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "SAP Credit Doc Entry"
+  },
+  {
+   "fieldname": "items_json",
+   "fieldtype": "Code",
+   "label": "Items JSON",
+   "options": "JSON"
+  },
+  {
+   "default": "0",
+   "fieldname": "attempt_count",
+   "fieldtype": "Int",
+   "label": "Attempt Count"
+  },
+  {
+   "fieldname": "last_error",
+   "fieldtype": "Small Text",
+   "in_list_view": 1,
+   "label": "Last Error"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2026-03-27 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Khanal Tech Integrations",
+ "name": "UC Credit Note Staging",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "print": 1,
+   "read": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "row_format": "Dynamic",
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

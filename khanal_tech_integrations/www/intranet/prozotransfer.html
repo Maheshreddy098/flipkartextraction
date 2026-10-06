@@ -1,0 +1,194 @@
+{% extends "khanal_tech_integrations/www/intranet/base.html" %}
+
+{% block content %}
+<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+
+
+<div class="row mb-3">
+    <div class="col">
+        <div class="card bg-100 shadow-none border">
+            <div class="row gx-0 flex-between-center">
+                <div class="col-sm-auto d-flex align-items-center"><img class="ms-n2"
+                        src="/assets/khanal_tech_integrations/assets/img/illustrations/crm-bar-chart.png" alt=""
+                        width="90" />
+                    <div>
+                        <h6 class="text-primary fs--1 mb-0">Welcome to </h6>
+                        <h4 class="text-primary fw-bold mb-0">KhanalFoods <span class="text-info fw-medium">Prozo
+                                Transfer</span></h4>
+                    </div><img class="ms-n4 d-md-none d-lg-block"
+                        src="/assets/khanal_tech_integrations/assets/img/illustrations/crm-line-chart.png" alt=""
+                        width="150" />
+                </div>
+                <!-- <div class="col-md-auto p-3">
+          <form class="row align-items-center g-3">
+            <div class="col-auto">
+              <h6 class="text-700 mb-0">Showing Data For: </h6>
+            </div>
+
+
+            <div class="col-md-auto position-relative">
+              <div id="reportrange"
+                style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc; width: 100%">
+                <i class="fa fa-calendar"></i>&nbsp;
+                <span></span> <i class="fa fa-caret-down"></i>
+              </div>
+            </div>
+
+          </form>
+        </div> -->
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+<div class="row mb-3">
+    <div class="col">
+        <div class="card bg-100 shadow-none border">
+            <div class="card-header">
+                <div class="row flex-between-end">
+                    <div class="col-auto align-self-center">
+                        <h5 class="mb-0" data-anchor="data-anchor">Prozo Transfer</h5>
+
+                    </div>
+
+                </div>
+            </div>
+            <div class="card-body pt-0">
+                <div class="tab-content">
+                    <div class="tab-pane preview-tab-pane active" role="tabpanel"
+                        aria-labelledby="tab-dom-2190de4e-5b61-4e58-923a-d0604c18408f"
+                        id="dom-2190de4e-5b61-4e58-923a-d0604c18408f">
+                        <div id="tableExample4"
+                            data-list='{"valueNames":["date","num","from","to","memo"],"filter":{"key":"payment"},"page":10,"pagination":true}'>
+                            <div class="row justify-content-end g-0">
+                                <div class="col-auto px-3">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <form>
+                                                <div class="input-group">
+                                                    <input class="form-control form-control-sm shadow-none search"
+                                                        type="search" placeholder="Search..." aria-label="search" />
+                                                    <div class="input-group-text bg-transparent"><span
+                                                            class="fa fa-search fs--1 text-600"></span></div>
+                                                </div>
+                                            </form>
+
+
+                                            <!-- <select class="form-select form-select-sm mb-3" aria-label="Bulk actions" data-list-filter="data-list-filter">
+                                <option selected="" value="">Select payment status</option>
+                                <option value="Pending">Pending</option>                 
+                                <option value="Success">Success</option>
+                                <option value="Blocked">Blocked</option>
+                              </select>   -->
+                                        </div>
+                                    </div>
+
+
+                                </div>
+                            </div>
+                            <div class="table-responsive scrollbar">
+                                <table class="table table-sm table-striped fs--1 mb-0 overflow-hidden">
+                                    <thead class="bg-200 text-900">
+                                        <tr>
+                                            <th class="sort pe-1 align-middle white-space-nowrap" data-sort="date">
+                                                Created Date</th>
+                                            <th class="sort pe-1 align-middle white-space-nowrap" data-sort="num">
+                                                Inventory transefer No</th>
+                                            <th class="sort pe-1 align-middle white-space-nowrap" data-sort="from">From
+                                                WareHouse</th>
+                                            <th class="sort pe-1 align-middle white-space-nowrap" data-sort="to">To
+                                                WareHouse</th>
+                                            <th class="sort pe-1 align-middle white-space-nowrap" data-sort="memo">
+                                                Remark</th>
+                                            <th class="sort pe-1 align-middle white-space-nowrap">
+                                                Action</th>
+                                            <!-- <th class="sort align-middle white-space-nowrap text-end pe-4" data-sort="payment">Payment</th> -->
+                                        </tr>
+                                    </thead>
+                                    <tbody class="list" id="table-purchase-body">
+                                        {% for dict_item in Minimal_list %}
+                                        <tr class="btn-reveal-trigger">
+                                            {% for key,value in dict_item.items() %}
+                                            {% if key=="DocDate" %}
+                                            <td class="align-middle white-space-nowrap date">{{value}}</td>
+                                            {% elif key=="DocNum" %}
+                                            <td class="align-middle white-space-nowrap num">{{value}}</td>
+                                            {% elif key=="FromWarehouse" %}
+                                            <td class="align-middle white-space-nowrap from">{{value}}</td>
+                                            {% elif key=="ToWarehouse" %}
+                                            <td class="align-middle white-space-nowrap to">{{value}}</td>
+                                            {% elif key=="JournalMemo" %}
+                                            <td class="align-middle white-space-nowrap memo">{{value}}</td>
+                                            {% elif key=="DocEntry" %}
+                                            <td class="align-middle white-space-nowrap name"><span
+                                                    class="badge badge rounded-pill badge-soft-warning"
+                                                    onclick="changestatus({{value}})">{{ _("Change Status") }}</span>
+                                            </td>
+                                            <!-- <td class="align-middle white-space-nowrap memo" id="docid">{{value}}</td>
+                                            </td> -->
+                                            {% endif %}
+                                            <!-- <td class="align-middle white-space-nowrap email">sylvia@mail.ru</td> -->
+                                            <!-- <td class="align-middle white-space-nowrap name"><a class="btn btn-falcon-success me-1 mb-1" type="button">Change
+                                            </a></td> -->
+                                            <!-- <td class="align-middle white-space-nowrap email">sylvia@mail.ru</td>
+                        <td class="align-middle white-space-nowrap inv">35464</td>
+                        <td class="align-middle text-end fs-0 white-space-nowrap payment"><span class="badge badge rounded-pill badge-soft-warning">Pending<span class="ms-1 fas fa-stream" data-fa-transform="shrink-2"></span></span>
+                        </td> -->
+                                            {% endfor %}
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="d-flex justify-content-center mt-3">
+                                <button class="btn btn-sm btn-falcon-default me-1" type="button" title="Previous"
+                                    data-list-pagination="prev"><span class="fas fa-chevron-left"></span></button>
+                                <ul class="pagination mb-0"></ul>
+                                <button class="btn btn-sm btn-falcon-default ms-1" type="button" title="Next"
+                                    data-list-pagination="next"><span class="fas fa-chevron-right"> </span></button>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+{% endblock content %}
+
+
+
+{% block javascripts %}
+<!-- {{ super() }} -->
+<script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+<script>
+  function changestatus(DocEntry) {
+    alert(DocEntry)
+    $.ajax({
+        method: "GET",
+        url: "/",
+        data: {
+            cmd: "khanal_tech_integrations.utils.prozo.purchase_orders.process_po_linewise",
+            inventory_tranfer_docentry: DocEntry,
+        },
+        dataType: "json",
+        success: function (data) {
+            location.reload();
+            // window.render_product_list(data.message || []);
+        }
+    })
+}
+</script>
+
+{% endblock javascripts %}

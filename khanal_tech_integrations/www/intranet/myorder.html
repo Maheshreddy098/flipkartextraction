@@ -1,0 +1,466 @@
+{% extends "khanal_tech_integrations/www/intranet/base.html" %}
+
+{% block content %}
+
+<script src="https://cdn.jsdelivr.net/gh/bbbootstrap/libraries@main/choices.min.js"></script>
+
+<style>
+  ul,
+  li {
+    list-style: none;
+    padding: 0;
+  }
+
+  .container {
+    /* display: flex; */
+    justify-content: center;
+    align-items: center;
+    /* padding: 0 1rem;
+padding: 3rem 0; */
+  }
+
+  /* .wrapper {
+background: #eaf6ff;
+padding: 2rem;
+border-radius: 15px;
+} */
+  h1 {
+    font-size: 1px;
+    font-family: sans-serif;
+  }
+
+  .sessions {
+    /* margin-top: 2rem; */
+    border-radius: 12px;
+    position: relative;
+  }
+
+  .sessions li {
+    padding-bottom: 1px;
+    border-left: 1px solid #abaaed;
+    position: relative;
+    padding-left: 20px;
+    margin-left: 10px;
+    margin-bottom: -14px;
+  }
+
+  .sessions li:last-child {
+    border: 0px;
+    padding-bottom: 0;
+  }
+
+  .sessions li:before {
+    content: '';
+    width: 15px;
+    height: 15px;
+    background: white;
+    border: 1px solid #4e5ed3;
+    box-shadow: 3px 3px 0px #bab5f8;
+    box-shadow: 3px 3px 0px #bab5f8;
+    border-radius: 50%;
+    position: absolute;
+    left: -10px;
+    top: 0px;
+  }
+
+  .time {
+    color: #2a2839;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 500;
+  }
+
+  @media screen and (min-width: 601px) {
+    .time {
+      font-size: 0.9rem;
+    }
+  }
+
+  @media screen and (max-width: 600px) {
+    .time {
+      margin-bottom: 0.3rem;
+      font-size: 0.85rem;
+    }
+  }
+
+  p {
+    color: #4f4f4f;
+    font-family: sans-serif;
+    /* line-height: 1.5; */
+    margin-top: 0.4rem;
+  }
+
+  /* @media screen and (max-width: 600px) {
+    p {
+      font-size: 0.9rem;
+    }
+  } */
+</style>
+<!-- <script>
+  window.frappe = {};
+  frappe.ready_events = [];
+  frappe.ready = function () {
+    frappe.call({
+      method: "khanal_tech_integrations.www.intranet.myorder.Frappe_Call", //dotted path to server method
+      // args: {},
+      callback: function (r) {
+        // code snippet
+      }
+    });
+  }
+
+</script> -->
+<style>
+  table.dataTable tbody td {
+    padding: 13px 0px;
+  }
+
+  thead>tr>th.sorting_desc {
+    padding-right: 15px;
+    padding-top: 20px;
+  }
+
+  /* #myorderTable th{
+    width: 256.445px;
+  } */
+
+  .table-bordered>:not(caption)>*>* {
+    border-width: 1px 0px;
+  }
+  /* .buttons-csv{
+    height: 100px;
+  } */
+
+.buttons-csv,.buttons-excel,.buttons-print {
+  background-color: rgba(51, 51, 51, 0.05);
+    border-radius: 8px;
+    border-width: 0;
+    color: #333333;
+    cursor: pointer;
+    display: inline-block;
+    font-family: "Haas Grot Text R Web", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 11px;
+    list-style: none;
+    margin-left: 10px;
+    padding: 7px 16px;
+    text-align: center;
+    vertical-align: baseline;
+    white-space: nowrap;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+}
+</style>
+<div class="row mb-3">
+  <div class="col">
+    <div class="card bg-100 shadow-none border">
+      <div class="row gx-0 flex-between-center">
+        <div class="col-sm-auto d-flex align-items-center"><img class="ms-n2"
+            src="/assets/khanal_tech_integrations/assets/img/illustrations/crm-bar-chart.png" alt="" width="90" />
+          <div>
+            <!-- <h6 class="text-primary fs--1 mb-0">Welcome to </h6> -->
+            <h4 class="text-primary fw-bold mb-0">My <span class="text-info fw-medium"> Order</span></h4>
+          </div><img class="ms-n4 d-md-none d-lg-block"
+            src="/assets/khanal_tech_integrations/assets/img/illustrations/crm-line-chart.png" alt="" width="150" />
+        </div>
+        <div class="col-md-auto p-3">
+          <form class="row align-items-center g-3">
+            <div class="col-auto">
+              <h6 class="text-700 mb-0">Showing Data For: </h6>
+            </div>
+
+
+            <div class="col-md-auto position-relative">
+              <div id="LogisticDatereportrange"
+                style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc; width: 100%">
+                <i class="fa fa-calendar"></i>&nbsp;
+                <span></span> <i class="fa fa-caret-down"></i>
+              </div>
+            </div>
+
+
+
+          </form>
+        </div>
+
+
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+<div class="row mb-3">
+  <div class="col-xxl-10 col-xl-12" id="BuildToggle">
+    <div class="card bg-100 shadow-none border">
+      <div class="card-header" style="margin-bottom: -22px">
+        <div class="row">
+          <div class="col-md-6">
+            <h5 class="mb-0" data-anchor="data-anchor">My Order</h5>
+          </div>
+          <div class="col-md-6  ">
+            <div class="row">
+              <div class="col-md-3"></div>
+              <div class="col-md-3"></div>
+              <div class="col-md-3 text-end">
+                <p>Apply Filter</p>
+              </div>
+              <div class="col-md-3">
+                <div class="d-flex align-items-center">
+                  <button onclick="myFunction()" class="btn btn-falcon-default btn-sm" type="button"><span
+                      class="fas fa-external-link-alt" data-fa-transform="shrink-3"></span><span
+                      class="d-none d-sm-inline-block d-xl-none d-xxl-inline-block ms-1">Filter</span></button>
+
+                  <!-- <a class="btn btn-falcon-default btn-sm mx-2" href="#authentication-modal" onclick="DeliveryStatusModal(1)" data-bs-toggle="modal">Modal</a> -->
+
+
+                </div>
+              </div>
+            </div>
+
+
+
+          </div>
+        </div>
+
+      </div>
+
+
+      <div class="card-body pt-0">
+        <div class="tab-content">
+          <div class="tab-pane preview-tab-pane active" role="tabpanel"
+            aria-labelledby="tab-dom-2190de4e-5b61-4e58-923a-d0604c18408f"
+            id="dom-2190de4e-5b61-4e58-923a-d0604c18408f">
+            <div id="tableExample3">
+
+              <div class="table-responsive scrollbar">
+                <table class="table table-bordered table-striped fs--1 mb-0 " id="myorderTable">
+                  <thead class="bg-200 text-900">
+                    <tr>
+
+                      <th class="align-middle text-center active" data-sort="slno">#</th>
+                      <th class="align-middle text-center" data-sort="date">Date </th>
+                      <th class="align-middle text-center" data-sort="number">SO No.</th>
+                      <th class="align-middle text-center" data-sort="name">Customer</th>
+                      <th class="align-middle text-center" data-sort="invoicenumber">Invoice No. </th>
+                      <th class="align-middle text-center" data-sort="invoiceamount">Invoice Amount</th>
+                      <th class="align-middle text-center" data-sort="status">Status</th>
+                      <th class="align-middle text-center" data-sort="status">Ware House</th>
+                      <th class="align-middle text-center"> Action</th>
+                      <th class="align-middle text-center" hidden> Doc Number</th>
+                      <th class="align-middle text-center" hidden> Transpoter Name</th>
+                      <th class="align-middle text-center" hidden> Tracking ID</th>
+                    </tr>
+                  </thead>
+                  <tbody class="list">
+                    {% for data in logistics_data %}
+                    <tr>
+
+                      <td class="slno align-middle text-center"> {{ loop.index }} </td>
+                      <td style="font-size: 12px; font-weight: bold;" class="date align-middle text-center"><i> {{ frappe.format(data[0], {'fieldtype': 'Date'}) }} </i></td>
+                      <td class="number align-middle text-center">{{ data[1] }} </td>
+                      <td class="name align-middle text-start">
+                        <h6 class="text-900">{{ data[3] }}</h6> <b>({{ data[2] }})</b>
+                      </td>
+                      <td class="invoicenumber align-middle text-center ">{% if data[9] %}
+                        {{data[9]}}
+                        {% else %}
+                        <small class="badge rounded badge-soft-secondary   dark__bg-1000">Pending</small>
+                        {% endif %}
+                      </td>
+                      <td align="right" class="invoiceamount fw-semi-bold align-middle text-center"> {% if data[10] %}
+                        {{ "{:,.2f}".format(data[10]|float) }} {% else %} 0.00 {% endif %} </td>
+                      <td class="align-middle status text-center fs-0 pe-4">
+                        {% if data[6] %}
+                        <small class="badge badge rounded-pill   badge-soft-success false">Shipped</small>
+
+                        {% elif data[9] %}
+                        <small class="badge badge rounded-pill   badge-soft-info false">Invoice Created</small>
+                        {% elif data[4] %}
+                        <small class="badge badge rounded-pill   badge-soft-warning false">Delivery Note Created</small>
+                        {% else %}
+                        <small class="badge badge rounded-pill   badge-soft-primary false"> SO Created</small>
+                        {% endif %}
+                      </td>
+                      <td class="name align-middle text-center">
+                        <h6> {{ data[11] }}</h6>
+                      </td>
+                      <td class="text-end">
+
+                        {% if data[7] %}
+                        {% if data[7] %}
+
+                        {% if data[7].lower() == 'safexpress'%}
+                        <a class="btn " href="#authentication-modal" onclick="DeliveryStatusModal({{data[8]}})"data-bs-toggle="modal"> <span class="fas fa-eye" data-fa-transform="shrink-3"></span></a>
+
+                        {% elif 'local truck' == data[7].lower() %}
+                        <small class="badge rounded badge-soft-warning   dark__bg-1000">Local Transportation</small>
+                        {% elif 'local' == data[7].lower() %}
+                        <small class="badge rounded badge-soft-warning   dark__bg-1000">Local Transportation</small>
+                        {% elif 'electric vehicle' == data[7].lower() %}
+                        <small class="badge rounded badge-soft-primary   dark__bg-1000">ELECTRIC VEHICLE</small>
+                        
+
+                        {% else %}
+                        <a class="btn " href="https://www.aftership.com/track/{{data[8]}}"><span class="fas fa-eye" data-fa-transform="shrink-3"></span></a>
+
+
+                        {% endif %}
+
+                        {% else %}
+                        <h6>none</h6>
+                        {% endif %}
+                        {% else %}
+                        <small class="badge rounded badge-soft-primary   dark__bg-1000">No Tracking ID</small>
+                        {% endif %}
+
+
+
+                      </td>
+                      <td hidden>{{data[4]}}</td>
+                      <td hidden>{{data[7]}}</td>
+                      <td hidden>{{data[8]}}</td>
+                    </tr>
+                    {% endfor %}
+
+                  </tbody>
+                </table>
+              </div>
+              <!-- <div class="d-flex justify-content-center mt-3">
+                    <button class="btn btn-sm btn-falcon-default me-1" type="button" title="Previous"
+                      data-list-pagination="prev"><span class="fas fa-chevron-left"></span></button>
+                    <ul class="pagination mb-0"></ul>
+                    <button class="btn btn-sm btn-falcon-default ms-1" type="button" title="Next"
+                      data-list-pagination="next"><span class="fas fa-chevron-right"> </span></button>
+                  </div> -->
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+
+
+
+
+    </div>
+  </div>
+  <div class="col-xxl-2 col-xl-3" id="HideDiv" style="display: none;">
+    <div class="offcanvas offcanvas-end offcanvas-filter-sidebar border-0 dark__bg-card-dark h-auto rounded-xl-3"
+      tabindex="-1" id="ticketOffcanvas" aria-labelledby="ticketOffcanvasLabel">
+      <div class="offcanvas-header d-flex flex-between-center d-xl-none bg-light">
+        <h6 class="fs-0 mb-0 fw-semi-bold">Filter</h6>
+        <button class="btn-close text-reset d-xl-none shadow-none" id="ticketOffcanvasLabel" type="button"
+          data-bs-dismiss="offcanvas" aria-label="Close"></button>
+      </div>
+      <div class="card scrollbar shadow-none shadow-show-xl">
+        <div class="card-header bg-light d-none d-xl-block">
+          <h6 class="mb-0">Filter</h6>
+        </div>
+        <div class="card-body">
+
+          <div class="mb-2 mt-n2">
+            <label class="mb-1">Select SalesPerson :-</label>
+            <select id="MultipleSelect" placeholder="Select upto 10 SalesPerson " multiple>
+
+            </select>
+          </div>
+          <!-- <div class="mb-2">
+                        <label class="mb-1 mt-2">Source</label>
+                        <select class="form-select form-select-sm">
+                            <option>None</option>
+                            <option>Email</option>
+                            <option>Phone</option>
+                            <option>Forum</option>
+                            <option selected="selected">Facebook</option>
+                            <option>Twitter</option>
+                            <option>Chat</option>
+                            <option>Whatsapp</option>
+                            <option>Portal</option>
+                            <option>Bots</option>
+                            <option>External Email</option>
+                            <option>Ecommerce</option>
+                            <option>Feedback Widget</option>
+                        </select>
+                    </div> -->
+
+          </form>
+        </div>
+        <div class="card-footer border-top border-200 py-x1">
+          <button style="margin-top: 10px;" onclick="var el = document.getElementById('MultipleSelect');
+              getSelectValues(el);" class="btn btn-falcon-default btn-sm ms-2" type="button">Confirm</button>
+          <button onclick="ClearFilter()" style="margin-top: 10px;" class="btn btn-falcon-default btn-sm ms-2"
+            type="button">Clear</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+<div class="modal fade" id="authentication-modal" tabindex="-1" role="dialog"
+  aria-labelledby="authentication-modal-label" aria-hidden="true">
+  <div class="modal-dialog " role="document">
+    <div class="modal-content border-0">
+      <div class="modal-header position-relative modal-shape-header bg-shape">
+
+        <div class="card-body position-relative">
+          <h5 style="color: white;">Order Details: <span id="owner"></span> <span id="orderDeatils"></span></h5>
+          <p class="fs--1" style="color: white;">EDD :- <span id="edd"></span></p>
+
+          <div><strong class="me-2" style="color: white;">Status: </strong>
+            <div id="colorStatus" class="badge rounded-pill  fs--2"><span id="status" style="color: black;"></span>
+              <span id="IconStatus" class=" ms-1" data-fa-transform="shrink-2"></span></div>
+          </div>
+        </div>
+        <button class="btn-close btn-close-white position-absolute top-0 end-0 mt-2 me-2" data-bs-dismiss="modal"
+          aria-label="Close"></button>
+      </div>
+      <div class="modal-body px-5">
+
+        <div class="container">
+          <div class="wrapper">
+
+            <ul class="sessions" id="ullist">
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock content %}
+
+
+
+{% block javascripts %}
+<!-- {{ super() }} -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+<script src="/assets/khanal_tech_integrations/assets/js/myorder.js"></script>
+
+
+<script src="https://cdn.datatables.net/buttons/2.3.4/js/dataTables.buttons.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.3.4/js/buttons.html5.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.3.4/js/buttons.print.min.js"></script>
+
+
+
+
+
+
+<script>
+
+
+
+</script>
+
+{% endblock javascripts %}

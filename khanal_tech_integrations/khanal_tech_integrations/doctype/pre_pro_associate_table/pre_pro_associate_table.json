@@ -1,0 +1,75 @@
+{
+ "actions": [],
+ "creation": "2024-02-27 11:46:52.317703",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "crate_assignment",
+  "crate_number",
+  "batch_number",
+  "column_break_gqlb",
+  "input_quantity",
+  "crate_quantity",
+  "moisture_loss"
+ ],
+ "fields": [
+  {
+   "fieldname": "crate_assignment",
+   "fieldtype": "Link",
+   "ignore_user_permissions": 1,
+   "in_list_view": 1,
+   "label": "Crate Assignment ",
+   "options": "Crate Assignment"
+  },
+  {
+   "fieldname": "crate_number",
+   "fieldtype": "Data",
+   "ignore_user_permissions": 1,
+   "in_list_view": 1,
+   "label": "Crate Number"
+  },
+  {
+   "fieldname": "input_quantity",
+   "fieldtype": "Data",
+   "ignore_user_permissions": 1,
+   "in_list_view": 1,
+   "label": "Input Quantity"
+  },
+  {
+   "fieldname": "crate_quantity",
+   "fieldtype": "Data",
+   "ignore_user_permissions": 1,
+   "label": "Crate Quantity"
+  },
+  {
+   "fieldname": "moisture_loss",
+   "fieldtype": "Data",
+   "ignore_user_permissions": 1,
+   "label": "Moisture Loss"
+  },
+  {
+   "fieldname": "column_break_gqlb",
+   "fieldtype": "Column Break",
+   "ignore_user_permissions": 1
+  },
+  {
+   "fetch_from": "crate_assignment.batch_number",
+   "fieldname": "batch_number",
+   "fieldtype": "Data",
+   "label": "Batch Number"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "istable": 1,
+ "links": [],
+ "modified": "2024-05-21 12:42:14.630750",
+ "modified_by": "Administrator",
+ "module": "Khanal Tech Integrations",
+ "name": "Pre Pro Associate Table",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

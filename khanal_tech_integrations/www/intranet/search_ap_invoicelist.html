@@ -1,0 +1,835 @@
+{% extends "khanal_tech_integrations/www/intranet/base.html" %}
+
+{% block content %}
+<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.1/css/jquery.dataTables.min.css">
+<style>
+    table.dataTable tbody td {
+        padding: 5px 1px;
+    }
+
+    @media (min-width: 992px) {
+        .p-lg-6 {
+            padding: 1rem !important;
+        }
+    }
+</style>
+
+
+
+
+<div class="card mb-3">
+    <div class="bg-holder d-none d-lg-block bg-card"
+        style="background-image:url(/assets/khanal_tech_integrations/assets/img/icons/spot-illustrations/corner-4.png);">
+    </div>
+    <!--/.bg-holder-->
+
+
+
+
+    {% if Details %}
+    <div class="card-body position-relative p-lg-6">
+        <span id="page_header">Open A/P Invoices <span
+                style="font-weight: 600; font-size: 20px;">{{Details.vendor_name}}</span> <span
+                style="font-size: 14px;">({{Details.vendor_code}})</span> </span>
+
+    </div>
+    {% else %}
+
+    <div class="card-body position-relative p-lg-6" id="CardSearchid">
+        <h4 id="page_header">Search by vendor code or name</h4>
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="row">
+                    <div class="col-lg-4">
+                        <label for="">Vendor Code</label>
+                        <div class="input-group">
+                            <input list="vendor_code_list" name="vendor_code" id="vendor_code" style="height: 40px;"
+                                class="form-control form-control-sm shadow-none search" type="search"
+                                placeholder="Search..." aria-label="search" />
+                            <!-- <div onclick="SearchItem()" class="input-group-text bg-transparent"><span
+                class="fa fa-search fs--1 text-600"></span></div> -->
+                        </div>
+                        <datalist id="vendor_code_list">
+                            {% for vendor in vendorlistName %}
+                            <option id="{{vendor.vendor_code}}" value="{{vendor.vendor_code}}">{{vendor.vendor_name}}
+                                {% endfor %}
+                        </datalist>
+                        <!-- <input list="browsers"  name="browser" id="browser"> -->
+                    </div>
+                    <div class="col-lg-4">
+                        <label for="">Vendor Name</label>
+                        <div class="input-group">
+                            <input id="vendor_name" disabled style="height: 40px;"
+                                class="form-control  form-control-sm shadow-none search" placeholder="Vendor Name..." />
+
+                        </div>
+
+                    </div>
+                    <div class="col-lg-4 text-end">
+                        <button onclick="SearchItem()"
+                            style="background-color: #0d8fc9; color: white; margin-top: 30px; margin-right: 30px;"
+                            class="btn btn-primary  text-end">Search</button>
+
+                    </div>
+                    <!-- <div class="col-lg-12" style="margin-top: 10px;">
+        <label for="">Search By Dates</label>
+
+        <div class="col-md-auto position-relative">
+          <div id="reportrange"
+            style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc; height: 37px; ">
+            <i class="fa fa-calendar"></i>&nbsp;
+            <span></span> <i class="fa fa-caret-down"></i>
+          </div>
+        </div>
+      </div> -->
+                    <!-- <div class="col-12 text-end">
+                    <div class="mb-3">
+                        <button onclick="SearchItem()"
+                            style="background-color: #0d8fc9; color: white; margin-top: 30px; margin-right: 30px;"
+                            class="btn btn-primary  text-end">Search</button>
+
+                    </div>
+                </div> -->
+                </div>
+
+            </div>
+            <div class="col-lg-6">
+
+            </div>
+
+        </div>
+    </div>
+    {% endif %}
+
+
+
+</div>
+
+
+
+
+{% if ap_invoice_list %}
+<div class="row gx-3">
+    <div class="col-xxl-10 col-xl-12" id="BuildToggle">
+        <div class="card" id="ticketsTable"
+            data-list='{"valueNames":["DocDate","DocNum","DocDueDate","CardName","NumAtCard","DocTotal","DocumentStatus","BalanceDue"],"fallback":"tickets-table-fallback"}'>
+            <div class="card-header border-bottom border-200 px-0">
+                <div class="d-lg-flex justify-content-between">
+                    <div class="row flex-between-center gy-2 px-x1">
+                        <!-- <div class="col-auto pe-0">
+                            <h6 class="mb-0">All tickets</h6>
+                        </div> -->
+
+                    </div>
+                    <div class="border-bottom border-200 my-3"></div>
+                    <div class="d-flex align-items-center justify-content-between justify-content-lg-end px-x1">
+
+                        <div class="bg-300 mx-3 d-none d-lg-block d-xl-none" style="width:1px; height:29px"></div>
+                        <div class="d-none" id="table-ticket-actions">
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <div class="card-body p-0" id="TableData">
+                <div class="table-responsive scrollbar">
+                    <table class="table table-sm mb-0 fs--1 table-view-tickets table-striped" id="example">
+                        <thead class="text-800 bg-light">
+                            <tr>
+                                <th class="py-2 fs-0 pe-2" style="width: 28px;">
+                                    <div class="form-check d-flex align-items-center">
+                                        <input hidden class="form-check-input" id="checkbox-bulk-table-tickets-select"
+                                            type="checkbox"
+                                            data-bulk-select='{"body":"table-ticket-body","actions":"table-ticket-actions","replacedElement":"table-ticket-replace-element"}' />
+                                    </div>
+                                </th>
+                                <th class="sort align-middle ">#</th>
+                                <th class="sort align-middle " data-sort="DocDate">Date</th>
+                                <th class="sort align-middle  " data-sort="DocNum">Invoice No.</th>
+                                <th class="sort align-middle  " data-sort="CardName">Vendor Name</th>
+                                <!-- <th class="sort align-middle  " data-sort="NumAtCard"> Vendor Reference </th> -->
+                                <th class="sort align-middle  " data-sort="DocTotal">Total </th>
+                                <th class="sort align-middle  " data-sort="BalanceDue">Balance Due</th>
+                                <th class="sort align-middle  " data-sort="DocDueDate">Due Date</th>
+                                <th class="sort align-middle  " data-sort="DocumentStatus">Status</th>
+
+                                <th id="Amountobepaid" class="align-middle">Total Payment </th>
+                            </tr>
+                        </thead>
+                        <tbody class="list" id="table-ticket-body">
+                            {% for item in ap_invoice_list %}
+                            <!-- <details ontoggle="myFunction()">eeex</details> -->
+                            <!-- onclick="Full_Payemnt({{item.DocTotal}},{{item.DocEntry}})" -->
+                            <tr class="hover-actions-trigger btn-reveal-trigger hover-bg-100">
+                                <td class="align-middle fs-0 py-3">
+                                    <div class="form-check mb-0">
+                                        <input class="form-check-input checkboxvalue" id="{{item.DocEntry}}" name=""
+                                            type="checkbox" data-bulk-select-row="data-bulk-select-row" />
+                                        <!-- <input type="hidden" value="{{item.DocTotal}}" id="amountTotal{{item.DocEntry}}"> -->
+                                    </div>
+                                </td>
+                                <td class=" align-middle "> {{ loop.index }} </td>
+                                <td class="DocDate align-middle"><i id="DocDate{{item.DocEntry}}">{{
+                                        frappe.format(item.DocDate, {'fieldtype':
+                                        'Date'}) }}</i></td>
+                                <td class="DocNum align-middle" id="DocNUm{{item.DocEntry}}">{{item.DocNum}}</td>
+                                <td class="CardName align-middle">
+                                    <h6 class="text-900" id="CardName{{item.DocEntry}}">{{item.CardName}}</h6><span
+                                        id="CardCode{{item.DocEntry}}" style="display: none;">{{item.CardCode}}</span>
+
+                                </td>
+                                <!-- <td class="NumAtCard align-middle" id="NumAtCard{{item.DocEntry}}">{{item.NumAtCard}}
+                                </td> -->
+                                <td class="DocTotal align-middle">{{"{:,.2f}".format(item.DocTotal)}} </td>
+
+                                <td class="BalanceDue align-middle">
+                                    {{"{:,.2f}".format(item.DocTotal - item.PaidToDate)}}
+                                    <input type="hidden" value="{{" {:,.2f}".format(item.DocTotal - item.PaidToDate)}}"
+                                        name="" id="amountTotal{{item.DocEntry}}">
+                                </td>
+                                <span style="display: none;">{{(item.DocTotal - item.PaidToDate)|int}}</span>
+                                <td class="DocDueDate align-middle" id="DocDueDate{{item.DocEntry}}">
+                                    {{frappe.format(item.DocDueDate, {'fieldtype':
+                                    'Date'}) }}</td>
+                                <td class="DocumentStatus align-middle">
+                                    {% if item.DocumentStatus =="bost_Open" %}
+                                    <small class="badge badge rounded-pill   badge-soft-success false">Open</small>
+                                    {% else %}
+                                    <small class="badge badge rounded-pill   badge-soft-warning false">Closed</small>
+                                    {% endif %}
+                                </td>
+
+                                <td id="totalTd{{item.DocEntry}}" class="align-middle">
+                                    <div class="row">
+                                        <div class="col-8  align-middle">
+                                            <input type="text" id="TotalPayment{{item.DocEntry}}"
+                                                style="font-size: 12px; font-weight: inherit; font-weight: 100;padding-left: 2px;padding-right: 8px; text-align: right; "
+                                                class="form-control">
+                                        </div>
+                                        <div class="col-4" style="margin-top: 7px;">
+                                            <button class="btn btn-falcon-default btn-sm ms-2" type="button" hidden
+                                                id="btnok{{item.DocEntry}}">Confirm</button>
+                                            <i class="fas fa-check-circle" style="color: green;" hidden
+                                                id="plus{{item.DocEntry}}"></i>
+                                        </div>
+                                    </div>
+
+                                </td>
+
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                    <div class="text-center d-none" id="tickets-table-fallback">
+                        <p class="fw-bold fs-1 mt-3">No ticket found</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- -------------------- -->
+
+            <div class="card-body p-0" id="ShowFiltereddata" style="display: none;">
+                <div class="table-responsive scrollbar">
+                    <table class="table table-sm mb-0 fs--1 table-view-tickets table-striped add-table-items">
+                        <thead class="text-800 ">
+                            <tr>
+
+                                <th class=" align-middle ">Date</th>
+                                <th class=" align-middle  ">Invoice No.</th>
+                                <th class=" align-middle  ">Vendor Name</th>
+                                <!-- <th class="sort align-middle  "> Vendor Reference </th> -->
+                                <!-- <th class="sort align-middle  " data-sort="DocumentStatus">Status</th> -->
+                                <th class=" align-middle  ">Due Date</th>
+                                <th id="Amountobepaid" class="align-middle">Total Payment </th>
+                            </tr>
+                        </thead>
+                        <tbody class="list">
+                            <tr class="hover-actions-trigger btn-reveal-trigger hover-bg-100 add-row">
+                            </tr>
+
+
+                        </tbody>
+                    </table>
+                    <div class="text-center d-none" id="tickets-table-fallback">
+                        <p class="fw-bold fs-1 mt-3">No ticket found</p>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- -------------------- -->
+            <div class="card-footer">
+                <div class="d-flex justify-content-center">
+                    <button class="btn btn-sm btn-falcon-default me-1" id="prevButton" type="button"
+                        onclick="PrevFunction()"><span class="fas fa-chevron-left"></span></button>
+                    <ul class="pagination mb-0"></ul>
+                    <button id="footerdiv" class="btn btn-sm btn-falcon-default ms-1" type="button"
+                        onclick="NextFunction()"><span class="fas fa-chevron-right"></span></button>
+
+                </div>
+
+                <div class="row" style="margin-top: 10px;">
+                    <div class="col-md-3 " style="margin-top: 15px;">
+                        <div id="banKdetails" style="display: none;">
+                            {% if vendorlist %}
+
+                            <span style="font-size: 12px; font-weight: 400;color: black;"><b>Remarks </b> </span>
+                            <!-- <input type="text" class="form-contol" id="RemarksNote" style="font-size: 12px;" placeholder="Remarks..."> -->
+                            <textarea class="form-control" id="RemarksNote" style="font-size: 12px;"
+                                placeholder="Add Remarks/Narration If Any..." cols="30" rows="3"></textarea>
+                            <span style="font-size: 12px; font-weight: 400;color: black;"><b>Select Account To Be
+                                    paid</b> </span>
+                            <select class="form-control" style="font-size: 11px; height: 33px;" id="BankList">
+                                {% for vendor in vendorlist %}
+                                <option value="{{vendor.AccountNo}}"><b>{{vendor.BankCode}}({{vendor.AccountNo}})</b>
+                                </option>
+                                {% endfor %}
+                            </select>
+                            {% else %}
+                            <h6 style="color: red;">Vendor Bank Account Is Not Available</h6>
+                            {% endif %}
+                        </div>
+
+
+                    </div>
+                    <!-- <div class="col-md-1 "></div> -->
+                    <div class="col-md-3 ">
+
+                    </div>
+                    <div class="col-md-3 ">
+
+                    </div>
+                    <div class="col-md-3  justify-content-center" style="margin-top: 36px;">
+                        <table class="table table-sm table-borderless fs--1 text-end">
+
+                            <tr class="border-top border-top-2 fw-bolder text-900">
+                                <th>Total Amount:</th>
+                                <td id="totalAmount">0</td>
+                            </tr>
+
+                        </table>
+
+                        <div class="d-flex justify-content-end">
+                            <button id="paidbtn" hidden style="background-color: #0d8fc9; color: white; "
+                                onclick="Apply_Anotherpage()" class="btn btn-primary ">Pay Now</button>
+
+                            <button id="payamout"
+                                style="display: none; background-color: #0d8fc9; color: white; width: 103px; height: 36px;font-size: 10px;"
+                                onclick="PayAmount()" class="btn  text-end">Pay Amounts</button>
+
+                        </div>
+                    </div>
+                </div>
+
+
+
+                <!-- <div class="row ">
+                    <div class="col-auto " id="banKdetails" style="display: none;">
+                        {% if vendorlist %}
+                            <h5> Select Account To Be paid</h5>
+                            <select class="form-control" id="BankList">
+                                {% for vendor in vendorlist %}
+                                <option value="{{vendor.AccountNo}}"><b>{{vendor.BankCode}}({{vendor.AccountNo}})</b>
+                                </option>
+                                {% endfor %}
+                            </select>
+                            {% else %}
+                            <h6 style="color: red;">Vendor Bank Account Is Not Available</h6>
+                            {% endif %}
+
+                    </div>  
+                    <div class="col-auto " style="margin-left: 907px;">
+                        <table class="table table-sm table-borderless fs--1 text-end">
+
+                            <tr class="border-top border-top-2 fw-bolder text-900">
+                                <th>Total Amount:</th>
+                                <td id="totalAmount">0</td>
+                            </tr>
+
+                        </table>
+
+                        <div class="d-flex justify-content-end">
+                            <button id="paidbtn" hidden style="background-color: #0d8fc9; color: white; "
+                                onclick="Apply_Anotherpage()" class="btn btn-primary ">Pay Now</button>
+                                <button id="payamout" style="display: none; background-color: #0d8fc9; color: white;"
+                                onclick="PayAmount()" class="btn  text-end">Pay Amounts</button>
+                              
+                        </div>
+
+                    </div>
+                </div> -->
+
+
+            </div>
+            <div class="row gx-0 flex-between-center">
+                <div class="col-sm-auto d-flex align-items-center">
+
+                </div>
+
+            </div>
+
+        </div>
+        <div class="row">
+            <div class="col-lg-12 ">
+                <div class="d-flex justify-content-end">
+
+                    {% if vendorlist %}
+                    <div class="card-footer border-top text-end border-200 py-x1">
+                        <!-- <button id="payamout" style="display: none; background-color: #0d8fc9; color: white;"
+                            onclick="PayAmount()" class="btn  text-end">Pay Amounts</button> -->
+
+                    </div>
+                    {% else %}
+                    <div class="card-footer border-top text-end border-200 py-x1">
+                        <a href="/intranet/search_ap_invoicelist" style=" background-color: #0d8fc9; color: white;"
+                            class="btn  text-end">New Payment</a>
+
+                    </div>
+                    {% endif %}
+
+
+                    <div class="card-footer border-top  border-200 py-x1">
+                        <a id="redirectpage" href="/intranet/search_ap_invoicelist"
+                            style="display: none; background-color: #0d8fc9; color: white;" class="btn  text-end">New
+                            Payment
+                        </a>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+
+    </div>
+    <div class="col-xxl-2 col-xl-3" id="HideDiv" style="display: none;">
+        <div class="offcanvas offcanvas-end offcanvas-filter-sidebar border-0 dark__bg-card-dark h-auto rounded-xl-3"
+            tabindex="-1" id="ticketOffcanvas" aria-labelledby="ticketOffcanvasLabel">
+            <div class="offcanvas-header d-flex flex-between-center d-xl-none bg-light">
+                <h6 class="fs-0 mb-0 fw-semi-bold">Filter</h6>
+                <button class="btn-close text-reset d-xl-none shadow-none" id="ticketOffcanvasLabel" type="button"
+                    data-bs-dismiss="offcanvas" aria-label="Close"></button>
+            </div>
+            <div class="card scrollbar shadow-none shadow-show-xl">
+                <div class="card-header bg-light d-none d-xl-block">
+                    <h6 class="mb-0">Filter</h6>
+                </div>
+                <div class="card-body">
+                    <form>
+                        <div class="mb-2 mt-n2">
+                            <div class="input-group input-search-width">
+                                <input class="form-control form-control-sm shadow-none search" type="search"
+                                    placeholder="Search  by name" aria-label="search" />
+                                <button class="btn btn-sm btn-outline-secondary border-300 hover-border-secondary"><span
+                                        class="fa fa-search fs--1"></span></button>
+                            </div>
+                        </div>
+                        <div class="mb-2 mt-n2">
+                            <div id="reportrange">
+                                <i class="fa fa-calendar"></i>&nbsp;
+                                <span></span> <i class="fa fa-caret-down"></i>
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
+                <div class="card-footer border-top border-200 py-x1">
+                    <button class="btn btn-primary w-100">Update</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% else %}
+<div class="card" id="Nodatacard">
+    <div class="card-footer">
+        <div class=" justify-content-end">
+            <div class="row">
+                <div class="col-md-12">
+                    <h5> No Data is Available in This Vendor Code</h5>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endif %}
+
+
+
+{% endblock content %}
+
+
+{% block javascripts %}
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
+<!-- <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script> -->
+<!-- <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script> -->
+<!-- <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+<script src="/assets/khanal_tech_integrations/assets/js/myorder.js"></script> -->
+<script>
+    $(document).ready(function () {
+        $('#example').DataTable({
+            order: [[3, 'desc']],
+            "bPaginate": false,
+        });
+    });
+    value = location.protocol + '//' + location.host + location.pathname
+    if (window.location.href == value) {
+        $('#Nodatacard').hide()
+        // $('#CardSearchid').hide()
+
+    }
+
+
+    function SearchItem() {
+        var searched = $('#vendor_code').val()
+        $.ajax({
+            method: "GET",
+            url: "/",
+            data: {
+                cmd: "khanal_tech_integrations.utils.razorpay.contacts.create_customer_fromSAP",
+                VendorCode: searched,
+
+
+            },
+            dataType: "json",
+            statusCode: {
+                200: function (response) {
+                    window.location = '/intranet/search_ap_invoicelist?ap_invoice=' + searched
+                },
+                400: function (response) {
+                    swal("Bad Request", {
+                        icon: "error",
+                    });
+
+
+                }
+            }
+
+
+        })
+    }
+
+    $('#vendor_code').on('change', function () {
+        selected_vendor = $('#vendor_code').val();
+
+        var vendor_name = document.getElementById("vendor_code_list").options.namedItem(selected_vendor).text;
+        $('#vendor_name').val(vendor_name);
+        //console.log (x);
+    })
+
+    function myFunction() {
+        var div = document.getElementById("HideDiv");
+        // var expanddiv = document.getElementById("BuildToggle");
+        if (div.style.display === "none") {
+            div.style.display = "block";
+            $("#BuildToggle").removeClass('col-xl-12')
+            $("#BuildToggle").addClass('col-xl-9')
+            // alert('show')
+        } else {
+            div.style.display = "none";
+            $("#BuildToggle").removeClass('col-xl-9')
+            $("#BuildToggle").addClass('col-xl-12')
+            // alert('hide')
+        }
+    }
+    count = 2;
+    function NextFunction() {
+        current = location.protocol + '//' + location.host + location.pathname
+        if (window.location.href == current) {
+            url = new URL(current);
+            count += 1;
+            url.searchParams.set('current_page', count);
+            window.location.href = url
+        }
+        else {
+            url = new URL(window.location.href)
+            var countvalue = url.searchParams.get("current_page");
+            countvalue++;
+            url.searchParams.set('current_page', countvalue);
+            window.location.href = url
+        }
+    }
+
+    // count = 1;
+    function PrevFunction() {
+        current = location.protocol + '//' + location.host + location.pathname
+        if (window.location.href == current) {
+        }
+        else {
+            // alert('else condition worked')
+            url = new URL(window.location.href)
+            var countvalue = url.searchParams.get("current_page");
+            if (countvalue == 1) {
+                window.location.reload()
+            }
+            else {
+                countvalue--;
+                url.searchParams.set('current_page', countvalue);
+                window.location.href = url
+            }
+        }
+    }
+    function Full_Payemnt(amount, id) {
+        $('#TotalPayment' + id).attr('readonly', false);
+        $("#paidbtn").attr('hidden', false)
+        $("#btnok" + id).attr('hidden', false)
+
+        $("#TotalPayment" + id).val(amount)
+    }
+
+
+
+
+
+
+
+
+    function Apply_Anotherpage() {
+
+        valuesLenght = Object.values(selected_docs)
+        $('#TableData').hide()
+        $('#ShowFiltereddata').show()
+        $('#paidbtn').hide()
+        $('#payamout').show()
+        $('#prevButton').hide()
+        $('#footerdiv').hide()
+        $('#banKdetails').show()
+        var arrayLength = valuesLenght.length;
+        for (var i = 0; i < arrayLength; i++) {
+            var experiencecontent = '<tr class="add-row">' +
+                '<td class="align-middle">' +
+                valuesLenght[i]['DocDate'] +
+                '</td>' +
+                '<td class="align-middle">' +
+                valuesLenght[i]['DocNUm'] +
+                '</td>' +
+                '<td class="align-middle">' +
+                '<b>' +
+                valuesLenght[i]['CardName'] +
+                '</b>' +
+                // '<br>' +
+                // valuesLenght[i]['CardCode'] +
+                // '</br>' +
+                '</td>' +
+                // '<td class="align-middle">' +
+                // valuesLenght[i]['NumAtCard'] +
+                // '</td>' +
+                '<td class="align-middle">' +
+                valuesLenght[i]['DocDueDate'] +
+                '</td>' +
+                '<td class="align-middle">' +
+                '<b>' +
+                valuesLenght[i]['TotalPayment'] +
+                '</b>' +
+                '</td>' +
+                '</tr>';
+            $(".add-table-items").append(experiencecontent);
+
+
+
+        }
+
+    }
+
+
+    function PayAmount() {
+        valuesLenght = Object.values(selected_docs)
+        BankList = $('#BankList').val()
+        RemarksNote = $('#RemarksNote').val()
+        // var arrayLength = valuesLenght.length;
+        // for (var i = 0; i < arrayLength; i++) {
+        //      var amount= valuesLenght[i]['TotalPayment']
+        //      var Docentry= valuesLenght[i]['id']
+        //     var data = {
+        //         "amount": amount,
+        //         "Docentry": Docentry,
+        //         "Bank_account": BankList,
+        //         "notes": RemarksNote,
+        //     }
+
+        console.log(valuesLenght)
+        console.log(selected_docs)
+        datatoSend = JSON.stringify({ "list": valuesLenght })
+        console.log(datatoSend)
+        $.ajax({
+            method: "GET",
+            url: "/",
+            dataType: 'json',
+            contentType: 'application/json; charset=utf-8',
+            // traditional:true,
+            data: {
+                cmd: "khanal_tech_integrations.utils.razorpay.payout.create_from_invoice",
+                that_list: datatoSend,
+                // that_list:JSON.stringify(valuesLenght),
+                Bank_account: BankList,
+                notes: RemarksNote,
+            },
+            dataType: "json",
+            success: function (response) {
+                if (response.message == 200) {
+                    swal("Request Sent Waiting For Approval", {
+                        icon: "success",
+                    });
+                }
+                else if (response.message == 405) {
+                    swal("The amount must be an integer", {
+                        icon: "error",
+                    });
+                }
+                else {
+                    swal("Bad Request", {
+                        icon: "warning",
+                    });
+                }
+                $('#payamout').hide()
+                $('#redirectpage').show()
+
+            }
+
+        })
+
+        // }
+
+        // return false;
+
+
+
+    }
+
+    $('.checkboxvalue').click(function () {
+        var id = $(this).attr('id');
+        // alert(id)
+        amount = $("#amountTotal" + id).val()
+        // alert(amount)
+        if ($(this).is(':checked')) {
+            $('#TotalPayment' + id).attr('readonly', false);
+            $("#paidbtn").attr('hidden', false)
+            $("#btnok" + id).attr('hidden', false)
+            $("#TotalPayment" + id).val(amount)
+            changeqty(id)
+        }
+        else {
+            $("#btnok" + id).attr('hidden', true)
+            DetelectItems(id)
+        }
+    })
+    function DetelectItems(id) {
+        var completeTotal = 0
+        // if(completeTotal>=0){
+        //     alert('worked')
+        // }
+        // else{
+        //     alert('else')
+        // }
+        TotalPayment = $('#TotalPayment' + id).val()
+        const UpdatedNumber = parseFloat(TotalPayment.replace(/,/g, ''));
+
+        var totalAmount = $("#totalAmount").html()
+        completeTotal = totalAmount - UpdatedNumber
+        $("#totalAmount").html(completeTotal)
+        totalAmountValue = $('#totalAmount').html()
+        withtwodecimal = parseFloat(totalAmountValue).toFixed(2);
+        totalAmountValue = $('#totalAmount').html(withtwodecimal)
+        $("#plus" + id).attr('hidden', true)
+        $("#TotalPayment" + id).val("")
+        console.log(selected_docs[id])
+        delete selected_docs[id];
+
+
+
+
+    }
+
+    const selected_docs = {}
+
+    function changeqty(id) {
+        var completeTotal = 0
+        var TotalPayment = $('#TotalPayment' + id).val()
+        // alert(TotalPayment)
+        // const str = '12,000,000.50';
+
+        const UpdatedNumber = parseFloat(TotalPayment.replace(/,/g, ''));
+        // alert(UpdatedNumber)
+        var DocNUm = $('#DocNUm' + id).html()
+        var DocDate = $('#DocDate' + id).html()
+        var CardName = $('#CardName' + id).html()
+        var CardCode = $('#CardCode' + id).html()
+        var NumAtCard = $('#NumAtCard' + id).html()
+        var DocDueDate = $('#DocDueDate' + id).html()
+        selected_docs[id] = {
+            DocNUm: DocNUm,
+            DocDate: DocDate,
+            CardName: CardName,
+            CardCode: CardCode,
+            NumAtCard: NumAtCard,
+            DocDueDate: DocDueDate,
+            TotalPayment: UpdatedNumber,
+            id: id
+
+        }
+        //);
+        $("#TotalPayment" + id).change(function () {
+            ChangeAmount(id)
+        });
+        totalAmount = $("#totalAmount").html()
+        // alert(totalAmount)
+        completeTotal = parseFloat(totalAmount) + UpdatedNumber
+        // alert(completeTotal)
+        $("#totalAmount").html(completeTotal)
+        totalAmountValue = $('#totalAmount').html()
+        withtwodecimal = parseFloat(totalAmountValue).toFixed(2);
+        totalAmountValue = $('#totalAmount').html(withtwodecimal)
+        // $('#TotalPayment' + DocEntry).attr('readonly', true);
+        $('#btnok' + id).attr('hidden', true)
+        $('#btnok' + id).attr('disable', true)
+        $("#plus" + id).attr('hidden', false)
+    }
+    function ChangeAmount(id) {
+        TotalPayment = $('#TotalPayment' + id).val()
+        // alert(TotalPayment)
+        const UpdatedNumber = parseFloat(TotalPayment.replace(/,/g, ''));
+        // alert(UpdatedNumber)
+        amountTotal = $('#amountTotal' + id).val()
+        // alert(amountTotal)
+        const subtotal = parseFloat(amountTotal.replace(/,/g, ''));
+        // alert(subtotal)
+        totalAmount = $("#totalAmount").html()
+        // alert(totalAmount)
+        subamount = parseFloat(totalAmount) - subtotal
+        // alert(subamount)
+        completeTotal = parseFloat(subamount) + UpdatedNumber
+        $("#totalAmount").html(completeTotal)
+        totalAmountValue = $('#totalAmount').html()
+        withtwodecimal = parseFloat(totalAmountValue).toFixed(2);
+        totalAmountValue = $('#totalAmount').html(withtwodecimal)
+        $('#TotalPayment' + id).attr('readonly', true);
+        var DocNUm = $('#DocNUm' + id).html()
+        var DocDate = $('#DocDate' + id).html()
+        var CardName = $('#CardName' + id).html()
+        var CardCode = $('#CardCode' + id).html()
+        var NumAtCard = $('#NumAtCard' + id).html()
+        var DocDueDate = $('#DocDueDate' + id).html()
+        selected_docs[id] = {
+            DocNUm: DocNUm,
+            DocDate: DocDate,
+            CardName: CardName,
+            CardCode: CardCode,
+            NumAtCard: NumAtCard,
+            DocDueDate: DocDueDate,
+            TotalPayment: UpdatedNumber,
+            id: id
+
+        }
+        //);
+
+
+    }
+
+</script>
+{% endblock javascripts %}

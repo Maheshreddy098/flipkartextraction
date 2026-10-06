@@ -1,0 +1,189 @@
+{
+ "actions": [],
+ "allow_rename": 0,
+ "autoname": "field:settlement_id",
+ "creation": "2026-06-17 00:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "settlement_tab",
+  "section_header",
+  "settlement_id",
+  "status",
+  "column_break_header",
+  "settlement_start_date",
+  "settlement_end_date",
+  "deposit_date",
+  "section_amounts",
+  "total_amount",
+  "currency",
+  "column_break_amounts",
+  "gross_revenue",
+  "total_fees",
+  "total_refunds",
+  "total_reimbursements",
+  "section_meta",
+  "report_document_id",
+  "processed_at",
+  "lines_tab",
+  "lines"
+ ],
+ "fields": [
+  {
+   "fieldname": "settlement_tab",
+   "fieldtype": "Tab Break",
+   "label": "Settlement"
+  },
+  {
+   "fieldname": "section_header",
+   "fieldtype": "Section Break",
+   "label": "Settlement Info"
+  },
+  {
+   "fieldname": "settlement_id",
+   "fieldtype": "Data",
+   "label": "Settlement ID",
+   "reqd": 1,
+   "unique": 1,
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "bold": 1
+  },
+  {
+   "default": "pending",
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "label": "Status",
+   "options": "pending\nprocessed\nerror",
+   "in_list_view": 1,
+   "in_standard_filter": 1
+  },
+  {
+   "fieldname": "column_break_header",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "settlement_start_date",
+   "fieldtype": "Datetime",
+   "label": "Settlement Start",
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "settlement_end_date",
+   "fieldtype": "Datetime",
+   "label": "Settlement End",
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "deposit_date",
+   "fieldtype": "Datetime",
+   "label": "Deposit Date",
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "section_amounts",
+   "fieldtype": "Section Break",
+   "label": "Amounts (USD)"
+  },
+  {
+   "fieldname": "total_amount",
+   "fieldtype": "Currency",
+   "label": "Net Proceeds (Amazon Total)",
+   "read_only": 1,
+   "description": "Total disbursement from Amazon. Equals gross revenue minus all fees and refunds.",
+   "in_list_view": 1
+  },
+  {
+   "default": "USD",
+   "fieldname": "currency",
+   "fieldtype": "Data",
+   "label": "Currency"
+  },
+  {
+   "fieldname": "column_break_amounts",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "gross_revenue",
+   "fieldtype": "Currency",
+   "label": "Gross Revenue",
+   "read_only": 1,
+   "description": "Sum of Principal + Tax + Shipping amounts from Order transactions."
+  },
+  {
+   "fieldname": "total_fees",
+   "fieldtype": "Currency",
+   "label": "Total Fees",
+   "read_only": 1,
+   "description": "Sum of FBA fulfillment fees, referral fees, and other Amazon charges."
+  },
+  {
+   "fieldname": "total_refunds",
+   "fieldtype": "Currency",
+   "label": "Total Refunds",
+   "read_only": 1,
+   "description": "Sum of all Refund transaction amounts."
+  },
+  {
+   "fieldname": "total_reimbursements",
+   "fieldtype": "Currency",
+   "label": "Total Reimbursements",
+   "read_only": 1,
+   "description": "Sum of FBAInventoryReimbursement and CS error credits."
+  },
+  {
+   "fieldname": "section_meta",
+   "fieldtype": "Section Break",
+   "label": "Processing"
+  },
+  {
+   "fieldname": "report_document_id",
+   "fieldtype": "Data",
+   "label": "SP-API Report Document ID",
+   "read_only": 1
+  },
+  {
+   "fieldname": "processed_at",
+   "fieldtype": "Datetime",
+   "label": "Processed At",
+   "read_only": 1
+  },
+  {
+   "fieldname": "lines_tab",
+   "fieldtype": "Tab Break",
+   "label": "Transaction Lines"
+  },
+  {
+   "fieldname": "lines",
+   "fieldtype": "Table",
+   "label": "Settlement Lines",
+   "options": "Amazon US Settlement Line"
+  }
+ ],
+ "index_web_pages_for_search": 0,
+ "links": [],
+ "modified": "2026-06-17 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Khanal Tech Integrations",
+ "name": "Amazon US Settlement",
+ "naming_rule": "By fieldname",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "deposit_date",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 0
+}

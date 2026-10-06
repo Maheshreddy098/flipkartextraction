@@ -1,0 +1,95 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2022-10-17 19:01:32.095589",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "delivery_partner",
+  "invoice_number",
+  "shipment_id",
+  "sap_update",
+  "section_break_5",
+  "created",
+  "shipped",
+  "expected_delivery",
+  "region",
+  "pin_code"
+ ],
+ "fields": [
+  {
+   "fieldname": "delivery_partner",
+   "fieldtype": "Data",
+   "label": "Delivery Partner"
+  },
+  {
+   "fieldname": "invoice_number",
+   "fieldtype": "Data",
+   "label": "Invoice Number"
+  },
+  {
+   "fieldname": "shipment_id",
+   "fieldtype": "Data",
+   "label": "Shipment ID"
+  },
+  {
+   "fieldname": "sap_update",
+   "fieldtype": "Data",
+   "label": "SAP Update"
+  },
+  {
+   "fieldname": "section_break_5",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "created",
+   "fieldtype": "Data",
+   "label": "Created"
+  },
+  {
+   "fieldname": "shipped",
+   "fieldtype": "Date",
+   "label": "Shipped"
+  },
+  {
+   "fieldname": "expected_delivery",
+   "fieldtype": "Date",
+   "label": "Expected Delivery"
+  },
+  {
+   "fieldname": "region",
+   "fieldtype": "Data",
+   "label": "Region"
+  },
+  {
+   "fieldname": "pin_code",
+   "fieldtype": "Data",
+   "label": "PIN Code"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2024-03-20 16:29:37.877547",
+ "modified_by": "Administrator",
+ "module": "Khanal Tech Integrations",
+ "name": "Khanal Uni_shipment",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

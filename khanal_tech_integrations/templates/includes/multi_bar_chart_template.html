@@ -1,0 +1,79 @@
+<script>
+    function displayMultiBarChart(canvas_id, rawData, group_column_name, x_axis_group_by, reportName, x_axis_Name, y_axis_Name, sum_column_name) {
+        const ctx = document.getElementById(canvas_id).getContext('2d');
+
+        let chartType = 'bar'; // default
+        let chartTitle = '';
+        let chartData = {};
+        let chartOptions = {};
+
+        const x_axis_groups = [...new Set(rawData.map(row => row[x_axis_group_by]))].sort();
+        const group_column_map = {};
+
+        rawData.forEach(row => {
+            const x_axis_group = row[x_axis_group_by];
+            const group_column = row[group_column_name];
+            const milk = parseFloat(row[sum_column_name]) || 0;
+
+            if (!group_column_map[group_column]) group_column_map[group_column] = {};
+            if (!group_column_map[group_column][x_axis_group]) group_column_map[group_column][x_axis_group] = 0;
+            group_column_map[group_column][x_axis_group] += milk; // sum up milk per x_axis_group per group_column
+        });
+
+        const colorPalette = ['#f43f5e', '#14b8a6', '#eab308', '#3b82f6', '#22c55e', '#9333ea', '#ef4444'];
+        const datasets = Object.entries(group_column_map).map(([group_column, values], i) => ({
+            label: group_column,
+            data: x_axis_groups.map(m => values[m] || 0),
+            backgroundColor: colorPalette[i % colorPalette.length],
+            borderWidth: 1
+        }));
+
+
+        chartTitle = reportName;
+        chartData = {
+            labels: x_axis_groups,
+            datasets: datasets
+        };
+
+        chartOptions = {
+            responsive: true,
+            plugins: {
+                title: {
+                    display: true,
+                    text: chartTitle
+                },
+                legend: {
+                    position: 'bottom'
+                },
+                tooltip: {
+                    callbacks: {
+                        label: function (context) {
+                            return `${context.dataset.label}: ${context.parsed.y.toLocaleString()} Ltr`;
+                        }
+                    }
+                }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    title: {
+                        display: true,
+                        text: y_axis_Name
+                    }
+                },
+                x: {
+                    title: {
+                        display: true,
+                        text: x_axis_Name
+                    }
+                }
+            }
+        };
+        window.currentChart = new Chart(ctx, {
+            type: chartType,
+            data: chartData,
+            options: chartOptions
+        });
+
+    }
+</script>

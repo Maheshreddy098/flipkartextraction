@@ -1,0 +1,1678 @@
+{% extends "khanal_tech_integrations/www/logistics_delivery/base.html" %}
+{% set active = "delivery" %}
+
+{% block title %}Delivery{% endblock %}
+
+{% block topbar_title %}Delivery{% endblock %}
+
+{% block page_content %}
+<style>
+  .ld-delivery-page {
+    max-width: 1100px;
+  }
+  .ld-search-toolbar .form-label {
+    font-size: 0.72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: #64748b;
+    margin-bottom: 0.25rem;
+  }
+  .ld-docnum-wrap.was-validated .form-control:invalid,
+  .ld-docentry-wrap.was-validated .form-control:invalid {
+    border-color: #dc3545;
+  }
+  .ld-docnum-wrap.was-validated .form-control:valid,
+  .ld-docentry-wrap.was-validated .form-control:valid {
+    border-color: #198754;
+  }
+  .ld-search-toolbar .form-control.ld-synced {
+    background-color: #f0fdf9;
+    border-color: rgba(44, 94, 88, 0.35);
+  }
+  .ld-btn-brand {
+    background: linear-gradient(180deg, #2c5e58 0%, #1a2f2b 100%);
+    color: #fff !important;
+    border: none;
+    font-weight: 600;
+    padding: 0.5rem 1.1rem;
+    border-radius: 0.5rem;
+    white-space: nowrap;
+  }
+  .ld-btn-brand:hover:not(:disabled) {
+    filter: brightness(1.07);
+    color: #fff !important;
+  }
+  .ld-btn-brand:disabled {
+    opacity: 0.55;
+  }
+  .ld-btn-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.5rem;
+    height: 2.5rem;
+    padding: 0;
+    border-radius: 0.5rem;
+    border: 1px solid rgba(44, 94, 88, 0.35);
+    background: #fff;
+    color: #1a2f2b;
+    flex-shrink: 0;
+  }
+  .ld-btn-icon:hover {
+    background: rgba(44, 94, 88, 0.08);
+  }
+  .ld-btn-icon.is-active {
+    background: rgba(44, 94, 88, 0.12);
+    border-color: #2c5e58;
+  }
+  .ld-btn-icon svg {
+    width: 1.15rem;
+    height: 1.15rem;
+  }
+  .ld-filters-panel {
+    display: none;
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid rgba(148, 163, 184, 0.35);
+  }
+  .ld-filters-panel.is-open {
+    display: block;
+  }
+  .ld-table-wrap {
+    overflow-x: auto;
+    border-radius: 0.5rem;
+    border: 1px solid rgba(148, 163, 184, 0.35);
+  }
+  .ld-results-table {
+    font-size: 0.82rem;
+    margin-bottom: 0;
+  }
+  .ld-results-table thead th {
+    background: rgba(44, 94, 88, 0.08);
+    color: #1e293b;
+    font-weight: 700;
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    border-bottom: 1px solid rgba(44, 94, 88, 0.15);
+    white-space: nowrap;
+  }
+  .ld-results-table tbody tr.ld-result-row {
+    cursor: pointer;
+    transition: background 0.12s ease;
+  }
+  .ld-results-table tbody tr.ld-result-row:hover {
+    background: rgba(44, 94, 88, 0.06);
+  }
+  .ld-results-table tbody tr.ld-result-row.is-selected {
+    background: rgba(44, 94, 88, 0.12);
+    outline: 2px solid #2c5e58;
+    outline-offset: -2px;
+  }
+  .ld-results-table tbody tr.ld-result-row.is-selected td.ld-row-pick::before {
+    background: #2c5e58;
+    box-shadow: inset 0 0 0 3px #fff;
+  }
+  .ld-row-pick {
+    width: 2.25rem;
+    text-align: center;
+    padding-left: 0.5rem !important;
+    padding-right: 0.25rem !important;
+  }
+  .ld-row-pick::before {
+    content: "";
+    display: inline-block;
+    width: 1rem;
+    height: 1rem;
+    border-radius: 50%;
+    border: 2px solid #94a3b8;
+    vertical-align: middle;
+    background: #fff;
+  }
+  .ld-results-table tbody td {
+    vertical-align: middle;
+  }
+  .ld-selected-panel {
+    border: 2px solid #2c5e58;
+    border-radius: 0.75rem;
+    background: linear-gradient(180deg, #f0fdf9 0%, #fff 48%);
+    box-shadow: 0 4px 14px rgba(26, 47, 43, 0.08);
+  }
+  .ld-selected-panel-head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem 1rem;
+    margin-bottom: 0.85rem;
+  }
+  .ld-selected-panel-head-left {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.5rem 1rem;
+  }
+  .ld-lr-preview-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    margin-left: auto;
+    padding: 0.35rem 0.65rem;
+    border-radius: 0.5rem;
+    background: #fffbeb;
+    border: 1px solid #fcd34d;
+    color: #92400e;
+    font-size: 0.78rem;
+    line-height: 1.2;
+  }
+  .ld-lr-preview-chip__label {
+    font-size: 0.65rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #b45309;
+  }
+  .ld-lr-preview-chip__value {
+    font-weight: 700;
+    font-size: 0.9rem;
+    color: #78350f;
+  }
+  .ld-selected-badge {
+    font-size: 0.68rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: #fff;
+    background: #2c5e58;
+    padding: 0.2rem 0.55rem;
+    border-radius: 0.35rem;
+  }
+  .ld-selected-title {
+    font-weight: 700;
+    color: #0f172a;
+    margin: 0;
+    font-size: 0.95rem;
+  }
+  .ld-selected-meta {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 0.5rem 1rem;
+    font-size: 0.8rem;
+    margin-bottom: 1rem;
+  }
+  .ld-selected-meta dt {
+    margin: 0;
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #64748b;
+  }
+  .ld-selected-meta dd {
+    margin: 0;
+    font-weight: 600;
+    color: #0f172a;
+  }
+  .ld-lrn-block {
+    padding-top: 0.85rem;
+    border-top: 1px dashed rgba(44, 94, 88, 0.25);
+  }
+  .ld-lrn-block .form-label {
+    font-size: 0.72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: #1a2f2b;
+    margin-bottom: 0.35rem;
+  }
+  .ld-lrn-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem 0.65rem;
+    align-items: flex-end;
+    max-width: 640px;
+  }
+  .ld-lrn-row .form-control {
+    flex: 1 1 200px;
+    min-width: 0;
+  }
+  .ld-lrn-block .form-control {
+    font-size: 1rem;
+    font-weight: 600;
+    border-color: #2c5e58;
+  }
+  .ld-lrn-block .form-control:focus {
+    border-color: #1a2f2b;
+    box-shadow: 0 0 0 0.2rem rgba(44, 94, 88, 0.2);
+  }
+  .ld-btn-outline-brand {
+    border: 1px solid #2c5e58;
+    color: #1a2f2b;
+    font-weight: 600;
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    background: #fff;
+    white-space: nowrap;
+  }
+  .ld-btn-outline-brand:hover:not(:disabled) {
+    background: rgba(44, 94, 88, 0.08);
+    color: #1a2f2b;
+  }
+  .ld-btn-outline-brand:disabled {
+    opacity: 0.55;
+  }
+  /* Combined Check LR + Preview — high contrast (not Bootstrap secondary) */
+  .ld-btn-check-lr-preview {
+    border: 2px solid #2c5e58;
+    color: #0f172a;
+    font-weight: 700;
+    padding: 0.5rem 0.85rem;
+    border-radius: 0.5rem;
+    background: linear-gradient(180deg, #ecfdf5 0%, #d1fae5 100%);
+    box-shadow: 0 1px 2px rgba(15, 23, 42, 0.06);
+    white-space: nowrap;
+    font-size: 0.8125rem;
+    line-height: 1.25;
+  }
+  .ld-btn-check-lr-preview:hover:not(:disabled) {
+    background: linear-gradient(180deg, #d1fae5 0%, #a7f3d0 100%);
+    color: #0f172a;
+    border-color: #1a2f2b;
+  }
+  .ld-btn-check-lr-preview:disabled {
+    opacity: 0.5;
+    background: #f1f5f9;
+    border-color: #cbd5e1;
+    color: #94a3b8;
+  }
+  @media (max-width: 576px) {
+    .ld-btn-check-lr-preview {
+      white-space: normal;
+      text-align: center;
+      line-height: 1.2;
+    }
+  }
+  .ld-btn-view {
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: #2c5e58;
+    background: none;
+    border: none;
+    padding: 0.15rem 0.35rem;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+    white-space: nowrap;
+  }
+  .ld-btn-view:hover {
+    color: #1a2f2b;
+  }
+  .ld-col-actions {
+    width: 4.5rem;
+    text-align: center;
+    white-space: nowrap;
+  }
+
+  /* ── Toast notification ─────────────────────────────── */
+  .ld-toast-host {
+    position: fixed;
+    top: 1.25rem;
+    left: 50%;
+    transform: translateX(-50%);
+    /* Above .ld-desktop-bar (10000) so toasts are not clipped by the header */
+    z-index: 11000;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.6rem;
+    pointer-events: none;
+  }
+  .ld-toast {
+    pointer-events: auto;
+    min-width: 280px;
+    max-width: 480px;
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+    padding: 0.85rem 1.1rem;
+    border-radius: 0.75rem;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.18), 0 2px 8px rgba(0,0,0,0.10);
+    font-size: 0.88rem;
+    font-weight: 500;
+    line-height: 1.45;
+    opacity: 0;
+    transform: translateY(-18px) scale(0.97);
+    transition: opacity 0.22s ease, transform 0.22s ease;
+  }
+  .ld-toast.ld-toast--in {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+  .ld-toast.ld-toast--out {
+    opacity: 0;
+    transform: translateY(-12px) scale(0.97);
+  }
+  .ld-toast--error {
+    background: #fff;
+    border-left: 4px solid #ef4444;
+    color: #1e293b;
+  }
+  .ld-toast--warning {
+    background: #fff;
+    border-left: 4px solid #f59e0b;
+    color: #1e293b;
+  }
+  .ld-toast--success {
+    background: #fff;
+    border-left: 4px solid #22c55e;
+    color: #1e293b;
+  }
+  .ld-toast__icon {
+    flex-shrink: 0;
+    width: 1.55rem;
+    height: 1.55rem;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.85rem;
+    font-weight: 800;
+    margin-top: 0.05rem;
+  }
+  .ld-toast--error .ld-toast__icon   { background: #fef2f2; color: #ef4444; }
+  .ld-toast--warning .ld-toast__icon { background: #fffbeb; color: #f59e0b; }
+  .ld-toast--success .ld-toast__icon { background: #f0fdf4; color: #22c55e; }
+  .ld-toast__body { flex: 1; }
+  .ld-toast__title {
+    font-weight: 700;
+    font-size: 0.9rem;
+    margin-bottom: 0.15rem;
+    display: block;
+  }
+  .ld-toast__msg { color: #475569; font-weight: 400; }
+  .ld-toast__close {
+    background: none;
+    border: none;
+    color: #94a3b8;
+    font-size: 1.1rem;
+    line-height: 1;
+    cursor: pointer;
+    padding: 0;
+    margin-top: -0.1rem;
+    flex-shrink: 0;
+  }
+  .ld-toast__close:hover { color: #475569; }
+  .ld-toast--sap-await .ld-toast__msg { white-space: normal; }
+  .ld-detail-header dl {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: 0.65rem 1rem;
+    margin: 0;
+  }
+  .ld-detail-header dt {
+    font-size: 0.68rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #64748b;
+    margin: 0;
+  }
+  .ld-detail-header dd {
+    margin: 0;
+    font-weight: 600;
+    color: #0f172a;
+    font-size: 0.9rem;
+  }
+  .ld-detail-header dd.ld-lr-stored {
+    color: #15803d;
+  }
+</style>
+
+<div id="ld_toast_host" class="ld-toast-host" aria-live="assertive" aria-atomic="true"></div>
+
+<div class="ld-delivery-page mx-auto px-2 px-md-0">
+  <div class="ld-card p-3 p-md-4 mb-3">
+    <form id="ld-search-form" class="ld-search-toolbar" novalidate>
+      <div class="row g-2 g-md-3 align-items-end">
+        <div class="col-6 col-md-4 ld-docnum-wrap" id="ld_docnum_wrap">
+          <label for="ld_doc_num" class="form-label">DocNum <span class="text-muted fw-normal">(or DocEntry)</span></label>
+          <input type="text" inputmode="numeric" class="form-control" id="ld_doc_num" name="doc_num"
+            autocomplete="off" placeholder="e.g. 150" pattern="[0-9]+">
+          <div class="invalid-feedback">Digits only. Leave blank if you search by DocEntry.</div>
+        </div>
+        <div class="col-6 col-md-4">
+          <label for="ld_series_name" class="form-label">Series name</label>
+          <input type="text" class="form-control" id="ld_series_name" name="series_name"
+            placeholder="Filled when you select a row" maxlength="200">
+        </div>
+        <div class="col-12 col-md-4">
+          <div class="d-flex gap-2 justify-content-md-end align-items-center">
+            <button type="button" class="ld-btn-icon" id="ld_btn_filters" aria-label="More filters"
+              aria-expanded="false" title="More filters">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                <path d="M4 6h16M7 12h10M10 18h4" stroke-linecap="round"/>
+              </svg>
+            </button>
+            <button type="submit" class="btn ld-btn-brand flex-grow-1 flex-md-grow-0" id="ld_btn_search">Search</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="ld-filters-panel" id="ld_filters_panel">
+        <div class="row g-2 g-md-3">
+          <div class="col-6 col-md-3">
+            <label for="ld_doc_date" class="form-label">Doc date</label>
+            <input type="date" class="form-control" id="ld_doc_date" name="doc_date">
+          </div>
+          <div class="col-6 col-md-3 ld-docentry-wrap" id="ld_doc_entry_wrap">
+            <label for="ld_doc_entry" class="form-label">DocEntry <span class="text-muted fw-normal">(or DocNum)</span></label>
+            <input type="text" inputmode="numeric" class="form-control" id="ld_doc_entry" name="doc_entry"
+              placeholder="e.g. 41658" pattern="[0-9]+">
+            <div class="invalid-feedback">Digits only. Leave blank if you search by DocNum.</div>
+          </div>
+          <div class="col-6 col-md-3">
+            <label for="ld_card_code" class="form-label">Card code</label>
+            <input type="text" class="form-control" id="ld_card_code" name="card_code"
+              placeholder="Business partner" maxlength="200">
+          </div>
+          <div class="col-6 col-md-3">
+            <label for="ld_card_name" class="form-label">Card name</label>
+            <input type="text" class="form-control" id="ld_card_name" name="card_name"
+              placeholder="Customer name" maxlength="200">
+          </div>
+        </div>
+        <div class="mt-2">
+          <button type="button" class="btn btn-link btn-sm text-decoration-none px-0" id="ld_btn_clear">Clear</button>
+        </div>
+      </div>
+    </form>
+  </div>
+
+  <div id="ld_alert" class="alert alert-danger py-2 px-3 small d-none mb-3" role="alert"></div>
+  <div id="ld_info" class="alert alert-secondary py-2 px-3 small d-none mb-3" role="status"></div>
+
+  <div id="ld_results_wrap" class="ld-card p-3 p-md-4 d-none mb-3">
+    <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-2">
+      <h2 class="h6 mb-0">Results <span class="text-muted fw-normal" id="ld_results_count"></span></h2>
+      <span class="badge rounded-pill text-bg-light border small">Select row · View for details</span>
+    </div>
+    <p class="small text-muted mb-3 mb-md-3">Select a row to enter LR number. Use <strong>View</strong> for a quick read-only look, or <strong>Check LR &amp; Preview</strong> to verify with Delhivery and load full SAP header and lines.</p>
+    <div class="ld-table-wrap">
+      <table class="table table-hover ld-results-table mb-0" id="ld_results_table">
+        <thead>
+          <tr>
+            <th class="ld-row-pick" aria-label="Select"></th>
+            <th>DocEntry</th>
+            <th>DocNum</th>
+            <th>Series</th>
+            <th>Doc date</th>
+            <th>Card</th>
+            <th class="text-end">Total</th>
+            <th class="ld-col-actions">Action</th>
+          </tr>
+        </thead>
+        <tbody id="ld_results_body"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <div id="ld_selected_wrap" class="ld-selected-panel p-3 p-md-4 mb-3 d-none" aria-live="polite">
+    <div class="ld-selected-panel-head">
+      <div class="ld-selected-panel-head-left">
+        <span class="ld-selected-badge">Selected invoice</span>
+        <p class="ld-selected-title mb-0">DocEntry <span id="ld_sel_doc_entry_label">—</span></p>
+      </div>
+      <div id="ld_lr_preview_chip" class="ld-lr-preview-chip d-none" aria-live="polite">
+        <span class="ld-lr-preview-chip__label">LR</span>
+        <span class="ld-lr-preview-chip__value" id="ld_lr_preview_value"></span>
+      </div>
+    </div>
+    <dl class="ld-selected-meta" id="ld_selected_meta"></dl>
+    <div class="ld-lrn-block">
+      <label for="ld_lrn" class="form-label">LR number <span class="text-muted fw-normal">(Check LR &amp; Preview before Submit)</span></label>
+      <div class="ld-lrn-row">
+        <input type="text" class="form-control" id="ld_lrn" name="lrn_number" autocomplete="off"
+          placeholder="Enter LR number for this invoice">
+        <button type="button" class="btn ld-btn-check-lr-preview" id="ld_btn_check_lr" disabled>Check LR &amp; Preview</button>
+        <button type="button" class="btn ld-btn-brand" id="ld_btn_submit" disabled>Submit</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="ld_detail_wrap" class="d-none">
+    <div class="ld-card p-3 p-md-4 mb-3">
+      <h2 class="h6 mb-3">Invoice header</h2>
+      <div class="ld-detail-header" id="ld_detail_header"></div>
+    </div>
+    <div class="ld-card p-3 p-md-4 mb-3">
+      <h2 class="h6 mb-3">Line items</h2>
+      <div class="ld-table-wrap">
+        <table class="table table-sm ld-results-table mb-0">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Item</th>
+              <th>Description</th>
+              <th class="text-end">Qty</th>
+              <th class="text-end">Price</th>
+              <th class="text-end">Line total</th>
+            </tr>
+          </thead>
+          <tbody id="ld_lines_body"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block page_scripts %}
+<script>
+  (function () {
+    var API_SEARCH = "khanal_tech_integrations.api.logistics_delivery.invoice_search.search_ar_invoices";
+    var API_DETAIL = "khanal_tech_integrations.api.logistics_delivery.invoice_search.get_ar_invoice_detail";
+    var API_VERIFY_LR = "khanal_tech_integrations.api.logistics_delivery.lr_submit.verify_delhivery_lr_for_portal";
+    var API_SUBMIT = "khanal_tech_integrations.api.logistics_delivery.lr_submit.submit_lr_and_sync_sap";
+    var API_LR_SAP_STATE = "khanal_tech_integrations.api.logistics_delivery.lr_submit.portal_lr_row_sap_state";
+
+    /* ── Toast notification system ─────────────────── */
+    var toastHost = document.getElementById("ld_toast_host");
+    /* Must live on <body>: .ld-content has z-index:1, so fixed toasts inside it
+       stay under .ld-desktop-bar (z-index:10000) no matter how high the toast z-index is. */
+    if (toastHost && toastHost.parentNode !== document.body) {
+      document.body.appendChild(toastHost);
+    }
+
+    var TOAST_ICONS = { error: "✕", warning: "!", success: "✓" };
+    var TOAST_TITLES = {
+      error: "Error",
+      warning: "Warning",
+      success: "Done",
+      "lr-not-found": "LR Not Found",
+    };
+
+    function showToast(type, title, message, duration) {
+      if (!toastHost) return;
+      duration = duration || (type === "error" ? 6000 : 4500);
+
+      var toast = document.createElement("div");
+      toast.className = "ld-toast ld-toast--" + (type === "lr-not-found" ? "error" : type);
+      toast.setAttribute("role", "alert");
+
+      var icon = TOAST_ICONS[type] || TOAST_ICONS.error;
+      var titleText = title || TOAST_TITLES[type] || "Notice";
+
+      toast.innerHTML =
+        '<div class="ld-toast__icon">' + icon + '</div>' +
+        '<div class="ld-toast__body">' +
+          '<span class="ld-toast__title">' + titleText + '</span>' +
+          '<span class="ld-toast__msg">' + message + '</span>' +
+        '</div>' +
+        '<button class="ld-toast__close" aria-label="Close">&times;</button>';
+
+      toast.querySelector(".ld-toast__close").addEventListener("click", function () {
+        dismissToast(toast);
+      });
+
+      toastHost.appendChild(toast);
+      requestAnimationFrame(function () {
+        requestAnimationFrame(function () {
+          toast.classList.add("ld-toast--in");
+        });
+      });
+
+      var timer = setTimeout(function () { dismissToast(toast); }, duration);
+      toast._ldTimer = timer;
+    }
+
+    function dismissToast(toast) {
+      if (!toast.parentNode) return;
+      clearTimeout(toast._ldTimer);
+      toast.classList.remove("ld-toast--in");
+      toast.classList.add("ld-toast--out");
+      setTimeout(function () { if (toast.parentNode) toast.parentNode.removeChild(toast); }, 280);
+    }
+
+    /** Single toast for background SAP: same element updates from “wait” → success / failed */
+    var ldSapAwaitToast = null;
+
+    function dismissSapAwaitToast() {
+      if (!ldSapAwaitToast) return;
+      var t = ldSapAwaitToast;
+      ldSapAwaitToast = null;
+      clearTimeout(t._ldTimer);
+      t._ldTimer = null;
+      if (t.parentNode) {
+        t.classList.remove("ld-toast--in");
+        t.classList.add("ld-toast--out");
+        setTimeout(function () {
+          if (t.parentNode) t.parentNode.removeChild(t);
+        }, 280);
+      }
+    }
+
+    function showSapAwaitToast(title, message, typeOpt) {
+      dismissSapAwaitToast();
+      if (!toastHost) return;
+      var type = typeOpt || "warning";
+      if (type === "lr-not-found") type = "error";
+      var toast = document.createElement("div");
+      toast.className = "ld-toast ld-toast--" + type + " ld-toast--sap-await";
+      toast.setAttribute("role", "status");
+      var icon = TOAST_ICONS[type] || TOAST_ICONS.warning;
+      toast.innerHTML =
+        '<div class="ld-toast__icon">' + icon + '</div>' +
+        '<div class="ld-toast__body">' +
+          '<span class="ld-toast__title"></span>' +
+          '<span class="ld-toast__msg"></span>' +
+        '</div>' +
+        '<button type="button" class="ld-toast__close" aria-label="Close">&times;</button>';
+      toast.querySelector(".ld-toast__title").textContent = title || "";
+      toast.querySelector(".ld-toast__msg").textContent = message || "";
+      toast.querySelector(".ld-toast__close").addEventListener("click", function () {
+        dismissSapAwaitToast();
+      });
+      toastHost.appendChild(toast);
+      requestAnimationFrame(function () {
+        requestAnimationFrame(function () {
+          toast.classList.add("ld-toast--in");
+        });
+      });
+      ldSapAwaitToast = toast;
+    }
+
+    function updateSapAwaitToast(type, title, message, dismissAfterMs) {
+      if (!toastHost) return;
+      var t = type === "lr-not-found" ? "error" : type || "warning";
+      if (!ldSapAwaitToast || !ldSapAwaitToast.parentNode) {
+        showSapAwaitToast(title, message, t);
+      } else {
+        clearTimeout(ldSapAwaitToast._ldTimer);
+        ldSapAwaitToast._ldTimer = null;
+        ldSapAwaitToast.className = "ld-toast ld-toast--" + t + " ld-toast--sap-await ld-toast--in";
+        ldSapAwaitToast.querySelector(".ld-toast__icon").textContent = TOAST_ICONS[t] || TOAST_ICONS.warning;
+        ldSapAwaitToast.querySelector(".ld-toast__title").textContent = title || "";
+        ldSapAwaitToast.querySelector(".ld-toast__msg").textContent = message || "";
+      }
+      if (dismissAfterMs && dismissAfterMs > 0 && ldSapAwaitToast) {
+        ldSapAwaitToast._ldTimer = setTimeout(dismissSapAwaitToast, dismissAfterMs);
+      }
+    }
+
+    function parseUserFriendlyError(raw) {
+      var msg = typeof raw === "string" ? raw : String(raw || "");
+      var low = msg.toLowerCase();
+
+      // Delhivery 404 LR not found
+      if (/404.*data not found/i.test(low) || /data not found/i.test(low) || /not found in delhivery/i.test(low)) {
+        return {
+          type: "lr-not-found",
+          title: "LR Number Not Found",
+          text: msg.indexOf("{") === -1 ? msg : "This LR number was not found in Delhivery. Please check the number and try again.",
+        };
+      }
+
+      // Delhivery validation / rejected LR (from API via backend)
+      if (
+        /could not accept this lr/i.test(low) ||
+        /validation error/i.test(low) ||
+        /verify the lr number/i.test(low)
+      ) {
+        return {
+          type: "warning",
+          title: "Invalid LR Number",
+          text: msg.indexOf("{") === -1 ? msg : "Delhivery could not accept this LR number. Please verify it and try again.",
+        };
+      }
+
+      // Delhivery 400 invalid token
+      if (/invalid token/i.test(low)) {
+        return {
+          type: "error",
+          title: "Delhivery Auth Error",
+          text: "Delhivery login failed. Contact your system administrator.",
+        };
+      }
+
+      // SAP login
+      if (/sap login failed/i.test(low) || /connecting to database server/i.test(low)) {
+        return {
+          type: "warning",
+          title: "SAP Not Reachable",
+          text: "LR was saved to the database but SAP could not be updated. IT team has been notified.",
+        };
+      }
+
+      // Plain backend message (no JSON blob)
+      if (msg && msg.indexOf("{") === -1 && msg.indexOf("exc_type") === -1) {
+        return {
+          type: "error",
+          title: "Could Not Submit",
+          text: msg.length > 220 ? msg.slice(0, 220) + "…" : msg,
+        };
+      }
+
+      return {
+        type: "error",
+        title: "Could Not Submit",
+        text: "Something went wrong while saving the LR. Please check the LR number and try again.",
+      };
+    }
+
+    var form = document.getElementById("ld-search-form");
+    var docNumWrap = document.getElementById("ld_docnum_wrap");
+    var docEntryWrap = document.getElementById("ld_doc_entry_wrap");
+    var docNumInput = document.getElementById("ld_doc_num");
+    var seriesInput = document.getElementById("ld_series_name");
+    var docDateInput = document.getElementById("ld_doc_date");
+    var docEntryInput = document.getElementById("ld_doc_entry");
+    var cardCodeInput = document.getElementById("ld_card_code");
+    var cardNameInput = document.getElementById("ld_card_name");
+    var alertEl = document.getElementById("ld_alert");
+    var infoEl = document.getElementById("ld_info");
+    var resultsWrap = document.getElementById("ld_results_wrap");
+    var resultsBody = document.getElementById("ld_results_body");
+    var resultsCount = document.getElementById("ld_results_count");
+    var selectedWrap = document.getElementById("ld_selected_wrap");
+    var selectedMeta = document.getElementById("ld_selected_meta");
+    var selDocEntryLabel = document.getElementById("ld_sel_doc_entry_label");
+    var lrnInput = document.getElementById("ld_lrn");
+    var detailWrap = document.getElementById("ld_detail_wrap");
+    var detailHeader = document.getElementById("ld_detail_header");
+    var linesBody = document.getElementById("ld_lines_body");
+    var btnSearch = document.getElementById("ld_btn_search");
+    var btnClear = document.getElementById("ld_btn_clear");
+    var btnFilters = document.getElementById("ld_btn_filters");
+    var filtersPanel = document.getElementById("ld_filters_panel");
+    var btnCheckLr = document.getElementById("ld_btn_check_lr");
+    var btnSubmit = document.getElementById("ld_btn_submit");
+    var lrPreviewChip = document.getElementById("ld_lr_preview_chip");
+    var lrPreviewValue = document.getElementById("ld_lr_preview_value");
+
+    var syncFieldIds = ["ld_doc_num", "ld_series_name", "ld_doc_entry", "ld_doc_date", "ld_card_code", "ld_card_name"];
+    var selectedDocEntry = null;
+    var previewedLr = null;
+
+    function hideAlert() {
+      alertEl.classList.add("d-none");
+      alertEl.textContent = "";
+      infoEl.classList.add("d-none");
+      infoEl.textContent = "";
+    }
+    function showAlert(msg) {
+      infoEl.classList.add("d-none");
+      alertEl.textContent = msg || "Something went wrong.";
+      alertEl.classList.remove("d-none");
+    }
+    function showInfo(msg) {
+      alertEl.classList.add("d-none");
+      infoEl.textContent = msg || "";
+      infoEl.classList.remove("d-none");
+    }
+
+    function fmtMoney(v) {
+      if (v === null || v === undefined || v === "") return "—";
+      var n = Number(v);
+      if (isNaN(n)) return String(v);
+      return n.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    }
+    function fmtDate(v) {
+      if (!v) return "";
+      return String(v).slice(0, 10);
+    }
+
+    function parseApiPayload(data) {
+      if (!data) return null;
+      if (data.message !== undefined && data.message !== null) return data.message;
+      return data;
+    }
+
+    function apiErrorMessage(data) {
+      if (!data) return "Request failed.";
+      if (typeof data.message === "string" && data.message) return data.message;
+      if (data._server_messages) {
+        try {
+          var arr = JSON.parse(data._server_messages);
+          if (arr && arr[0]) {
+            var el = document.createElement("div");
+            el.innerHTML = arr[0];
+            return el.textContent || el.innerText || "Error";
+          }
+        } catch (e) {}
+      }
+      if (data.exc_type) return data.exc_type.replace(/Error$/, "") + " — check Error Log";
+      return "Request failed.";
+    }
+
+    async function callMethod(methodPath, params) {
+      var qs = new URLSearchParams();
+      Object.keys(params).forEach(function (k) {
+        var v = params[k];
+        if (v !== undefined && v !== null && String(v).trim() !== "") qs.set(k, String(v).trim());
+      });
+      var url = "/api/method/" + methodPath + "?" + qs.toString();
+      var r = await fetch(url, { method: "GET", credentials: "same-origin", headers: { Accept: "application/json" } });
+      var data = await r.json().catch(function () { return {}; });
+      if (!r.ok || data.exc_type) throw new Error(apiErrorMessage(data));
+      return parseApiPayload(data);
+    }
+
+    async function callMethodPost(methodPath, body) {
+      var url = "/api/method/" + methodPath;
+      var r = await fetch(url, {
+        method: "POST",
+        credentials: "same-origin",
+        headers: { Accept: "application/json", "Content-Type": "application/json" },
+        body: JSON.stringify(body || {}),
+      });
+      var data = await r.json().catch(function () { return {}; });
+      if (!r.ok || data.exc_type) throw new Error(apiErrorMessage(data));
+      return parseApiPayload(data);
+    }
+
+    function markSyncedFields(on) {
+      syncFieldIds.forEach(function (id) {
+        var el = document.getElementById(id);
+        if (el) el.classList.toggle("ld-synced", on);
+      });
+    }
+
+    function clearSyncedFields() {
+      markSyncedFields(false);
+      if (docNumInput) docNumInput.value = "";
+      seriesInput.value = "";
+      docEntryInput.value = "";
+      docDateInput.value = "";
+      cardCodeInput.value = "";
+      cardNameInput.value = "";
+    }
+
+    /**
+     * After selecting a result row, Series / DocEntry / dates / cards are auto-filled
+     * and marked `ld-synced`. If the user then searches for a different DocNum (or DocEntry),
+     * those stale values are still sent and SAP returns no rows. Clear synced secondary
+     * filters when primary keys change, and again right before Search as a safety net.
+     */
+    var LD_SECONDARY_SYNC_FIELD_IDS = ["ld_series_name", "ld_doc_entry", "ld_doc_date", "ld_card_code", "ld_card_name"];
+
+    function clearStaleRowSyncedFilters() {
+      LD_SECONDARY_SYNC_FIELD_IDS.forEach(function (id) {
+        var el = document.getElementById(id);
+        if (el && el.classList.contains("ld-synced")) {
+          el.value = "";
+          el.classList.remove("ld-synced");
+        }
+      });
+      markSyncedFields(false);
+    }
+
+    var currentLrSubmitted = null; // LR that was successfully written on SAP invoice (U_LRtrackno)
+    var delhiveryVerifiedLr = null; // LR string last verified via Check LR (must match input to enable Submit)
+    var sapWritePending = false; // true while SAP PATCH is queued / polling for U_LRtrackno
+    var sapConfirmPollTimer = null;
+    var submitLrInFlight = false; // ignore double-clicks while Submit request is running
+
+    function stopSapConfirmPoll() {
+      if (sapConfirmPollTimer !== null) {
+        clearTimeout(sapConfirmPollTimer);
+        sapConfirmPollTimer = null;
+      }
+    }
+
+    function updateLrActionButtons() {
+      var hasInv = !!selectedDocEntry;
+      var lrReadOnly = lrnInput && lrnInput.readOnly;
+      var lr = (lrnInput && lrnInput.value.trim()) ? lrnInput.value.trim() : "";
+      var verified = !!(delhiveryVerifiedLr && lr === delhiveryVerifiedLr);
+      if (btnCheckLr) btnCheckLr.disabled = !hasInv || !lr || lrReadOnly || sapWritePending;
+      if (btnSubmit) {
+        if (currentLrSubmitted) {
+          btnSubmit.disabled = true;
+        } else if (sapWritePending) {
+          btnSubmit.disabled = true;
+        } else {
+          btnSubmit.disabled = !hasInv || !verified || lrReadOnly;
+        }
+      }
+    }
+
+    function clearDelhiveryVerification() {
+      delhiveryVerifiedLr = null;
+      updateLrActionButtons();
+    }
+
+    function lockSubmitAfterSuccess(lrn) {
+      sapWritePending = false;
+      stopSapConfirmPoll();
+      currentLrSubmitted = lrn;
+      if (btnSubmit) {
+        btnSubmit.disabled = true;
+        btnSubmit.textContent = "Submitted";
+      }
+      if (lrnInput) lrnInput.readOnly = true;
+      if (btnCheckLr) btnCheckLr.disabled = true;
+    }
+
+    function unlockSubmit() {
+      currentLrSubmitted = null;
+      sapWritePending = false;
+      stopSapConfirmPoll();
+      if (btnSubmit) {
+        btnSubmit.textContent = "Submit";
+      }
+      if (lrnInput) lrnInput.readOnly = false;
+      updateLrActionButtons();
+    }
+
+    function hideDetail() {
+      detailWrap.classList.add("d-none");
+      detailHeader.innerHTML = "";
+      linesBody.innerHTML = "";
+    }
+
+    function setLrPreviewChip(lr) {
+      var lrStr = lr ? String(lr).trim() : "";
+      previewedLr = lrStr || null;
+      if (!lrPreviewChip || !lrPreviewValue) return;
+      if (!lrStr) {
+        lrPreviewChip.classList.add("d-none");
+        lrPreviewValue.textContent = "";
+        return;
+      }
+      lrPreviewValue.textContent = lrStr;
+      lrPreviewChip.classList.remove("d-none");
+    }
+
+    function clearLrPreviewChip() {
+      setLrPreviewChip("");
+    }
+
+    function clearSelectionUI() {
+      stopSapConfirmPoll();
+      dismissSapAwaitToast();
+      sapWritePending = false;
+      selectedDocEntry = null;
+      resultsBody.querySelectorAll("tr.is-selected").forEach(function (tr) {
+        tr.classList.remove("is-selected");
+      });
+      selectedWrap.classList.add("d-none");
+      selectedMeta.innerHTML = "";
+      if (selDocEntryLabel) selDocEntryLabel.textContent = "—";
+      if (lrnInput) lrnInput.value = "";
+      clearLrPreviewChip();
+      clearDelhiveryVerification();
+      if (btnSearch) btnSearch.disabled = false;
+      if (btnCheckLr) btnCheckLr.disabled = true;
+      if (btnSubmit) btnSubmit.disabled = true;
+      unlockSubmit();
+      hideDetail();
+    }
+
+    function clearResults() {
+      clearSelection();
+      if (resultsBody) resultsBody.innerHTML = "";
+      if (resultsCount) resultsCount.textContent = "";
+      if (resultsWrap) resultsWrap.classList.add("d-none");
+      hideAlert();
+      if (infoEl) {
+        infoEl.classList.add("d-none");
+        infoEl.textContent = "";
+      }
+      hideDetail();
+      if (docNumWrap) docNumWrap.classList.remove("was-validated");
+      if (docEntryWrap) docEntryWrap.classList.remove("was-validated");
+    }
+
+    function clearSelection() {
+      clearSelectionUI();
+      clearSyncedFields();
+    }
+
+    function invoiceFromRow(tr) {
+      return {
+        doc_entry: tr.getAttribute("data-doc-entry"),
+        doc_num: tr.getAttribute("data-doc-num"),
+        series_name: tr.getAttribute("data-series") || "",
+        doc_date: tr.getAttribute("data-doc-date") || "",
+        card_code: tr.getAttribute("data-card-code") || "",
+        card_name: tr.getAttribute("data-card-name") || "",
+        doc_total: tr.getAttribute("data-doc-total") || "",
+      };
+    }
+
+    function syncFieldsFromInvoice(inv) {
+      if (docNumInput) {
+        docNumInput.value =
+          inv.doc_num != null && String(inv.doc_num).trim() !== ""
+            ? String(inv.doc_num).trim()
+            : "";
+      }
+      seriesInput.value = inv.series_name || "";
+      docEntryInput.value = inv.doc_entry || "";
+      docDateInput.value = inv.doc_date || "";
+      cardCodeInput.value = inv.card_code || "";
+      cardNameInput.value = inv.card_name || "";
+      markSyncedFields(true);
+
+      if (selDocEntryLabel) selDocEntryLabel.textContent = inv.doc_entry || "—";
+
+      selectedMeta.innerHTML = "";
+      var items = [
+        ["DocNum", inv.doc_num],
+        ["Series", inv.series_name || "—"],
+        ["Doc date", inv.doc_date || "—"],
+        ["Card code", inv.card_code || "—"],
+        ["Card name", inv.card_name || "—"],
+        ["Total", inv.doc_total ? fmtMoney(inv.doc_total) : "—"],
+      ];
+      items.forEach(function (pair) {
+        var dt = document.createElement("dt");
+        dt.textContent = pair[0];
+        var dd = document.createElement("dd");
+        dd.textContent = String(pair[1]);
+        selectedMeta.appendChild(dt);
+        selectedMeta.appendChild(dd);
+      });
+
+      selectedWrap.classList.remove("d-none");
+      clearDelhiveryVerification();
+      unlockSubmit();
+      clearLrPreviewChip();
+      if (lrnInput) {
+        lrnInput.value = "";
+        lrnInput.focus();
+      }
+      updateLrActionButtons();
+    }
+
+    function setSelection(tr) {
+      selectedDocEntry = tr.getAttribute("data-doc-entry");
+      resultsBody.querySelectorAll("tr.ld-result-row").forEach(function (row) {
+        row.classList.toggle("is-selected", row === tr);
+      });
+      syncFieldsFromInvoice(invoiceFromRow(tr));
+      unlockSubmit();
+      hideDetail();
+      selectedWrap.scrollIntoView({ behavior: "smooth", block: "nearest" });
+    }
+
+    function renderResults(invoices) {
+      resultsBody.innerHTML = "";
+      clearSelectionUI();
+      invoices.forEach(function (inv) {
+        var tr = document.createElement("tr");
+        tr.className = "ld-result-row";
+        tr.setAttribute("data-doc-entry", String(inv.doc_entry));
+        tr.setAttribute("data-doc-num", String(inv.doc_num));
+        tr.setAttribute("data-series", inv.series_name || "");
+        tr.setAttribute("data-doc-date", fmtDate(inv.doc_date));
+        tr.setAttribute("data-card-code", inv.card_code || "");
+        tr.setAttribute("data-card-name", inv.card_name || "");
+        tr.setAttribute("data-doc-total", inv.doc_total != null ? String(inv.doc_total) : "");
+
+        var pick = document.createElement("td");
+        pick.className = "ld-row-pick";
+        pick.setAttribute("aria-hidden", "true");
+        tr.appendChild(pick);
+
+        var card = (inv.card_code || "") + (inv.card_code && inv.card_name ? " · " : "") + (inv.card_name || "");
+        [
+          inv.doc_entry,
+          inv.doc_num,
+          inv.series_name || "—",
+          fmtDate(inv.doc_date) || "—",
+          card || "—",
+          fmtMoney(inv.doc_total),
+        ].forEach(function (text, i) {
+          var td = document.createElement("td");
+          td.textContent = String(text);
+          if (i === 5) td.className = "text-end";
+          tr.appendChild(td);
+        });
+
+        var tdAction = document.createElement("td");
+        tdAction.className = "ld-col-actions";
+        var btnView = document.createElement("button");
+        btnView.type = "button";
+        btnView.className = "ld-btn-view";
+        btnView.textContent = "View";
+        btnView.setAttribute("aria-label", "View invoice " + inv.doc_entry);
+        tdAction.appendChild(btnView);
+        tr.appendChild(tdAction);
+
+        resultsBody.appendChild(tr);
+      });
+      resultsCount.textContent = "(" + invoices.length + ")";
+      resultsWrap.classList.remove("d-none");
+      if (invoices.length === 1) {
+        var firstRow = resultsBody.querySelector("tr.ld-result-row");
+        if (firstRow) selectInvoiceRow(firstRow);
+      }
+    }
+
+    function renderDetail(payload) {
+      var h = payload.header || {};
+      var fields = [
+        ["doc_entry", "DocEntry"],
+        ["doc_num", "DocNum"],
+        ["series_name", "Series"],
+        ["doc_date", "Doc date"],
+        ["card_code", "Card code"],
+        ["card_name", "Card name"],
+        ["doc_total", "Doc total"],
+        ["u_lrtrackno", "U_LRtrackno"],
+      ];
+      var dl = document.createElement("dl");
+      fields.forEach(function (pair) {
+        var key = pair[0];
+        var label = pair[1];
+        var val = h[key];
+        if (key === "doc_total") val = fmtMoney(val);
+        else if (key === "doc_date") val = fmtDate(val) || "—";
+        else if (key === "u_lrtrackno") {
+          val = (val && String(val).trim()) ? String(val).trim() : "—";
+        } else if (val === null || val === undefined || val === "") val = "—";
+        var dt = document.createElement("dt");
+        dt.textContent = label;
+        var dd = document.createElement("dd");
+        if (key === "u_lrtrackno" && val !== "—") {
+          dd.className = "ld-lr-stored";
+        }
+        dd.textContent = String(val);
+        dl.appendChild(dt);
+        dl.appendChild(dd);
+      });
+      detailHeader.innerHTML = "";
+      detailHeader.appendChild(dl);
+
+      linesBody.innerHTML = "";
+      (payload.lines || []).forEach(function (ln) {
+        var tr = document.createElement("tr");
+        [
+          ln.line_num,
+          ln.item_code || "—",
+          ln.dscription || "—",
+          fmtMoney(ln.quantity),
+          fmtMoney(ln.price),
+          fmtMoney(ln.line_total),
+        ].forEach(function (text, i) {
+          var td = document.createElement("td");
+          td.textContent = String(text);
+          if (i >= 3) td.className = "text-end";
+          tr.appendChild(td);
+        });
+        linesBody.appendChild(tr);
+      });
+      detailWrap.classList.remove("d-none");
+      detailWrap.scrollIntoView({ behavior: "smooth", block: "nearest" });
+    }
+
+    async function loadInvoiceDetail(docEntry, lockIfHasLr, showDetailAlways, opts) {
+      opts = opts || {};
+      if (!docEntry) {
+        showAlert("Select an invoice first.");
+        return;
+      }
+      hideAlert();
+      var userTypedLr = lrnInput ? lrnInput.value.trim() : "";
+      var busy = [btnSearch, btnCheckLr, btnSubmit];
+      busy.forEach(function (el) { if (el) el.disabled = true; });
+      try {
+        var detailParams = { doc_entry: docEntry };
+        if (opts.headerOnly) {
+          detailParams.include_lines = 0;
+        }
+        var payload = await callMethod(API_DETAIL, detailParams);
+        var lr = payload.header && payload.header.u_lrtrackno;
+        var lrStr = (lr && String(lr).trim()) ? String(lr).trim() : "";
+        if (lrStr) {
+          // SAP has the authoritative LR — sync input and show stored value
+          clearLrPreviewChip();
+          if (lrnInput) lrnInput.value = lrStr;
+          renderDetail(payload);
+          if (lockIfHasLr) {
+            lockSubmitAfterSuccess(lrStr);
+            showInfo(
+              "LR \u2018" + lrStr + "\u2019 is already saved in SAP for this invoice. " +
+              "Submit is locked. Select a different invoice to submit a new LR."
+            );
+          }
+        } else if (showDetailAlways) {
+          // Preview/View — keep typed LR in input; preview chip at top-right when applicable
+          renderDetail(payload);
+          if (userTypedLr) {
+            setLrPreviewChip(userTypedLr);
+          } else {
+            clearLrPreviewChip();
+          }
+        } else {
+          // Row select auto-check: no existing LR, just leave panel clean
+          hideDetail();
+        }
+      } catch (err) {
+        hideDetail();
+        showAlert(err.message || String(err));
+      } finally {
+        if (btnSearch) btnSearch.disabled = false;
+        if (!currentLrSubmitted && !sapWritePending) updateLrActionButtons();
+      }
+    }
+
+    function headerShowsLr(payload, lrn) {
+      var h = payload && payload.header;
+      var v = h && h.u_lrtrackno;
+      var s = v != null ? String(v).trim() : "";
+      return s !== "" && lrn && s === String(lrn).trim();
+    }
+
+    /**
+     * After Submit returns sap_queued / accepted, SAP runs in background.
+     * Do not show "Submitted" until U_LRtrackno on the invoice matches this LR.
+     */
+    function sapFailureHint(errText) {
+      var t = (errText || "").toLowerCase();
+      if (t.indexOf("atcentry") !== -1 || t.indexOf("attachment") !== -1) {
+        return " In SAP B1, open this A/R invoice and repair or remove the broken attachment on the document, then try again.";
+      }
+      return "";
+    }
+
+    function truncateForToast(s, maxLen) {
+      s = s != null ? String(s) : "";
+      if (s.length <= maxLen) return s;
+      return s.slice(0, maxLen - 1) + "\u2026";
+    }
+
+    function pollUntilSapShowsLr(docEntry, lrn) {
+      stopSapConfirmPoll();
+      sapWritePending = true;
+      if (lrnInput) lrnInput.readOnly = true;
+      if (btnSubmit) {
+        btnSubmit.disabled = true;
+        btnSubmit.textContent = "Updating SAP…";
+      }
+      updateLrActionButtons();
+      var attempt = 0;
+      var maxAttempts = 40;
+      var intervalMs = 3000;
+      function schedule(ms) {
+        sapConfirmPollTimer = setTimeout(tick, ms);
+      }
+      async function tick() {
+        attempt++;
+        try {
+          /* Background job writes SAP failure to Postgres before U_LRtrackno appears on the invoice. */
+          var st = await callMethod(API_LR_SAP_STATE, { lrnum: lrn, doc_entry: docEntry });
+          if (st && st.sap_failed_for_submit) {
+            stopSapConfirmPoll();
+            sapWritePending = false;
+            if (btnSubmit) btnSubmit.textContent = "Submit";
+            if (lrnInput) lrnInput.readOnly = false;
+            updateLrActionButtons();
+            dismissSapAwaitToast();
+            var rawErr = st.sap_error || "SAP rejected the invoice update (no detail text). See Tracker.";
+            var errBody = truncateForToast(rawErr, 420) + sapFailureHint(rawErr);
+            showToast("error", "SAP did not update the invoice", errBody, 12000);
+            showInfo(
+              "Delhivery data was saved to the tracking database, but SAP rejected the invoice update. " +
+                errBody
+            );
+            return;
+          }
+        } catch (err) {
+          /* ignore — fall through to invoice check */
+        }
+        try {
+          var payload = await callMethod(API_DETAIL, { doc_entry: docEntry });
+          if (headerShowsLr(payload, lrn)) {
+            stopSapConfirmPoll();
+            sapWritePending = false;
+            lockSubmitAfterSuccess(lrn);
+            clearLrPreviewChip();
+            await loadInvoiceDetail(docEntry, false, true);
+            updateSapAwaitToast(
+              "success",
+              "Successfully submitted",
+              "SAP confirmed this LR on the invoice.",
+              5200
+            );
+            updateLrActionButtons();
+            return;
+          }
+        } catch (err) {
+          /* transient network / SAP detail errors — keep polling */
+        }
+        if (attempt >= maxAttempts) {
+          stopSapConfirmPoll();
+          sapWritePending = false;
+          if (btnSubmit) btnSubmit.textContent = "Submit";
+          if (lrnInput) lrnInput.readOnly = false;
+          updateLrActionButtons();
+          dismissSapAwaitToast();
+          updateSapAwaitToast(
+            "error",
+            "Failed",
+            "SAP did not confirm this LR on the invoice in time. Check the Tracker report for SAP error details, fix SAP, then retry.",
+            9000
+          );
+          return;
+        }
+        schedule(intervalMs);
+      }
+      schedule(800);
+    }
+
+    function selectInvoiceRow(tr) {
+      if (!tr) return;
+      setSelection(tr);
+      hideAlert();
+      // Auto-check: fetch detail silently to detect existing U_LRtrackno
+      loadInvoiceDetail(tr.getAttribute("data-doc-entry"), true, false, { headerOnly: true });
+    }
+
+    function toggleFiltersPanel() {
+      var open = filtersPanel.classList.toggle("is-open");
+      btnFilters.classList.toggle("is-active", open);
+      btnFilters.setAttribute("aria-expanded", open ? "true" : "false");
+    }
+
+    if (btnFilters && filtersPanel) {
+      btnFilters.addEventListener("click", toggleFiltersPanel);
+    }
+
+    if (btnClear) {
+      btnClear.addEventListener("click", function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+        clearResults();
+      });
+    }
+
+    function bothSearchKeysEmpty() {
+      var dn = docNumInput ? docNumInput.value.trim() : "";
+      var de = docEntryInput ? docEntryInput.value.trim() : "";
+      return !dn && !de;
+    }
+    if (docNumInput) {
+      docNumInput.addEventListener("input", function () {
+        clearStaleRowSyncedFilters();
+        if (bothSearchKeysEmpty()) {
+          clearResults();
+        }
+      });
+    }
+    if (docEntryInput) {
+      docEntryInput.addEventListener("input", function () {
+        clearStaleRowSyncedFilters();
+        if (bothSearchKeysEmpty()) {
+          clearResults();
+        }
+      });
+    }
+
+    if (form) {
+      form.addEventListener("submit", async function (e) {
+        e.preventDefault();
+        hideAlert();
+        hideDetail();
+        docNumWrap.classList.remove("was-validated");
+        if (docEntryWrap) docEntryWrap.classList.remove("was-validated");
+        if (!docNumInput.checkValidity()) {
+          docNumWrap.classList.add("was-validated");
+          docNumInput.focus();
+          return;
+        }
+        if (docEntryInput && !docEntryInput.checkValidity()) {
+          if (docEntryWrap) docEntryWrap.classList.add("was-validated");
+          docEntryInput.focus();
+          return;
+        }
+        var dn = docNumInput.value.trim();
+        var de = docEntryInput ? docEntryInput.value.trim() : "";
+        if (!dn && !de) {
+          showAlert("Enter DocNum or DocEntry to search (numeric).");
+          docNumWrap.classList.add("was-validated");
+          if (docEntryWrap) docEntryWrap.classList.add("was-validated");
+          docNumInput.focus();
+          return;
+        }
+        clearStaleRowSyncedFilters();
+        var params = {
+          doc_num: docNumInput.value.trim(),
+          series_name: seriesInput.value.trim(),
+          doc_date: docDateInput.value,
+          doc_entry: docEntryInput.value.trim(),
+          card_code: cardCodeInput.value.trim(),
+          card_name: cardNameInput.value.trim(),
+        };
+        clearSelectionUI();
+        btnSearch.disabled = true;
+        try {
+          var payload = await callMethod(API_SEARCH, params);
+          var invoices = (payload && payload.invoices) ? payload.invoices : [];
+          if (!invoices.length) {
+            resultsWrap.classList.remove("d-none");
+            resultsBody.innerHTML = "";
+            resultsCount.textContent = "(0)";
+            showInfo("No invoices matched. Check DocNum / DocEntry or relax filters.");
+            return;
+          }
+          hideAlert();
+          renderResults(invoices);
+        } catch (err) {
+          showAlert(err.message || String(err));
+          resultsWrap.classList.add("d-none");
+        } finally {
+          btnSearch.disabled = false;
+        }
+      });
+    }
+
+    async function checkDelhiveryLr() {
+      if (!selectedDocEntry) {
+        showAlert("Select an invoice first.");
+        return;
+      }
+      var lrn = lrnInput ? lrnInput.value.trim() : "";
+      if (!lrn) {
+        showToast("warning", "LR Number Required", "Enter an LR number, then click Check LR & Preview.");
+        if (lrnInput) lrnInput.focus();
+        return;
+      }
+      hideAlert();
+      var busy = [btnSearch, btnCheckLr, btnSubmit];
+      busy.forEach(function (el) { if (el) el.disabled = true; });
+      try {
+        var tr = resultsBody.querySelector("tr.ld-result-row.is-selected");
+        var inv = tr ? invoiceFromRow(tr) : {
+          doc_num: docNumInput.value.trim(),
+          series_name: seriesInput.value.trim(),
+        };
+        var res = await callMethod(API_VERIFY_LR, {
+          lrnum: lrn,
+          doc_entry: selectedDocEntry,
+          doc_num: inv.doc_num || docNumInput.value.trim(),
+          series: inv.series_name || seriesInput.value.trim(),
+        });
+        delhiveryVerifiedLr = (res && res.lrnum) ? String(res.lrnum).trim() : lrn;
+        showToast("success", "LR manifested and valid", "Click Submit.");
+        setLrPreviewChip(lrn);
+        loadInvoiceDetail(selectedDocEntry, true, true, { headerOnly: true }).catch(function (e) {
+          var parsed = parseUserFriendlyError((e && e.message) || String(e));
+          showToast(parsed.type, "Invoice header preview", parsed.text);
+        });
+      } catch (err) {
+        delhiveryVerifiedLr = null;
+        var parsed = parseUserFriendlyError(err.message || String(err));
+        showToast(parsed.type, parsed.title, parsed.text);
+      } finally {
+        if (btnSearch) btnSearch.disabled = false;
+        if (!currentLrSubmitted && !sapWritePending) updateLrActionButtons();
+      }
+    }
+
+    if (btnCheckLr) {
+      btnCheckLr.addEventListener("click", function () {
+        checkDelhiveryLr();
+      });
+    }
+
+    async function submitLr() {
+      if (!selectedDocEntry) {
+        showAlert("Select an invoice first.");
+        return;
+      }
+      var lrn = lrnInput ? lrnInput.value.trim() : "";
+      if (!lrn) {
+        showToast("warning", "LR Number Required", "Enter an LR number before submitting.");
+        if (lrnInput) lrnInput.focus();
+        return;
+      }
+      if (!delhiveryVerifiedLr || delhiveryVerifiedLr !== lrn) {
+        showToast("warning", "Check LR & Preview first", "Use Check LR & Preview to verify this LR with Delhivery and load the SAP invoice before Submit.");
+        return;
+      }
+      if (submitLrInFlight) {
+        return;
+      }
+      var tr = resultsBody.querySelector("tr.ld-result-row.is-selected");
+      var inv = tr ? invoiceFromRow(tr) : {
+        doc_entry: selectedDocEntry,
+        doc_num: docNumInput.value.trim(),
+        series_name: seriesInput.value.trim(),
+      };
+      try {
+        submitLrInFlight = true;
+        hideAlert();
+        var busy = [btnSearch, btnCheckLr, btnSubmit];
+        busy.forEach(function (el) { if (el) el.disabled = true; });
+        /* Toast immediately so the user sees feedback while the server runs Delhivery / Postgres / SAP. */
+        showSapAwaitToast(
+          "Please wait",
+          "Saving tracking and updating SAP…",
+          "warning"
+        );
+        await new Promise(function (resolve) {
+          requestAnimationFrame(function () {
+            requestAnimationFrame(resolve);
+          });
+        });
+        var result = await callMethodPost(API_SUBMIT, {
+          doc_entry: selectedDocEntry,
+          doc_num: inv.doc_num || docNumInput.value.trim(),
+          series: inv.series_name || seriesInput.value.trim(),
+          lrnum: lrn,
+        });
+        if (!result || typeof result !== "object") {
+          dismissSapAwaitToast();
+          showToast("error", "Could Not Submit", "Unexpected response from the server. Please try again.");
+          return;
+        }
+        var sapReq = result.sap_request || {};
+        var msg = result.message || "Submitted.";
+        var st = result.status;
+        if (st === "partial") {
+          dismissSapAwaitToast();
+          showInfo(msg);
+        } else if (st === "success" || st === "accepted") {
+          if (result.delhivery_status) {
+            msg += " Delhivery: " + result.delhivery_status + ".";
+          }
+          if (st === "success" && sapReq.payload) {
+            msg += " SAP PATCH: " + JSON.stringify(sapReq.payload) + ".";
+          }
+          showInfo(msg);
+
+          var queued = !!(result.sap_queued || st === "accepted");
+          if (queued) {
+            updateSapAwaitToast(
+              "warning",
+              "Updating SAP",
+              "Confirming this LR on the invoice…"
+            );
+            pollUntilSapShowsLr(selectedDocEntry, lrn);
+          } else {
+            dismissSapAwaitToast();
+            lockSubmitAfterSuccess(lrn);
+            clearLrPreviewChip();
+            showToast(
+              "success",
+              "Successfully submitted",
+              "SAP invoice was updated with this LR.",
+              5200
+            );
+            try {
+              await loadInvoiceDetail(selectedDocEntry, false, true);
+            } catch (detailErr) {
+              showToast(
+                "warning",
+                "Invoice preview",
+                (detailErr && detailErr.message) || String(detailErr || "Could not refresh invoice detail.")
+              );
+            }
+          }
+        } else {
+          dismissSapAwaitToast();
+          showToast(
+            "warning",
+            "Submit finished",
+            (msg && String(msg)) || "Unexpected status from server. Check the Tracker report if unsure."
+          );
+        }
+        if (result.sap_response && console && console.debug) {
+          console.debug("LR submit SAP response", result.sap_response);
+          console.debug("LR submit DB snapshot", result.snapshot_payload_final);
+        }
+      } catch (err) {
+        dismissSapAwaitToast();
+        var parsed = parseUserFriendlyError(err.message || String(err));
+        showToast(parsed.type, parsed.title, parsed.text);
+        hideAlert();
+      } finally {
+        submitLrInFlight = false;
+        if (btnSearch) btnSearch.disabled = false;
+        if (!currentLrSubmitted && !sapWritePending) updateLrActionButtons();
+      }
+    }
+
+    if (btnSubmit) {
+      btnSubmit.addEventListener("click", function () {
+        submitLr();
+      });
+    }
+
+    if (lrnInput) {
+      lrnInput.addEventListener("input", function () {
+        var current = lrnInput.value.trim();
+        if (previewedLr && current !== previewedLr) {
+          clearLrPreviewChip();
+        }
+        if (delhiveryVerifiedLr && current !== delhiveryVerifiedLr) {
+          delhiveryVerifiedLr = null;
+        }
+        updateLrActionButtons();
+      });
+    }
+
+    if (resultsBody) {
+      resultsBody.addEventListener("click", function (e) {
+        var viewBtn = e.target.closest(".ld-btn-view");
+        if (viewBtn) {
+          e.preventDefault();
+          e.stopPropagation();
+          var trView = viewBtn.closest("tr.ld-result-row");
+          if (!trView) return;
+          selectInvoiceRow(trView);
+          loadInvoiceDetail(trView.getAttribute("data-doc-entry"), true, true);
+          return;
+        }
+        var tr = e.target.closest("tr.ld-result-row");
+        if (!tr) return;
+        selectInvoiceRow(tr);
+      });
+    }
+
+    if (typeof window.ldRefreshHeaderNotifications === "function") {
+      window.ldRefreshHeaderNotifications();
+    }
+  })();
+</script>
+{% endblock %}

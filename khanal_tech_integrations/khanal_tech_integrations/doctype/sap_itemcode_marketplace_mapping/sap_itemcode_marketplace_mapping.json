@@ -1,0 +1,87 @@
+{
+ "actions": [],
+ "allow_import": 1,
+ "allow_rename": 1,
+ "autoname": "hash",
+ "creation": "2024-06-11 18:28:16.443653",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "sap_item_code",
+  "column_break_zsqg",
+  "description",
+  "column_break_zvfl",
+  "section_break_ayst",
+  "flipkart_fsn",
+  "amazon_asin",
+  "column_break_wrcr"
+ ],
+ "fields": [
+  {
+   "fieldname": "sap_item_code",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "SAP Item Code",
+   "options": "Item",
+   "reqd": 1
+  },
+  {
+   "fetch_from": "sap_item_code.item_name",
+   "fieldname": "description",
+   "fieldtype": "Data",
+   "label": "Description"
+  },
+  {
+   "fieldname": "column_break_zsqg",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "column_break_zvfl",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "section_break_ayst",
+   "fieldtype": "Section Break",
+   "label": "Marketplace SKU Codes"
+  },
+  {
+   "fieldname": "flipkart_fsn",
+   "fieldtype": "Data",
+   "label": "Flipkart (FSN)"
+  },
+  {
+   "fieldname": "amazon_asin",
+   "fieldtype": "Data",
+   "label": "Amazon (ASIN)"
+  },
+  {
+   "fieldname": "column_break_wrcr",
+   "fieldtype": "Column Break"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2024-06-11 19:11:36.018651",
+ "modified_by": "Administrator",
+ "module": "Khanal Tech Integrations",
+ "name": "SAP ItemCode Marketplace Mapping",
+ "naming_rule": "Random",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

@@ -1,0 +1,367 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "format:{absoluteentry}-{itemno}",
+ "creation": "2024-05-17 16:36:40.007312",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "production_details_section",
+  "absoluteentry",
+  "itemno",
+  "productionorderstatus",
+  "productionordertype",
+  "completedquantity",
+  "closingdate",
+  "inventoryuom",
+  "journalremarks",
+  "column_break_ituy",
+  "series",
+  "productdescription",
+  "documentnumber",
+  "plannedquantity",
+  "rejectedquantity",
+  "remarks",
+  "releasedate",
+  "transactionnumber",
+  "creationdate",
+  "column_break_atjw",
+  "postingdate",
+  "duedate",
+  "productionorderorigin",
+  "usersignature",
+  "data_qnro",
+  "warehouse",
+  "uomentry",
+  "startdate",
+  "productionorderlines_section",
+  "documentabsoluteentry",
+  "linenumber",
+  "itemno_line",
+  "basequantity",
+  "plannedquantity_line",
+  "column_break_isvc",
+  "issuedquantity",
+  "productionorderissuetype",
+  "warehouse_line",
+  "visualorder",
+  "uomentry_line",
+  "column_break_phwj",
+  "itemtype",
+  "linetext",
+  "additionalquantity",
+  "startdate_line",
+  "enddate_line",
+  "itemname",
+  "u_issbatch",
+  "section_break_gnco",
+  "category",
+  "brand",
+  "type",
+  "column_break_zpln",
+  "wq",
+  "uom",
+  "totalqty"
+ ],
+ "fields": [
+  {
+   "fieldname": "absoluteentry",
+   "fieldtype": "Data",
+   "label": "AbsoluteEntry"
+  },
+  {
+   "fieldname": "documentnumber",
+   "fieldtype": "Data",
+   "label": "DocumentNumber"
+  },
+  {
+   "fieldname": "series",
+   "fieldtype": "Data",
+   "label": "Series"
+  },
+  {
+   "fieldname": "itemno",
+   "fieldtype": "Data",
+   "label": "Item Name"
+  },
+  {
+   "fieldname": "productionorderstatus",
+   "fieldtype": "Data",
+   "label": "ProductionOrderStatus"
+  },
+  {
+   "fieldname": "productionordertype",
+   "fieldtype": "Data",
+   "label": "ProductionOrderType"
+  },
+  {
+   "fieldname": "plannedquantity",
+   "fieldtype": "Data",
+   "label": "PlannedQuantity"
+  },
+  {
+   "fieldname": "completedquantity",
+   "fieldtype": "Data",
+   "label": "CompletedQuantity"
+  },
+  {
+   "fieldname": "rejectedquantity",
+   "fieldtype": "Data",
+   "label": "RejectedQuantity"
+  },
+  {
+   "fieldname": "column_break_ituy",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "column_break_atjw",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "closingdate",
+   "fieldtype": "Date",
+   "label": "ClosingDate"
+  },
+  {
+   "fieldname": "remarks",
+   "fieldtype": "Data",
+   "label": "Remarks"
+  },
+  {
+   "fieldname": "releasedate",
+   "fieldtype": "Date",
+   "label": "ReleaseDate"
+  },
+  {
+   "fieldname": "postingdate",
+   "fieldtype": "Date",
+   "label": "PostingDate"
+  },
+  {
+   "fieldname": "duedate",
+   "fieldtype": "Date",
+   "label": "DueDate"
+  },
+  {
+   "fieldname": "productionorderorigin",
+   "fieldtype": "Data",
+   "label": "ProductionOrderOrigin"
+  },
+  {
+   "fieldname": "usersignature",
+   "fieldtype": "Data",
+   "label": "UserSignature"
+  },
+  {
+   "fieldname": "data_qnro",
+   "fieldtype": "Data",
+   "label": "CustomerCode"
+  },
+  {
+   "fieldname": "inventoryuom",
+   "fieldtype": "Data",
+   "label": "InventoryUOM"
+  },
+  {
+   "fieldname": "journalremarks",
+   "fieldtype": "Data",
+   "label": "JournalRemarks"
+  },
+  {
+   "fieldname": "transactionnumber",
+   "fieldtype": "Data",
+   "label": "TransactionNumber"
+  },
+  {
+   "fieldname": "creationdate",
+   "fieldtype": "Date",
+   "label": "CreationDate"
+  },
+  {
+   "fieldname": "warehouse",
+   "fieldtype": "Data",
+   "label": "Warehouse"
+  },
+  {
+   "fieldname": "uomentry",
+   "fieldtype": "Data",
+   "label": "UoMEntry"
+  },
+  {
+   "fieldname": "startdate",
+   "fieldtype": "Date",
+   "label": "StartDate"
+  },
+  {
+   "fieldname": "productdescription",
+   "fieldtype": "Data",
+   "label": "Item Description"
+  },
+  {
+   "fieldname": "productionorderlines_section",
+   "fieldtype": "Section Break",
+   "label": "Production Order Lines"
+  },
+  {
+   "fieldname": "documentabsoluteentry",
+   "fieldtype": "Data",
+   "label": "DocumentAbsoluteEntry"
+  },
+  {
+   "fieldname": "linenumber",
+   "fieldtype": "Data",
+   "label": "LineNumber"
+  },
+  {
+   "fieldname": "itemno_line",
+   "fieldtype": "Data",
+   "label": "ItemNo_Line"
+  },
+  {
+   "fieldname": "basequantity",
+   "fieldtype": "Data",
+   "label": "BaseQuantity"
+  },
+  {
+   "fieldname": "plannedquantity_line",
+   "fieldtype": "Data",
+   "label": "PlannedQuantity_Line"
+  },
+  {
+   "fieldname": "column_break_isvc",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "issuedquantity",
+   "fieldtype": "Data",
+   "label": "IssuedQuantity"
+  },
+  {
+   "fieldname": "productionorderissuetype",
+   "fieldtype": "Data",
+   "label": "ProductionOrderIssueType"
+  },
+  {
+   "fieldname": "warehouse_line",
+   "fieldtype": "Data",
+   "label": "Warehouse_Line"
+  },
+  {
+   "fieldname": "visualorder",
+   "fieldtype": "Data",
+   "label": "VisualOrder"
+  },
+  {
+   "fieldname": "uomentry_line",
+   "fieldtype": "Data",
+   "label": "UoMEntry_Line"
+  },
+  {
+   "fieldname": "column_break_phwj",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "itemtype",
+   "fieldtype": "Data",
+   "label": "ItemType"
+  },
+  {
+   "fieldname": "linetext",
+   "fieldtype": "Data",
+   "label": "LineText"
+  },
+  {
+   "fieldname": "additionalquantity",
+   "fieldtype": "Data",
+   "label": "AdditionalQuantity"
+  },
+  {
+   "fieldname": "startdate_line",
+   "fieldtype": "Date",
+   "label": "StartDate_Line"
+  },
+  {
+   "fieldname": "enddate_line",
+   "fieldtype": "Date",
+   "label": "EndDate_Line"
+  },
+  {
+   "fieldname": "itemname",
+   "fieldtype": "Data",
+   "label": "ItemName"
+  },
+  {
+   "fieldname": "u_issbatch",
+   "fieldtype": "Data",
+   "label": "U_IssBatch"
+  },
+  {
+   "fieldname": "section_break_gnco",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "category",
+   "fieldtype": "Data",
+   "label": "Category"
+  },
+  {
+   "fieldname": "brand",
+   "fieldtype": "Data",
+   "label": "Brand"
+  },
+  {
+   "fieldname": "type",
+   "fieldtype": "Data",
+   "label": "Type"
+  },
+  {
+   "fieldname": "column_break_zpln",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "wq",
+   "fieldtype": "Data",
+   "label": "WQ"
+  },
+  {
+   "fieldname": "uom",
+   "fieldtype": "Data",
+   "label": "UoM"
+  },
+  {
+   "fieldname": "totalqty",
+   "fieldtype": "Data",
+   "label": "TotalQTY"
+  },
+  {
+   "fieldname": "production_details_section",
+   "fieldtype": "Section Break",
+   "label": "Production Details"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2024-05-17 18:32:41.009631",
+ "modified_by": "Administrator",
+ "module": "Khanal Tech Integrations",
+ "name": "SAP Production Orders",
+ "naming_rule": "Expression",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

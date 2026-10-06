@@ -1,0 +1,486 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "format: {company_name}-{####}",
+ "creation": "2023-06-14 17:50:48.225047",
+ "default_view": "List",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "over_view_tab",
+  "section_break_ijrf",
+  "company_name",
+  "telephone_number",
+  "mobile_number",
+  "email",
+  "vendor_type",
+  "pan_card_number",
+  "user_type",
+  "column_break_rzt1",
+  "gst_number",
+  "mesme_present",
+  "msmed_number",
+  "payment_terms",
+  "return_policy",
+  "days",
+  "internal_point_of_contact",
+  "vendor_category",
+  "brand_category_vendor",
+  "subcategory_veondor",
+  "tab_break_ctru",
+  "bank_name",
+  "account_number",
+  "column_break_x7lj",
+  "ifsc_code",
+  "bank_code",
+  "address_tab",
+  "address",
+  "bill_to_state",
+  "bill_to_country",
+  "bill_to_pincode",
+  "address_check",
+  "column_break_pkz9",
+  "ship_to_address",
+  "ship_to_state",
+  "ship_to_country",
+  "ship_to_pincode",
+  "contact_details_tab",
+  "contact_person_name",
+  "designation",
+  "column_break_jynb",
+  "contact_person_email",
+  "contact_person_number",
+  "column_break_wkqf",
+  "mandatory_section",
+  "fssai_licence",
+  "gst_certificate",
+  "gst_declaration_form",
+  "mill_licence",
+  "msme_licence",
+  "pan_card",
+  "msme_declaration",
+  "column_break_sgoq",
+  "standard_for_food_and_safety",
+  "trade_licence",
+  "code_of_conduct",
+  "cancel_cheque",
+  "food_analysis_report",
+  "fsc_certification",
+  "vendor_agreement",
+  "sap",
+  "vendor_code",
+  "gst_verification_tab",
+  "gst_details",
+  "column_break_hpg5",
+  "bank_details"
+ ],
+ "fields": [
+  {
+   "fieldname": "company_name",
+   "fieldtype": "Data",
+   "label": "Company Name"
+  },
+  {
+   "fieldname": "telephone_number",
+   "fieldtype": "Data",
+   "label": "Telephone Number"
+  },
+  {
+   "fieldname": "mobile_number",
+   "fieldtype": "Data",
+   "label": "Mobile Number"
+  },
+  {
+   "fieldname": "email",
+   "fieldtype": "Data",
+   "label": "Email"
+  },
+  {
+   "fieldname": "contact_person_name",
+   "fieldtype": "Data",
+   "label": "Contact Person Name"
+  },
+  {
+   "fieldname": "designation",
+   "fieldtype": "Data",
+   "label": "Designation"
+  },
+  {
+   "fieldname": "gst_number",
+   "fieldtype": "Data",
+   "label": "GST Number"
+  },
+  {
+   "fieldname": "msmed_number",
+   "fieldtype": "Data",
+   "label": "MSME Number"
+  },
+  {
+   "fieldname": "payment_terms",
+   "fieldtype": "Select",
+   "label": "Payment Terms",
+   "options": "Net-30\n100% before dispatch\nPayment on delivery\n50% advance and balance before dispatch\n50% advance and balance after delivery\nNet-15\nPayment Before Dispatch\nNet-45\nNet 60 Days\nNet-21"
+  },
+  {
+   "fieldname": "days",
+   "fieldtype": "Data",
+   "label": "Days"
+  },
+  {
+   "fieldname": "return_policy",
+   "fieldtype": "Data",
+   "label": "Return Policy"
+  },
+  {
+   "fieldname": "address",
+   "fieldtype": "Data",
+   "label": "Bill To Address"
+  },
+  {
+   "fieldname": "column_break_wkqf",
+   "fieldtype": "Tab Break",
+   "label": "Attachments"
+  },
+  {
+   "fieldname": "fssai_licence",
+   "fieldtype": "Attach",
+   "label": "FSSAI Licence"
+  },
+  {
+   "fieldname": "gst_certificate",
+   "fieldtype": "Attach",
+   "label": "GST Certificate"
+  },
+  {
+   "fieldname": "gst_declaration_form",
+   "fieldtype": "Attach",
+   "label": "GST Declaration Form"
+  },
+  {
+   "fieldname": "mill_licence",
+   "fieldtype": "Attach",
+   "label": "Mill Licence"
+  },
+  {
+   "fieldname": "msme_licence",
+   "fieldtype": "Attach",
+   "label": "MSME Licence"
+  },
+  {
+   "fieldname": "msme_declaration",
+   "fieldtype": "Attach",
+   "label": "MSME Declaration"
+  },
+  {
+   "fieldname": "standard_for_food_and_safety",
+   "fieldtype": "Attach",
+   "label": "Standard For Food And Safety"
+  },
+  {
+   "fieldname": "trade_licence",
+   "fieldtype": "Attach",
+   "label": "Trade Licence"
+  },
+  {
+   "fieldname": "pan_card",
+   "fieldtype": "Attach",
+   "label": "PAN Card"
+  },
+  {
+   "fieldname": "ship_to_address",
+   "fieldtype": "Data",
+   "label": "Ship From Address"
+  },
+  {
+   "fieldname": "bill_to_state",
+   "fieldtype": "Select",
+   "label": "Bill To State",
+   "options": "Andhra Pradesh\nDelhi\nHaryana\nKarnataka\nMadhya Pradesh\nMaharashtra\nUttar Pradesh\nAndaman and Nicobar Islands\nArunachal Pradesh\nAssam\nBihar\nChandigarh\nChattisgarh\nDadra and Nagar Haveli\nDaman and Diu\nGoa\nGujarat\nHimachal Pradesh\nJammu and Kashmir\nJharkhand\nKerala\nLakshadweep Islands\nManipur\nMeghalaya\nMizoram\nNagaland\nOdisha\nPondicherry\nPunjab\nRajasthan\nSikkim\nTamil Nadu\nTelangana\nTripura\nUttarakhand\nWest Bengal"
+  },
+  {
+   "fieldname": "ship_to_state",
+   "fieldtype": "Select",
+   "label": "Ship From State",
+   "options": "Andhra Pradesh\nDelhi\nHaryana\nKarnataka\nMadhya Pradesh\nMaharashtra\nUttar Pradesh\nAndaman and Nicobar Islands\nArunachal Pradesh\nAssam\nBihar\nChandigarh\nChattisgarh\nDadra and Nagar Haveli\nDaman and Diu\nGoa\nGujarat\nHimachal Pradesh\nJammu and Kashmir\nJharkhand\nKerala\nLakshadweep Islands\nManipur\nMeghalaya\nMizoram\nNagaland\nOdisha\nPondicherry\nPunjab\nRajasthan\nSikkim\nTamil Nadu\nTelangana\nTripura\nUttarakhand\nWest Bengal"
+  },
+  {
+   "fieldname": "vendor_type",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Vendor Type",
+   "options": "\nCivil Construction\nExpenses\nFurnitures\nMachinery\nNon-Food\nOne time Vendor\nPackaging\nRaw Material\nService\nVehicle"
+  },
+  {
+   "fieldname": "bank_name",
+   "fieldtype": "Data",
+   "label": "Bank Name"
+  },
+  {
+   "fieldname": "account_number",
+   "fieldtype": "Data",
+   "label": "Account Number"
+  },
+  {
+   "default": "is_private =0",
+   "fieldname": "ifsc_code",
+   "fieldtype": "Data",
+   "label": "IFSC Code"
+  },
+  {
+   "fieldname": "contact_person_number",
+   "fieldtype": "Data",
+   "label": "Contact Person Number"
+  },
+  {
+   "fieldname": "contact_person_email",
+   "fieldtype": "Data",
+   "label": "Contact Person Email"
+  },
+  {
+   "fieldname": "mesme_present",
+   "fieldtype": "Select",
+   "label": "MESME Registered",
+   "options": "Yes\nNo"
+  },
+  {
+   "fieldname": "over_view_tab",
+   "fieldtype": "Tab Break",
+   "label": "Overview"
+  },
+  {
+   "fieldname": "section_break_ijrf",
+   "fieldtype": "Column Break",
+   "label": "Basic Details"
+  },
+  {
+   "fieldname": "address_tab",
+   "fieldtype": "Tab Break",
+   "label": "Address"
+  },
+  {
+   "fieldname": "column_break_rzt1",
+   "fieldtype": "Column Break",
+   "label": "Other Details"
+  },
+  {
+   "fieldname": "contact_details_tab",
+   "fieldtype": "Tab Break",
+   "label": "Contact Details"
+  },
+  {
+   "fieldname": "column_break_jynb",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "tab_break_ctru",
+   "fieldtype": "Tab Break",
+   "label": "Bank Details"
+  },
+  {
+   "fieldname": "column_break_x7lj",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "column_break_pkz9",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "column_break_sgoq",
+   "fieldtype": "Column Break",
+   "label": "Non Mandatory"
+  },
+  {
+   "fieldname": "mandatory_section",
+   "fieldtype": "Column Break",
+   "label": "Mandatory"
+  },
+  {
+   "fieldname": "bill_to_country",
+   "fieldtype": "Select",
+   "label": "Bill To Country",
+   "options": "Afghanistan\nÅland (Finland)\nAlbania\nAlgeria\nAmerican Samoa (US)\nAndorra\nAngola\nAnguilla (BOT)\nAntigua and Barbuda\nArgentina\nArmenia\nArtsakh\nAruba (Netherlands)\nAustralia\nAustria\nAzerbaijan\nBahamas\nBahrain\nBangladesh\nBarbados\nBelarus\nBelgium\nBelize\nBenin\nBermuda (BOT)\nBhutan\nBolivia\nBonaire (Netherlands)\nBosnia and Herzegovina\nBotswana\nBrazil\nBritish Virgin Islands (BOT)\nBrunei\nBulgaria\nBurkina Faso\nBurundi\nCambodia\nCameroon\nCanada\nCape Verde\nCayman Islands (BOT)\nCentral African Republic\nChad\nChile\nChina\nChristmas Island (Australia)\nCocos (Keeling) Islands (Australia)\nColombia\nComoros\nCongo\nCook Islands\nCosta Rica\nCroatia\nCuba\nCuraçao (Netherlands)\nCyprus\nCzech Republic\nDenmark\nDjibouti\nDominica\nDominican Republic\nDR Congo\nEast Timor\nEcuador\nEgypt\nEl Salvador\nEquatorial Guinea\nEritrea\nEstonia\nEswatini\nEthiopia\nFalkland Islands (BOT)\nFaroe Islands (Denmark)\nFiji\nFinland\nFrance\nFrench Guiana (France)\nFrench Polynesia (France)\nGabon\nGambia\nGeorgia\nGermany\nGhana\nGibraltar (BOT)\nGreece\nGreenland (Denmark)\nGrenada\nGuadeloupe (France)\nGuam (US)\nGuatemala\nGuernsey (Crown Dependency)\nGuinea\nGuinea-Bissau\nGuyana\nHaiti\nHonduras\nHong Kong\nHungary\nIceland\nIndia\nIndonesia\nIran\nIraq\nIreland\nIsle of Man (Crown Dependency)\nIsrael\nItaly\nIvory Coast\nJamaica\nJapan\nJersey (Crown Dependency)\nJordan\nKazakhstan\nKenya\nKiribati\nKosovo\nKuwait\nKyrgyzstan\nLaos\nLatvia\nLebanon\nLesotho\nLiberia\nLibya\nLiechtenstein\nLithuania\nLuxembourg\nMacau\nMadagascar\nMalawi\nMalaysia\nMaldives\nMali\nMalta\nMarshall Islands\nMartinique (France)\nMauritania\nMauritius\nMayotte (France)\nMexico\nMicronesia\nMoldova\nMonaco\nMongolia\nMontenegro\nMontserrat (BOT)\nMorocco\nMozambique\nMyanmar\nNamibia\nNauru\nNepal\nNetherlands\nNew Caledonia (France)\nNew Zealand\nNicaragua\nNiger\nNigeria\nNiue\nNorfolk Island (Australia)\nNorth Korea\nNorth Macedonia\nNorthern Cyprus\nNorthern Mariana Islands (US)\nNorway\nOman\nPakistan\nPalau\nPalestine\nPanama\nPapua New Guinea\nParaguay\nPeru\nPhilippines\nPitcairn Islands (BOT)\nPoland\nPortugal\nPuerto Rico (US)\nQatar\nRéunion (France)\nRomania\nRussia\nRwanda\nSaba (Netherlands)\nSaint Barthélemy (France)\nSaint Helena, Ascension and Tristan da Cunha (BOT)\nSaint Kitts and Nevis\nSaint Lucia\nSaint Martin (France)\nSaint Pierre and Miquelon (France)\nSaint Vincent and the Grenadines\nSamoa\nSan Marino\nSão Tomé and Príncipe\nSaudi Arabia\nSenegal\nSerbia\nSeychelles\nSierra Leone\nSingapore\nSint Eustatius (Netherlands)\nSint Maarten (Netherlands)\nSlovakia\nSlovenia\nSolomon Islands\nSomalia\nSouth Africa\nSouth Korea\nSouth Sudan\nSpain\nSri Lanka\nSudan\nSuriname\nSvalbard and Jan Mayen (Norway)\nSweden\nSwitzerland\nSyria\nTaiwan\nTajikistan\nTanzania\nThailand\nTogo\nTokelau (NZ)\nTonga\nTransnistria\nTrinidad and Tobago\nTunisia\nTurkey\nTurkmenistan\nTurks and Caicos Islands (BOT)\nTuvalu\nU.S. Virgin Islands (US)\nUganda\nUkraine\nUnited Arab Emirates\nUnited Kingdom\nUnited States\nUruguay\nUzbekistan\nVanuatu\nVatican City\nVenezuela\nVietnam\nWallis and Futuna (France)\nWestern Sahara\nYemen\nZambia\nZimbabwe"
+  },
+  {
+   "fieldname": "bill_to_pincode",
+   "fieldtype": "Data",
+   "label": "Bill To Pincode"
+  },
+  {
+   "fieldname": "ship_to_country",
+   "fieldtype": "Select",
+   "label": "Ship From Country",
+   "options": "Afghanistan\nÅland (Finland)\nAlbania\nAlgeria\nAmerican Samoa (US)\nAndorra\nAngola\nAnguilla (BOT)\nAntigua and Barbuda\nArgentina\nArmenia\nArtsakh\nAruba (Netherlands)\nAustralia\nAustria\nAzerbaijan\nBahamas\nBahrain\nBangladesh\nBarbados\nBelarus\nBelgium\nBelize\nBenin\nBermuda (BOT)\nBhutan\nBolivia\nBonaire (Netherlands)\nBosnia and Herzegovina\nBotswana\nBrazil\nBritish Virgin Islands (BOT)\nBrunei\nBulgaria\nBurkina Faso\nBurundi\nCambodia\nCameroon\nCanada\nCape Verde\nCayman Islands (BOT)\nCentral African Republic\nChad\nChile\nChina\nChristmas Island (Australia)\nCocos (Keeling) Islands (Australia)\nColombia\nComoros\nCongo\nCook Islands\nCosta Rica\nCroatia\nCuba\nCuraçao (Netherlands)\nCyprus\nCzech Republic\nDenmark\nDjibouti\nDominica\nDominican Republic\nDR Congo\nEast Timor\nEcuador\nEgypt\nEl Salvador\nEquatorial Guinea\nEritrea\nEstonia\nEswatini\nEthiopia\nFalkland Islands (BOT)\nFaroe Islands (Denmark)\nFiji\nFinland\nFrance\nFrench Guiana (France)\nFrench Polynesia (France)\nGabon\nGambia\nGeorgia\nGermany\nGhana\nGibraltar (BOT)\nGreece\nGreenland (Denmark)\nGrenada\nGuadeloupe (France)\nGuam (US)\nGuatemala\nGuernsey (Crown Dependency)\nGuinea\nGuinea-Bissau\nGuyana\nHaiti\nHonduras\nHong Kong\nHungary\nIceland\nIndia\nIndonesia\nIran\nIraq\nIreland\nIsle of Man (Crown Dependency)\nIsrael\nItaly\nIvory Coast\nJamaica\nJapan\nJersey (Crown Dependency)\nJordan\nKazakhstan\nKenya\nKiribati\nKosovo\nKuwait\nKyrgyzstan\nLaos\nLatvia\nLebanon\nLesotho\nLiberia\nLibya\nLiechtenstein\nLithuania\nLuxembourg\nMacau\nMadagascar\nMalawi\nMalaysia\nMaldives\nMali\nMalta\nMarshall Islands\nMartinique (France)\nMauritania\nMauritius\nMayotte (France)\nMexico\nMicronesia\nMoldova\nMonaco\nMongolia\nMontenegro\nMontserrat (BOT)\nMorocco\nMozambique\nMyanmar\nNamibia\nNauru\nNepal\nNetherlands\nNew Caledonia (France)\nNew Zealand\nNicaragua\nNiger\nNigeria\nNiue\nNorfolk Island (Australia)\nNorth Korea\nNorth Macedonia\nNorthern Cyprus\nNorthern Mariana Islands (US)\nNorway\nOman\nPakistan\nPalau\nPalestine\nPanama\nPapua New Guinea\nParaguay\nPeru\nPhilippines\nPitcairn Islands (BOT)\nPoland\nPortugal\nPuerto Rico (US)\nQatar\nRéunion (France)\nRomania\nRussia\nRwanda\nSaba (Netherlands)\nSaint Barthélemy (France)\nSaint Helena, Ascension and Tristan da Cunha (BOT)\nSaint Kitts and Nevis\nSaint Lucia\nSaint Martin (France)\nSaint Pierre and Miquelon (France)\nSaint Vincent and the Grenadines\nSamoa\nSan Marino\nSão Tomé and Príncipe\nSaudi Arabia\nSenegal\nSerbia\nSeychelles\nSierra Leone\nSingapore\nSint Eustatius (Netherlands)\nSint Maarten (Netherlands)\nSlovakia\nSlovenia\nSolomon Islands\nSomalia\nSouth Africa\nSouth Korea\nSouth Sudan\nSpain\nSri Lanka\nSudan\nSuriname\nSvalbard and Jan Mayen (Norway)\nSweden\nSwitzerland\nSyria\nTaiwan\nTajikistan\nTanzania\nThailand\nTogo\nTokelau (NZ)\nTonga\nTransnistria\nTrinidad and Tobago\nTunisia\nTurkey\nTurkmenistan\nTurks and Caicos Islands (BOT)\nTuvalu\nU.S. Virgin Islands (US)\nUganda\nUkraine\nUnited Arab Emirates\nUnited Kingdom\nUnited States\nUruguay\nUzbekistan\nVanuatu\nVatican City\nVenezuela\nVietnam\nWallis and Futuna (France)\nWestern Sahara\nYemen\nZambia\nZimbabwe"
+  },
+  {
+   "fieldname": "ship_to_pincode",
+   "fieldtype": "Data",
+   "label": "Ship From Pincode"
+  },
+  {
+   "fieldname": "food_analysis_report",
+   "fieldtype": "Attach",
+   "label": "Food Analysis Report"
+  },
+  {
+   "fieldname": "vendor_code",
+   "fieldtype": "Data",
+   "label": "Vendor Code"
+  },
+  {
+   "fieldname": "sap",
+   "fieldtype": "Tab Break",
+   "label": "SAP Details"
+  },
+  {
+   "fieldname": "bank_code",
+   "fieldtype": "Data",
+   "label": "Bank Code",
+   "read_only": 1
+  },
+  {
+   "fieldname": "code_of_conduct",
+   "fieldtype": "Attach",
+   "label": "Code Of Conducts"
+  },
+  {
+   "default": "0",
+   "fieldname": "address_check",
+   "fieldtype": "Check",
+   "label": "Address Check"
+  },
+  {
+   "fieldname": "cancel_cheque",
+   "fieldtype": "Attach",
+   "label": "Cancel Cheque"
+  },
+  {
+   "fieldname": "pan_card_number",
+   "fieldtype": "Data",
+   "label": "Pan Card Number"
+  },
+  {
+   "fieldname": "fsc_certification",
+   "fieldtype": "Attach",
+   "label": "FSC Certification"
+  },
+  {
+   "fieldname": "user_type",
+   "fieldtype": "Select",
+   "label": "User Type",
+   "options": "Food\nNon Food"
+  },
+  {
+   "fieldname": "vendor_agreement",
+   "fieldtype": "Attach",
+   "label": "Vendor Agreement"
+  },
+  {
+   "fieldname": "gst_verification_tab",
+   "fieldtype": "Tab Break",
+   "label": "Verification"
+  },
+  {
+   "fieldname": "gst_details",
+   "fieldtype": "Long Text",
+   "label": "GST API Verification Response"
+  },
+  {
+   "fieldname": "column_break_hpg5",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "bank_details",
+   "fieldtype": "Long Text",
+   "label": "Bank API Verification Response"
+  },
+  {
+   "fieldname": "internal_point_of_contact",
+   "fieldtype": "Data",
+   "label": "Internal Point of Contact Email"
+  },
+  {
+   "fieldname": "vendor_category",
+   "fieldtype": "Select",
+   "label": "Vendor Category",
+   "options": "Capex\nChannel Marketing\nConsumables\nLab Test\nLogistics\nOffice & Administration Expenses\nOthers\nPackaging material\nProfessional / Consultant fees\nRaw Materials\nRent\nRepairs & Maintenance"
+  },
+  {
+   "fieldname": "brand_category_vendor",
+   "fieldtype": "Select",
+   "label": "Brand Category (Vendor)",
+   "options": "Value\nAdvertising & Marketing\nCapex\nChannel Marketing\nConsumables\nDogsee RM\nHN FG\nHN RM\nLab Test\nLogistics\nNH RM\nOffice & Administration Expenses\nPackaging Material\nProfessional/Consultant Fees\nRent\nRepairs & Maintenance\nScrap\nStaff Welfare\nUnsecured Loan\nwater charges"
+  },
+  {
+   "fieldname": "subcategory_veondor",
+   "fieldtype": "Select",
+   "label": "SubCategory (Vendor)",
+   "options": "Value\nAccount verfication\nAcid\nAdvertising and Marketing Expenses\nAlmond\nBanana\nBand Saw Blade\nBroadband\nCapex\nCertification Charges\nCheese\nCheese/Yak Chew Powder\nChew & Ghee\nCoconut Powder, carrot\nConsumables\nDG-Capex\nDomestic Logistic\nDried Coconut Fat Seperated\nElectricity\nExport Logistic\nFreeze Dried Banana\nFreeze Dried Banana/Apple\nFuel Expenses\nGhee\nHN Capex\nHouse Keeping (Garbage, Pest Control etc)\nInsurance\nInward Logistic\nJaggery\nKurkure/Lays\nLab Test\nMilk\nNH Capex\nOffice Supply\nOther rates & Taxes\nOthers\nOutward Logistics\nPackaging Material\npainting charges\nPoha dagadi\nProfessional/Consultant Fees\nPulses\nRagi Whole\nRent\nRepairs & Maintenance\nSalary Outsources Employees (Pdn)\nSecurity & Housekeeping\nShampoo\nSoftware Charges\nStaff Welfare\nSubscription\nTape Himalayan Natives 3 Inch\nTeflon Belt\nToys\nTravelling\nUnsecured Loan\nWater, Internet, Telephone\nWooden Pieces"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "make_attachments_public": 1,
+ "max_attachments": 10000000,
+ "modified": "2026-05-29 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Khanal Tech Integrations",
+ "name": "SAP Vendor Registration",
+ "naming_rule": "Expression",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 0,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Purchase Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 0,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Accounts Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 0,
+   "delete": 0,
+   "email": 1,
+   "export": 0,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Accounts User",
+   "share": 0,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1,
+ "track_seen": 1
+}

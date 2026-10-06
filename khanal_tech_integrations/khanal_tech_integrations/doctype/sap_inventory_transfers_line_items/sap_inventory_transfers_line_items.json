@@ -1,0 +1,107 @@
+{
+ "actions": [],
+ "autoname": "hash",
+ "creation": "2022-09-14 12:31:26.662429",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "itemcode",
+  "itemdescription",
+  "quantity",
+  "towarehousecode",
+  "fromwarehousecode",
+  "batchnumber",
+  "batchquantity",
+  "unitprice",
+  "grn_no",
+  "pz_grn_complete",
+  "expirydate",
+  "manufacturingdate",
+  "addmisiondate"
+ ],
+ "fields": [
+  {
+   "fieldname": "itemcode",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "ItemCode",
+   "reqd": 1
+  },
+  {
+   "fieldname": "itemdescription",
+   "fieldtype": "Data",
+   "label": "ItemDescription"
+  },
+  {
+   "fieldname": "quantity",
+   "fieldtype": "Data",
+   "label": "Quantity"
+  },
+  {
+   "fieldname": "towarehousecode",
+   "fieldtype": "Data",
+   "label": "ToWarehouseCode"
+  },
+  {
+   "fieldname": "fromwarehousecode",
+   "fieldtype": "Data",
+   "label": "FromWarehouseCode"
+  },
+  {
+   "fieldname": "batchnumber",
+   "fieldtype": "Data",
+   "label": "BatchNumber"
+  },
+  {
+   "fieldname": "batchquantity",
+   "fieldtype": "Data",
+   "label": "BatchQuantity"
+  },
+  {
+   "fieldname": "unitprice",
+   "fieldtype": "Data",
+   "label": "UnitPrice"
+  },
+  {
+   "default": "N",
+   "fieldname": "pz_grn_complete",
+   "fieldtype": "Select",
+   "label": "Prozo GRN Complete",
+   "options": "Y\nN"
+  },
+  {
+   "fieldname": "grn_no",
+   "fieldtype": "Data",
+   "label": "GRN No"
+  },
+  {
+   "fieldname": "expirydate",
+   "fieldtype": "Date",
+   "label": "Expiry Date"
+  },
+  {
+   "fieldname": "manufacturingdate",
+   "fieldtype": "Date",
+   "label": "Manufacturing Date"
+  },
+  {
+   "fieldname": "addmisiondate",
+   "fieldtype": "Data",
+   "label": "Addmision Date"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "istable": 1,
+ "links": [],
+ "modified": "2023-07-10 21:35:21.967678",
+ "modified_by": "Administrator",
+ "module": "Khanal Tech Integrations",
+ "name": "SAP Inventory Transfers Line Items",
+ "naming_rule": "Random",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

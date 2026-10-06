@@ -1,0 +1,242 @@
+<div class="row">
+  <div class="col-lg-12">
+    <div class="card">
+      <div class="card-header text-white" style="background-color: #351753;">
+        <div class="d-flex flex-column flex-sm-row justify-content-between align-items-center">
+          <h5 class="text-800 fw-bold text-center m-0">
+            <span style="color: #d18023;">✩</span>
+            <span style="color: #fbeeee; font-family: 'Georgia', serif; font-style: italic;">{{
+              report_display_name.replace('_', ' ') if report_display_name else 'Custom' }}
+              Reports</span>
+            <span style="color: #5ac1cd;">✩</span>
+          </h5>
+          <div id="fetchGenericButtonWrapper" class="d-flex align-items-center mt-2 mt-sm-0 gap-2">
+            <div id="fetchMobileGenericButton" class="blinking-star" style="cursor: pointer;">
+              <i class="fas fa-sync-alt" aria-hidden="true"></i>
+            </div>
+            <span id="genericlastFetchedDisplay1"
+              style="color: #fff; font-size: 14px; font-family: Arial, Helvetica, sans-serif;" data-saptime=""></span>
+          </div>
+        </div>
+      </div>
+
+      <div class="card-body" id="cardBodyCard" style="background-color: #bbd1d3f9;">
+
+        <div class="d-flex justify-content-between align-items-center mb-3">
+          <!-- Search input aligned left -->
+          <div class="d-flex align-items-center">
+            <input type="text" id="GenericSearchInput"
+              placeholder="Search by Vendor ID, Name, Doc Number or Plant ID..." class="form-control"
+              style="font-size: 14px; height: 36px;" />
+          </div>
+
+          <!-- Export buttons aligned right -->
+          <div class="d-flex align-items-center" style="height: 36px;">
+            <img class="export-button" data-export-type="excel"
+              src="https://img.icons8.com/?size=100&id=UECmBSgBOvPT&format=png&color=000000" alt="Export Excel"
+              style="cursor: pointer; width: 24px; height: 24px; margin-right: 8px;" />
+
+            <!-- Desktop PDF Button -->
+            <img class="export-button" data-export-type="pdf"
+              src="https://img.icons8.com/?size=100&id=13417&format=png&color=000000" alt="Export PDF"
+              style="cursor: pointer; width: 24px; height: 24px; margin-right: 8px;" />
+          </div>
+        </div>
+
+        <div id="scrollableCardsContainer">
+          <div id="GenericCardsContainer" class="row">
+            <p class="text-center text-muted" id="loadingIndicator2">Loading Milk Procurement data...</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    // Toggle function for accordion
+    function toggleAdditionalInfo(icon) {
+      const additionalInfo = icon.closest('.card-body').querySelector('.additional-info');
+      const isCollapsed = additionalInfo.style.display === 'none';
+      additionalInfo.style.display = isCollapsed ? 'block' : 'none';
+      icon.classList.toggle('fa-chevron-down', !isCollapsed);
+      icon.classList.toggle('fa-chevron-up', isCollapsed);
+    }
+
+    // Make toggle function globally available
+    window.toggleAdditionalInfo = toggleAdditionalInfo;
+
+    let columnNames;
+    // Display procurement cards function
+    function displayGenericCards(reports = window.allgenericData) {
+      const cardsContainer = document.getElementById('GenericCardsContainer');
+      if (!cardsContainer) return;
+
+      cardsContainer.innerHTML = '';
+      if (!reports || !reports.length) {
+        cardsContainer.innerHTML = '<p class="text-center text-muted">No matching reports found.</p>';
+        return;
+      }
+
+      let html = '';
+      columnNames = Object.keys(reports[0]);
+      // alert(" reports[0] :::" + JSON.stringify(reports[0]));
+      // alert(" 111111 :::" + columnNames);
+
+      if (columnNames.length == 1) {
+        alert("Only one column found, attempting to extract keys from the single object.");
+        columnNames = Object.keys(columnNames[0]); // Try to extract keys from the single object
+      }
+
+      // alert(" 22222 :::: " +columnNames);
+      reports.forEach(report => {
+        html += `
+                <div class="col-12 mb-3">
+                    <div class="card shadow-sm hover-card">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div>
+                                  <p class="mb-1"><strong>${formatColumnName(columnNames[0])}:</strong> ${formatValue(report[columnNames[0]], columnNames[0])}</p>
+                                  <p class="mb-1"><strong>${formatColumnName(columnNames[1])}:</strong> ${formatValue(report[columnNames[1]], columnNames[1])}</p>
+                                  <p class="mb-1"><strong>${formatColumnName(columnNames[2])}:</strong> ${formatValue(report[columnNames[2]], columnNames[2])}</p>
+                                </div>
+
+                                <i class="fas fa-chevron-down accordion-arrow" onclick="toggleAdditionalInfo(this)" style="cursor: pointer;"></i>
+                            </div>`
+              if (columnNames.length > 3) {
+                html += `
+                            <hr class="my-2" />
+                            <div class="additional-info" style="display: none; margin-top: 10px;"> `
+                              for (let i = 3; i < columnNames.length; i++) {
+                                html += `<p class="mb-1"><strong>${formatColumnName(columnNames[i])}:</strong> ${formatValue(report[columnNames[i]], columnNames[i])}</p>`; 
+                              }
+                html += `</div>
+                        </div>
+                    </div>
+                </div>`; 
+                            
+              }                                 
+      });
+
+      cardsContainer.innerHTML = html;
+    }
+
+    // Make displayGenericCards globally available
+    window.displayGenericCards = displayGenericCards;
+
+    // Search functionality
+    document.getElementById('GenericSearchInput')?.addEventListener('input', function (e) {
+      const search = e.target.value.toLowerCase().trim();
+
+      // If no search input, display all data
+      if (search.length <= 1) {
+        // alert("Returning all data as search input length is less than or equal to 1.");
+        displayGenericCards(window.allgenericData);
+        return;
+      }
+
+      // Filter the data based on search input and columnNames
+      const filtered = window.allgenericData?.filter(report => {
+        // Iterate through each column in columnNames and check if the search term exists in the value
+        return columnNames.some(col => {
+          const value = report[col];
+          if (value && typeof value === 'string') {
+            return value.toLowerCase().includes(search); // Case-insensitive search for strings
+          } else if (value && typeof value === 'number') {
+            return value.toString().includes(search); // Handle numbers by converting to string
+          }
+          return false; // Return false if the value is null, undefined, or neither string nor number
+        });
+      }) || [];
+
+      // Display the filtered results
+      displayGenericCards(filtered);
+    });
+
+    function formatValue(value, column) {
+      if (value == null || value === '') return 'N/A';
+
+      const isNumeric = !isNaN(value);
+      const isCurrencyField = /amount|amt|price/i.test(column);
+      const isYearField = /year/i.test(column);
+
+      if (isYearField) {
+        return value;
+      } else if (isNumeric && isCurrencyField) {
+        return '₹ ' + Number(value).toLocaleString('en-IN');
+      } else if (isNumeric) {
+        return Number(value).toLocaleString('en-IN');
+      } else {
+        return value;
+      }
+    }
+
+    function formatColumnName(columnName) {
+      if (!columnName || typeof columnName !== 'string') return '';
+
+      return columnName
+        .replace(/_/g, ' ') // replace underscores with spaces
+        .replace(/\w\S*/g, word => word.charAt(0).toUpperCase() + word.substr(1).toLowerCase()); // title case
+    }
+
+
+    // Fetch button event listener
+    document.getElementById("fetchMobileGenericButton").addEventListener("click", function () {
+      fetchLatestDataFromSAP("{{ report_name }}");
+    });
+
+    // Initial load
+    displayGenericCards();
+
+    // Initialize cooldown
+    //refreshCooldown("fetchMobileGenericButton", "genericlastFetchedDisplay1", 0.5);
+  });
+</script>
+
+<style>
+  @media (max-width: 985px) {
+
+    html,
+    body {
+      overflow-y: hidden;
+      height: 100%;
+    }
+
+    #scrollableCardsContainer {
+      overflow-y: auto;
+    }
+  }
+
+  .accordion-arrow {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    cursor: pointer;
+    font-size: 1.2em;
+    color: #555;
+  }
+
+  #scrollableCardsContainer {
+    max-height: 100vh;
+    /* Adjust based on your preference */
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding-right: 5px;
+    /* Avoid content getting cut by scrollbar */
+  }
+
+  /* Optional: prevent scroll bleed from nested containers */
+  #scrollableCardsContainer::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  #scrollableCardsContainer::-webkit-scrollbar-thumb {
+    background-color: #888;
+    border-radius: 4px;
+  }
+
+  #scrollableCardsContainer::-webkit-scrollbar-thumb:hover {
+    background: #555;
+  }
+</style>

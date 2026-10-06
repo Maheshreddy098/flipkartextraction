@@ -1,0 +1,102 @@
+{
+ "actions": [],
+ "creation": "2026-06-17 00:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "transaction_type",
+  "order_id",
+  "shipment_id",
+  "posted_date",
+  "amount_type",
+  "amount_description",
+  "amount",
+  "sku",
+  "quantity_purchased",
+  "adjustment_id",
+  "promotion_id",
+  "marketplace_name"
+ ],
+ "fields": [
+  {
+   "fieldname": "transaction_type",
+   "fieldtype": "Data",
+   "label": "Transaction Type",
+   "in_list_view": 1,
+   "in_standard_filter": 1
+  },
+  {
+   "fieldname": "order_id",
+   "fieldtype": "Data",
+   "label": "Amazon Order ID",
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "shipment_id",
+   "fieldtype": "Data",
+   "label": "Shipment ID"
+  },
+  {
+   "fieldname": "posted_date",
+   "fieldtype": "Date",
+   "label": "Posted Date",
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "amount_type",
+   "fieldtype": "Data",
+   "label": "Amount Type",
+   "in_list_view": 1,
+   "in_standard_filter": 1
+  },
+  {
+   "fieldname": "amount_description",
+   "fieldtype": "Data",
+   "label": "Amount Description"
+  },
+  {
+   "fieldname": "amount",
+   "fieldtype": "Currency",
+   "label": "Amount",
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "sku",
+   "fieldtype": "Data",
+   "label": "SKU"
+  },
+  {
+   "default": "0",
+   "fieldname": "quantity_purchased",
+   "fieldtype": "Int",
+   "label": "Qty"
+  },
+  {
+   "fieldname": "adjustment_id",
+   "fieldtype": "Data",
+   "label": "Adjustment ID"
+  },
+  {
+   "fieldname": "promotion_id",
+   "fieldtype": "Data",
+   "label": "Promotion ID"
+  },
+  {
+   "fieldname": "marketplace_name",
+   "fieldtype": "Data",
+   "label": "Marketplace"
+  }
+ ],
+ "index_web_pages_for_search": 0,
+ "istable": 1,
+ "links": [],
+ "modified": "2026-06-17 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Khanal Tech Integrations",
+ "name": "Amazon US Settlement Line",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

@@ -1,0 +1,104 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2025-04-28 10:16:09.562760",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "product_description",
+  "item_code",
+  "sap_code",
+  "quantity",
+  "landing_cost",
+  "tax_rate",
+  "gst_tax",
+  "igst_tax",
+  "basic_cost_price",
+  "gst_amount",
+  "mrp",
+  "total_value",
+  "taxcode"
+ ],
+ "fields": [
+  {
+   "fieldname": "product_description",
+   "fieldtype": "Data",
+   "label": "product_description"
+  },
+  {
+   "fieldname": "item_code",
+   "fieldtype": "Data",
+   "label": "item_code"
+  },
+  {
+   "fieldname": "sap_code",
+   "fieldtype": "Data",
+   "label": "sap_code"
+  },
+  {
+   "fieldname": "quantity",
+   "fieldtype": "Data",
+   "label": "quantity"
+  },
+  {
+   "fieldname": "tax_rate",
+   "fieldtype": "Data",
+   "label": "tax_rate"
+  },
+  {
+   "fieldname": "gst_tax",
+   "fieldtype": "Data",
+   "label": "gst_tax"
+  },
+  {
+   "fieldname": "igst_tax",
+   "fieldtype": "Data",
+   "label": "igst_tax"
+  },
+  {
+   "fieldname": "basic_cost_price",
+   "fieldtype": "Data",
+   "label": "basic_cost_price"
+  },
+  {
+   "fieldname": "mrp",
+   "fieldtype": "Data",
+   "label": "mrp"
+  },
+  {
+   "fieldname": "taxcode",
+   "fieldtype": "Data",
+   "label": "taxcode"
+  },
+  {
+   "fieldname": "total_value",
+   "fieldtype": "Data",
+   "label": "total_value"
+  },
+  {
+   "fieldname": "gst_amount",
+   "fieldtype": "Data",
+   "label": "gst_amount"
+  },
+  {
+   "fieldname": "landing_cost",
+   "fieldtype": "Data",
+   "label": "landing_cost"
+  }
+ ],
+ "grid_page_length": 50,
+ "index_web_pages_for_search": 1,
+ "istable": 1,
+ "links": [],
+ "modified": "2025-04-28 12:46:17.173088",
+ "modified_by": "Administrator",
+ "module": "Khanal Tech Integrations",
+ "name": "Table_Bigbasket",
+ "owner": "Administrator",
+ "permissions": [],
+ "row_format": "Dynamic",
+ "sort_field": "creation",
+ "sort_order": "DESC",
+ "states": []
+}

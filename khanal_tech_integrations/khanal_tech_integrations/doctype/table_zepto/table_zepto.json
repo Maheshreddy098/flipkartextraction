@@ -1,0 +1,104 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2025-05-06 17:54:46.533635",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "product_description",
+  "item_code",
+  "sap_code",
+  "quantity",
+  "tax_rate",
+  "gst_tax",
+  "igst_tax",
+  "basic_cost_price",
+  "landing_rate",
+  "mrp",
+  "total_amount",
+  "taxcode",
+  "taxable_value"
+ ],
+ "fields": [
+  {
+   "fieldname": "product_description",
+   "fieldtype": "Data",
+   "label": "product_description"
+  },
+  {
+   "fieldname": "item_code",
+   "fieldtype": "Data",
+   "label": "item_code"
+  },
+  {
+   "fieldname": "sap_code",
+   "fieldtype": "Data",
+   "label": "sap_code"
+  },
+  {
+   "fieldname": "quantity",
+   "fieldtype": "Data",
+   "label": "quantity"
+  },
+  {
+   "fieldname": "tax_rate",
+   "fieldtype": "Data",
+   "label": "tax_rate"
+  },
+  {
+   "fieldname": "gst_tax",
+   "fieldtype": "Data",
+   "label": "gst_tax"
+  },
+  {
+   "fieldname": "igst_tax",
+   "fieldtype": "Data",
+   "label": "igst_tax"
+  },
+  {
+   "fieldname": "basic_cost_price",
+   "fieldtype": "Data",
+   "label": "basic_cost_price"
+  },
+  {
+   "fieldname": "landing_rate",
+   "fieldtype": "Data",
+   "label": "landing_rate"
+  },
+  {
+   "fieldname": "mrp",
+   "fieldtype": "Data",
+   "label": "mrp"
+  },
+  {
+   "fieldname": "total_amount",
+   "fieldtype": "Data",
+   "label": "total_amount"
+  },
+  {
+   "fieldname": "taxcode",
+   "fieldtype": "Data",
+   "label": "taxcode"
+  },
+  {
+   "fieldname": "taxable_value",
+   "fieldtype": "Data",
+   "label": "taxable_value"
+  }
+ ],
+ "grid_page_length": 50,
+ "index_web_pages_for_search": 1,
+ "istable": 1,
+ "links": [],
+ "modified": "2025-07-09 11:22:52.852786",
+ "modified_by": "Administrator",
+ "module": "Khanal Tech Integrations",
+ "name": "Table_Zepto",
+ "owner": "Administrator",
+ "permissions": [],
+ "row_format": "Dynamic",
+ "sort_field": "creation",
+ "sort_order": "DESC",
+ "states": []
+}

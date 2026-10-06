@@ -1,0 +1,38 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2025-05-06 12:00:07.118946",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "address_id",
+  "address_entry"
+ ],
+ "fields": [
+  {
+   "fieldname": "address_id",
+   "fieldtype": "Data",
+   "label": "Address ID"
+  },
+  {
+   "fieldname": "address_entry",
+   "fieldtype": "Text",
+   "label": "Address"
+  }
+ ],
+ "grid_page_length": 50,
+ "index_web_pages_for_search": 1,
+ "istable": 1,
+ "links": [],
+ "modified": "2025-05-06 12:01:08.240139",
+ "modified_by": "Administrator",
+ "module": "Khanal Tech Integrations",
+ "name": "Data_Address5",
+ "owner": "Administrator",
+ "permissions": [],
+ "row_format": "Dynamic",
+ "sort_field": "creation",
+ "sort_order": "DESC",
+ "states": []
+}

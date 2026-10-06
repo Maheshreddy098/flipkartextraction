@@ -1,0 +1,140 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "format:GP-{YY}-{#####}-{purchasedocnum}",
+ "creation": "2023-05-15 13:41:33.884059",
+ "default_view": "List",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "purchasedocentry",
+  "purchasedocnum",
+  "location",
+  "securityname",
+  "invoicevalue",
+  "invoice_date",
+  "invoicenumber",
+  "section_break_v05z",
+  "vechilenumber",
+  "drivername",
+  "drivernumber",
+  "clockin",
+  "created_date",
+  "clockout",
+  "updated_file",
+  "section_break_dltc",
+  "itemitems"
+ ],
+ "fields": [
+  {
+   "fieldname": "purchasedocentry",
+   "fieldtype": "Data",
+   "label": "Purchase DocEntry"
+  },
+  {
+   "fieldname": "purchasedocnum",
+   "fieldtype": "Data",
+   "label": "Purchase DocNum"
+  },
+  {
+   "fieldname": "location",
+   "fieldtype": "Data",
+   "label": "Location"
+  },
+  {
+   "fieldname": "securityname",
+   "fieldtype": "Data",
+   "label": "Security Name"
+  },
+  {
+   "fieldname": "vechilenumber",
+   "fieldtype": "Data",
+   "label": "Vechile Number"
+  },
+  {
+   "fieldname": "drivername",
+   "fieldtype": "Data",
+   "label": "Driver Name"
+  },
+  {
+   "fieldname": "drivernumber",
+   "fieldtype": "Data",
+   "label": "Driver Number"
+  },
+  {
+   "fieldname": "invoicevalue",
+   "fieldtype": "Data",
+   "label": "Invoice Value"
+  },
+  {
+   "fieldname": "clockin",
+   "fieldtype": "Datetime",
+   "label": "Vehicle In"
+  },
+  {
+   "fieldname": "clockout",
+   "fieldtype": "Datetime",
+   "label": "Vehicle Out"
+  },
+  {
+   "fieldname": "section_break_v05z",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "updated_file",
+   "fieldtype": "Attach Image",
+   "label": "Uploaded File"
+  },
+  {
+   "fieldname": "invoicenumber",
+   "fieldtype": "Data",
+   "label": "Invoice Number"
+  },
+  {
+   "fieldname": "invoice_date",
+   "fieldtype": "Date",
+   "label": "Invoice Date"
+  },
+  {
+   "fieldname": "created_date",
+   "fieldtype": "Date",
+   "label": "Created Date"
+  },
+  {
+   "fieldname": "itemitems",
+   "fieldtype": "JSON",
+   "label": "Line items"
+  },
+  {
+   "fieldname": "section_break_dltc",
+   "fieldtype": "Section Break"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2023-05-30 13:06:37.309475",
+ "modified_by": "Administrator",
+ "module": "Khanal Tech Integrations",
+ "name": "GatePass",
+ "naming_rule": "Expression",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1
+}

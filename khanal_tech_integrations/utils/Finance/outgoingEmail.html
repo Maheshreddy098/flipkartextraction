@@ -1,0 +1,231 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous"> -->
+    <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"> -->
+    <title>Khanal Foods</title>
+
+    <style>
+        /* body {
+			font-family: Arial, sans-serif;
+			background-color: #F4F4F4;
+		} */
+        #tablestyle {
+            width: 750px;
+            margin: auto;
+            background-color: white;
+            padding: 10px;
+            border-radius: 12px;
+            border-collapse: collapse;
+        }
+
+        #tablestyle td {
+            /* padding: 5px 14px; */
+            border: 1px solid black;
+            /* text-align: center; */
+            font-size: 11px;
+            color: #666666;
+        }
+
+
+        #tablestyle th {
+            padding: 5px;
+            background-color: #629b9d;
+            color: white;
+            font-size: 11px;
+            font-weight: bold;
+            border: 1px solid black;
+            text-align: center;
+        }
+
+        #tablestyle h1 {
+            font-size: 24px;
+            color: #629b9d;
+            text-align: center;
+            margin-top: 20px;
+            margin-bottom: 0px;
+        }
+
+        /* #tablestyle p {
+			font-size: 16px;
+			color: #666666;
+			margin-top: 5px;
+			margin-bottom: 5px;
+		} */
+        #tablestyle a {
+            color: #629b9d;
+            text-decoration: none;
+        }
+
+        .Button {
+            background-color: #8aafb0;
+            padding: 3px 5px;
+            font-size: 10px;
+            text-align: center;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            display: block;
+            margin: 5px;
+        }
+    </style>
+
+</head>
+
+<body>
+    <div style="margin:0 auto;background:#f2f5f7">
+
+        <table style="margin:auto;background:#f2f5f7 url() top center no-repeat;padding:35px 0 20px;width:750px"
+            cellpadding="0" cellspacing="0" border="0">
+
+            <tbody>
+                <tr>
+                    <td align="center" valign="middle" style="margin:0;padding:0">
+                        <table width="750" border="0" cellpadding="0" cellspacing="0" style="width:750px;margin:auto">
+                            <tbody>
+                                <tr>
+                                    <td align="center" valign="middle" style="padding:0 0 24px;margin:0"><a href=""
+                                            target="_blank" data-saferedirecturl="#">
+                                            <img src="https://khanaltech.com/files/khanalfoods_logo.jpg" width="60"
+                                                height="60" alt="" class="CToWUd" data-bit="iit">
+                                        </a></td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+
+                    </td>
+                </tr>
+
+            </tbody>
+        </table>
+        <table id="tablestyle">
+            <tr>
+                <td colspan="14" valign="top" style="padding:40px 54px 0;margin:0;border: none;">
+                    <p style="font-size:17px;color:#666666;font-family:sans-serif;margin-top:5px;">Dear valued Business
+                        Partner,
+                    </p>
+                    <!-- <p>We would like to inform you that the order details for the period of  <b> </b>  to
+                        <b></b>, have been provided below. You can track them for further updates.</p> -->
+                    <p>We would like to inform you that the payment for ₹ {{ "{:,.2f}".format(TotalAmount|float) }} has
+                        been {{ Email_message|lower }} </p>
+                    {% if template_msg %}
+                    <p>{{template_msg}}</p>
+                    <p>Thank you for the continued partnership.</p>
+                    {% else %}
+                    <p>Thank you for the continued partnership.</p>
+                    <p>Best regards,</p>
+                    <i>Khanal Foods pvt ltd</i> <br>
+                    {% endif %}
+                    <!-- <p>Thank you for the continued partnership.</p> -->
+
+
+
+                </td>
+
+            </tr>
+            {% if template_msg %}
+
+            <tr>
+
+                <th style="background-color: white;border: none;"></th>
+                <th style="background-color: white;border: none;"></th>
+                <th style="background-color: white;border: none;"></th>
+                <th>Doc No</th>
+                <th>Date</th>
+                <th>INV No</th>
+                <th>INV Date</th>
+                <th>Base Amt</th>
+                <th>Gst</th>
+                <th>TDS</th>
+                <th>Payable</th>
+                <th>Net O/S</th>
+                <th>Amt Paid</th>
+
+
+                <th style="background-color: white;border: none;"></th>
+                <th style="background-color: white;border: none;"></th>
+                <th style="background-color: white;border: none;"></th>
+
+
+            </tr>
+            {% for item in PurchaseInvoices_Data %}
+
+            <tr style="margin-bottom: 10px; padding-bottom:20px ;">
+
+
+                <td style="background-color: white;border: none;"></td>
+                <td style="background-color: white;border: none;"></td>
+                <td style="background-color: white;border: none;"></td>
+                <td style="text-align: center; font-size: 9px;"><b>{{ item.Doc_No }}</b></td>
+                <td style="text-align: center; font-size: 9px;"> <b>{{ item.Date }}</b></td>
+                <td style="text-align: center; font-size: 9px;"> <b>{{item.INV_No}}</b> </td>
+                <td style="text-align: center; font-size: 9px;"> <b>{{item.INV_Date}}</b> </td>
+                <td style="text-align: center; font-size: 9px;"> <b>{{ "{:,.2f}".format(item.Base_Amt|float) }}</b>
+                </td>
+                <td style="text-align: center; font-size: 9px;"> <b>{{ "{:,.2f}".format(item.Gst|float) }}</b> </td>
+                <td style="text-align: center; font-size: 9px;"> <b>{{ "{:,.2f}".format(item.TDS|float) }}</b> </td>
+                <td style="text-align: center; font-size: 9px;"> <b>{{ "{:,.2f}".format(item.Total_Amt|float) }}</b>
+                </td>
+                <td style="text-align: center; font-size: 9px;"> <b>{{ "{:,.2f}".format(item.Pending_Amt|float) }}</b>
+                </td>
+                <td style="text-align: center; font-size: 9px;"> <b>{{ "{:,.2f}".format(item.Paid_Amt|float) }} </b>
+                </td>
+
+
+
+                <td style="background-color: white;border: none;"></td>
+                <td style="background-color: white;border: none;"></td>
+                <td style="background-color: white;border: none;"></td>
+            </tr>
+
+            {% endfor %}
+
+            {% else %}
+
+            {% endif %}
+
+
+            <tr>
+
+                <td colspan="14" valign="top" style="padding:40px 54px 0;margin:0;border: none;">
+                    {% if template_msg %}
+                    <p>Best regards,</p>
+                    <i>Khanal Foods pvt ltd</i> <br>
+                    {% else %}
+                    {% endif %}
+
+                </td>
+
+            </tr>
+        </table>
+        <table border="0" cellpadding="0" cellspacing="0" width="750" style="width:750px;margin:auto">
+            <tbody>
+                <tr>
+                    <td align="center" valign="top"
+                        style="padding:0;margin:0;color:#666;font-size:13px;font-family:sans-serif">
+                        <!-- <p>This inbox is not monitored. Hence, <b>if you wish to reply </b> to this email, kindly reply at <a href="mailto:ar@khanalfoods.com"> ar@khanalfoods.com</a> </p> -->
+                        <p style="font-size: 12px; color: #777;font-style: italic;">Note: This is a system generated
+                            email.
+                            <b> If you wish to reply or have any queries,</b> kindly reach us at <a
+                                href="mailto:ar@khanalfoods.com"> ar@khanalfoods.com</a>
+
+                        </p><br>
+                        Copyright © 2023 khanalFoods Pvt. Ltd. | All rights reserved.
+                    </td>
+                </tr>
+
+            </tbody>
+        </table>
+
+    </div>
+
+</body>
+
+</html>

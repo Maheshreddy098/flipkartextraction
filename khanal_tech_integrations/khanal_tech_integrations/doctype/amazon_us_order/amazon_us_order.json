@@ -1,0 +1,364 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "field:amazon_order_id",
+ "creation": "2026-06-16 00:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "order_details_tab",
+  "section_order_info",
+  "amazon_order_id",
+  "marketplace_id",
+  "order_status",
+  "fulfillment_channel",
+  "sales_channel",
+  "order_type",
+  "ship_service_level",
+  "is_prime",
+  "is_business_order",
+  "is_replacement_order",
+  "column_break_order_info",
+  "purchase_date",
+  "purchase_date_utc",
+  "last_update_date",
+  "actual_ship_date",
+  "number_of_items_shipped",
+  "number_of_items_unshipped",
+  "order_total_amount",
+  "order_total_currency",
+  "section_buyer",
+  "buyer_name",
+  "buyer_email",
+  "ship_city",
+  "ship_state_or_region",
+  "ship_postal_code",
+  "ship_country",
+  "column_break_buyer",
+  "sap_doc_entry",
+  "sap_doc_num",
+  "posted_at",
+  "cn_doc_entry",
+  "cn_doc_num",
+  "refunded_at",
+  "section_line_items",
+  "items",
+  "pipeline_tab",
+  "section_pipeline",
+  "stage",
+  "attempt_count",
+  "posting_started_at",
+  "column_break_pipeline",
+  "last_error",
+  "section_payload",
+  "payload_json",
+  "order_json_tab",
+  "order_json"
+ ],
+ "fields": [
+  {
+   "fieldname": "order_details_tab",
+   "fieldtype": "Tab Break",
+   "label": "Order Details"
+  },
+  {
+   "fieldname": "section_order_info",
+   "fieldtype": "Section Break",
+   "label": "Order Info"
+  },
+  {
+   "fieldname": "amazon_order_id",
+   "fieldtype": "Data",
+   "label": "Amazon Order ID",
+   "reqd": 1,
+   "unique": 1,
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "bold": 1
+  },
+  {
+   "fieldname": "marketplace_id",
+   "fieldtype": "Data",
+   "label": "Marketplace ID",
+   "in_standard_filter": 1
+  },
+  {
+   "fieldname": "order_status",
+   "fieldtype": "Data",
+   "label": "Amazon Status",
+   "in_list_view": 1,
+   "in_standard_filter": 1
+  },
+  {
+   "fieldname": "fulfillment_channel",
+   "fieldtype": "Data",
+   "label": "Fulfillment Channel",
+   "description": "AFN = Fulfilled by Amazon, MFN = Merchant Fulfilled"
+  },
+  {
+   "fieldname": "sales_channel",
+   "fieldtype": "Data",
+   "label": "Sales Channel"
+  },
+  {
+   "fieldname": "order_type",
+   "fieldtype": "Data",
+   "label": "Order Type",
+   "description": "StandardOrder, Preorder, etc."
+  },
+  {
+   "fieldname": "ship_service_level",
+   "fieldtype": "Data",
+   "label": "Ship Service Level"
+  },
+  {
+   "default": "0",
+   "fieldname": "is_prime",
+   "fieldtype": "Check",
+   "label": "Prime"
+  },
+  {
+   "default": "0",
+   "fieldname": "is_business_order",
+   "fieldtype": "Check",
+   "label": "Business Order"
+  },
+  {
+   "default": "0",
+   "fieldname": "is_replacement_order",
+   "fieldtype": "Check",
+   "label": "Replacement Order"
+  },
+  {
+   "fieldname": "column_break_order_info",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "purchase_date",
+   "fieldtype": "Datetime",
+   "label": "Purchase Date (Pacific Time)",
+   "in_list_view": 1,
+   "description": "Converted from UTC to US/Pacific (PDT/PST) to match Amazon MTR report dates."
+  },
+  {
+   "fieldname": "purchase_date_utc",
+   "fieldtype": "Datetime",
+   "label": "Purchase Date (UTC)",
+   "read_only": 1,
+   "description": "Raw UTC timestamp from SP-API. Stored for audit only."
+  },
+  {
+   "fieldname": "last_update_date",
+   "fieldtype": "Datetime",
+   "label": "Last Update Date (Pacific Time)"
+  },
+  {
+   "fieldname": "actual_ship_date",
+   "fieldtype": "Date",
+   "label": "Actual Ship Date (Pacific)",
+   "read_only": 1,
+   "description": "Populated by FBA Shipments report sync (GET_AMAZON_FULFILLED_SHIPMENTS_DATA_GENERAL). Matches the shipment-date field Amazon uses in MTR."
+  },
+  {
+   "default": "0",
+   "fieldname": "number_of_items_shipped",
+   "fieldtype": "Int",
+   "label": "Items Shipped"
+  },
+  {
+   "default": "0",
+   "fieldname": "number_of_items_unshipped",
+   "fieldtype": "Int",
+   "label": "Items Unshipped"
+  },
+  {
+   "fieldname": "order_total_amount",
+   "fieldtype": "Currency",
+   "label": "Order Total (USD)",
+   "options": "USD"
+  },
+  {
+   "fieldname": "order_total_currency",
+   "fieldtype": "Data",
+   "label": "Order Currency"
+  },
+  {
+   "fieldname": "section_buyer",
+   "fieldtype": "Section Break",
+   "label": "Buyer & Shipping"
+  },
+  {
+   "fieldname": "buyer_name",
+   "fieldtype": "Data",
+   "label": "Buyer Name"
+  },
+  {
+   "fieldname": "buyer_email",
+   "fieldtype": "Data",
+   "label": "Buyer Email"
+  },
+  {
+   "fieldname": "ship_city",
+   "fieldtype": "Data",
+   "label": "Ship City"
+  },
+  {
+   "fieldname": "ship_state_or_region",
+   "fieldtype": "Data",
+   "label": "Ship State / Region"
+  },
+  {
+   "fieldname": "ship_postal_code",
+   "fieldtype": "Data",
+   "label": "Ship Postal Code"
+  },
+  {
+   "fieldname": "ship_country",
+   "fieldtype": "Data",
+   "label": "Ship Country"
+  },
+  {
+   "fieldname": "column_break_buyer",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "sap_doc_entry",
+   "fieldtype": "Data",
+   "label": "SAP AR Invoice DocEntry",
+   "read_only": 1,
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "sap_doc_num",
+   "fieldtype": "Data",
+   "label": "SAP AR Invoice DocNum",
+   "read_only": 1
+  },
+  {
+   "fieldname": "posted_at",
+   "fieldtype": "Datetime",
+   "label": "Posted At",
+   "read_only": 1
+  },
+  {
+   "fieldname": "cn_doc_entry",
+   "fieldtype": "Data",
+   "label": "SAP AR Credit Note DocEntry",
+   "read_only": 1
+  },
+  {
+   "fieldname": "cn_doc_num",
+   "fieldtype": "Data",
+   "label": "SAP AR Credit Note DocNum",
+   "read_only": 1
+  },
+  {
+   "fieldname": "refunded_at",
+   "fieldtype": "Datetime",
+   "label": "Refunded At",
+   "read_only": 1,
+   "description": "Latest refund event posted for this order. Single-value -- if an order has more than one separate refund event, only the most recent DocEntry/DocNum is kept here; SAP itself (NumAtCard) remains the source of truth for all credit notes issued."
+  },
+  {
+   "fieldname": "section_line_items",
+   "fieldtype": "Section Break",
+   "label": "Order Line Items"
+  },
+  {
+   "fieldname": "items",
+   "fieldtype": "Table",
+   "label": "Order Line Items",
+   "options": "Amazon US Order Item"
+  },
+  {
+   "fieldname": "pipeline_tab",
+   "fieldtype": "Tab Break",
+   "label": "Pipeline"
+  },
+  {
+   "fieldname": "section_pipeline",
+   "fieldtype": "Section Break",
+   "label": "Processing"
+  },
+  {
+   "fieldname": "stage",
+   "fieldtype": "Select",
+   "label": "Stage",
+   "options": "fetched\nready\nposting\nposted\nfailed\ndead",
+   "default": "fetched",
+   "in_list_view": 1,
+   "in_standard_filter": 1
+  },
+  {
+   "default": "0",
+   "fieldname": "attempt_count",
+   "fieldtype": "Int",
+   "label": "Attempt Count"
+  },
+  {
+   "fieldname": "posting_started_at",
+   "fieldtype": "Datetime",
+   "label": "Posting Started At"
+  },
+  {
+   "fieldname": "column_break_pipeline",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "last_error",
+   "fieldtype": "Small Text",
+   "label": "Last Error",
+   "read_only": 1
+  },
+  {
+   "fieldname": "section_payload",
+   "fieldtype": "Section Break",
+   "label": "SAP Payload JSON"
+  },
+  {
+   "fieldname": "payload_json",
+   "fieldtype": "Code",
+   "label": "SAP AR Invoice Payload",
+   "options": "JSON",
+   "read_only": 1,
+   "description": "The exact payload sent to SAP B1 Service Layer when posting this order."
+  },
+  {
+   "fieldname": "order_json_tab",
+   "fieldtype": "Tab Break",
+   "label": "Order JSON"
+  },
+  {
+   "fieldname": "order_json",
+   "fieldtype": "JSON",
+   "label": "Raw SP-API Order JSON",
+   "description": "Complete raw response from SP-API: order header + all order items."
+  }
+ ],
+ "index_web_pages_for_search": 0,
+ "links": [],
+ "modified": "2026-06-16 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Khanal Tech Integrations",
+ "name": "Amazon US Order",
+ "naming_rule": "By fieldname",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "purchase_date",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 0
+}

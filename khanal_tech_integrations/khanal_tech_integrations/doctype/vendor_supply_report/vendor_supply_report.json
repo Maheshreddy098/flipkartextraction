@@ -1,0 +1,80 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2025-04-09 21:56:01.780295",
+ "default_view": "Dashboard",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "card_code",
+  "card_name",
+  "vendor_mobile_no",
+  "vendor_email",
+  "registered_date",
+  "days_supplied",
+  "total_quantity_supplied"
+ ],
+ "fields": [
+  {
+   "fieldname": "card_code",
+   "fieldtype": "Data",
+   "label": "card_code"
+  },
+  {
+   "fieldname": "card_name",
+   "fieldtype": "Data",
+   "label": "card_name"
+  },
+  {
+   "fieldname": "vendor_mobile_no",
+   "fieldtype": "Data",
+   "label": "vendor_mobile_no"
+  },
+  {
+   "fieldname": "vendor_email",
+   "fieldtype": "Data",
+   "label": "vendor_email"
+  },
+  {
+   "fieldname": "registered_date",
+   "fieldtype": "Datetime",
+   "label": "registered_date"
+  },
+  {
+   "fieldname": "days_supplied",
+   "fieldtype": "Data",
+   "label": "days_supplied"
+  },
+  {
+   "fieldname": "total_quantity_supplied",
+   "fieldtype": "Data",
+   "label": "total_quantity_supplied"
+  }
+ ],
+ "grid_page_length": 50,
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2025-04-10 11:04:12.253145",
+ "modified_by": "Administrator",
+ "module": "Khanal Tech Integrations",
+ "name": "Vendor Supply Report",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "row_format": "Dynamic",
+ "sort_field": "creation",
+ "sort_order": "DESC",
+ "states": []
+}

@@ -1,0 +1,68 @@
+[
+ {
+  "docstatus": 0,
+  "doctype": "Client Script",
+  "dt": "Supplier",
+  "enabled": 1,
+  "modified": "2024-03-05 15:58:53.011673",
+  "module": "Khanal Tech Integrations",
+  "name": "Supplier List view customization",
+  "script": "frappe.listview_settings['Supplier'] = {\n    \n    onload: function(listview) {\n        listview.page.add_menu_item('Fetch All Suppliers', function() {\n            // Add your custom button action here\n            // frappe.msgprint('Custom Button Clicked');\n            frappe.call('khanal_tech_integrations.utils.procure_to_pay.syncBP_master.get_sap_bp_master', {\n                arg1: 'value1',\n                arg2: 'value2'\n            }).then(result => {\n                console.log(result);\n                frappe.msgprint(result.message);\n            });\n        });\n    }\n};",
+  "view": "List"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Client Script",
+  "dt": "Material Request",
+  "enabled": 1,
+  "modified": "2024-03-13 14:32:07.004665",
+  "module": "Khanal Tech Integrations",
+  "name": "Material Request Department",
+  "script": "frappe.ui.form.on('Material Request', {\n    refresh(frm) {\n        // Get the logged in user's ID\n        var logged_in_user_id = frappe.session.user;\n\n        // Get the logged in user's department\n        frappe.db.get_value('Employee', {'user_id': logged_in_user_id}, 'department', (r) => {\n            if(r && r.department) {\n                // Set the department in the form\n                frm.doc.custom_department_originator = r.department;\n                // Refresh the form to show the updated value\n                frm.refresh_field('custom_department_originator');\n            }\n        });\n    }\n});",
+  "view": "Form"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Client Script",
+  "dt": "Material Request",
+  "enabled": 1,
+  "modified": "2024-03-25 17:19:32.823686",
+  "module": "Khanal Tech Integrations",
+  "name": "Material Request Total Calculation",
+  "script": "frappe.ui.form.on('Material Request', {\n    refresh(frm) {\n        // Calculate and update total on form refresh\n        if (frm.doc.workflow_state === 'Draft') {\n            updateTotalAmount(frm);\n        }\n        // frappe.msgprint (frm.doc.workflow_state);\n    },\n    // Triggered when the 'items' table is changed\n    items: function(frm, cdt, cdn) {\n        // Call your custom function here\n        if (frm.doc.workflow_state === 'Draft') {\n            updateTotalAmount(frm);\n        }\n        \n    },\n    \n});\n\n// Function to update total amount field\nfunction updateTotalAmount(frm) {\n    let total_amount = 0;\n    // frappe.msgprint('You are only allowed Material Receipt');\n    // Calculate total amount from line items\n    frm.doc.items.forEach(item => {\n        total_amount += (item.rate * item.qty);\n    });\n    // Update custom_document_total field with the calculated total amount\n    frm.set_value('custom_document_total', total_amount);\n    // Refresh form to reflect the changes\n    frm.refresh_field('custom_document_total');\n}\n",
+  "view": "Form"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Client Script",
+  "dt": "SAP Vendor Registration",
+  "enabled": 1,
+  "modified": "2023-07-27 12:59:12.344496",
+  "module": "Khanal Tech Integrations",
+  "name": "Fetch Bank Code",
+  "script": "var Bank_NameList = {\n  \"Bank of Baroda\": \"BARB\",\n  \"Bandhan Bank Ltd.\": \"BDBL\",\n  \"Bank of India\": \"BKID\",\n  \"Central Bank of India\": \"CBIN\",\n  \"City Union Bank Ltd.\": \"CIUB\",\n  \"Canara Bank\": \"CNRB\",\n  \"CSB Bank Ltd.\": \"CSBK\",\n  \"DCB Bank Ltd.\": \"DCBL\",\n  \"Dhanlaxmi Bank Ltd.\": \"DLXB\",\n  \"Deutsche Bank\": \"DSBNK\",\n  \"Federal Bank Ltd.\": \"FDRL\",\n  \"HDFC Bank\": \"HDFC\",\n  \"IDBI Bank Ltd.\": \"IBKL\",\n  \"ICICI Bank Ltd.\": \"ICIC\",\n  \"IDFC First Bank Ltd.\": \"IDFB\",\n  \"Indian Bank\": \"IDIB\",\n  \"Induslnd Bank Ltd\": \"INDB\",\n  \"Indian Overseas Bank\": \"IOBA\",\n  \"Jammu & Kashmir Bank Ltd.\": \"JAKA\",\n  \"Karnataka Bank Ltd.\": \"KARB\",\n  \"Kotak Mahindra Bank Ltd\": \"KKBK\",\n  \"Karur Vysya Bank Ltd.\": \"KVBL\",\n  \"Bank of Maharashtra\": \"MAHB\",\n  \"Nainital Bank Ltd.\": \"NTBL\",\n  \"Punjab & Sind Bank\": \"PSIB\",\n  \"Punjab National Bank\": \"PUNB\",\n  \"RBL Bank Ltd.\": \"RATN\",\n  \"State Bank of India\": \"SBIN\",\n  \"Standard Chartered Bank\": \"SCBNK\",\n  \"South Indian Bank Ltd.\": \"SIBL\",\n  \"Tamilnad Mercantile Bank Ltd.\": \"TMBL\",\n  \"Union Bank of India\": \"UBIN\",\n  \"UCO Bank\": \"UCBA\",\n  \"Axis Bank Ltd.\": \"UTIB\",\n  \"Yes Bank\": \"YBNK\",\n  \"Barckclays Bank PLC\":\"BARCI\"\n}\n\nfrappe.ui.form.on('SAP Vendor Registration', {\n    onload: function(frm) {\n        var bankName = frm.doc.bank_name;\n        \n        if (bankName && Bank_NameList.hasOwnProperty(bankName)) {\n            var bankCode = Bank_NameList[bankName];\n            frm.set_value('bank_code', bankCode);\n            frm.save();\n        }\n       \n    \n        // validate: function(frm) {\n        //   frappe.msg('worked') \n    \n        // }\n    }\n});\n\n\n",
+  "view": "Form"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Client Script",
+  "dt": "User",
+  "enabled": 0,
+  "modified": "2024-01-25 12:15:27.133916",
+  "module": "Core",
+  "name": "User_Creation",
+  "script": "frappe.ui.form.on('User', {\n    after_save(frm) {\n            console.log(frm.doc.name)\n            frappe.call({\n                method: 'khanal_tech_integrations.utils.purchase.vendor_Posting.User_Sent_Email',\n                args: {\n                    data: frm.doc.name,\n                },\n                callback: function(response) {\n                    // Handle the response if needed\n                    console.log(response);\n                }\n            });\n       \n    }\n});",
+  "view": "Form"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Client Script",
+  "dt": "Customer Testing Doctype",
+  "enabled": 1,
+  "modified": "2023-11-04 16:38:06.329934",
+  "module": "Khanal Tech Integrations",
+  "name": "New Sample",
+  "script": "frappe.ui.form.on('Customer Testing Doctype', {\n\trefresh(frm) {\n// \t\tmsgprint(frm.doc.rooms);\n\t\tfrappe.call({\n            method: 'khanal_tech_integrations.utils.test.test.Get_value',\n            args: {\n                // doc: frm.doc.rooms\n            },\n            callback: (r) => {\n                if(r.message) {\n                    // Do something with the returned document\n                    console.log(r.message);\n                }\n            }\n        });\n        \n\t}\n})\n",
+  "view": "Form"
+ }
+]

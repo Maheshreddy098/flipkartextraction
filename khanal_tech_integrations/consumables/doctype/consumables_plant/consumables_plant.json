@@ -1,0 +1,93 @@
+{
+ "actions": [],
+ "autoname": "field:plant_code",
+ "creation": "2026-04-29 00:00:00.000000",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "plant_name",
+  "plant_code",
+  "location",
+  "is_active",
+  "delivery_customer_code",
+  "sap_card_code",
+  "warehouses"
+ ],
+ "fields": [
+  {
+   "fieldname": "plant_name",
+   "fieldtype": "Data",
+   "label": "Plant Name",
+   "reqd": 1
+  },
+  {
+   "fieldname": "plant_code",
+   "fieldtype": "Data",
+   "label": "Plant Code",
+   "reqd": 1,
+   "unique": 1
+  },
+  {
+   "fieldname": "location",
+   "fieldtype": "Data",
+   "label": "Location"
+  },
+  {
+   "default": "1",
+   "fieldname": "is_active",
+   "fieldtype": "Check",
+   "label": "Is Active"
+  },
+  {
+   "fieldname": "delivery_customer_code",
+   "fieldtype": "Data",
+   "hidden": 1,
+   "label": "Delivery Customer Code"
+  },
+  {
+   "fieldname": "sap_card_code",
+   "fieldtype": "Data",
+   "label": "SAP Card Code (Ship-To)",
+   "description": "SAP Business Partner card code used to fetch ship-to addresses for Purchase Orders (BPAddresses)"
+  },
+  {
+   "fieldname": "warehouses",
+   "fieldtype": "Table",
+   "label": "Warehouses",
+   "options": "Consumables Plant Warehouse"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2026-04-29 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Consumables",
+ "name": "Consumables Plant",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "print": 1,
+   "read": 1,
+   "role": "Consumables Super Admin",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "read": 1,
+   "role": "Consumables Store Manager"
+  },
+  {
+   "read": 1,
+   "role": "Consumables Store User"
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "title_field": "plant_name",
+ "track_changes": 1
+}

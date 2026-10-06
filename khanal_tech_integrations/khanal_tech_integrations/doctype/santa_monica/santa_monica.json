@@ -1,0 +1,67 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2025-04-10 12:29:10.630165",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "item_code",
+  "open_qty",
+  "line_total",
+  "whse_code",
+  "base_card"
+ ],
+ "fields": [
+  {
+   "fieldname": "item_code",
+   "fieldtype": "Small Text",
+   "label": "Item Code"
+  },
+  {
+   "fieldname": "open_qty",
+   "fieldtype": "Int",
+   "label": "Open Quantity"
+  },
+  {
+   "fieldname": "line_total",
+   "fieldtype": "Float",
+   "label": "Line Total"
+  },
+  {
+   "fieldname": "whse_code",
+   "fieldtype": "Small Text",
+   "label": "WareHouse Code"
+  },
+  {
+   "fieldname": "base_card",
+   "fieldtype": "Small Text",
+   "label": "Base Card"
+  }
+ ],
+ "grid_page_length": 50,
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2025-04-10 13:03:37.156597",
+ "modified_by": "Administrator",
+ "module": "Khanal Tech Integrations",
+ "name": "santa_monica",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "row_format": "Dynamic",
+ "sort_field": "creation",
+ "sort_order": "DESC",
+ "states": []
+}

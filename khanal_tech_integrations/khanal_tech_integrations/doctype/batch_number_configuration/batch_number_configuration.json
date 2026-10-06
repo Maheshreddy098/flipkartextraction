@@ -1,0 +1,95 @@
+{
+  "actions": [],
+  "allow_rename": 1,
+  "autoname": "field:item_code",
+  "creation": "2025-01-01 00:00:00.000000",
+  "doctype": "DocType",
+  "editable_grid": 0,
+  "engine": "InnoDB",
+  "fields": [
+    {
+      "fieldname": "category",
+      "fieldtype": "Select",
+      "idx": 1,
+      "in_list_view": 1,
+      "label": "Category",
+      "options": "Hardened Cheese Bread\nHardened Cheese Bar",
+      "reqd": 1
+    },
+    {
+      "fieldname": "item_code",
+      "fieldtype": "Data",
+      "idx": 2,
+      "in_list_view": 1,
+      "label": "Item Code",
+      "unique": 0,
+      "reqd": 1
+    },
+    {
+      "fieldname": "variant",
+      "fieldtype": "Data",
+      "idx": 3,
+      "in_list_view": 1,
+      "label": "Variant",
+      "reqd": 1
+    },
+    {
+      "fieldname": "warehouse",
+      "fieldtype": "Small Text",
+      "idx": 4,
+      "hidden": 0,
+      "in_list_view": 1,
+      "label": "Warehouse",
+      "description": "Enter warehouses separated by comma or newline. Example: NH, KG or NH\nKG",
+      "reqd": 1
+    },
+    {
+      "fieldname": "grams_sku",
+      "fieldtype": "Data",
+      "idx": 5,
+      "in_list_view": 0,
+      "label": "Grams SKU",
+      "reqd": 0
+    },
+    {
+      "fieldname": "sku_code",
+      "fieldtype": "Data",
+      "idx": 6,
+      "in_list_view": 1,
+      "label": "SKU Code",
+      "reqd": 1,
+      "description": "2-digit SKU identifier"
+    }
+  ],
+  "has_web_view": 0,
+  "hide_toolbar": 0,
+  "idx": 0,
+  "is_submittable": 0,
+  "issingle": 0,
+  "istable": 0,
+  "max_attachments": 0,
+  "modified": "2025-01-01 00:00:00.000000",
+  "modified_by": "Administrator",
+  "module": "Khanal Tech Integrations",
+  "name": "Batch Number Configuration",
+  "owner": "Administrator",
+  "permissions": [
+    {
+      "create": 1,
+      "delete": 1,
+      "email": 1,
+      "export": 1,
+      "import": 1,
+      "print": 1,
+      "read": 1,
+      "report": 1,
+      "role": "System Manager",
+      "share": 1,
+      "write": 1
+    }
+  ],
+  "quick_entry": 1,
+  "sort_field": "modified",
+  "sort_order": "DESC",
+  "track_changes": 1
+}

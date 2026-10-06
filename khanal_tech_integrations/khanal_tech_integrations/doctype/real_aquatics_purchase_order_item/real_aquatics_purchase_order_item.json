@@ -1,0 +1,139 @@
+{
+ "actions": [],
+ "creation": "2026-02-26 10:00:00.000000",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "item_code",
+  "item_name",
+  "column_break_1",
+  "qty",
+  "uom",
+  "number_of_units_per_box",
+  "number_of_boxes",
+  "column_break_2",
+  "rate",
+  "amount",
+  "tax_code",
+  "warehouse",
+  "accepted_qty",
+  "acceptance_remarks",
+  "batch_number"
+ ],
+ "fields": [
+  {
+   "fieldname": "item_code",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Item Code",
+   "reqd": 1
+  },
+  {
+   "fieldname": "item_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Item Name"
+  },
+  {
+   "fieldname": "column_break_1",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "0",
+   "fieldname": "qty",
+   "fieldtype": "Float",
+   "in_list_view": 1,
+   "label": "Quantity",
+   "reqd": 1
+  },
+  {
+   "fieldname": "uom",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "UOM"
+  },
+  {
+   "default": "0",
+   "fieldname": "number_of_units_per_box",
+   "fieldtype": "Int",
+   "in_list_view": 1,
+   "label": "Units per Box",
+   "reqd": 1
+  },
+  {
+   "default": "0",
+   "fieldname": "number_of_boxes",
+   "fieldtype": "Int",
+   "in_list_view": 1,
+   "label": "Number of Boxes",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_2",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "0",
+   "fieldname": "rate",
+   "fieldtype": "Currency",
+   "in_list_view": 1,
+   "label": "Rate",
+   "reqd": 1
+  },
+  {
+   "default": "0",
+   "fieldname": "amount",
+   "fieldtype": "Currency",
+   "in_list_view": 1,
+   "label": "Amount",
+   "read_only": 1
+  },
+  {
+   "default": "PA0",
+   "fieldname": "tax_code",
+   "fieldtype": "Data",
+   "hidden": 1,
+   "in_list_view": 0,
+   "label": "Tax Code"
+  },
+  {
+   "fieldname": "warehouse",
+   "fieldtype": "Data",
+   "default": "WO-STR",
+   "label": "Warehouse"
+  },
+  {
+   "fieldname": "accepted_qty",
+   "fieldtype": "Float",
+   "in_list_view": 1,
+   "label": "Accepted Qty",
+   "description": "Quantity actually received/accepted by warehouse. If set, used for GRN and inventory; else ordered qty is used."
+  },
+  {
+   "fieldname": "acceptance_remarks",
+   "fieldtype": "Small Text",
+   "in_list_view": 0,
+   "label": "Acceptance Remarks",
+   "description": "Warehouse explanation for partial acceptance (e.g. quality, short delivery)."
+  },
+  {
+   "fieldname": "batch_number",
+   "fieldtype": "Data",
+   "label": "Batch Number",
+   "reqd": 1
+  }
+ ],
+ "index_web_pages_for_search": 0,
+ "istable": 1,
+ "links": [],
+ "modified": "2026-02-26 10:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Khanal Tech Integrations",
+ "name": "Real Aquatics Purchase Order Item",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

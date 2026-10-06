@@ -1,0 +1,156 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2025-01-20 00:00:00.000000",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "section_break_sap_b1",
+  "sap_b1_url",
+  "companydb",
+  "username",
+  "password",
+  "column_break_auth",
+  "b1session",
+  "routeid",
+  "expires_on",
+  "check_connection",
+  "login",
+  "section_break_hana_db",
+  "hana_host",
+  "hana_user",
+  "hana_password",
+  "column_break_hana",
+  "hana_port",
+  "hana_schema"
+ ],
+ "fields": [
+  {
+   "fieldname": "section_break_sap_b1",
+   "fieldtype": "Section Break",
+   "label": "SAP B1 Test Layer Settings"
+  },
+  {
+   "description": "SAP B1 Service Layer URL (e.g., https://103.69.202.108:50000/b1s/v1/)",
+   "fieldname": "sap_b1_url",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "SAP B1 URL",
+   "reqd": 1,
+   "default": "https://103.69.202.108:50000/b1s/v1/"
+  },
+  {
+   "fieldname": "companydb",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "CompanyDB",
+   "reqd": 1,
+   "default": "KFL_TEST_05082025"
+  },
+  {
+   "fieldname": "username",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "UserName",
+   "reqd": 1,
+   "default": "manager"
+  },
+  {
+   "fieldname": "password",
+   "fieldtype": "Password",
+   "label": "Password",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_auth",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "b1session",
+   "fieldtype": "Data",
+   "label": "B1SESSION"
+  },
+  {
+   "fieldname": "routeid",
+   "fieldtype": "Data",
+   "label": "ROUTEID"
+  },
+  {
+   "fieldname": "expires_on",
+   "fieldtype": "Datetime",
+   "label": "Expires On"
+  },
+  {
+   "fieldname": "check_connection",
+   "fieldtype": "Button",
+   "label": "Check Connection"
+  },
+  {
+   "fieldname": "login",
+   "fieldtype": "Button",
+   "label": "Login"
+  },
+  {
+   "fieldname": "section_break_hana_db",
+   "fieldtype": "Section Break",
+   "label": "SAP HANA Database Settings"
+  },
+  {
+   "fieldname": "hana_host",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "HANA Host"
+  },
+  {
+   "fieldname": "hana_user",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "HANA User"
+  },
+  {
+   "fieldname": "hana_password",
+   "fieldtype": "Password",
+   "label": "HANA Password"
+  },
+  {
+   "fieldname": "column_break_hana",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "hana_port",
+   "fieldtype": "Int",
+   "label": "HANA Port"
+  },
+  {
+   "fieldname": "hana_schema",
+   "fieldtype": "Data",
+   "label": "HANA Schema"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "issingle": 1,
+ "links": [],
+ "modified": "2025-01-20 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Khanal Tech Integrations",
+ "name": "SAP Test Layer",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "print": 1,
+   "read": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "row_format": "Dynamic",
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}
+

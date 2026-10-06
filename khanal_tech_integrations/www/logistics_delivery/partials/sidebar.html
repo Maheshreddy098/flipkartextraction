@@ -1,0 +1,36 @@
+<aside class="ld-sidebar" id="ldSidebar" aria-label="Main navigation">
+  <div class="ld-sidebar-brand">
+    <a class="ld-sidebar-logo-link" href="/logistics_delivery" title="Khanal Foods — Home">
+      <img
+        class="ld-sidebar-logo"
+        src="/assets/khanal_tech_integrations/assets/img/khanal_foods_logo.png"
+        alt="Khanal Foods"
+        width="52"
+        decoding="async"
+      />
+      <span class="ld-sidebar-brand-text">
+        <span class="ld-sidebar-title">Delivery API</span>
+        <span class="ld-sidebar-sub">Logistics</span>
+      </span>
+    </a>
+  </div>
+  <nav class="ld-nav">
+    <a class="ld-nav-link {% if active == 'home' %}is-active{% endif %}" href="/logistics_delivery">
+      <span class="ld-nav-icon" aria-hidden="true">⌂</span>
+      Home
+    </a>
+    <a class="ld-nav-link {% if active == 'delivery' %}is-active{% endif %}" href="/logistics_delivery/delivery">
+      <span class="ld-nav-icon" aria-hidden="true">▣</span>
+      Delivery
+    </a>
+    <a class="ld-nav-link {% if active == 'tracker' %}is-active{% endif %}" href="/logistics_delivery/tracker_report">
+      <span class="ld-nav-icon" aria-hidden="true">≡</span>
+      Tracker report
+    </a>
+  </nav>
+  <div class="ld-sidebar-footer">
+    <div class="ld-sidebar-user" title="{{ frappe.session.user }}">{{ frappe.session.user }}</div>
+    <button type="button" class="ld-sidebar-logout" id="ldLogoutBtn">Log out</button>
+  </div>
+</aside>
+<div class="ld-sidebar-backdrop" id="ldSidebarBackdrop" hidden></div>

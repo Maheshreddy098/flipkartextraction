@@ -1,0 +1,172 @@
+{
+ "actions": [],
+ "autoname": "naming_series:",
+ "creation": "2026-05-06 15:21:00.000000",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "naming_series",
+  "requesting_plant",
+  "requested_by",
+  "requested_on",
+  "urgency",
+  "reason",
+  "status",
+  "reviewed_by",
+  "reviewed_on",
+  "review_remarks",
+  "rejection_reason",
+  "line_items",
+  "transfer_links",
+  "purchase_links",
+  "notification_thread_id"
+ ],
+ "fields": [
+  {
+   "default": "CMR-.YYYY.-.#####",
+   "fieldname": "naming_series",
+   "fieldtype": "Select",
+   "label": "Series",
+   "options": "CMR-.YYYY.-.#####",
+   "reqd": 1
+  },
+  {
+   "fieldname": "requesting_plant",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Requesting Plant",
+   "options": "Consumables Plant",
+   "reqd": 1
+  },
+  {
+   "fieldname": "requested_by",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Requested By",
+   "options": "User",
+   "read_only": 1
+  },
+  {
+   "fieldname": "requested_on",
+   "fieldtype": "Datetime",
+   "in_list_view": 1,
+   "label": "Requested On",
+   "read_only": 1
+  },
+  {
+   "default": "Normal",
+   "fieldname": "urgency",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Urgency",
+   "options": "Normal\nUrgent\nCritical",
+   "reqd": 1
+  },
+  {
+   "fieldname": "reason",
+   "fieldtype": "Text",
+   "label": "Reason"
+  },
+  {
+   "default": "Draft",
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Status",
+   "options": "Draft\nSubmitted\nUnder Review\nFulfilling\nPartially Fulfilled\nFully Fulfilled\nRejected",
+   "reqd": 1
+  },
+  {
+   "fieldname": "reviewed_by",
+   "fieldtype": "Link",
+   "label": "Reviewed By",
+   "options": "User",
+   "read_only": 1
+  },
+  {
+   "fieldname": "reviewed_on",
+   "fieldtype": "Datetime",
+   "label": "Reviewed On",
+   "read_only": 1
+  },
+  {
+   "fieldname": "review_remarks",
+   "fieldtype": "Text",
+   "label": "Review Remarks"
+  },
+  {
+   "fieldname": "rejection_reason",
+   "fieldtype": "Text",
+   "label": "Rejection Reason"
+  },
+  {
+   "fieldname": "line_items",
+   "fieldtype": "Table",
+   "label": "Line Items",
+   "options": "Consumables Material Request Item",
+   "reqd": 1
+  },
+  {
+   "fieldname": "transfer_links",
+   "fieldtype": "Table",
+   "label": "Transfer Links",
+   "options": "Consumables CMR Transfer Link"
+  },
+  {
+   "fieldname": "purchase_links",
+   "fieldtype": "Table",
+   "label": "Purchase Links",
+   "options": "Consumables CMR Purchase Link"
+  },
+  {
+   "fieldname": "notification_thread_id",
+   "fieldtype": "Data",
+   "hidden": 1,
+   "label": "Notification Thread ID",
+   "read_only": 1
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2026-05-06 15:21:00.000000",
+ "modified_by": "Administrator",
+ "module": "Consumables",
+ "name": "Consumables Material Request",
+ "naming_series": "CMR-.YYYY.-.#####",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "email": 1,
+   "print": 1,
+   "read": 1,
+   "role": "Consumables Store User",
+   "write": 1
+  },
+  {
+   "create": 1,
+   "email": 1,
+   "print": 1,
+   "read": 1,
+   "role": "Consumables Store Manager",
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "print": 1,
+   "read": 1,
+   "role": "Consumables Super Admin",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "title_field": "requesting_plant",
+ "track_changes": 1
+}
+

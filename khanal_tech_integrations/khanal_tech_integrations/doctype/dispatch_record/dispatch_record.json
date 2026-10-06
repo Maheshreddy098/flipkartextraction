@@ -1,0 +1,99 @@
+{
+ "_liked_by": "[\"Administrator\"]",
+ "actions": [],
+ "allow_import": 1,
+ "allow_rename": 1,
+ "autoname": "format:{channelname}-{itemcode}-{batchcode}-{added_date}",
+ "creation": "2023-09-08 15:28:03.305161",
+ "default_view": "List",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "channelname",
+  "itemcode",
+  "batchcode",
+  "quantity",
+  "added_date",
+  "sap_delivery_docnum",
+  "sap_delivery_docentry",
+  "delivery_linenum"
+ ],
+ "fields": [
+  {
+   "fieldname": "channelname",
+   "fieldtype": "Data",
+   "label": "Channel Name",
+   "options": "JioMart\nAmazonFlex\nWagr\nPawsIndia\nHalfCircleFull",
+   "reqd": 1
+  },
+  {
+   "fieldname": "itemcode",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Item Code",
+   "reqd": 1
+  },
+  {
+   "fieldname": "batchcode",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Batch Code",
+   "reqd": 1
+  },
+  {
+   "fieldname": "quantity",
+   "fieldtype": "Int",
+   "in_list_view": 1,
+   "label": "Quantity",
+   "reqd": 1
+  },
+  {
+   "fieldname": "added_date",
+   "fieldtype": "Data",
+   "label": "Dispatched Date",
+   "reqd": 1
+  },
+  {
+   "fieldname": "sap_delivery_docnum",
+   "fieldtype": "Data",
+   "label": "SAP Delivery DocNum"
+  },
+  {
+   "fieldname": "sap_delivery_docentry",
+   "fieldtype": "Data",
+   "label": "SAP Delivery DocEntry"
+  },
+  {
+   "fieldname": "delivery_linenum",
+   "fieldtype": "Data",
+   "label": "Delivery LineNum"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2023-09-11 09:53:44.616329",
+ "modified_by": "Administrator",
+ "module": "Khanal Tech Integrations",
+ "name": "Dispatch Record",
+ "naming_rule": "Expression",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "quick_entry": 1,
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

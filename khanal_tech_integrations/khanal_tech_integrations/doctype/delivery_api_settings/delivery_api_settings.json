@@ -1,0 +1,115 @@
+{
+ "actions": [],
+ "allow_rename": 0,
+ "creation": "2026-05-28 00:00:00.000000",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "section_delhivery",
+  "delhivery_ltl_track_base_url",
+  "delhivery_ltl_username",
+  "delhivery_ltl_password",
+  "column_break_del_1",
+  "delhivery_jwt_cache_ttl_sec",
+  "section_postgres",
+  "delhivery_lr_database_url",
+  "section_snapshot",
+  "delhivery_tracking_snapshot_url",
+  "delhivery_tracking_snapshot_api_key"
+ ],
+ "fields": [
+  {
+   "fieldname": "section_delhivery",
+   "fieldtype": "Section Break",
+   "label": "Delhivery LTL (track API)"
+  },
+  {
+   "description": "Base URL without trailing slash, e.g. https://ltl-clients-api-dev.delhivery.com",
+   "fieldname": "delhivery_ltl_track_base_url",
+   "fieldtype": "Data",
+   "label": "Delhivery LTL track base URL",
+   "reqd": 1
+  },
+  {
+   "fieldname": "delhivery_ltl_username",
+   "fieldtype": "Data",
+   "label": "Delhivery LTL username",
+   "reqd": 1
+  },
+  {
+   "fieldname": "delhivery_ltl_password",
+   "fieldtype": "Password",
+   "label": "Delhivery LTL password",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_del_1",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "3000",
+   "description": "JWT cache TTL in seconds (default 3000 = 50 minutes)",
+   "fieldname": "delhivery_jwt_cache_ttl_sec",
+   "fieldtype": "Int",
+   "label": "Delhivery JWT cache TTL (seconds)",
+   "non_negative": 1
+  },
+  {
+   "fieldname": "section_postgres",
+   "fieldtype": "Section Break",
+   "label": "PostgreSQL (delhivery_lr) — primary store"
+  },
+  {
+   "description": "Full PostgreSQL connection URL for delhivery_lr table (e.g. postgresql://user:pass@host:5432/dbname). Frappe writes tracking snapshots and invoice fields here.",
+   "fieldname": "delhivery_lr_database_url",
+   "fieldtype": "Small Text",
+   "label": "Delhivery LR database URL",
+   "reqd": 1
+  },
+  {
+   "collapsible": 1,
+   "fieldname": "section_snapshot",
+   "fieldtype": "Section Break",
+   "label": "Legacy snapshot Lambda (optional, unused)"
+  },
+  {
+   "description": "Deprecated. Tracking snapshots are stored directly in PostgreSQL from Frappe.",
+   "fieldname": "delhivery_tracking_snapshot_url",
+   "fieldtype": "Data",
+   "label": "Snapshot API URL (deprecated)"
+  },
+  {
+   "description": "Deprecated. Not read by the portal.",
+   "fieldname": "delhivery_tracking_snapshot_api_key",
+   "fieldtype": "Password",
+   "label": "Snapshot API key (deprecated)"
+  }
+ ],
+ "grid_page_length": 50,
+ "index_web_pages_for_search": 0,
+ "issingle": 1,
+ "links": [],
+ "modified": "2026-05-28 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Khanal Tech Integrations",
+ "name": "Delivery API Settings",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 0,
+   "email": 0,
+   "print": 0,
+   "read": 1,
+   "role": "System Manager",
+   "share": 0,
+   "write": 1
+  }
+ ],
+ "row_format": "Dynamic",
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1
+}

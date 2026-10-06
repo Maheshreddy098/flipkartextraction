@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html class="h-full" lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=1.0, user-scalable=no"
+    />
+    <title>Khanal Foods Kiosk</title>
+
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-title" content="Khanal Foods Kiosk" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+    <!-- Kiosk Mode Meta Tags -->
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="application-name" content="Khanal Foods Kiosk" />
+    <meta name="msapplication-TileColor" content="#1f2937" />
+    <meta name="theme-color" content="#1f2937" />
+
+    <!-- PWA -->
+    <link rel="icon" type="image/svg+xml" href="icons/icon.svg" />
+    <link rel="apple-touch-icon" href="icons/icon.svg" />
+
+    <!-- Kiosk-specific styles -->
+    <style>
+      /* Allow normal text selection and interactions (no global lockdown) */
+      html, body {
+        -webkit-touch-callout: default;
+        -webkit-tap-highlight-color: initial;
+      }
+
+      /* Hide scrollbars (optional visual tweak) */
+      ::-webkit-scrollbar {
+        display: none;
+      }
+
+      /* Kiosk mode body */
+      body {
+        overflow: hidden;
+        background: #1f2937;
+        font-family: 'Inter', system-ui, sans-serif;
+      }
+
+      /* Loading screen */
+      .kiosk-loading {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: #1f2937;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 9999;
+      }
+
+      .kiosk-loading-content {
+        text-align: center;
+      }
+
+      /* Animated Logo Container */
+      .animated-logo {
+        width: 300px;
+        height: 300px;
+        margin: 0 auto 2rem;
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .animated-logo svg {
+        width: 100%;
+        height: 100%;
+        filter: drop-shadow(0 0 20px rgba(94, 234, 212, 0.3));
+      }
+
+      /* Triangle outline with animation */
+      .triangle-outline {
+        fill: none;
+        stroke: #5eead4;
+        stroke-width: 2;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+      }
+
+      /* Animated glow light */
+      .glow-light {
+        fill: none;
+        stroke: url(#glow-gradient);
+        stroke-width: 5;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+        stroke-dasharray: 30 400;
+        stroke-dashoffset: 0;
+        opacity: 0;
+        animation: glow-trace 4s ease-in-out infinite;
+        filter: blur(3px) drop-shadow(0 0 8px rgba(94, 234, 212, 0.8));
+      }
+
+      /* Trailing glow effect */
+      .glow-trail {
+        stroke-width: 3;
+        filter: blur(5px) drop-shadow(0 0 6px rgba(94, 234, 212, 0.5));
+        opacity: 0.6;
+      }
+
+      @keyframes glow-trace {
+        0% {
+          stroke-dashoffset: 0;
+          opacity: 0;
+        }
+        5% {
+          opacity: 1;
+        }
+        95% {
+          opacity: 1;
+        }
+        100% {
+          stroke-dashoffset: -430;
+          opacity: 0;
+        }
+      }
+
+      /* Watercolor background */
+      .watercolor-splash {
+        opacity: 0.6;
+        animation: watercolor-pulse 4s ease-in-out infinite;
+      }
+
+      @keyframes watercolor-pulse {
+        0%, 100% {
+          opacity: 0.5;
+          transform: scale(1);
+        }
+        50% {
+          opacity: 0.7;
+          transform: scale(1.02);
+        }
+      }
+
+      /* Fingerprint pattern */
+      .fingerprint {
+        opacity: 0.4;
+        mix-blend-mode: overlay;
+      }
+
+      /* Text styling */
+      .kiosk-loading h1 {
+        font-size: 2rem;
+        font-weight: bold;
+        color: #ffffff;
+        margin-bottom: 0.5rem;
+        letter-spacing: 0.05em;
+      }
+
+      .kiosk-loading p {
+        color: #9ca3af;
+        font-size: 1rem;
+        margin-top: 0.5rem;
+      }
+
+      /* Subtle fade-in animation */
+      .kiosk-loading-content {
+        animation: fade-in 0.8s ease-out;
+      }
+
+      @keyframes fade-in {
+        from {
+          opacity: 0;
+          transform: translateY(10px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+    </style>
+  </head>
+  <body class="h-full bg-kiosk-primary text-white">
+    <!-- Loading Screen -->
+    <div id="kiosk-loading" class="kiosk-loading">
+      <div class="kiosk-loading-content">
+        <div class="animated-logo">
+          <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <!-- Gradient for glowing light -->
+              <linearGradient id="glow-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" style="stop-color:#7dd3fc;stop-opacity:0" />
+                <stop offset="30%" style="stop-color:#5eead4;stop-opacity:0.8" />
+                <stop offset="50%" style="stop-color:#2dd4bf;stop-opacity:1" />
+                <stop offset="70%" style="stop-color:#5eead4;stop-opacity:0.8" />
+                <stop offset="100%" style="stop-color:#7dd3fc;stop-opacity:0" />
+              </linearGradient>
+              
+              <!-- Secondary glow for trailing effect -->
+              <linearGradient id="glow-gradient-secondary" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" style="stop-color:#5eead4;stop-opacity:0" />
+                <stop offset="50%" style="stop-color:#5eead4;stop-opacity:0.4" />
+                <stop offset="100%" style="stop-color:#5eead4;stop-opacity:0" />
+              </linearGradient>
+              
+              <!-- Watercolor splash gradient -->
+              <radialGradient id="watercolor-gradient" cx="50%" cy="45%" r="50%">
+                <stop offset="0%" style="stop-color:#5eead4;stop-opacity:0.4" />
+                <stop offset="50%" style="stop-color:#2dd4bf;stop-opacity:0.3" />
+                <stop offset="100%" style="stop-color:#14b8a6;stop-opacity:0.2" />
+              </radialGradient>
+            </defs>
+            
+            <!-- Watercolor splash background -->
+            <ellipse class="watercolor-splash" cx="100" cy="90" rx="45" ry="50" fill="url(#watercolor-gradient)" />
+            <ellipse class="watercolor-splash" cx="110" cy="85" rx="35" ry="40" fill="url(#watercolor-gradient)" style="animation-delay: -1s;" />
+            
+            <!-- Fingerprint pattern -->
+            <g class="fingerprint" transform="translate(100, 85)">
+              <!-- Simplified fingerprint ridges -->
+              <path d="M-15,-20 Q-10,-25 -5,-20 T5,-20 Q10,-25 15,-20" 
+                    fill="none" stroke="#5eead4" stroke-width="1" opacity="0.3"/>
+              <path d="M-18,-15 Q-12,-18 -6,-15 T6,-15 Q12,-18 18,-15" 
+                    fill="none" stroke="#5eead4" stroke-width="1" opacity="0.25"/>
+              <path d="M-20,-10 Q-14,-12 -8,-10 T8,-10 Q14,-12 20,-10" 
+                    fill="none" stroke="#5eead4" stroke-width="1" opacity="0.3"/>
+              <path d="M-18,-5 Q-12,-7 -6,-5 T6,-5 Q12,-7 18,-5" 
+                    fill="none" stroke="#5eead4" stroke-width="1" opacity="0.25"/>
+              <path d="M-15,0 Q-10,-2 -5,0 T5,0 Q10,-2 15,0" 
+                    fill="none" stroke="#5eead4" stroke-width="1" opacity="0.3"/>
+              <path d="M-12,5 Q-8,3 -4,5 T4,5 Q8,3 12,5" 
+                    fill="none" stroke="#5eead4" stroke-width="1" opacity="0.25"/>
+              <!-- Vertical ridges -->
+              <path d="M-12,-20 L-12,10" fill="none" stroke="#5eead4" stroke-width="0.5" opacity="0.2"/>
+              <path d="M-6,-20 L-6,10" fill="none" stroke="#5eead4" stroke-width="0.5" opacity="0.2"/>
+              <path d="M0,-20 L0,10" fill="none" stroke="#5eead4" stroke-width="0.5" opacity="0.2"/>
+              <path d="M6,-20 L6,10" fill="none" stroke="#5eead4" stroke-width="0.5" opacity="0.2"/>
+              <path d="M12,-20 L12,10" fill="none" stroke="#5eead4" stroke-width="0.5" opacity="0.2"/>
+            </g>
+            
+            <!-- Triangle outline (base path for both static and animated) -->
+            <path class="triangle-outline" d="M 100 40 L 40 140 L 160 140 Z" />
+            
+            <!-- Secondary trailing glow (softer, delayed) -->
+            <path class="glow-light glow-trail" 
+                  d="M 100 40 L 40 140 L 160 140 Z" 
+                  stroke="url(#glow-gradient-secondary)" 
+                  stroke-width="3" 
+                  style="animation-delay: 0.2s;" />
+            
+            <!-- Animated glowing light tracing the triangle -->
+            <path class="glow-light" d="M 100 40 L 40 140 L 160 140 Z" />
+            
+            <!-- Text "KHANAL" -->
+            <text x="100" y="165" 
+                  font-family="Arial, sans-serif" 
+                  font-size="18" 
+                  font-weight="300" 
+                  fill="#5eead4" 
+                  text-anchor="middle" 
+                  letter-spacing="2px">KHANAL</text>
+          </svg>
+        </div>
+        <h1>Khanal Foods</h1>
+        <p>Kiosk Loading...</p>
+      </div>
+    </div>
+
+    <!-- Main App -->
+    <div id="app" class="h-full"></div>
+    <script type="module" src="/src/main.js"></script>
+
+    <!-- Kiosk Mode Script -->
+    <script>
+      // Track when the page started loading
+      const loadStartTime = Date.now();
+      const MIN_DISPLAY_TIME = 2000; // Minimum 1 second to show the animation (reduced from 4s for faster loading)
+      
+      // Hide loading screen when app is ready, but wait for animation to complete
+      function hideLoadingScreen() {
+        const elapsed = Date.now() - loadStartTime;
+        const remainingTime = Math.max(0, MIN_DISPLAY_TIME - elapsed);
+        
+        setTimeout(() => {
+          const loading = document.getElementById('kiosk-loading');
+          if (loading) {
+            // Add a fade-out animation before hiding
+            loading.style.transition = 'opacity 0.3s ease-out';
+            loading.style.opacity = '0';
+            setTimeout(() => {
+              loading.style.display = 'none';
+            }, 300);
+          }
+        }, remainingTime + 300); // Reduced fade-out time
+      }
+      
+      // Wait for page load or use minimum display time
+      window.addEventListener('load', hideLoadingScreen);
+      
+      // Also hide when DOMContentLoaded fires (faster than load event)
+      document.addEventListener('DOMContentLoaded', () => {
+        // Wait for minimum time if app loaded quickly
+        setTimeout(hideLoadingScreen, Math.max(0, MIN_DISPLAY_TIME - (Date.now() - loadStartTime)));
+      });
+      
+      // Fallback: Ensure loading screen shows for at least 1 second even if page loads very fast
+      setTimeout(hideLoadingScreen, MIN_DISPLAY_TIME + 300);
+      
+      // Optional: Auto-refresh every 30 minutes to keep session fresh
+      setTimeout(() => {
+        window.location.reload();
+      }, 30 * 60 * 1000);
+    </script>
+  </body>
+</html>

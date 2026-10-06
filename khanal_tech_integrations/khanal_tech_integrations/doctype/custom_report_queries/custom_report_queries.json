@@ -1,0 +1,130 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2025-09-09 12:42:20.280638",
+ "default_view": "List",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "report_name",
+  "category",
+  "sub_category",
+  "sql_type",
+  "sql_statement",
+  "active",
+  "role_types",
+  "include_emails",
+  "exclude_emails",
+  "data_table_name",
+  "mobile_view_columns",
+  "report_display_name",
+  "icon_color"
+ ],
+ "fields": [
+  {
+   "fieldname": "report_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "report_name",
+   "reqd": 1,
+   "set_only_once": 1,
+   "unique": 1
+  },
+  {
+   "fieldname": "category",
+   "fieldtype": "Text",
+   "in_list_view": 1,
+   "label": "category",
+   "reqd": 1
+  },
+  {
+   "fieldname": "sub_category",
+   "fieldtype": "Text",
+   "label": "sub_category"
+  },
+  {
+   "fieldname": "sql_type",
+   "fieldtype": "Text",
+   "in_list_view": 1,
+   "label": "sql_type",
+   "reqd": 1
+  },
+  {
+   "fieldname": "sql_statement",
+   "fieldtype": "Long Text",
+   "in_list_view": 1,
+   "label": "sql_statement",
+   "reqd": 1
+  },
+  {
+   "default": "0",
+   "fieldname": "active",
+   "fieldtype": "Check",
+   "label": "active",
+   "reqd": 1
+  },
+  {
+   "fieldname": "role_types",
+   "fieldtype": "Text",
+   "label": "role_types"
+  },
+  {
+   "fieldname": "include_emails",
+   "fieldtype": "Text",
+   "label": "include_emails"
+  },
+  {
+   "fieldname": "exclude_emails",
+   "fieldtype": "Text",
+   "label": "exclude_emails"
+  },
+  {
+   "fieldname": "data_table_name",
+   "fieldtype": "Text",
+   "label": "data_table_name"
+  },
+  {
+   "fieldname": "mobile_view_columns",
+   "fieldtype": "Text",
+   "label": "mobile_view_columns"
+  },
+  {
+   "fieldname": "report_display_name",
+   "fieldtype": "Text",
+   "label": "report_display_name",
+   "reqd": 1
+  },
+  {
+   "default": "blue",
+   "fieldname": "icon_color",
+   "fieldtype": "Color",
+   "label": "icon_color"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2025-10-17 11:03:58.267747",
+ "modified_by": "Administrator",
+ "module": "Khanal Tech Integrations",
+ "name": "custom_report_queries",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "row_format": "Dynamic",
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

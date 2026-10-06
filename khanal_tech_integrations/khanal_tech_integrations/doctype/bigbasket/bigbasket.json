@@ -1,0 +1,196 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "format:{po_number}-{C03569}",
+ "creation": "2025-04-28 10:04:09.400360",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "po_number",
+  "company_name",
+  "po_expiry_date",
+  "delivered_to",
+  "docnum",
+  "docentry",
+  "sap_status",
+  "customer_code",
+  "employee_id",
+  "duplicate_records_status",
+  "column_break_pnwh",
+  "po_url",
+  "matched_address_name",
+  "matched_state",
+  "billto",
+  "billing_from",
+  "total_quantity",
+  "total_amount",
+  "total_items",
+  "error_status",
+  "update_status",
+  "document_status",
+  "section_break_qngp",
+  "bigbasket_table",
+  "section_break_ubdf",
+  "duplicate_records"
+ ],
+ "fields": [
+  {
+   "fieldname": "po_number",
+   "fieldtype": "Data",
+   "label": "PO Number",
+   "read_only": 1
+  },
+  {
+   "fieldname": "company_name",
+   "fieldtype": "Data",
+   "label": "Company Name"
+  },
+  {
+   "fieldname": "po_expiry_date",
+   "fieldtype": "Data",
+   "label": "PO-Expiry-Date"
+  },
+  {
+   "fieldname": "delivered_to",
+   "fieldtype": "Small Text",
+   "label": "Delivery-Address"
+  },
+  {
+   "fieldname": "docnum",
+   "fieldtype": "Data",
+   "label": "SO-Docnum"
+  },
+  {
+   "fieldname": "docentry",
+   "fieldtype": "Data",
+   "label": "SO-Docentry"
+  },
+  {
+   "fieldname": "sap_status",
+   "fieldtype": "Data",
+   "label": "SAP-STATUS"
+  },
+  {
+   "fieldname": "customer_code",
+   "fieldtype": "Data",
+   "label": "Customer-Code"
+  },
+  {
+   "fieldname": "employee_id",
+   "fieldtype": "Data",
+   "label": "Employee ID"
+  },
+  {
+   "fieldname": "column_break_pnwh",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "po_url",
+   "fieldtype": "Attach",
+   "label": "PO-URL"
+  },
+  {
+   "fieldname": "matched_address_name",
+   "fieldtype": "Data",
+   "label": "Matched Address"
+  },
+  {
+   "fieldname": "matched_state",
+   "fieldtype": "Data",
+   "label": "Matched State"
+  },
+  {
+   "fieldname": "billto",
+   "fieldtype": "Data",
+   "label": "Bill to"
+  },
+  {
+   "fieldname": "billing_from",
+   "fieldtype": "Data",
+   "label": "Billing from"
+  },
+  {
+   "fieldname": "total_quantity",
+   "fieldtype": "Data",
+   "label": "Total-Quantity"
+  },
+  {
+   "fieldname": "total_amount",
+   "fieldtype": "Data",
+   "label": "Total-Amount"
+  },
+  {
+   "fieldname": "total_items",
+   "fieldtype": "Data",
+   "label": "Total-Items"
+  },
+  {
+   "fieldname": "error_status",
+   "fieldtype": "Small Text",
+   "label": "Error"
+  },
+  {
+   "fieldname": "update_status",
+   "fieldtype": "Data",
+   "label": "STATUS"
+  },
+  {
+   "fieldname": "document_status",
+   "fieldtype": "Data",
+   "label": "SO-Status"
+  },
+  {
+   "fieldname": "section_break_qngp",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "bigbasket_table",
+   "fieldtype": "Table",
+   "label": "bigbasket_table",
+   "options": "Table_Bigbasket"
+  },
+  {
+   "fieldname": "section_break_ubdf",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "duplicate_records",
+   "fieldtype": "Table",
+   "label": "Previous Log",
+   "options": "bigbasket_duplicate_records"
+  },
+  {
+   "fieldname": "duplicate_records_status",
+   "fieldtype": "Data",
+   "label": "Amended"
+  }
+ ],
+ "grid_page_length": 50,
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2025-09-01 10:03:31.375976",
+ "modified_by": "Administrator",
+ "module": "Khanal Tech Integrations",
+ "name": "Bigbasket",
+ "naming_rule": "Expression",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "row_format": "Dynamic",
+ "sort_field": "creation",
+ "sort_order": "DESC",
+ "states": [],
+ "title_field": "po_number"
+}

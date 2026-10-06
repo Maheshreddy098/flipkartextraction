@@ -1,0 +1,1232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}Logistics Delivery{% endblock %} · Khanal Tech</title>
+  <link rel="icon" type="image/png" href="/assets/khanal_tech_integrations/assets/img/khanal_foods_logo.png">
+  <script>
+    (function () {
+      try {
+        if (sessionStorage.getItem("ld_splash_session")) {
+          document.documentElement.classList.add("ld-splash-done");
+        }
+        if (localStorage.getItem("ld_sidebar_collapsed") === "1") {
+          document.documentElement.classList.add("ld-sidebar-collapsed");
+        }
+      } catch (e) {}
+    })();
+  </script>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --ld-sidebar-w: 238px;
+      /* Brand gradient (screenshot 2): #2C5E58 → #1A2F2B */
+      --ld-brand-top: #2c5e58;
+      --ld-brand-mid: #234a45;
+      --ld-brand-deep: #1a2f2b;
+      --ld-brand-light: #3d7a72;
+      --ld-bg: #f0f5f4;
+      --ld-bg-accent: #e8f2ef;
+      --ld-sidebar-top: var(--ld-brand-top);
+      --ld-sidebar-bottom: var(--ld-brand-deep);
+      --ld-sidebar-border: rgba(255, 255, 255, 0.1);
+      --ld-accent: #5eead4;
+      --ld-accent-soft: rgba(94, 234, 212, 0.14);
+      --ld-text-muted: #64748b;
+      --ld-card-shadow: 0 4px 6px -1px rgba(26, 47, 43, 0.06), 0 10px 24px -8px rgba(26, 47, 43, 0.1);
+      --ld-header-border: rgba(44, 94, 88, 0.18);
+    }
+    body {
+      min-height: 100vh;
+      background: linear-gradient(165deg, var(--ld-bg-accent) 0%, var(--ld-bg) 42%, #e2ebe8 100%);
+      font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      color: #0f172a;
+    }
+    .ld-shell {
+      display: flex;
+      min-height: 100vh;
+      overflow-x: visible;
+    }
+    .ld-sidebar {
+      width: var(--ld-sidebar-w);
+      flex-shrink: 0;
+      display: flex;
+      flex-direction: column;
+      background: linear-gradient(180deg, var(--ld-brand-top) 0%, var(--ld-brand-mid) 48%, var(--ld-brand-deep) 100%);
+      color: #ecfdf5;
+      font-family: "Plus Jakarta Sans", system-ui, sans-serif;
+      padding: 1rem 0.85rem;
+      position: sticky;
+      top: 0;
+      align-self: flex-start;
+      height: 100vh;
+      overflow-y: auto;
+      z-index: 1040;
+      transition: transform 0.25s ease;
+      box-shadow: 4px 0 32px rgba(26, 47, 43, 0.35);
+    }
+    .ld-sidebar-brand {
+      margin-bottom: 1rem;
+      padding: 0 0.25rem 1rem;
+      border-bottom: 1px solid var(--ld-sidebar-border);
+    }
+    .ld-sidebar-logo-link {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      gap: 0.7rem;
+      width: 100%;
+      padding: 0.35rem 0.4rem;
+      margin: 0;
+      border-radius: 0.6rem;
+      text-decoration: none;
+      color: inherit;
+      transition: background 0.2s ease;
+    }
+    .ld-sidebar-logo-link:hover {
+      background: rgba(255, 255, 255, 0.06);
+    }
+    .ld-sidebar-brand-text {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      justify-content: center;
+      gap: 0.12rem;
+      min-width: 0;
+      flex: 1;
+    }
+    /* Plain logo — no filter, shadow, or animation (matches asset as shipped). */
+    .ld-sidebar-logo {
+      display: block;
+      flex-shrink: 0;
+      width: 52px;
+      height: auto;
+      max-width: 52px;
+      object-fit: contain;
+      border-radius: 0.35rem;
+    }
+    .ld-sidebar-title {
+      display: block;
+      font-weight: 800;
+      font-size: 1.05rem;
+      letter-spacing: -0.02em;
+      line-height: 1.15;
+      color: #f8fafc;
+    }
+    .ld-sidebar-sub {
+      display: block;
+      font-size: 0.68rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      color: rgba(204, 251, 241, 0.88);
+    }
+    .ld-nav {
+      display: flex;
+      flex-direction: column;
+      gap: 0.3rem;
+      padding: 0 0.25rem;
+      flex: 1;
+      min-height: 0;
+    }
+    .ld-sidebar-footer {
+      margin-top: auto;
+      padding: 0.85rem 0.3rem 0.25rem;
+      border-top: 1px solid var(--ld-sidebar-border);
+    }
+    .ld-sidebar-user {
+      font-size: 0.72rem;
+      font-weight: 600;
+      color: rgba(204, 251, 241, 0.75);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      margin-bottom: 0.5rem;
+      line-height: 1.3;
+    }
+    .ld-sidebar-logout {
+      display: block;
+      width: 100%;
+      text-align: center;
+      padding: 0.45rem 0.5rem;
+      border-radius: 0.45rem;
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: #0f172a;
+      background: rgba(255, 255, 255, 0.92);
+      text-decoration: none;
+      border: none;
+      cursor: pointer;
+      transition: background 0.15s ease, color 0.15s ease;
+    }
+    .ld-sidebar-logout:hover {
+      background: #fff;
+      color: #0f172a;
+    }
+    .ld-nav-link {
+      display: flex;
+      align-items: center;
+      gap: 0.55rem;
+      padding: 0.55rem 0.65rem;
+      border-radius: 0.5rem;
+      color: rgba(240, 253, 250, 0.88);
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 0.9rem;
+      border: 1px solid transparent;
+      transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+    }
+    .ld-nav-link:hover {
+      background: rgba(255, 255, 255, 0.08);
+      color: #fff;
+    }
+    .ld-nav-link.is-active {
+      background: var(--ld-accent-soft);
+      color: #ecfdf5;
+      border-color: rgba(94, 234, 212, 0.35);
+      box-shadow: inset 0 0 0 1px rgba(94, 234, 212, 0.18);
+    }
+    .ld-nav-icon {
+      width: 1.15rem;
+      text-align: center;
+      opacity: 0.9;
+      font-size: 0.95rem;
+    }
+    .ld-main {
+      flex: 1;
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+      overflow-x: visible;
+    }
+    .ld-topbar {
+      display: none;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.65rem 1rem;
+      background: linear-gradient(90deg, #ffffff 0%, #f8fafc 100%);
+      border-bottom: 1px solid var(--ld-header-border);
+      position: sticky;
+      top: 0;
+      z-index: 1030;
+      box-shadow: 0 1px 0 rgba(255, 255, 255, 0.8) inset;
+    }
+    .ld-topbar-title {
+      font-weight: 700;
+      font-size: 1rem;
+      color: #0f172a;
+      letter-spacing: -0.02em;
+    }
+    .ld-topbar-kicker {
+      font-size: 0.65rem;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      color: var(--ld-brand-top);
+      font-weight: 600;
+    }
+    .ld-menu-btn {
+      border: 1px solid rgba(44, 94, 88, 0.28);
+      background: #fff;
+      border-radius: 0.5rem;
+      padding: 0.45rem 0.6rem;
+      line-height: 1;
+      color: var(--ld-brand-deep);
+    }
+    /* Sit above .ld-content so open dropdowns receive clicks (later sibling would paint on top otherwise). */
+    .ld-desktop-bar {
+      display: none;
+      flex-direction: column;
+      padding: 0;
+      position: relative;
+      z-index: 10000;
+      background: #fff;
+      border-bottom: 1px solid var(--ld-header-border);
+      box-shadow: var(--ld-card-shadow);
+    }
+    .ld-desktop-bar-strip {
+      height: 3px;
+      background: linear-gradient(90deg, var(--ld-brand-deep), var(--ld-brand-light), #6ee7b7);
+    }
+    .ld-desktop-bar-inner {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 0.85rem 1.5rem;
+      flex-wrap: wrap;
+      overflow: visible;
+    }
+    .ld-desktop-bar-mark {
+      display: flex;
+      align-items: center;
+      gap: 0;
+    }
+    .ld-desktop-bar-text {
+      display: flex;
+      flex-direction: column;
+      gap: 0.1rem;
+    }
+    .ld-desktop-bar-kicker {
+      font-size: 0.68rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--ld-brand-top);
+    }
+    .ld-desktop-bar-title {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: #0f172a;
+      letter-spacing: -0.03em;
+      margin: 0;
+      line-height: 1.2;
+    }
+    .ld-desktop-bar-meta {
+      margin-left: auto;
+      font-size: 0.8rem;
+      color: var(--ld-text-muted);
+      gap: 0.65rem;
+    }
+    /* ── Bell button ── */
+    .ld-notif-dd { position: relative; }
+    .ld-notif-btn {
+      position: relative;
+      border: 1px solid rgba(44, 94, 88, 0.22);
+      background: #fff;
+      border-radius: 0.6rem;
+      padding: 0.4rem 0.6rem;
+      line-height: 1;
+      color: var(--ld-brand-deep);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.28rem;
+      font-size: 1rem;
+      cursor: pointer;
+      box-shadow: 0 1px 3px rgba(15,23,42,0.07);
+      transition: background 0.15s, border-color 0.15s, box-shadow 0.15s;
+      text-decoration: none;
+    }
+    .ld-notif-btn:hover { background: #f0fdf9; border-color: rgba(44,94,88,0.4); }
+    .ld-notif-btn.ld-notif-open { background: #f0fdf9; border-color: rgba(44,94,88,0.45); box-shadow: 0 2px 8px rgba(44,94,88,0.12); }
+    .ld-notif-icon { font-size: 1.05rem; }
+    .ld-notif-badge {
+      font-size: 0.6rem;
+      font-weight: 800;
+      min-width: 1.15rem;
+      padding: 0.1rem 0.32rem;
+      border-radius: 999px;
+      background: #dc2626;
+      color: #fff;
+      line-height: 1.25;
+    }
+
+    /* ── Popup panel ── */
+    .ld-notif-panel {
+      display: none;
+      position: absolute;
+      top: calc(100% + 0.5rem);
+      right: 0;
+      width: min(22rem, calc(100vw - 1.5rem));
+      background: #fff;
+      border: 1px solid rgba(148,163,184,0.22);
+      border-radius: 1rem;
+      box-shadow: 0 8px 32px -4px rgba(15,23,42,0.16), 0 2px 8px rgba(15,23,42,0.08);
+      z-index: 10500;
+      overflow: hidden;
+      flex-direction: column;
+      animation: ldNotifFadeIn 0.18s ease;
+    }
+    .ld-notif-panel.ld-notif-panel--open { display: flex; }
+    @keyframes ldNotifFadeIn {
+      from { opacity: 0; transform: translateY(-6px) scale(0.98); }
+      to   { opacity: 1; transform: translateY(0) scale(1); }
+    }
+    .ld-notif-panel-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.7rem 0.9rem 0.6rem;
+      border-bottom: 1px solid rgba(226,232,240,0.8);
+      background: linear-gradient(90deg, #f0fdf9, #f8fafc);
+    }
+    .ld-notif-panel-title {
+      font-size: 0.72rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: #334155;
+    }
+    .ld-notif-close-btn {
+      border: none;
+      background: rgba(100,116,139,0.1);
+      border-radius: 0.4rem;
+      width: 1.6rem;
+      height: 1.6rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.9rem;
+      color: #64748b;
+      cursor: pointer;
+      transition: background 0.15s, color 0.15s;
+      flex-shrink: 0;
+    }
+    .ld-notif-close-btn:hover { background: #fee2e2; color: #dc2626; }
+    .ld-notif-list { overflow-y: auto; max-height: 17rem; }
+    .ld-notif-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.65rem;
+      padding: 0.65rem 0.9rem;
+      border-bottom: 1px solid rgba(241,245,249,1);
+      text-decoration: none;
+      color: #0f172a;
+      transition: background 0.12s;
+    }
+    .ld-notif-item:last-child { border-bottom: none; }
+    .ld-notif-item:hover { background: #f8fafc; }
+    .ld-notif-dot {
+      width: 0.5rem;
+      height: 0.5rem;
+      border-radius: 50%;
+      flex-shrink: 0;
+      margin-top: 0.3rem;
+    }
+    .ld-notif-item--danger .ld-notif-dot { background: #dc2626; box-shadow: 0 0 0 3px rgba(220,38,38,0.15); }
+    .ld-notif-item--warn   .ld-notif-dot { background: #d97706; box-shadow: 0 0 0 3px rgba(217,119,6,0.15); }
+    .ld-notif-item--ok     .ld-notif-dot { background: #16a34a; box-shadow: 0 0 0 3px rgba(22,163,74,0.15); }
+    .ld-notif-item__body { min-width: 0; flex: 1; }
+    .ld-notif-item__title { font-weight: 700; font-size: 0.75rem; color: #1e293b; margin-bottom: 0.1rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .ld-notif-item--danger .ld-notif-item__title { color: #b91c1c; }
+    .ld-notif-item--warn   .ld-notif-item__title { color: #92400e; }
+    .ld-notif-item--ok     .ld-notif-item__title { color: #14532d; }
+    .ld-notif-item__msg { font-size: 0.78rem; color: #64748b; line-height: 1.4; }
+    .ld-notif-empty {
+      padding: 1.5rem 0.9rem;
+      text-align: center;
+      color: #94a3b8;
+      font-size: 0.82rem;
+    }
+    .ld-notif-empty-icon { font-size: 1.75rem; display: block; margin-bottom: 0.4rem; }
+    .ld-notif-panel-foot {
+      padding: 0.55rem 0.9rem;
+      border-top: 1px solid rgba(226,232,240,0.8);
+      background: #fafafa;
+      display: flex;
+      justify-content: center;
+    }
+    .ld-notif-panel-foot a {
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: #0f766e;
+      text-decoration: none;
+    }
+    .ld-notif-panel-foot a:hover { text-decoration: underline; }
+    @media (min-width: 992px) {
+      .ld-desktop-bar {
+        display: flex;
+      }
+      /* Desktop sidebar collapse — slides fully out so content gets the full window */
+      .ld-sidebar {
+        transition: margin-left 0.25s ease, transform 0.25s ease;
+      }
+      html.ld-sidebar-collapsed .ld-sidebar {
+        margin-left: calc(-1 * var(--ld-sidebar-w));
+        transform: translateX(-30px);
+        box-shadow: none;
+        pointer-events: none;
+      }
+    }
+    .ld-sidebar-toggle {
+      display: none;
+      border: 1px solid rgba(44, 94, 88, 0.22);
+      background: #fff;
+      border-radius: 0.6rem;
+      padding: 0.4rem 0.6rem;
+      line-height: 1;
+      color: var(--ld-brand-deep);
+      font-size: 1rem;
+      cursor: pointer;
+      box-shadow: 0 1px 3px rgba(15, 23, 42, 0.07);
+      transition: background 0.15s, border-color 0.15s;
+      flex-shrink: 0;
+    }
+    .ld-sidebar-toggle:hover {
+      background: #f0fdf9;
+      border-color: rgba(44, 94, 88, 0.4);
+    }
+    @media (min-width: 992px) {
+      .ld-sidebar-toggle {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+      }
+    }
+    .ld-content {
+      position: relative;
+      z-index: 1;
+      padding: 1.25rem 1.25rem 2rem;
+      flex: 1;
+      overflow-x: visible;
+    }
+    @media (min-width: 992px) {
+      .ld-content {
+        padding: 1.5rem 1.75rem 2.5rem;
+        overflow-x: visible;
+      }
+    }
+    @media (max-width: 991.98px) {
+      .ld-topbar {
+        display: flex;
+      }
+      .ld-sidebar {
+        position: fixed;
+        left: 0;
+        top: 0;
+        transform: translateX(-100%);
+        box-shadow: none;
+      }
+      .ld-sidebar.is-open {
+        transform: translateX(0);
+        box-shadow: 12px 0 40px rgba(26, 47, 43, 0.45);
+      }
+      .ld-sidebar-backdrop {
+        position: fixed;
+        inset: 0;
+        background: rgba(26, 47, 43, 0.45);
+        z-index: 1035;
+        backdrop-filter: blur(2px);
+      }
+      .ld-sidebar-backdrop:not([hidden]) {
+        display: block;
+      }
+    }
+    .ld-card {
+      background: #fff;
+      border-radius: 1rem;
+      border: 1px solid rgba(148, 163, 184, 0.25);
+      box-shadow: var(--ld-card-shadow);
+    }
+
+    /* Splash — premium storm scene */
+    html.ld-splash-done .ld-splash {
+      display: none !important;
+      pointer-events: none;
+    }
+    .ld-splash {
+      position: fixed;
+      inset: 0;
+      z-index: 10050;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      font-family: "Plus Jakarta Sans", system-ui, sans-serif;
+    }
+    .ld-splash-sky {
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 125% 85% at 50% 105%, rgba(44, 94, 88, 0.55) 0%, transparent 58%),
+        radial-gradient(ellipse 65% 50% at 88% 6%, rgba(61, 122, 114, 0.28) 0%, transparent 48%),
+        radial-gradient(ellipse 48% 42% at 6% 14%, rgba(74, 130, 120, 0.18) 0%, transparent 52%),
+        linear-gradient(180deg, #2c5e58 0%, #264f4a 32%, #203f3a 62%, #1a2f2b 100%);
+    }
+    .ld-splash-sky::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        125deg,
+        rgba(167, 243, 208, 0.07) 0%,
+        transparent 45%,
+        rgba(110, 231, 183, 0.06) 100%
+      );
+      animation: ldSkyBreath 14s ease-in-out infinite alternate;
+    }
+    @keyframes ldSkyBreath {
+      from {
+        opacity: 0.75;
+      }
+      to {
+        opacity: 1;
+      }
+    }
+    .ld-splash-vignette {
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse 88% 78% at 50% 48%, transparent 0%, rgba(10, 20, 18, 0.62) 100%);
+      pointer-events: none;
+    }
+    .ld-splash-moon {
+      position: absolute;
+      top: 6%;
+      right: 10%;
+      width: min(22vw, 120px);
+      height: min(22vw, 120px);
+      border-radius: 50%;
+      background: radial-gradient(circle at 35% 35%, rgba(255, 255, 255, 0.38) 0%, rgba(204, 251, 241, 0.14) 42%, transparent 72%);
+      filter: blur(2px);
+      opacity: 0.55;
+      pointer-events: none;
+      animation: ldMoonPulse 8s ease-in-out infinite alternate;
+    }
+    @keyframes ldMoonPulse {
+      from {
+        opacity: 0.45;
+        transform: scale(1);
+      }
+      to {
+        opacity: 0.62;
+        transform: scale(1.04);
+      }
+    }
+    .ld-splash-clouds {
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 0;
+      height: 48%;
+      pointer-events: none;
+    }
+    .ld-puff {
+      position: absolute;
+      border-radius: 50%;
+      background: rgba(236, 253, 245, 0.38);
+      filter: blur(32px);
+      animation: ldPuffDrift 32s ease-in-out infinite alternate;
+    }
+    .ld-puff-1 {
+      width: min(45vw, 280px);
+      height: 72px;
+      top: 10%;
+      left: -5%;
+      opacity: 0.9;
+    }
+    .ld-puff-2 {
+      width: min(38vw, 220px);
+      height: 64px;
+      top: 18%;
+      right: -3%;
+      opacity: 0.75;
+      animation-duration: 26s;
+      animation-delay: -5s;
+    }
+    .ld-puff-3 {
+      width: min(30vw, 180px);
+      height: 52px;
+      top: 6%;
+      left: 38%;
+      opacity: 0.55;
+      animation-duration: 22s;
+      animation-delay: -9s;
+    }
+    .ld-puff-4 {
+      width: min(55vw, 320px);
+      height: 48px;
+      top: 26%;
+      left: 15%;
+      opacity: 0.35;
+      filter: blur(40px);
+      animation-duration: 38s;
+    }
+    @keyframes ldPuffDrift {
+      from {
+        transform: translateX(-16px) translateY(0);
+      }
+      to {
+        transform: translateX(22px) translateY(-6px);
+      }
+    }
+    .ld-splash-rain {
+      position: absolute;
+      inset: -5%;
+      pointer-events: none;
+      -webkit-mask-image: linear-gradient(to bottom, transparent 0%, #000 12%, #000 88%, transparent 100%);
+      mask-image: linear-gradient(to bottom, transparent 0%, #000 12%, #000 88%, transparent 100%);
+    }
+    .ld-splash-rain-back {
+      opacity: 0.2;
+      filter: blur(0.4px);
+      background-image: repeating-linear-gradient(
+        102deg,
+        transparent,
+        transparent 14px,
+        rgba(204, 251, 241, 0.12) 14px,
+        rgba(204, 251, 241, 0.12) 15px
+      );
+      background-size: 48px 48px;
+      animation: ldRainFallBack 0.95s linear infinite;
+    }
+    .ld-splash-rain-mid {
+      opacity: 0.3;
+      filter: blur(0.25px);
+      margin-left: 8vw;
+      background-image: repeating-linear-gradient(
+        106deg,
+        transparent,
+        transparent 10px,
+        rgba(236, 253, 245, 0.14) 10px,
+        rgba(236, 253, 245, 0.14) 11px
+      );
+      background-size: 38px 38px;
+      animation: ldRainFallMid 0.62s linear infinite;
+    }
+    .ld-splash-rain-front {
+      opacity: 0.38;
+      margin-left: 18vw;
+      background-image: repeating-linear-gradient(
+        108deg,
+        transparent,
+        transparent 7px,
+        rgba(255, 255, 255, 0.16) 7px,
+        rgba(255, 255, 255, 0.16) 8px
+      );
+      background-size: 30px 30px;
+      animation: ldRainFallFront 0.42s linear infinite;
+    }
+    @keyframes ldRainFallBack {
+      from {
+        background-position: 0 0;
+      }
+      to {
+        background-position: 0 48px;
+      }
+    }
+    @keyframes ldRainFallMid {
+      from {
+        background-position: 0 0;
+      }
+      to {
+        background-position: 0 38px;
+      }
+    }
+    @keyframes ldRainFallFront {
+      from {
+        background-position: 0 0;
+      }
+      to {
+        background-position: 0 30px;
+      }
+    }
+    .ld-splash-lightning {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, rgba(236, 253, 245, 0.12) 0%, transparent 38%, rgba(167, 243, 208, 0.05) 100%);
+      opacity: 0;
+      mix-blend-mode: overlay;
+      pointer-events: none;
+      animation: ldLightning 14s ease-in-out infinite;
+    }
+    @keyframes ldLightning {
+      0%,
+      88%,
+      100% {
+        opacity: 0;
+      }
+      88.15% {
+        opacity: 0.28;
+      }
+      88.22% {
+        opacity: 0;
+      }
+      93.4% {
+        opacity: 0;
+      }
+      93.48% {
+        opacity: 0.35;
+      }
+      93.55% {
+        opacity: 0;
+      }
+    }
+    .ld-splash-fog {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      height: 28%;
+      background: linear-gradient(to top, rgba(26, 47, 43, 0.92) 0%, transparent 100%);
+      pointer-events: none;
+    }
+    .ld-splash-sparks {
+      position: absolute;
+      inset: 0;
+      background-image: radial-gradient(1.5px 1.5px at 10% 20%, rgba(236, 253, 245, 0.35), transparent),
+        radial-gradient(1px 1px at 30% 70%, rgba(167, 243, 208, 0.28), transparent),
+        radial-gradient(1.5px 1.5px at 70% 40%, rgba(255, 255, 255, 0.22), transparent),
+        radial-gradient(1px 1px at 88% 15%, rgba(204, 251, 241, 0.2), transparent),
+        radial-gradient(1.5px 1.5px at 55% 85%, rgba(236, 253, 245, 0.2), transparent);
+      opacity: 0.5;
+      animation: ldSparkTwinkle 6s ease-in-out infinite alternate;
+      pointer-events: none;
+    }
+    @keyframes ldSparkTwinkle {
+      from {
+        opacity: 0.35;
+      }
+      to {
+        opacity: 0.6;
+      }
+    }
+    .ld-splash-inner {
+      position: relative;
+      z-index: 3;
+      width: 100%;
+      max-width: 440px;
+      padding: 1.25rem;
+      animation: ldSplashInnerIn 1s cubic-bezier(0.16, 1, 0.3, 1) both;
+    }
+    .ld-splash-panel {
+      text-align: center;
+      padding: 2rem 1.75rem 1.85rem;
+      border-radius: 1.25rem;
+      border: 1px solid rgba(167, 243, 208, 0.5);
+      background: linear-gradient(180deg, rgba(44, 94, 88, 0.55) 0%, rgba(26, 47, 43, 0.92) 100%);
+      backdrop-filter: blur(20px) saturate(150%);
+      -webkit-backdrop-filter: blur(20px) saturate(150%);
+      box-shadow: 0 1px 0 rgba(255, 255, 255, 0.1) inset, 0 20px 50px rgba(0, 0, 0, 0.4), 0 0 1px rgba(0, 0, 0, 0.5);
+    }
+    .ld-splash-truck {
+      display: block;
+      margin: 0 auto;
+      max-width: min(72vw, 240px);
+      max-height: 32vh;
+      width: auto;
+      height: auto;
+      border-radius: 0.85rem;
+      animation: ldTruckPop 0.95s cubic-bezier(0.34, 1.4, 0.64, 1) 0.06s both;
+    }
+    .ld-splash-brand {
+      margin: 1.2rem 0 0.35rem;
+      font-size: clamp(1.2rem, 4vw, 1.5rem);
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      line-height: 1.2;
+      color: #f8fafc;
+      animation: ldTaglineIn 0.65s ease 0.2s both;
+    }
+    .ld-splash-tagline {
+      margin: 0;
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: rgba(248, 250, 252, 0.88);
+      animation: ldTaglineIn 0.65s ease 0.32s both;
+    }
+    .ld-splash-loader {
+      margin: 1.35rem auto 0;
+      max-width: 220px;
+      height: 4px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.08);
+      overflow: hidden;
+      box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.25);
+    }
+    .ld-splash-loader-bar {
+      display: block;
+      height: 100%;
+      width: 42%;
+      border-radius: inherit;
+      background: linear-gradient(90deg, #3d7a72, #5eead4, #6ee7b7, #3d7a72);
+      background-size: 200% 100%;
+      background-position: 0 0;
+      animation: ldLoaderSweep 1.35s ease-in-out infinite, ldLoaderHue 3s linear infinite;
+    }
+    @keyframes ldLoaderSweep {
+      0% {
+        transform: translateX(-100%);
+      }
+      100% {
+        transform: translateX(320%);
+      }
+    }
+    @keyframes ldLoaderHue {
+      to {
+        background-position: 200% 0;
+      }
+    }
+    .ld-splash.ld-splash--exit {
+      opacity: 0;
+      transition: opacity 0.65s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .ld-splash.ld-splash--exit .ld-splash-inner {
+      transform: translateY(16px) scale(0.96);
+      filter: blur(4px);
+      transition: transform 0.65s ease, filter 0.65s ease;
+    }
+    .ld-splash.ld-splash--exit .ld-splash-rain-front,
+    .ld-splash.ld-splash--exit .ld-splash-rain-mid,
+    .ld-splash.ld-splash--exit .ld-splash-rain-back,
+    .ld-splash.ld-splash--exit .ld-puff,
+    .ld-splash.ld-splash--exit .ld-splash-lightning,
+    .ld-splash.ld-splash--exit .ld-splash-sparks,
+    @keyframes ldSplashInnerIn {
+      from {
+        opacity: 0;
+        transform: translateY(32px) scale(0.94);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+    @keyframes ldTruckPop {
+      from {
+        opacity: 0;
+        transform: scale(0.86);
+      }
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+    @keyframes ldTaglineIn {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .ld-splash-sky::before,
+      .ld-puff,
+      .ld-splash-rain-front,
+      .ld-splash-rain-mid,
+      .ld-splash-rain-back,
+      .ld-splash-lightning,
+      .ld-splash-sparks,
+      .ld-splash-panel,
+      .ld-splash-loader-bar,
+      .ld-splash-moon {
+        animation: none !important;
+      }
+      .ld-splash-inner,
+      .ld-splash-brand,
+      .ld-splash-tagline {
+        animation: none !important;
+        opacity: 1;
+        transform: none;
+      }
+      .ld-splash-truck {
+        animation: none;
+      }
+      .ld-splash-panel {
+        backdrop-filter: none;
+        -webkit-backdrop-filter: none;
+        background: rgba(26, 47, 43, 0.94);
+      }
+    }
+  </style>
+  {% block head_extra %}{% endblock %}
+</head>
+<body>
+  <div id="ldSplash" class="ld-splash" role="presentation" aria-hidden="true">
+    <div class="ld-splash-sky" aria-hidden="true"></div>
+    <div class="ld-splash-vignette" aria-hidden="true"></div>
+    <div class="ld-splash-moon" aria-hidden="true"></div>
+    <div class="ld-splash-clouds" aria-hidden="true">
+      <div class="ld-puff ld-puff-1"></div>
+      <div class="ld-puff ld-puff-2"></div>
+      <div class="ld-puff ld-puff-3"></div>
+      <div class="ld-puff ld-puff-4"></div>
+    </div>
+    <div class="ld-splash-rain ld-splash-rain-back" aria-hidden="true"></div>
+    <div class="ld-splash-rain ld-splash-rain-mid" aria-hidden="true"></div>
+    <div class="ld-splash-rain ld-splash-rain-front" aria-hidden="true"></div>
+    <div class="ld-splash-lightning" aria-hidden="true"></div>
+    <div class="ld-splash-sparks" aria-hidden="true"></div>
+    <div class="ld-splash-fog" aria-hidden="true"></div>
+    <div class="ld-splash-inner">
+      <div class="ld-splash-panel">
+        <img
+          class="ld-splash-truck"
+          src="/logistics_delivery/Delivery%20truck.gif"
+          width="320"
+          height="213"
+          alt=""
+          decoding="async"
+          fetchpriority="high"
+        />
+        <p class="ld-splash-brand">Khanal Foods</p>
+        <p class="ld-splash-tagline">Logistics · Delivery API</p>
+        <div class="ld-splash-loader" aria-hidden="true"><span class="ld-splash-loader-bar"></span></div>
+      </div>
+    </div>
+  </div>
+  <div class="ld-shell">
+    {% include "khanal_tech_integrations/www/logistics_delivery/partials/sidebar.html" %}
+    <div class="ld-main" data-ld-title="{% block topbar_title %}Logistics{% endblock %}">
+      <header class="ld-topbar">
+        <button type="button" class="ld-menu-btn" id="ldMenuOpen" aria-label="Open menu">☰</button>
+        <div class="d-flex flex-column text-truncate flex-grow-1">
+          <span class="ld-topbar-kicker">Khanal Foods</span>
+          <strong class="ld-topbar-title text-truncate ld-sync-title"></strong>
+        </div>
+        <a class="ld-notif-btn text-decoration-none" id="ldNotifMobileLink" href="/logistics_delivery#report-alerts" title="Report issues" aria-label="Report issues">
+          <span class="ld-notif-icon" aria-hidden="true">🔔</span>
+          <span class="ld-notif-badge rounded-pill d-none" id="ldNotifBadgeMobile">0</span>
+        </a>
+      </header>
+      <div class="ld-desktop-bar">
+        <div class="ld-desktop-bar-strip" aria-hidden="true"></div>
+        <div class="ld-desktop-bar-inner">
+          <button type="button" class="ld-sidebar-toggle" id="ldSidebarToggle" aria-label="Toggle sidebar" title="Show / hide sidebar">☰</button>
+          <div class="ld-desktop-bar-mark">
+            <div class="ld-desktop-bar-text">
+              <span class="ld-desktop-bar-kicker">Logistics portal</span>
+              <h1 class="ld-desktop-bar-title ld-sync-title"></h1>
+            </div>
+          </div>
+          <div class="ld-desktop-bar-meta d-flex align-items-center flex-wrap justify-content-end">
+            <div class="ld-notif-dd">
+              <button type="button" class="ld-notif-btn" id="ldNotifBtn" aria-label="Notifications" onclick="window.ldToggleNotifPanel()">
+                <span class="ld-notif-icon">🔔</span>
+                <span class="ld-notif-badge d-none" id="ldNotifBadge">0</span>
+              </button>
+              <div class="ld-notif-panel" id="ldNotifPanel">
+                <div class="ld-notif-panel-head">
+                  <span class="ld-notif-panel-title">Notifications</span>
+                  <button type="button" class="ld-notif-close-btn" onclick="window.ldCloseNotifPanel()" aria-label="Close">✕</button>
+                </div>
+                <div class="ld-notif-list" id="ldNotifList">
+                  <div class="ld-notif-empty" id="ldNotifEmpty">
+                    <span class="ld-notif-empty-icon">🔔</span>
+                    No new notifications
+                  </div>
+                </div>
+                <div class="ld-notif-panel-foot">
+                  <a href="/logistics_delivery/tracker_report" onclick="window.ldCloseNotifPanel()">View full tracker report →</a>
+                </div>
+              </div>
+            </div>
+            <span>Delivery · API</span>
+          </div>
+        </div>
+      </div>
+      <div class="ld-content">
+        {% block page_content %}{% endblock %}
+      </div>
+    </div>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+    crossorigin="anonymous"></script>
+  <script>
+    (function () {
+      var root = document.querySelector(".ld-main");
+      if (root) {
+        var title = root.getAttribute("data-ld-title") || "";
+        root.querySelectorAll(".ld-sync-title").forEach(function (el) {
+          el.textContent = title;
+        });
+      }
+    })();
+  </script>
+  <script>
+    (function () {
+      var sidebar = document.getElementById("ldSidebar");
+      var backdrop = document.getElementById("ldSidebarBackdrop");
+      var openBtn = document.getElementById("ldMenuOpen");
+      function close() {
+        sidebar.classList.remove("is-open");
+        backdrop.hidden = true;
+        document.body.style.overflow = "";
+      }
+      function open() {
+        sidebar.classList.add("is-open");
+        backdrop.hidden = false;
+        document.body.style.overflow = "hidden";
+      }
+      if (openBtn && sidebar && backdrop) {
+        openBtn.addEventListener("click", function () {
+          if (sidebar.classList.contains("is-open")) close();
+          else open();
+        });
+        backdrop.addEventListener("click", close);
+        window.addEventListener("resize", function () {
+          if (window.matchMedia("(min-width: 992px)").matches) close();
+        });
+        sidebar.querySelectorAll("a.ld-nav-link").forEach(function (a) {
+          a.addEventListener("click", function () {
+            if (window.matchMedia("(max-width: 991.98px)").matches) close();
+          });
+        });
+      }
+      var desktopToggle = document.getElementById("ldSidebarToggle");
+      if (desktopToggle) {
+        desktopToggle.addEventListener("click", function () {
+          var collapsed = document.documentElement.classList.toggle("ld-sidebar-collapsed");
+          try {
+            localStorage.setItem("ld_sidebar_collapsed", collapsed ? "1" : "0");
+          } catch (e) {}
+        });
+      }
+    })();
+  </script>
+  <script>
+    (function () {
+      var API_ALERTS =
+        "/api/method/khanal_tech_integrations.api.logistics_delivery.tracker_data.get_logistics_report_alerts?limit=40";
+      function trackerUrl(lr) {
+        var u = "/logistics_delivery/tracker_report";
+        if (lr) u += "?lrnum=" + encodeURIComponent(String(lr).trim());
+        return u;
+      }
+      function renderAlertsInto(listEl, emptyEl, badgeEl, badgeMobile, alerts) {
+        if (!listEl) return;
+        listEl.innerHTML = "";
+        var n = (alerts && alerts.length) || 0;
+        if (badgeEl) {
+          if (n > 0) {
+            badgeEl.textContent = n > 99 ? "99+" : String(n);
+            badgeEl.classList.remove("d-none");
+          } else badgeEl.classList.add("d-none");
+        }
+        if (badgeMobile) {
+          if (n > 0) {
+            badgeMobile.textContent = n > 99 ? "99+" : String(n);
+            badgeMobile.classList.remove("d-none");
+          } else badgeMobile.classList.add("d-none");
+        }
+        if (!n) {
+          if (emptyEl) emptyEl.classList.remove("d-none");
+          return;
+        }
+        if (emptyEl) emptyEl.classList.add("d-none");
+        alerts.forEach(function (a) {
+          var sev = a.severity === "danger" ? "ld-notif-item--danger" : "ld-notif-item--warn";
+          var link = document.createElement("a");
+          link.className = "ld-notif-item " + sev;
+          link.href = trackerUrl(a.lrnum);
+          link.onclick = function () { window.ldCloseNotifPanel && window.ldCloseNotifPanel(); };
+          /* coloured dot */
+          var dot = document.createElement("span");
+          dot.className = "ld-notif-dot";
+          /* body */
+          var body = document.createElement("div");
+          body.className = "ld-notif-item__body";
+          var t = document.createElement("div");
+          t.className = "ld-notif-item__title";
+          t.textContent = (a.title || "Issue") + " · LR " + (a.lrnum || "—");
+          var m = document.createElement("div");
+          m.className = "ld-notif-item__msg";
+          m.textContent = a.message || "";
+          body.appendChild(t);
+          body.appendChild(m);
+          link.appendChild(dot);
+          link.appendChild(body);
+          listEl.appendChild(link);
+        });
+      }
+      window.ldApplyReportAlerts = function (alerts) {
+        renderAlertsInto(
+          document.getElementById("ldNotifList"),
+          document.getElementById("ldNotifEmpty"),
+          document.getElementById("ldNotifBadge"),
+          document.getElementById("ldNotifBadgeMobile"),
+          alerts || []
+        );
+      };
+      window.ldFetchReportAlerts = function () {
+        return fetch(API_ALERTS, { method: "GET", credentials: "same-origin", headers: { Accept: "application/json" } })
+          .then(function (r) { return r.json().catch(function () { return {}; }); })
+          .then(function (data) {
+            if (data.exc_type) return { alerts: [], count: 0 };
+            var payload = data.message !== undefined ? data.message : data;
+            return { alerts: payload.alerts || [], count: payload.count || 0 };
+          })
+          .catch(function () { return { alerts: [], count: 0 }; });
+      };
+      window.ldRefreshHeaderNotifications = function () {
+        return window.ldFetchReportAlerts().then(function (pack) {
+          window.ldApplyReportAlerts(pack.alerts);
+          return pack;
+        });
+      };
+      /* ── Notification panel open / close ── */
+      window.ldCloseNotifPanel = function () {
+        var panel = document.getElementById("ldNotifPanel");
+        var btn   = document.getElementById("ldNotifBtn");
+        if (panel) panel.classList.remove("ld-notif-panel--open");
+        if (btn)   btn.classList.remove("ld-notif-open");
+      };
+      window.ldOpenNotifPanel = function () {
+        var panel = document.getElementById("ldNotifPanel");
+        var btn   = document.getElementById("ldNotifBtn");
+        if (panel) panel.classList.add("ld-notif-panel--open");
+        if (btn)   btn.classList.add("ld-notif-open");
+        window.ldRefreshHeaderNotifications();
+      };
+      window.ldToggleNotifPanel = function () {
+        var panel = document.getElementById("ldNotifPanel");
+        if (panel && panel.classList.contains("ld-notif-panel--open")) {
+          window.ldCloseNotifPanel();
+        } else {
+          window.ldOpenNotifPanel();
+        }
+      };
+      /* Close on outside click */
+      document.addEventListener("click", function (e) {
+        var dd = document.querySelector(".ld-notif-dd");
+        var panel = document.getElementById("ldNotifPanel");
+        if (!panel || !panel.classList.contains("ld-notif-panel--open")) return;
+        if (dd && dd.contains(e.target)) return;
+        window.ldCloseNotifPanel();
+      });
+      document.addEventListener("keydown", function (e) {
+        if (e.key === "Escape") window.ldCloseNotifPanel();
+      });
+      /* Stub aliases for backwards compat */
+      window.ldHideNotifDropdown   = window.ldCloseNotifPanel;
+      window.ldToggleNotifDropdown = window.ldToggleNotifPanel;
+    })();
+  </script>
+  <script>
+    (function () {
+      var btn = document.getElementById("ldLogoutBtn");
+      if (!btn) return;
+      btn.addEventListener("click", function () {
+        btn.disabled = true;
+        fetch("/api/method/logout", { method: "GET", credentials: "same-origin" })
+          .catch(function () {})
+          .then(function () {
+            window.location.href = "/login";
+          });
+      });
+    })();
+  </script>
+  <script>
+    (function () {
+      var splash = document.getElementById("ldSplash");
+      if (!splash || document.documentElement.classList.contains("ld-splash-done")) return;
+      var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      var holdMs = reduce ? 700 : 2400;
+      var exitMs = reduce ? 220 : 720;
+      var finished = false;
+      function finish() {
+        if (finished) return;
+        finished = true;
+        try {
+          sessionStorage.setItem("ld_splash_session", "1");
+        } catch (e) {}
+        document.documentElement.classList.add("ld-splash-done");
+        splash.classList.remove("ld-splash--exit");
+      }
+      setTimeout(function () {
+        splash.classList.add("ld-splash--exit");
+        setTimeout(finish, exitMs);
+      }, holdMs);
+    })();
+  </script>
+  {% block page_scripts %}{% endblock %}
+</body>
+</html>

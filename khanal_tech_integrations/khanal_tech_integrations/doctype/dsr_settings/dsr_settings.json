@@ -1,0 +1,72 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2025-02-05 11:59:02.715221",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "login_details_section",
+  "email",
+  "password",
+  "app_password",
+  "notification_section",
+  "notification_recipients"
+ ],
+ "fields": [
+  {
+   "fieldname": "login_details_section",
+   "fieldtype": "Section Break",
+   "label": "Login Details"
+  },
+  {
+   "fieldname": "email",
+   "fieldtype": "Data",
+   "label": "email"
+  },
+  {
+   "fieldname": "password",
+   "fieldtype": "Data",
+   "label": "password"
+  },
+  {
+   "fieldname": "app_password",
+   "fieldtype": "Data",
+   "label": "app password"
+  },
+  {
+   "fieldname": "notification_section",
+   "fieldtype": "Section Break",
+   "label": "Notifications"
+  },
+  {
+   "description": "Comma-separated email addresses for POD pending reports and alerts",
+   "fieldname": "notification_recipients",
+   "fieldtype": "Small Text",
+   "label": "Notification Recipients"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "issingle": 1,
+ "links": [],
+ "modified": "2026-05-12 09:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Khanal Tech Integrations",
+ "name": "DSR Settings",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "print": 1,
+   "read": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "creation",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1
+}

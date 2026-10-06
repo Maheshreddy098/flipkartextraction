@@ -1,0 +1,94 @@
+{
+ "charts": [],
+ "content": "[{\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\">Unicommerce Ops</span>\",\"col\":12}},{\"type\":\"paragraph\",\"data\":{\"text\":\"Pipeline monitoring &amp; failure triage. Open the Ops Center for a live dashboard with retry controls.\",\"col\":12}},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Ops Center\",\"col\":3}},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Failed Orders\",\"col\":3}},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Failed Credit Notes\",\"col\":3}},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Failed Inventory Sync\",\"col\":3}},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Unicommerce Settings\",\"col\":3}},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"All Unicommerce Orders\",\"col\":3}},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"All UC Credit Note Staging\",\"col\":3}},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"SAP Inventory Transfers\",\"col\":3}},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Error Log\",\"col\":3}}]",
+ "creation": "2026-04-08 12:00:00.000000",
+ "custom_blocks": [],
+ "docstatus": 0,
+ "doctype": "Workspace",
+ "for_user": "",
+ "hide_custom": 0,
+ "icon": "sync",
+ "idx": 0,
+ "is_hidden": 0,
+ "label": "Unicommerce Ops",
+ "links": [],
+ "modified": "2026-04-08 12:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Khanal Tech Integrations",
+ "name": "Unicommerce Ops",
+ "number_cards": [],
+ "owner": "Administrator",
+ "parent_page": "",
+ "public": 1,
+ "quick_lists": [],
+ "roles": [],
+ "sequence_id": 20.0,
+ "shortcuts": [
+  {
+   "color": "Blue",
+   "label": "Ops Center",
+   "link_to": "unicommerce-ops-center",
+   "type": "Page"
+  },
+  {
+   "color": "Red",
+   "doc_view": "List",
+   "label": "Failed Orders",
+   "link_to": "Unicommerce Orders",
+   "stats_filter": "{\"pipeline_status\":[\"in\",[\"failed\",\"dead\"]]}",
+   "type": "DocType"
+  },
+  {
+   "color": "Red",
+   "doc_view": "List",
+   "label": "Failed Credit Notes",
+   "link_to": "UC Credit Note Staging",
+   "stats_filter": "{\"status\":[\"in\",[\"failed\",\"dead\"]]}",
+   "type": "DocType"
+  },
+  {
+   "color": "Red",
+   "doc_view": "List",
+   "label": "Failed Inventory Sync",
+   "link_to": "SAP Inventory Transfers",
+   "stats_filter": "{\"unicommerce_sync_status\":[\"in\",[\"Failed\",\"Partial\"]]}",
+   "type": "DocType"
+  },
+  {
+   "color": "Grey",
+   "doc_view": "",
+   "label": "Unicommerce Settings",
+   "link_to": "Unicommerce Settings",
+   "type": "DocType"
+  },
+  {
+   "color": "Blue",
+   "doc_view": "List",
+   "label": "All Unicommerce Orders",
+   "link_to": "Unicommerce Orders",
+   "type": "DocType"
+  },
+  {
+   "color": "Blue",
+   "doc_view": "List",
+   "label": "All UC Credit Note Staging",
+   "link_to": "UC Credit Note Staging",
+   "type": "DocType"
+  },
+  {
+   "color": "Blue",
+   "doc_view": "List",
+   "label": "SAP Inventory Transfers",
+   "link_to": "SAP Inventory Transfers",
+   "type": "DocType"
+  },
+  {
+   "color": "Yellow",
+   "doc_view": "List",
+   "label": "Error Log",
+   "link_to": "Error Log",
+   "type": "DocType"
+  }
+ ],
+ "title": "Unicommerce Ops"
+}

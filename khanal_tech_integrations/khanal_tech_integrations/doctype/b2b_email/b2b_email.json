@@ -1,0 +1,76 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2025-03-03 17:22:58.916685",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "email",
+  "password",
+  "imap_server",
+  "imap_port",
+  "label_name",
+  "column_break_nblz",
+  "labelname2"
+ ],
+ "fields": [
+  {
+   "fieldname": "email",
+   "fieldtype": "Data",
+   "label": "email"
+  },
+  {
+   "fieldname": "password",
+   "fieldtype": "Data",
+   "label": "password"
+  },
+  {
+   "fieldname": "imap_server",
+   "fieldtype": "Data",
+   "label": "imap_server"
+  },
+  {
+   "fieldname": "imap_port",
+   "fieldtype": "Data",
+   "label": "imap_port"
+  },
+  {
+   "fieldname": "label_name",
+   "fieldtype": "Small Text",
+   "label": "Blinkit-Label"
+  },
+  {
+   "fieldname": "column_break_nblz",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "labelname2",
+   "fieldtype": "Small Text",
+   "label": "Instamart-Label"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "issingle": 1,
+ "links": [],
+ "modified": "2025-03-03 17:27:09.258804",
+ "modified_by": "Administrator",
+ "module": "Khanal Tech Integrations",
+ "name": "B2B_EMAIL",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "print": 1,
+   "read": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "creation",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1
+}

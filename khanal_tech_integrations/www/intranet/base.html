@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en-US" dir="ltr">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- ============================================-->
+    <!--    Document Title-->
+    <!-- ===============================================-->
+    <title>Khanal Foods &amp; CRM Platform</title>
+
+    <!-- ===============================================-->
+    <!--    Favicons-->
+    <!-- ===============================================-->
+    <link rel="apple-touch-icon" sizes="180x180"
+        href="/assets/khanal_tech_integrations/assets/img/khanal_foods_logo.png">
+    <link rel="icon" type="image/png" sizes="32x32"
+        href="/assets/khanal_tech_integrations/assets/img/khanal_foods_logo.png">
+    <link rel="icon" type="image/png" sizes="16x16"
+        href="/assets/khanal_tech_integrations/assets/img/khanal_foods_logo.png">
+    <link rel="shortcut icon" type="image/x-icon"
+        href="/assets/khanal_tech_integrations/assets/img/khanal_foods_logo.png">
+    <link rel="manifest" href="/assets/khanal_tech_integrations/assets/img/favicons/manifest.json">
+    <meta name="msapplication-TileImage" content="/assets/khanal_tech_integrations/assets/img/khanal_foods_logo.png">
+    <meta name="theme-color" content="#ffffff">
+    <script src="/assets/khanal_tech_integrations/assets/js/config.js"></script>
+    <script src="/assets/khanal_tech_integrations/vendors/simplebar/simplebar.min.js"></script>
+
+
+    
+    <!-- ===============================================-->
+    <!--    Stylesheets-->
+    <!-- ===============================================-->
+    <!--  -->
+    <link href="/assets/khanal_tech_integrations/vendors/leaflet/leaflet.css" rel="stylesheet">
+    <link href="/assets/khanal_tech_integrations/vendors/leaflet.markercluster/MarkerCluster.css" rel="stylesheet">
+    <link href="/assets/khanal_tech_integrations/vendors/leaflet.markercluster/MarkerCluster.Default.css"
+        rel="stylesheet">
+    <link href="/assets/khanal_tech_integrations/vendors/flatpickr/flatpickr.min.css" rel="stylesheet">
+    <!--  -->
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link
+        href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,500,600,700%7cPoppins:300,400,500,600,700,800,900&amp;display=swap"
+        rel="stylesheet">
+    <link href="/assets/khanal_tech_integrations/vendors/simplebar/simplebar.min.css" rel="stylesheet">
+    <link href="/assets/khanal_tech_integrations/assets/css/theme-rtl.min.css" rel="stylesheet" id="style-rtl">
+    <link href="/assets/khanal_tech_integrations/assets/css/theme.min.css" rel="stylesheet" id="style-default">
+    <link href="/assets/khanal_tech_integrations/assets/css/user-rtl.min.css" rel="stylesheet" id="user-style-rtl">
+    <link href="/assets/khanal_tech_integrations/assets/css/user.min.css" rel="stylesheet" id="user-style-default">
+
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.1/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/bbbootstrap/libraries@main/choices.min.css">
+
+    <script>
+        var isRTL = JSON.parse(localStorage.getItem('isRTL'));
+        if (isRTL) {
+            var linkDefault = document.getElementById('style-default');
+            var userLinkDefault = document.getElementById('user-style-default');
+            linkDefault.setAttribute('disabled', true);
+            userLinkDefault.setAttribute('disabled', true);
+            document.querySelector('html').setAttribute('dir', 'rtl');
+        } else {
+            var linkRTL = document.getElementById('style-rtl');
+            var userLinkRTL = document.getElementById('user-style-rtl');
+            linkRTL.setAttribute('disabled', true);
+            userLinkRTL.setAttribute('disabled', true);
+        }
+    </script>
+    <style>
+        .loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            z-index: 9999;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .loader-spinner {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            border: 5px solid rgba(255, 255, 255, 0.5);
+            border-top-color: #fff;
+            animation: spin 1s linear infinite;
+            box-shadow: 0px 0px 10px rgba(255, 255, 255, 0.5);
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+    </style>
+</head>
+
+
+<body>
+    <!-- loader -->
+    <div class="loader">
+        <div class="loader-spinner"></div>
+    </div>
+    <!-- endloader  -->
+
+    <!-- ===============================================-->
+    <!--    Main Content-->
+    <!-- ===============================================-->
+    <main class="main" id="top">
+        {% if frappe.session.user == 'Guest' %}
+        <script>
+            window.location.href = "/login";
+            localStorage.setItem("session_last_route", window.location.pathname)
+        </script>
+        {% else %}
+        <div class="container-fluid" data-layout="container-fluid">
+            <script>
+                var isFluid = JSON.parse(localStorage.getItem('isFluid'));
+                if (isFluid) {
+                    var container = document.querySelector('[data-layout]');
+                    container.classList.remove('container');
+                    container.classList.add('container-fluid');
+                }
+            </script>
+            <!-- sidebar -->
+            {% include 'khanal_tech_integrations/www/intranet/partials/sidebar.html' %}
+            <!-- end sidebar -->
+            <div class="content">
+                <!-- header -->
+                {% include 'khanal_tech_integrations/www/intranet/partials/header.html' %}
+                <!-- endheader -->
+                <!-- block content -->
+                {% block content %}
+                {% endblock content %}
+                <!-- end block content -->
+                <!-- footer -->
+                <!-- {% include 'khanal_tech_integrations/www/intranet/partials/footer.html' %} -->
+                <!-- end footer -->
+            </div>
+        </div>
+        {% endif %}
+
+    </main>
+    <!-- ===============================================-->
+    <!--    End of Main Content-->
+    <!-- ===============================================-->
+    <!-- offcanvas -->
+    <!-- {% include 'khanal_tech_integrations/www/intranet/partials/canvas.html' %} -->
+    <!--  end offcanvas -->
+    <!-- ===============================================-->
+    <!--    JavaScripts-->
+    <!-- ===============================================-->
+    <script src="/assets/khanal_tech_integrations/plugins/jquery/jquery.min.js"></script>
+
+    <script src="/assets/khanal_tech_integrations/vendors/popper/popper.min.js"></script>
+    <script src="/assets/khanal_tech_integrations/vendors/bootstrap/bootstrap.min.js"></script>
+    <script src="/assets/khanal_tech_integrations/vendors/anchorjs/anchor.min.js"></script>
+    <script src="/assets/khanal_tech_integrations/vendors/is/is.min.js"></script>
+    <!-- <script src="../../../vendors/echarts/echarts.min.js"></script> -->
+
+    <script src="/assets/khanal_tech_integrations/vendors/echarts/echarts.min.js"></script>
+    <!-- chart js for analytic -->
+    <script src="/assets/khanal_tech_integrations/assets/data/world.js"></script>
+    <script src="/assets/khanal_tech_integrations/vendors/chart/chart.min.js"></script>
+    <!--  -->
+    <script src="/assets/khanal_tech_integrations/vendors/leaflet/leaflet.js"></script>
+    <script src="/assets/khanal_tech_integrations/vendors/leaflet.markercluster/leaflet.markercluster.js"></script>
+    <script
+        src="/assets/khanal_tech_integrations/vendors/leaflet.tilelayer.colorfilter/leaflet-tilelayer-colorfilter.min.js"></script>
+    <script src="/assets/khanal_tech_integrations/vendors/countup/countUp.umd.js"></script>
+    <script src="/assets/khanal_tech_integrations/assets/js/flatpickr.js"></script>
+    <!--  -->
+    <script src="/assets/khanal_tech_integrations/vendors/dayjs/dayjs.min.js"></script>
+    <!-- end chart js for analytic -->
+    <script src="/assets/khanal_tech_integrations/vendors/fontawesome/all.min.js"></script>
+    <script src="/assets/khanal_tech_integrations/vendors/lodash/lodash.min.js"></script>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=window.scroll"></script>
+    <script src="/assets/khanal_tech_integrations/vendors/list.js/list.min.js"></script>
+    <script src="/assets/khanal_tech_integrations/assets/js/theme.js"></script>
+    <script src="/assets/khanal_tech_integrations/assets/js/customize.js"></script>
+    <script>
+        // Function to show the loader
+        var isLoading = false;
+
+        function showLoader() {
+            var loader = document.querySelector(".loader");
+            loader.style.display = "flex";
+        }
+
+        function hideLoader() {
+            var loader = document.querySelector(".loader");
+            loader.style.display = "none";
+        }
+
+        function loadData() {
+            if (!isLoading) {
+                isLoading = true;
+                showLoader();
+
+                // Simulate data loading delay of 5 seconds
+                setTimeout(function () {
+                    // Hide the loader after the data is loaded
+                    hideLoader();
+                    isLoading = false;
+                }, 5000);
+            }
+        }
+
+        // Show the loader when the page starts loading
+        window.addEventListener("beforeunload", showLoader);
+
+        // Hide the loader once the page is fully loaded
+        window.addEventListener("load", hideLoader);
+
+
+
+
+    </script>
+
+
+    {% block javascripts %}
+
+    {% endblock %}
+</body>
+
+</html>

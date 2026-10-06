@@ -1,0 +1,248 @@
+{
+ "actions": [],
+ "autoname": "naming_series:",
+ "creation": "2026-04-29 00:00:00.000000",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "naming_series",
+  "status",
+  "plant",
+  "warehouse",
+  "purpose",
+  "card_name",
+  "doc_date",
+  "doc_due_date",
+  "series",
+  "ship_to_code",
+  "bill_to_code",
+  "address",
+  "section_break_audit",
+  "requested_by",
+  "requested_on",
+  "submitted_by",
+  "submitted_on",
+  "approved_by",
+  "approved_on",
+  "section_break_sap",
+  "sap_customer_code",
+  "sap_doc_entry",
+  "sap_doc_num",
+  "sap_posting_date",
+  "sap_last_error",
+  "section_break_items",
+  "line_items",
+  "remarks",
+  "rejection_reason"
+ ],
+ "fields": [
+  {
+   "default": "CDN-.YYYY.-.#####",
+   "fieldname": "naming_series",
+   "fieldtype": "Select",
+   "label": "Series",
+   "options": "CDN-.YYYY.-.#####"
+  },
+  {
+   "default": "Draft",
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Status",
+   "options": "Draft\nSubmitted\nApproved\nRejected\nPosted\nFailed\nCancelled"
+  },
+  {
+   "fieldname": "plant",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Plant",
+   "options": "Consumables Plant",
+   "reqd": 1
+  },
+  {
+   "fieldname": "warehouse",
+   "fieldtype": "Data",
+   "label": "Warehouse",
+   "reqd": 1
+  },
+  {
+   "fieldname": "purpose",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Purpose"
+  },
+  {
+   "fieldname": "card_name",
+   "fieldtype": "Data",
+   "label": "Card Name"
+  },
+  {
+   "fieldname": "doc_date",
+   "fieldtype": "Date",
+   "label": "Doc Date"
+  },
+  {
+   "fieldname": "doc_due_date",
+   "fieldtype": "Date",
+   "label": "Doc Due Date"
+  },
+  {
+   "fieldname": "series",
+   "fieldtype": "Data",
+   "label": "Series"
+  },
+  {
+   "fieldname": "ship_to_code",
+   "fieldtype": "Data",
+   "label": "Ship To Code"
+  },
+  {
+   "fieldname": "bill_to_code",
+   "fieldtype": "Data",
+   "label": "Bill To Code"
+  },
+  {
+   "fieldname": "address",
+   "fieldtype": "Text",
+   "label": "Address"
+  },
+  {
+   "fieldname": "section_break_audit",
+   "fieldtype": "Section Break",
+   "label": "Audit Trail"
+  },
+  {
+   "fieldname": "requested_by",
+   "fieldtype": "Link",
+   "label": "Requested By",
+   "options": "User"
+  },
+  {
+   "fieldname": "requested_on",
+   "fieldtype": "Datetime",
+   "label": "Requested On"
+  },
+  {
+   "fieldname": "submitted_by",
+   "fieldtype": "Link",
+   "label": "Submitted By",
+   "options": "User"
+  },
+  {
+   "fieldname": "submitted_on",
+   "fieldtype": "Datetime",
+   "label": "Submitted On"
+  },
+  {
+   "fieldname": "approved_by",
+   "fieldtype": "Link",
+   "label": "Approved By",
+   "options": "User"
+  },
+  {
+   "fieldname": "approved_on",
+   "fieldtype": "Datetime",
+   "label": "Approved On"
+  },
+  {
+   "fieldname": "section_break_sap",
+   "fieldtype": "Section Break",
+   "label": "SAP References"
+  },
+  {
+   "fieldname": "sap_customer_code",
+   "fieldtype": "Data",
+   "label": "SAP Customer Code",
+   "read_only": 1
+  },
+  {
+   "fieldname": "sap_doc_entry",
+   "fieldtype": "Data",
+   "label": "SAP Doc Entry",
+   "read_only": 1
+  },
+  {
+   "fieldname": "sap_doc_num",
+   "fieldtype": "Data",
+   "label": "SAP Doc Num",
+   "read_only": 1
+  },
+  {
+   "fieldname": "sap_posting_date",
+   "fieldtype": "Date",
+   "label": "SAP Posting Date",
+   "read_only": 1
+  },
+  {
+   "fieldname": "sap_last_error",
+   "fieldtype": "Text",
+   "label": "SAP Last Error",
+   "read_only": 1
+  },
+  {
+   "fieldname": "section_break_items",
+   "fieldtype": "Section Break",
+   "label": "Line Items"
+  },
+  {
+   "fieldname": "line_items",
+   "fieldtype": "Table",
+   "label": "Line Items",
+   "options": "Consumables Delivery Note Item",
+   "reqd": 1
+  },
+  {
+   "fieldname": "remarks",
+   "fieldtype": "Text",
+   "label": "Remarks"
+  },
+  {
+   "fieldname": "rejection_reason",
+   "fieldtype": "Text",
+   "label": "Rejection Reason"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2026-07-02 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Consumables",
+ "name": "Consumables Delivery Note",
+ "naming_series": "CDN-.YYYY.-.#####",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "print": 1,
+   "read": 1,
+   "role": "Consumables Super Admin",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "email": 1,
+   "print": 1,
+   "read": 1,
+   "role": "Consumables Store Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "email": 1,
+   "print": 1,
+   "read": 1,
+   "role": "Consumables Store User",
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "title_field": "name",
+ "track_changes": 1
+}

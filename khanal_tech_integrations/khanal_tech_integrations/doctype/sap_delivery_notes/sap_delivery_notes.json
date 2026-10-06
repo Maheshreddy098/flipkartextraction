@@ -1,0 +1,139 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "field:docentry",
+ "creation": "2022-10-19 10:06:48.127628",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "docentry",
+  "docnum",
+  "customer_code",
+  "created_date",
+  "updated",
+  "column_break_gmbd",
+  "cancellation_status",
+  "ref_sales_order",
+  "ref",
+  "section_break_6",
+  "transporter_name",
+  "shipped_date",
+  "tracking_id",
+  "delivery_status",
+  "shipping_details"
+ ],
+ "fields": [
+  {
+   "fieldname": "docentry",
+   "fieldtype": "Data",
+   "label": "DocEntry",
+   "unique": 1
+  },
+  {
+   "fieldname": "docnum",
+   "fieldtype": "Data",
+   "label": "DocNum"
+  },
+  {
+   "fieldname": "customer_code",
+   "fieldtype": "Data",
+   "label": "Customer Code"
+  },
+  {
+   "fieldname": "created_date",
+   "fieldtype": "Date",
+   "label": "Created Date"
+  },
+  {
+   "fieldname": "ref_sales_order",
+   "fieldtype": "Data",
+   "label": "Ref Sales Order"
+  },
+  {
+   "fieldname": "section_break_6",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "transporter_name",
+   "fieldtype": "Data",
+   "label": "Transporter Name"
+  },
+  {
+   "fieldname": "shipped_date",
+   "fieldtype": "Date",
+   "label": "Shipped Date"
+  },
+  {
+   "fieldname": "tracking_id",
+   "fieldtype": "Data",
+   "label": "Tracking ID"
+  },
+  {
+   "fieldname": "ref",
+   "fieldtype": "Text",
+   "label": "Ref"
+  },
+  {
+   "fieldname": "cancellation_status",
+   "fieldtype": "Data",
+   "label": "Cancellation Status"
+  },
+  {
+   "fieldname": "updated",
+   "fieldtype": "Date",
+   "label": "Last Updated"
+  },
+  {
+   "fieldname": "column_break_gmbd",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "shipping_details",
+   "fieldtype": "JSON",
+   "label": "Shipping Details"
+  },
+  {
+   "fieldname": "delivery_status",
+   "fieldtype": "Data",
+   "label": "Delivery Status"
+  }
+ ],
+ "links": [],
+ "modified": "2023-08-18 11:04:43.103907",
+ "modified_by": "Administrator",
+ "module": "Khanal Tech Integrations",
+ "name": "SAP Delivery Notes",
+ "naming_rule": "By fieldname",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Sales Logistics Report Viewer",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1
+}

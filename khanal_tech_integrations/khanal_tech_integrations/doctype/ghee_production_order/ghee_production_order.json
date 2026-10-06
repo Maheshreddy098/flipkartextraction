@@ -1,0 +1,292 @@
+{
+ "actions": [],
+ "allow_rename": 0,
+ "autoname": "GPO-.YYYY.-.#####",
+ "creation": "2026-06-29 00:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "status",
+  "current_step",
+  "col_break_header",
+  "source_item_code",
+  "new_item_code",
+  "doc_date",
+  "new_item_warehouse",
+  "remarks",
+  "section_batches",
+  "selected_batches_json",
+  "section_output",
+  "output_batch_nos_json",
+  "section_cost",
+  "cost_split_json",
+  "section_po",
+  "po_entry",
+  "po_doc_num",
+  "section_completion",
+  "goods_issue_doc",
+  "goods_receipt_doc",
+  "po_closed",
+  "section_timestamps",
+  "po_created_at",
+  "gi_done_at",
+  "col_break_ts",
+  "gr_done_at",
+  "completed_at",
+  "section_cost_summary",
+  "total_gi_cost",
+  "total_gr_cost",
+  "col_break_cost",
+  "jar_cost",
+  "scrap_cost",
+  "fg_residual",
+  "section_items",
+  "items",
+  "section_error",
+  "error_message"
+ ],
+ "fields": [
+  {
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Status",
+   "options": "Draft\nPO Created\nGI Done\nGR Done\nCompleted\nFailed",
+   "default": "Draft",
+   "reqd": 1
+  },
+  {
+   "fieldname": "current_step",
+   "fieldtype": "Int",
+   "label": "Wizard Step",
+   "default": "1",
+   "description": "1=Select FG, 2=BOM/Cost, 3=Output Batches, 4=Review+Create, 5=Complete"
+  },
+  {
+   "fieldname": "col_break_header",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "source_item_code",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Source Item Code",
+   "description": "FG being reversed, e.g. FGHN0132"
+  },
+  {
+   "fieldname": "new_item_code",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Output Item Code",
+   "description": "BOM header item, e.g. RMHN0094"
+  },
+  {
+   "fieldname": "doc_date",
+   "fieldtype": "Date",
+   "label": "Document Date"
+  },
+  {
+   "fieldname": "new_item_warehouse",
+   "fieldtype": "Data",
+   "label": "Output Warehouse",
+   "default": "HN-WIP"
+  },
+  {
+   "fieldname": "remarks",
+   "fieldtype": "Small Text",
+   "label": "Remarks"
+  },
+  {
+   "fieldname": "section_batches",
+   "fieldtype": "Section Break",
+   "label": "Source Batches"
+  },
+  {
+   "fieldname": "selected_batches_json",
+   "fieldtype": "Long Text",
+   "label": "Selected Batches (JSON)"
+  },
+  {
+   "fieldname": "section_output",
+   "fieldtype": "Section Break",
+   "label": "Output Batch Numbers"
+  },
+  {
+   "fieldname": "output_batch_nos_json",
+   "fieldtype": "Long Text",
+   "label": "Output Batch Numbers (JSON)"
+  },
+  {
+   "fieldname": "section_cost",
+   "fieldtype": "Section Break",
+   "label": "Cost Split Preview"
+  },
+  {
+   "fieldname": "cost_split_json",
+   "fieldtype": "Long Text",
+   "label": "Cost Split Preview (JSON)"
+  },
+  {
+   "fieldname": "section_po",
+   "fieldtype": "Section Break",
+   "label": "Production Order"
+  },
+  {
+   "fieldname": "po_entry",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "PO DocEntry"
+  },
+  {
+   "fieldname": "po_doc_num",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "PO DocNum"
+  },
+  {
+   "fieldname": "section_completion",
+   "fieldtype": "Section Break",
+   "label": "SAP Documents"
+  },
+  {
+   "fieldname": "goods_issue_doc",
+   "fieldtype": "Data",
+   "label": "Goods Issue Document"
+  },
+  {
+   "fieldname": "goods_receipt_doc",
+   "fieldtype": "Data",
+   "label": "Goods Receipt Document"
+  },
+  {
+   "fieldname": "po_closed",
+   "fieldtype": "Check",
+   "label": "PO Closed in SAP"
+  },
+  {
+   "fieldname": "section_timestamps",
+   "fieldtype": "Section Break",
+   "label": "Step Timestamps"
+  },
+  {
+   "fieldname": "po_created_at",
+   "fieldtype": "Datetime",
+   "label": "PO Created At",
+   "read_only": 1
+  },
+  {
+   "fieldname": "gi_done_at",
+   "fieldtype": "Datetime",
+   "label": "GI Done At",
+   "read_only": 1
+  },
+  {
+   "fieldname": "col_break_ts",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "gr_done_at",
+   "fieldtype": "Datetime",
+   "label": "GR Done At",
+   "read_only": 1
+  },
+  {
+   "fieldname": "completed_at",
+   "fieldtype": "Datetime",
+   "label": "Completed At",
+   "read_only": 1
+  },
+  {
+   "fieldname": "section_cost_summary",
+   "fieldtype": "Section Break",
+   "label": "Cost Summary"
+  },
+  {
+   "fieldname": "total_gi_cost",
+   "fieldtype": "Currency",
+   "label": "Total GI Cost",
+   "options": "INR",
+   "read_only": 1
+  },
+  {
+   "fieldname": "total_gr_cost",
+   "fieldtype": "Currency",
+   "label": "Total GR Cost",
+   "options": "INR",
+   "read_only": 1
+  },
+  {
+   "fieldname": "col_break_cost",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "jar_cost",
+   "fieldtype": "Currency",
+   "label": "Jar Cost",
+   "options": "INR",
+   "read_only": 1
+  },
+  {
+   "fieldname": "scrap_cost",
+   "fieldtype": "Currency",
+   "label": "Scrap Cost",
+   "options": "INR",
+   "read_only": 1
+  },
+  {
+   "fieldname": "fg_residual",
+   "fieldtype": "Currency",
+   "label": "FG Residual",
+   "options": "INR",
+   "read_only": 1
+  },
+  {
+   "fieldname": "section_items",
+   "fieldtype": "Section Break",
+   "label": "Cost Breakdown"
+  },
+  {
+   "fieldname": "items",
+   "fieldtype": "Table",
+   "label": "Items",
+   "options": "Ghee Production Order Item"
+  },
+  {
+   "fieldname": "section_error",
+   "fieldtype": "Section Break",
+   "label": "Error"
+  },
+  {
+   "fieldname": "error_message",
+   "fieldtype": "Small Text",
+   "label": "Error Message"
+  }
+ ],
+ "in_create": 0,
+ "index_web_pages_for_search": 0,
+ "links": [],
+ "modified": "2026-06-29 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Khanal Tech Integrations",
+ "name": "Ghee Production Order",
+ "naming_rule": "Expression (using autoname)",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 0,
+   "email": 0,
+   "export": 1,
+   "print": 0,
+   "read": 1,
+   "report": 1,
+   "role": "All",
+   "share": 0,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "track_changes": 1,
+ "track_seen": 0
+}

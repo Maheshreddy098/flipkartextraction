@@ -1,0 +1,238 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    
+    <!-- Bootstrap CSS -->
+    <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous"> -->
+    <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"> -->
+    <title>Khanal Foods</title>
+
+    <style>
+        /* body {
+			font-family: Arial, sans-serif;
+			background-color: #F4F4F4;
+		} */
+        #tablestyle {
+            width: 750px;
+            margin: auto;
+            background-color: white;
+            padding: 10px;
+            border-radius: 12px;
+            border-collapse: collapse;
+        }
+
+        #tablestyle td {
+            /* padding: 5px 14px; */
+            border: 1px solid black;
+            /* text-align: center; */
+            font-size: 14px;
+            color: #666666;
+        }
+       
+
+        #tablestyle th {
+            padding: 10px;
+            background-color: #629b9d;
+            color: white;
+            font-size: 14px;
+            font-weight: bold;
+            border: 1px solid black;
+            text-align: center;
+        }
+
+        #tablestyle h1 {
+            font-size: 24px;
+            color: #629b9d;
+            text-align: center;
+            margin-top: 20px;
+            margin-bottom: 0px;
+        }
+
+        /* #tablestyle p {
+			font-size: 16px;
+			color: #666666;
+			margin-top: 5px;
+			margin-bottom: 5px;
+		} */
+        #tablestyle a {
+            color: #629b9d;
+            text-decoration: none;
+        }
+
+        .Button {
+            background-color: #8aafb0;
+            padding: 3px 5px;
+            font-size: 10px;
+            text-align: center;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            display: block;
+            margin: 5px;
+        }
+    </style>
+
+</head>
+
+<body>
+    <div style="margin:0 auto;background:#f2f5f7">
+
+        <table style="margin:auto;background:#f2f5f7 url() top center no-repeat;padding:35px 0 20px;width:750px"
+            cellpadding="0" cellspacing="0" border="0">
+
+            <tbody>
+                <tr>
+                    <td align="center" valign="middle" style="margin:0;padding:0">
+                        <table width="750" border="0" cellpadding="0" cellspacing="0" style="width:750px;margin:auto">
+                            <tbody>
+                                <tr>
+                                    <td align="center" valign="middle" style="padding:0 0 24px;margin:0"><a href=""
+                                            target="_blank" data-saferedirecturl="#">
+                                            <img src="https://khanaltech.com/files/khanalfoods_logo.jpg" width="60"
+                                                height="60" alt="" class="CToWUd" data-bit="iit">
+                                        </a></td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+
+                    </td>
+                </tr>
+
+            </tbody>
+        </table>
+        <table id="tablestyle">
+            <tr>
+                <td colspan="8" valign="top" style="padding:40px 54px 0;margin:0;border: none;">
+                    <p style="font-size:17px;color:#666666;font-family:sans-serif;margin-top:5px;">Dear Sales Person,
+                    </p>
+                    <p>We would like to inform you that the order details for the period of  <b> {{FromDate}}</b>  to
+                        <b>{{ToDate}}</b>, have been provided below. You can track them for further updates.</p>
+                    <p>Please note that if you require additional information on the order details and tracking  you may visit
+                        <a href="https://khanaltech.com/intranet">khanaltech.com</a></p>
+                       
+                </td>
+                
+            </tr>
+            <tr>
+                <th style="background-color: white;border: none;"></th>
+                <th>Date</th>
+                <th>Customer Name</th>
+                <th>So No</th>
+                <th>Invoice No</th>
+                <th>Amount</th>
+                <th>Latest Status</th>
+                <th>Action</th>
+                <th style="background-color: white;border: none;"></th>
+            </tr>
+            {% for item in list %}
+            
+            <tr style="margin-bottom: 10px; padding-bottom:20px ;">
+               
+                <td style="background-color: white;border: none;"></td>
+                <td style="text-align: center; font-size: 9px;"><b>{{ item[0] }}</b></td>
+                <td style="text-align: center; font-size: 9px;"> <b>{{ item[12] }}</b></td>
+                <td style="text-align: center; font-size: 9px;"> <b>{{item[11]}}/{{item[1]}}</b> </td>
+                <td style="text-align: center; font-size: 9px;">
+                    <b>
+                {% if item[4] is none  %}
+                    NA
+                {% else %}
+                    {% if item[10] in ['Manual', 'Primary', 'Customer', 'Vendors', 'Employee'] or not item[10] %}
+                        {{ item[4] }}
+                    {% else %}
+                        {{ item[10] }}/{{ item[4] }}
+                    {% endif %}
+                {% endif %}
+                </b>
+                   
+                </td>
+                <td style="text-align: center; font-size: 9px;"> 
+                    <b>
+                    {% if item[9] == 'USD' %}
+                    $ {{ "{:,.2f}".format(item[5]|float) }}
+                    {% elif item[9] == 'EUR' %}
+                    € {{ "{:,.2f}".format(item[5]|float) }}
+                    {% elif item[9] == 'GBP' %}
+                    £ {{ "{:,.2f}".format(item[5]|float) }}
+                    {% else %}
+                    ₹ {{ "{:,.2f}".format(item[5]|float) }}
+                    {% endif %}
+                    </b>
+                </td>
+                    
+                <td style="text-align: center; font-size: 9px;">
+                    <b>
+                    {% if item[7] is none  %}
+                        NA
+                    {% else %}
+                        {{ item[7] }}
+                    {% endif %}
+                    </b>
+                   
+                
+                </td>
+                <td style="text-align: center; font-size: 9px;">
+              
+                   
+                    {% if item[2] %}
+                        {% if item[2] %}
+
+                                    {% if item[2].lower() == 'safexpress'%}
+                                    <a style="color: white;" class="Button" href="/intranet/deliveryhistory/{{item[8]}}">View More</a>
+                                    {% elif 'local truck' == item[2].lower() %}
+                                    <span style="color: white;" class="Button">Local Transportation</span>
+                                    {% elif 'local' == item[2].lower() %}
+                                    <span style="color: white;" class="Button">Local Transportation</span>
+                                    {% elif 'electric vehicle' == item[2].lower() %}
+                                    <span style="color: white;" class="Button">ELECTRIC VEHICLE</span>
+
+                                    {% else %}
+                                    <a style="color: white;" class="Button" href="https://www.aftership.com/track/{{item[3]}}">View More</a>
+
+                                    {% endif %}
+
+                        {% else %}
+                        <h6>none</h6>
+                        {% endif %}
+                    {% else %}
+                    <span style="color: white;" class="Button">No Tracking ID</span>
+                    {% endif %}
+                </td>
+                <td style="background-color: white;border: none;"></td>
+            </tr>
+            
+            {% endfor %}
+            <tr>
+                <td colspan="8" valign="top" style="padding:40px 54px 0;margin:0;border: none;">
+                   
+
+                </td>
+                
+            </tr>
+        </table>
+        <table border="0" cellpadding="0" cellspacing="0" width="750" style="width:750px;margin:auto">
+            <tbody>
+                <tr>
+                    <td align="center" valign="top"
+                        style="padding:0;margin:0;color:#666;font-size:13px;font-family:sans-serif">
+                        <p style="font-size: 12px; color: #777;font-style: italic;">Note: This is a system generated
+                            email.
+                            Please do
+                            not reply to this email.</p><br>
+                        Copyright © 2023 khanalFoods Pvt. Ltd. | All rights reserved.
+                    </td>
+                </tr>
+
+            </tbody>
+        </table>
+
+    </div>
+
+</body>
+
+</html>

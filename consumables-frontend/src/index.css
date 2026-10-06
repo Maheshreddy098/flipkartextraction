@@ -1,0 +1,126 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
+    overflow-x: hidden;
+    overflow-y: auto;
+    height: auto;
+  }
+
+  body {
+    color: #1e293b;
+    overflow-x: hidden;
+    overflow-y: auto;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    height: auto;
+    min-height: 100vh;
+  }
+
+  /* Inside app shell only (Login is a bare RouterView, not under <main>). */
+  main input[type='text'],
+  main input[type='search'],
+  main input[type='number'],
+  main input[type='email'],
+  main input[type='tel'],
+  main input[type='url'],
+  main input[type='date'],
+  main input[type='datetime-local'],
+  main input[type='time'],
+  main input:not([type]) {
+    color: #0f172a;
+    background-color: #ffffff;
+  }
+
+  main select,
+  main textarea {
+    color: #0f172a;
+    background-color: #ffffff;
+  }
+
+  main select option {
+    color: #0f172a;
+    background-color: #ffffff;
+  }
+
+  main input:disabled,
+  main select:disabled,
+  main textarea:disabled {
+    color: #64748b;
+    background-color: #f1f5f9;
+  }
+
+  /* Teleported dialogs (outside <main>) */
+  .storeops-portal-fields textarea,
+  .storeops-portal-fields input[type='text'],
+  .storeops-portal-fields input[type='search'],
+  .storeops-portal-fields input[type='number'] {
+    color: #0f172a;
+    background-color: #ffffff;
+  }
+
+  #app {
+    overflow-x: hidden;
+    overflow-y: auto;
+    height: auto;
+    min-height: 100vh;
+  }
+}
+
+@layer components {
+  /* Strong contrast for <select> (Frappe UI / theme can force white text on white). */
+  main .storeops-select,
+  main .storeops-select option {
+    color: #0f172a !important;
+    background-color: #ffffff !important;
+  }
+
+  main .storeops-select:disabled {
+    color: #64748b !important;
+    background-color: #f1f5f9 !important;
+  }
+}
+
+@layer utilities {
+  @keyframes fade-in {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  @keyframes slide-up {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .animate-fade-in {
+    animation: fade-in 0.5s ease-out;
+  }
+
+  .animate-slide-up {
+    animation: slide-up 0.5s ease-out;
+  }
+}
+
+/* Mobile optimizations to ensure everything fits without scrolling */
+@media screen and (max-width: 768px) {
+  html {
+    font-size: 12px !important; /* Shrink all rem-based sizes (text, padding, margins, images) */
+  }
+  
+  /* Prevent browser UI from causing vertical scroll */
+  body, #app, .h-screen, .min-h-screen {
+    height: 100dvh !important;
+    min-height: 100dvh !important;
+  }
+}

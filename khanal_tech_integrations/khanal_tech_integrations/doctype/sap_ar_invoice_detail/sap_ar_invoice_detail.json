@@ -1,0 +1,522 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "field:docentry",
+ "creation": "2023-03-07 10:20:25.701987",
+ "default_view": "List",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "base_details_tab",
+  "home_section",
+  "docnum",
+  "series_name",
+  "doc_date",
+  "column_break_zgyf",
+  "ref_sales_order",
+  "ref_delivery_note",
+  "doc_currency",
+  "column_break_okjz",
+  "cancellation_status",
+  "bill_total",
+  "tax_total",
+  "section_break_nksc",
+  "transporter_type",
+  "column_break_ckfr",
+  "shipping_charges",
+  "column_break_gtgh",
+  "way_bill_number",
+  "shipping_status",
+  "section_break_psxl",
+  "customer_code",
+  "column_break_peem",
+  "customer_name",
+  "column_break_lzuz",
+  "ref_num",
+  "section_break_egii",
+  "docentry",
+  "lastupdated_date",
+  "column_break_wfhk",
+  "due_date",
+  "column_break_zcxa",
+  "created_date",
+  "tracking_tab",
+  "section_break_wnjl",
+  "pod_status",
+  "column_break_aqbr",
+  "pod_url",
+  "pod_date",
+  "address_tab",
+  "section_break_sqgu",
+  "bill_address",
+  "place_of_supply",
+  "email_status",
+  "column_break_g6j7",
+  "ship_address",
+  "customer_gst",
+  "last_due_date",
+  "tab_break_migd",
+  "section_break_lgfp",
+  "salesperson_name",
+  "salesperson_email",
+  "series_no",
+  "state_of_supply",
+  "section_break_q3yw",
+  "contact_name",
+  "contact_phone",
+  "contact_email",
+  "term",
+  "warehouse_tab",
+  "ware_housecode",
+  "ware_street",
+  "ware_zipcode",
+  "ware_block",
+  "column_break_btss",
+  "ware_name",
+  "ware_gstin",
+  "ware_city",
+  "lineitems_tab",
+  "section_break_byom",
+  "line_items"
+ ],
+ "fields": [
+  {
+   "fieldname": "docentry",
+   "fieldtype": "Data",
+   "label": "DocEntry",
+   "unique": 1
+  },
+  {
+   "fieldname": "docnum",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Invoice No.",
+   "read_only": 1
+  },
+  {
+   "fieldname": "created_date",
+   "fieldtype": "Date",
+   "label": "Created Date",
+   "read_only": 1
+  },
+  {
+   "fieldname": "doc_date",
+   "fieldtype": "Date",
+   "label": "Document Date",
+   "read_only": 1
+  },
+  {
+   "fieldname": "due_date",
+   "fieldtype": "Date",
+   "label": "Due Date",
+   "read_only": 1
+  },
+  {
+   "fieldname": "lastupdated_date",
+   "fieldtype": "Date",
+   "label": "Updated Date",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_zgyf",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "ref_num",
+   "fieldtype": "Data",
+   "label": "Ref Invoice No.",
+   "read_only": 1
+  },
+  {
+   "fieldname": "ref_sales_order",
+   "fieldtype": "Data",
+   "label": "Ref Sales Order",
+   "read_only": 1
+  },
+  {
+   "fieldname": "cancellation_status",
+   "fieldtype": "Data",
+   "label": "Document Status",
+   "read_only": 1
+  },
+  {
+   "fieldname": "ref_delivery_note",
+   "fieldtype": "Data",
+   "label": " Ref Delivery Note",
+   "read_only": 1
+  },
+  {
+   "fieldname": "bill_total",
+   "fieldtype": "Data",
+   "label": "Document Total",
+   "read_only": 1
+  },
+  {
+   "fieldname": "tax_total",
+   "fieldtype": "Data",
+   "label": "Total Tax",
+   "read_only": 1
+  },
+  {
+   "fieldname": "section_break_sqgu",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "customer_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Customer Name",
+   "read_only": 1
+  },
+  {
+   "fieldname": "bill_address",
+   "fieldtype": "Text",
+   "label": "BillToAddress",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_g6j7",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "customer_code",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Customer Code",
+   "read_only": 1
+  },
+  {
+   "fieldname": "ship_address",
+   "fieldtype": "Text",
+   "label": "ShipToAddress",
+   "read_only": 1
+  },
+  {
+   "fieldname": "section_break_lgfp",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "line_items",
+   "fieldtype": "Table",
+   "label": "Order Line Items",
+   "options": "Ar_invoice Details Line Items",
+   "read_only": 1
+  },
+  {
+   "fieldname": "email_status",
+   "fieldtype": "Data",
+   "label": "Email Status",
+   "read_only": 1
+  },
+  {
+   "fieldname": "customer_gst",
+   "fieldtype": "Data",
+   "label": "Customer Gst",
+   "read_only": 1
+  },
+  {
+   "fieldname": "place_of_supply",
+   "fieldtype": "Data",
+   "label": "Place of Supply",
+   "read_only": 1
+  },
+  {
+   "fieldname": "contact_name",
+   "fieldtype": "Data",
+   "label": "Contact Name",
+   "read_only": 1
+  },
+  {
+   "fieldname": "contact_phone",
+   "fieldtype": "Data",
+   "label": "Contact Phone",
+   "read_only": 1
+  },
+  {
+   "fieldname": "contact_email",
+   "fieldtype": "Data",
+   "label": "Contact Email",
+   "read_only": 1
+  },
+  {
+   "fieldname": "series_no",
+   "fieldtype": "Data",
+   "label": "Series No",
+   "read_only": 1
+  },
+  {
+   "fieldname": "series_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Series Name",
+   "read_only": 1
+  },
+  {
+   "fieldname": "doc_currency",
+   "fieldtype": "Data",
+   "label": "Currency",
+   "read_only": 1
+  },
+  {
+   "fieldname": "state_of_supply",
+   "fieldtype": "Data",
+   "label": "State of Supply",
+   "read_only": 1
+  },
+  {
+   "fieldname": "section_break_q3yw",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "ware_housecode",
+   "fieldtype": "Data",
+   "label": "Ware House Code",
+   "read_only": 1
+  },
+  {
+   "fieldname": "ware_name",
+   "fieldtype": "Data",
+   "label": "Ware House Name",
+   "read_only": 1
+  },
+  {
+   "fieldname": "ware_street",
+   "fieldtype": "Data",
+   "label": "Ware House Street",
+   "read_only": 1
+  },
+  {
+   "fieldname": "ware_block",
+   "fieldtype": "Data",
+   "label": "Ware House Block",
+   "read_only": 1
+  },
+  {
+   "fieldname": "ware_zipcode",
+   "fieldtype": "Data",
+   "label": "Ware House ZipCode",
+   "read_only": 1
+  },
+  {
+   "fieldname": "ware_city",
+   "fieldtype": "Data",
+   "label": "Ware House City",
+   "read_only": 1
+  },
+  {
+   "fieldname": "ware_gstin",
+   "fieldtype": "Data",
+   "label": "Ware House GSTIN",
+   "read_only": 1
+  },
+  {
+   "fieldname": "section_break_byom",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "salesperson_email",
+   "fieldtype": "Data",
+   "label": "Sales Person Email",
+   "read_only": 1
+  },
+  {
+   "fieldname": "salesperson_name",
+   "fieldtype": "Data",
+   "label": "Sales Person Name",
+   "read_only": 1
+  },
+  {
+   "fieldname": "term",
+   "fieldtype": "Data",
+   "label": "Terms",
+   "read_only": 1
+  },
+  {
+   "fieldname": "last_due_date",
+   "fieldtype": "Date",
+   "label": "Last Due Date",
+   "read_only": 1
+  },
+  {
+   "fieldname": "way_bill_number",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Way Bill No./Tracking No."
+  },
+  {
+   "fieldname": "pod_url",
+   "fieldtype": "Attach",
+   "label": "POD Url"
+  },
+  {
+   "fieldname": "column_break_okjz",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "home_section",
+   "fieldtype": "Section Break",
+   "label": "Invoice Details"
+  },
+  {
+   "fieldname": "address_tab",
+   "fieldtype": "Tab Break",
+   "label": "Address"
+  },
+  {
+   "fieldname": "tab_break_migd",
+   "fieldtype": "Tab Break",
+   "label": "Contact Details"
+  },
+  {
+   "fieldname": "section_break_wnjl",
+   "fieldtype": "Section Break",
+   "label": "POD Details"
+  },
+  {
+   "fieldname": "column_break_aqbr",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "tracking_tab",
+   "fieldtype": "Tab Break",
+   "label": "Logistics"
+  },
+  {
+   "fieldname": "lineitems_tab",
+   "fieldtype": "Tab Break",
+   "label": "LineItems"
+  },
+  {
+   "fieldname": "base_details_tab",
+   "fieldtype": "Tab Break",
+   "label": "Invoice"
+  },
+  {
+   "fieldname": "shipping_charges",
+   "fieldtype": "Currency",
+   "label": "Shipment Charges"
+  },
+  {
+   "fieldname": "warehouse_tab",
+   "fieldtype": "Tab Break",
+   "label": "Ware House"
+  },
+  {
+   "fieldname": "column_break_btss",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "Pending",
+   "fieldname": "shipping_status",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Shipment Status",
+   "options": "Pending\nCompleted\nCancelled",
+   "read_only": 1,
+   "reqd": 1
+  },
+  {
+   "default": "Pending",
+   "fieldname": "pod_status",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "POD Status",
+   "options": "Pending\nCompleted\nCancelled",
+   "reqd": 1
+  },
+  {
+   "default": "SafeExpress",
+   "fieldname": "transporter_type",
+   "fieldtype": "Select",
+   "label": "Transporter Type",
+   "options": "SafeExpress\nDSR Logistics\nDP World\nDelhivery\nLocal delivery partner\nPlatform Fulfilled",
+   "reqd": 1
+  },
+  {
+   "fieldname": "section_break_psxl",
+   "fieldtype": "Section Break",
+   "label": "Customer Details"
+  },
+  {
+   "fieldname": "section_break_nksc",
+   "fieldtype": "Section Break",
+   "label": "Logistics Details"
+  },
+  {
+   "fieldname": "column_break_ckfr",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "column_break_gtgh",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "column_break_peem",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "column_break_lzuz",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "section_break_egii",
+   "fieldtype": "Section Break",
+   "label": "Other Details"
+  },
+  {
+   "fieldname": "column_break_wfhk",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "column_break_zcxa",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "pod_date",
+   "fieldtype": "Date",
+   "label": "POD Date"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2025-04-23 13:00:52.513917",
+ "modified_by": "Administrator",
+ "module": "Khanal Tech Integrations",
+ "name": "SAP AR Invoice Detail",
+ "naming_rule": "By fieldname",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Delivery Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

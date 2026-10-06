@@ -1,0 +1,202 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2026-09-10 00:00:00.000000",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "section_break_sap_b1",
+  "companydb",
+  "username",
+  "password",
+  "routeid",
+  "column_break_toada",
+  "sap_b1_url",
+  "expires_on",
+  "b1session",
+  "initiate_session",
+  "section_break_hana_db",
+  "hana_host",
+  "hana_user",
+  "hana_password",
+  "column_break_hana",
+  "hana_port",
+  "hana_schema",
+  "sap_crystal_report_settings_section",
+  "cr_companydb",
+  "cr_username",
+  "cr_password",
+  "column_break_wihc",
+  "sap_crystal_report_url",
+  "cr_expires_on",
+  "cr_session"
+ ],
+ "fields": [
+  {
+   "fieldname": "section_break_sap_b1",
+   "fieldtype": "Section Break",
+   "label": "SAP Business One Settings"
+  },
+  {
+   "fieldname": "companydb",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "CompanyDB",
+   "reqd": 1
+  },
+  {
+   "fieldname": "password",
+   "fieldtype": "Password",
+   "in_list_view": 1,
+   "label": "Password",
+   "reqd": 1
+  },
+  {
+   "fieldname": "username",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "UserName",
+   "reqd": 1
+  },
+  {
+   "fieldname": "sap_b1_url",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "SAP_b1_url",
+   "reqd": 1
+  },
+  {
+   "fieldname": "expires_on",
+   "fieldtype": "Datetime",
+   "label": "Expires On"
+  },
+  {
+   "fieldname": "b1session",
+   "fieldtype": "Data",
+   "label": "B1SESSION"
+  },
+  {
+   "fieldname": "routeid",
+   "fieldtype": "Data",
+   "label": "ROUTE ID"
+  },
+  {
+   "fieldname": "column_break_toada",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "initiate_session",
+   "fieldtype": "Button",
+   "label": "Initiate Session"
+  },
+  {
+   "fieldname": "section_break_hana_db",
+   "fieldtype": "Section Break",
+   "label": "SAP HANA Database Settings"
+  },
+  {
+   "description": "SAP HANA database server hostname or IP address",
+   "fieldname": "hana_host",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "HANA Host",
+   "reqd": 1
+  },
+  {
+   "description": "Database username for HANA connection",
+   "fieldname": "hana_user",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "HANA User",
+   "reqd": 1
+  },
+  {
+   "description": "Database password for HANA connection",
+   "fieldname": "hana_password",
+   "fieldtype": "Data",
+   "label": "HANA Password"
+  },
+  {
+   "fieldname": "column_break_hana",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "30015",
+   "description": "SAP HANA database port (default: 30015)",
+   "fieldname": "hana_port",
+   "fieldtype": "Int",
+   "label": "HANA Port"
+  },
+  {
+   "description": "The single source of truth for consumables' HANA schema — replaces the old, independently-drifting Consumables Settings.hana_schema field.",
+   "fieldname": "hana_schema",
+   "fieldtype": "Data",
+   "label": "HANA Schema",
+   "reqd": 1
+  },
+  {
+   "fieldname": "sap_crystal_report_settings_section",
+   "fieldtype": "Section Break",
+   "label": "SAP Crystal Report Settings"
+  },
+  {
+   "fieldname": "cr_companydb",
+   "fieldtype": "Data",
+   "label": "CR CompanyDB"
+  },
+  {
+   "fieldname": "cr_username",
+   "fieldtype": "Data",
+   "label": "CR Username"
+  },
+  {
+   "fieldname": "cr_password",
+   "fieldtype": "Data",
+   "label": "CR Password"
+  },
+  {
+   "fieldname": "column_break_wihc",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "sap_crystal_report_url",
+   "fieldtype": "Data",
+   "label": "SAP Crystal Report URL"
+  },
+  {
+   "fieldname": "cr_expires_on",
+   "fieldtype": "Datetime",
+   "label": "CR Expires On"
+  },
+  {
+   "fieldname": "cr_session",
+   "fieldtype": "Data",
+   "label": "CR Session"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "issingle": 1,
+ "links": [],
+ "modified": "2026-09-10 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Consumables",
+ "name": "Consumables SAP Settings",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "print": 1,
+   "read": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "row_format": "Dynamic",
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

@@ -1,0 +1,214 @@
+<div class="row">
+  <div class="col-lg-12">
+    <div class="card">
+      <div class="card-header text-white" style="background-color: #351753; position: relative;">
+  <div class="bokeh-container"></div>
+
+  <!-- Title with stars on same line -->
+  <h5 class="text-800 fw-bold" style="font-family: 'Arial', sans-serif; text-align: center; margin: 0;">
+    <span style="color: #d18023;">✩</span>
+    <span style="color: #fbeeee; font-family: 'Georgia', serif; font-style: italic; margin: 0 8px;">
+      Warehouse Reports
+    </span>
+    <span style="color: #5ac1cd;">✩</span>
+  </h5>
+
+  <!-- Last fetched display below title, centered -->
+  <div style="text-align: center; margin-top: 2px;">
+    <span id="lastFetchedWarehouseDisplay1"
+      style="color: #fff; font-size: 14px; font-family: Arial, Helvetica, sans-serif;"></span>
+  </div>
+
+  <!-- Fetch button on the right -->
+  <div id="fetchWareHouseButtonWrapperCard"
+    style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); display: flex; align-items: center; gap: 8px;">
+    <div id="fetchWarehouseButtonCard" class="blinking-star" style="cursor: pointer;">
+      <i class="fas fa-sync-alt" aria-hidden="true"></i>
+    </div>
+  </div>
+</div>
+
+
+      <div class="card-body" id="cardBodyCard" style="background-color: #bbd1d3f9;">       
+
+        <div class="d-flex justify-content-between align-items-center mb-3">
+          <!-- Search input aligned left -->
+          <div class="d-flex align-items-center">
+            <input
+              type="text"
+              id="warehouseSearchInput"
+              placeholder="Search by Item Code or Warehouse Code..."
+              class="form-control"
+              style="font-size: 14px; height: 36px; width: 300px;"
+            />
+          </div>
+          
+          <!-- Export buttons aligned right -->
+          <div class="d-flex align-items-center" style="height: 36px;">
+            <img id="WarehouseCardexportExcel" 
+              src="https://img.icons8.com/?size=100&id=UECmBSgBOvPT&format=png&color=000000"
+              alt="Export Excel" 
+              style="cursor: pointer; width: 24px; height: 24px; margin-right: 8px;" 
+              title="Export to Excel"
+            />
+            <img id="WarehouseCardexportPDF" 
+              src="https://img.icons8.com/?size=100&id=13417&format=png&color=000000" 
+              alt="Export PDF"
+              style="cursor: pointer; width: 24px; height: 24px;" 
+              title="Export to PDF"
+            />
+          </div>
+        </div>
+
+        <div id="warehouseCardsContainer" class="row">
+          <p class="text-center text-muted" id="loadingIndicator">Loading WareHouse data...</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% block javascripts %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js"></script>
+<link rel="stylesheet" href="assets/css/vendor_star.css" />
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+<script src="assets/js/vendor_star.js" defer></script>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    console.log('WareHouse Card View page loaded');
+
+    window.loadAllWareHouseReports = function () {
+      const fetchUrl = `/api/method/khanal_tech_integrations.www.kfl_main.warehouse.get_context?is_api_call=true&page_size=10000`;
+      console.log('Fetching ALL WareHouse Reports from URL:', fetchUrl);
+
+      const cardsContainer = document.getElementById('warehouseCardsContainer');
+      const loadingIndicator = document.getElementById('loadingIndicator');
+      if (loadingIndicator) loadingIndicator.style.display = 'block';
+      cardsContainer.innerHTML = '';
+
+      if (typeof showLoader === 'function') showLoader();
+
+      fetch(fetchUrl)
+        .then(response => response.json())
+        .then(data => {
+          if (typeof hideLoader === 'function') hideLoader();
+          if (loadingIndicator) loadingIndicator.style.display = 'none';
+
+          if (data.message && data.message.santa_monica_data) {
+            window.allWarehouseReports = data.message.santa_monica_data;
+            renderWarehouseCards(window.allWarehouseReports);
+          } else {
+            console.error('Unexpected API response:', data);
+            cardsContainer.innerHTML = '<p class="text-center text-danger">Failed to load warehouse data. Please check the backend.</p>';
+          }
+        })
+        .catch(error => {
+          if (typeof hideLoader === 'function') hideLoader();
+          if (loadingIndicator) loadingIndicator.style.display = 'none';
+          console.error('Error fetching reports:', error);
+          cardsContainer.innerHTML = '<p class="text-center text-danger">An error occurred while fetching data.</p>';
+        });
+    };
+
+    function renderWarehouseCards(reports) {
+      const cardsContainer = document.getElementById('warehouseCardsContainer');
+      cardsContainer.innerHTML = '';
+
+      if (!reports.length) {
+        cardsContainer.innerHTML = '<p class="text-center text-muted">No matching reports found.</p>';
+        return;
+      }
+
+      let html = '';
+      reports.forEach(report => {
+        html += `
+          <div class="col-12 mb-3">
+            <div class="card h-100 shadow-sm" style="background-color: #e9ecef;">
+              <div class="card-body">
+                <h6 class="card-subtitle mb-2 text-muted">Item Code: ${report.item_code || 'N/A'}</h6>
+                <p class="card-text mb-1"><strong>Open Quantity:</strong> ${report.open_qty || '0'}</p>
+                <p class="card-text mb-1"><strong>Line Total:</strong> ${report.line_total || '0.00'}</p>
+                <p class="card-text mb-1"><strong>WareHouse Code:</strong> ${report.whse_code || 'N/A'}</p>
+                <p class="card-text"><strong>Base Card:</strong> ${report.base_card || 'N/A'}</p>
+              </div>
+            </div>
+          </div>`;
+      });
+
+      cardsContainer.innerHTML = html;
+    }
+
+    document.getElementById('warehouseSearchInput').addEventListener('input', function (e) {
+      const search = e.target.value.toLowerCase().trim();
+      const filtered = window.allWarehouseReports.filter(r =>
+        (r.item_code && r.item_code.toLowerCase().includes(search)) ||
+        (r.whse_code && r.whse_code.toLowerCase().includes(search))
+      );
+      renderWarehouseCards(filtered);
+    });
+
+  
+
+    document.getElementById('fetchWarehouseButtonCard').addEventListener('click', triggerFetchWareHouseReportsCard);
+
+    loadAllWareHouseReports();
+
+    // Export functions
+    document.getElementById('WarehouseCardexportExcel').addEventListener('click', () => {
+        const data = window.allWarehouseReports;
+        const worksheet = XLSX.utils.json_to_sheet(data);
+        const workbook = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(workbook, worksheet, "Vendors");
+        XLSX.writeFile(workbook, "WareHouseReport.xlsx");
+    });
+
+
+    document.getElementById('WarehouseCardexportPDF').addEventListener('click', () => {
+        const { jsPDF } = window.jspdf;
+        const doc = new jsPDF();
+        doc.autoTable({
+            head: [["item_code", "open_qty", "line_total", "whse_code", "base_card"]],
+            body: window.allWarehouseReports.map(row => [
+            row.item_code || '',
+            row.open_qty || '',
+            row.line_total || '',
+           row.whse_code || '',
+          row.base_card || ''
+            ])
+        });
+        doc.save('WareHouseReport.pdf');
+    });
+});
+
+  
+
+  document.addEventListener("DOMContentLoaded", function () {
+    refreshCooldown("fetchWarehouseButtonCard", "lastFetchedWarehouseDisplay1", 1);
+  });
+</script>
+
+<style>
+  .warehouse-card {
+    margin-bottom: 15px;
+  }
+  .card-body p {
+    font-size: 0.9rem;
+  }
+  .card-body h6 {
+    font-size: 1rem;
+  }
+  #warehouseCardsContainer {
+    padding: 0 15px;
+  }
+  #loadingIndicator {
+    margin-top: 20px;
+    font-size: 1.1rem;
+  }
+  #warehouseSearchInput {
+    border-radius: 6px;
+    padding: 6px 10px;
+  }
+</style>
+{% endblock javascripts %}

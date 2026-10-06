@@ -1,0 +1,33 @@
+.blinking-star {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+  padding: 10px;
+  border-radius: 50%;
+  background-color: #230a37; /* Dark gold background */
+  box-shadow: 0 0 5px #19c5ba;
+  animation: blink 1s infinite;
+}
+
+.blinking-star i {
+  font-size: 32px;
+  color: #c6540c;  /* Bright orange star */
+  transition: transform 0.2s ease;
+}
+
+/* Click bounce */
+.blinking-star:active i {
+  transform: scale(1.4) rotate(10deg);
+}
+
+/* Blinking glow effect */
+@keyframes blink {
+  0%, 100% {
+    box-shadow: 0 0 8px #0fc6e6;
+    filter: drop-shadow(0 0 3px #65abdd);
+  }
+  50% {
+    box-shadow: 0 0 18px #d2550c;
+    filter: drop-shadow(0 0 10px #db7f10);
+  }
+}

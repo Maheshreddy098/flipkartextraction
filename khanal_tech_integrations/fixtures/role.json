@@ -1,0 +1,44 @@
+[
+ {
+  "doctype": "Role",
+  "name": "WowPets KhanalFoods User",
+  "role_name": "WowPets KhanalFoods User",
+  "desk_access": 0,
+  "disabled": 0
+ },
+ {
+  "doctype": "Role",
+  "name": "WowPets KhanalFoods Manager",
+  "role_name": "WowPets KhanalFoods Manager",
+  "desk_access": 0,
+  "disabled": 0
+ },
+ {
+  "doctype": "Role",
+  "name": "WowPets Warehouse User",
+  "role_name": "WowPets Warehouse User",
+  "desk_access": 0,
+  "disabled": 0
+ },
+ {
+  "doctype": "Role",
+  "name": "WowPets Warehouse Manager",
+  "role_name": "WowPets Warehouse Manager",
+  "desk_access": 0,
+  "disabled": 0
+ },
+ {
+  "doctype": "Role",
+  "name": "WowPets Procurement User",
+  "role_name": "WowPets Procurement User",
+  "desk_access": 0,
+  "disabled": 0
+ },
+ {
+  "doctype": "Role",
+  "name": "WowPets Procurement Manager",
+  "role_name": "WowPets Procurement Manager",
+  "desk_access": 0,
+  "disabled": 0
+ }
+]

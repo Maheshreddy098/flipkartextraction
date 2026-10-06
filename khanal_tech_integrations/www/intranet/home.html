@@ -1,0 +1,856 @@
+{% extends "khanal_tech_integrations/www/intranet/base.html" %}
+
+{% block content %}
+
+<style>
+    .box_shadow {
+        box-shadow:
+            19.8px 24.4px 3.9px rgba(0, 0, 0, 0.068),
+            34.3px 42.1px 9.8px rgba(0, 0, 0, 0.098),
+            47.1px 57.9px 20px rgba(0, 0, 0, 0.122),
+            65.5px 80.5px 41.2px rgba(0, 0, 0, 0.152),
+            149px 183px 113px rgba(0, 0, 0, 0.22);
+    }
+</style>
+
+
+
+
+<div class="row">
+    <div class="col-lg-6">
+        <div class="card my">
+            <div class="card-body">
+                <!-- <div class="echart-nightfall-chart-example" style="min-height:250px;" data-echart-responsive="true">
+                </div> -->
+                <div id="chart-containerwaterfall" style="min-height: 250px;" data-echart-responsive="true"></div>
+
+            </div>
+        </div>
+
+
+    </div>
+    <div class="col-lg-6">
+        <div class="card">
+            <div class="card-body">
+                <div class="echart-bar-line-chart-example" style="min-height: 250px;" data-echart-responsive="true">
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+    <!-- <div class="col-lg-4">
+        <div class="card">
+            <div class="card-body">
+                <div id="chart-container" style="min-height: 250px;" data-echart-responsive="true"></div>
+            </div>
+        </div>
+
+
+    </div> -->
+
+
+   
+</div>
+
+<div class="row mt-2">
+    
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-body">
+                <div id="chart-containercompare" style="min-height: 250px;" data-echart-responsive="true"></div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-3">
+        <div class="card box_shadow">
+            <div class="card-body">
+
+                <!-- <input type="text" id=""> -->
+            </div>
+        </div>
+
+
+    </div>
+</div>
+{% endblock content %}
+
+
+
+{% block javascripts %}
+
+
+<script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+<!-- <script src="/assets/khanal_tech_integrations/public/assets/js/charts/echarts/examples/bar-waterfall-chart.js"></script> -->
+<!-- Find the JS file for the following chart at: src/js/charts/echarts/examples/bar-waterfall-chart.js-->
+
+<!-- <script src="https://fastly.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script> -->
+<script src="https://fastly.jsdelivr.net/npm/echarts@5/dist/echarts.min.js"></script>
+
+<script>
+    var dom = document.getElementById('chart-containercompare');
+var myChart = echarts.init(dom, null, {
+  renderer: 'canvas',
+  useDirtyRect: false
+});
+var app = {};
+
+var option;
+
+const builderJson = {
+  all: 10887,
+  charts: {
+    map: 3237,
+    lines: 2164,
+    bar: 7561,
+    line: 7778,
+    pie: 7355,
+    scatter: 2405,
+    candlestick: 1842,
+    radar: 2090,
+    heatmap: 1762,
+    treemap: 1593,
+    graph: 2060,
+    boxplot: 1537,
+    parallel: 1908,
+    gauge: 2107,
+    funnel: 1692,
+    sankey: 1568
+  },
+  components: {
+    geo: 2788,
+    title: 9575,
+    legend: 9400,
+    tooltip: 9466,
+    grid: 9266,
+    markPoint: 3419,
+    markLine: 2984,
+    timeline: 2739,
+    dataZoom: 2744,
+    visualMap: 2466,
+    toolbox: 3034,
+    polar: 1945
+  },
+  ie: 9743
+};
+const downloadJson = {
+  'echarts.min.js': 17365,
+  'echarts.simple.min.js': 4079,
+  'echarts.common.min.js': 6929,
+  'echarts.js': 14890
+};
+const themeJson = {
+  'dark.js': 1594,
+  'infographic.js': 925,
+  'shine.js': 1608,
+  'roma.js': 721,
+  'macarons.js': 2179,
+  'vintage': 1982
+};
+const waterMarkText = 'ECHARTS';
+const canvas = document.createElement('canvas');
+const ctx = canvas.getContext('2d');
+canvas.width = canvas.height = 100;
+ctx.textAlign = 'center';
+ctx.textBaseline = 'middle';
+ctx.globalAlpha = 0.08;
+ctx.font = '20px Microsoft Yahei';
+ctx.translate(50, 50);
+ctx.rotate(-Math.PI / 4);
+ctx.fillText(waterMarkText, 0, 0);
+option = {
+  backgroundColor: {
+    type: 'pattern',
+    image: canvas,
+    repeat: 'repeat'
+  },
+  tooltip: {},
+  title: [
+    {
+      text: '在线构建',
+      subtext: '总计 ' + builderJson.all,
+      left: '25%',
+      textAlign: 'center'
+    },
+    {
+      text: '各版本下载',
+      subtext:
+        '总计 ' +
+        Object.keys(downloadJson).reduce(function (all, key) {
+          return all + downloadJson[key];
+        }, 0),
+      left: '75%',
+      textAlign: 'center'
+    },
+    {
+      text: '主题下载',
+      subtext:
+        '总计 ' +
+        Object.keys(themeJson).reduce(function (all, key) {
+          return all + themeJson[key];
+        }, 0),
+      left: '75%',
+      top: '50%',
+      textAlign: 'center'
+    }
+  ],
+  grid: [
+    {
+      top: 50,
+      width: '50%',
+      bottom: '45%',
+      left: 10,
+      containLabel: true
+    },
+    {
+      top: '55%',
+      width: '50%',
+      bottom: 0,
+      left: 10,
+      containLabel: true
+    }
+  ],
+  xAxis: [
+    {
+      type: 'value',
+      max: builderJson.all,
+      splitLine: {
+        show: false
+      }
+    },
+    {
+      type: 'value',
+      max: builderJson.all,
+      gridIndex: 1,
+      splitLine: {
+        show: false
+      }
+    }
+  ],
+  yAxis: [
+    {
+      type: 'category',
+      data: Object.keys(builderJson.charts),
+      axisLabel: {
+        interval: 0,
+        rotate: 30
+      },
+      splitLine: {
+        show: false
+      }
+    },
+    {
+      gridIndex: 1,
+      type: 'category',
+      data: Object.keys(builderJson.components),
+      axisLabel: {
+        interval: 0,
+        rotate: 30
+      },
+      splitLine: {
+        show: false
+      }
+    }
+  ],
+  series: [
+    {
+      type: 'bar',
+      stack: 'chart',
+      z: 3,
+      label: {
+        position: 'right',
+        show: true
+      },
+      data: Object.keys(builderJson.charts).map(function (key) {
+        return builderJson.charts[key];
+      })
+    },
+    {
+      type: 'bar',
+      stack: 'chart',
+      silent: true,
+      itemStyle: {
+        color: '#eee'
+      },
+      data: Object.keys(builderJson.charts).map(function (key) {
+        return builderJson.all - builderJson.charts[key];
+      })
+    },
+    {
+      type: 'bar',
+      stack: 'component',
+      xAxisIndex: 1,
+      yAxisIndex: 1,
+      z: 3,
+      label: {
+        position: 'right',
+        show: true
+      },
+      data: Object.keys(builderJson.components).map(function (key) {
+        return builderJson.components[key];
+      })
+    },
+    {
+      type: 'bar',
+      stack: 'component',
+      silent: true,
+      xAxisIndex: 1,
+      yAxisIndex: 1,
+      itemStyle: {
+        color: '#eee'
+      },
+      data: Object.keys(builderJson.components).map(function (key) {
+        return builderJson.all - builderJson.components[key];
+      })
+    },
+    {
+      type: 'pie',
+      radius: [0, '30%'],
+      center: ['75%', '25%'],
+      data: Object.keys(downloadJson).map(function (key) {
+        return {
+          name: key.replace('.js', ''),
+          value: downloadJson[key]
+        };
+      })
+    },
+    {
+      type: 'pie',
+      radius: [0, '30%'],
+      center: ['75%', '75%'],
+      data: Object.keys(themeJson).map(function (key) {
+        return {
+          name: key.replace('.js', ''),
+          value: themeJson[key]
+        };
+      })
+    }
+  ]
+};
+
+if (option && typeof option === 'object') {
+  myChart.setOption(option);
+}
+
+window.addEventListener('resize', myChart.resize);
+    var dom = document.getElementById('chart-containerwaterfall');
+    var myChart = echarts.init(dom, null, {
+        renderer: 'canvas',
+        useDirtyRect: false
+    });
+    var app = {};
+
+    var option;
+
+    option = {
+        title: {
+            text: 'Waterfall Chart',
+            subtext: 'Living Expenses in Shenzhen'
+        },
+        tooltip: {
+            trigger: 'axis',
+            axisPointer: {
+                type: 'shadow'
+            },
+            formatter: function (params) {
+                var tar = params[1];
+                return tar.name + '<br/>' + tar.seriesName + ' : ' + tar.value;
+            }
+        },
+        grid: {
+            left: '3%',
+            right: '4%',
+            bottom: '3%',
+            containLabel: true
+        },
+        xAxis: {
+            type: 'category',
+            splitLine: { show: false },
+            data: ['Total', 'Rent', 'Utilities', 'Transportation', 'Meals', 'Other']
+        },
+        yAxis: {
+            type: 'value'
+        },
+        series: [
+            {
+                name: 'Placeholder',
+                type: 'bar',
+                stack: 'Total',
+                itemStyle: {
+                    borderColor: 'transparent',
+                    color: 'transparent'
+                },
+                emphasis: {
+                    itemStyle: {
+                        borderColor: 'transparent',
+                        color: 'transparent'
+                    }
+                },
+                data: [0, 1700, 1400, 1200, 300, 0]
+            },
+            {
+                name: 'Life Cost',
+                type: 'bar',
+                stack: 'Total',
+                label: {
+                    show: true,
+                    position: 'inside'
+                },
+                data: [2900, 1200, 300, 200, 900, 300]
+            }
+        ]
+    };
+
+    if (option && typeof option === 'object') {
+        myChart.setOption(option);
+    }
+
+    window.addEventListener('resize', myChart.resize);
+
+  
+
+    window.addEventListener('resize', myChart.resize);
+    var dom = document.getElementById('chart-container');
+    var myChart = echarts.init(dom, null, {
+        renderer: 'canvas',
+        useDirtyRect: false
+    });
+    var app = {};
+
+    var option;
+
+    option = {
+        backgroundColor: '#2c343c',
+        title: {
+            text: ' Pie',
+            left: 'center',
+            top: 20,
+            textStyle: {
+                color: '#ccc'
+            }
+        },
+        tooltip: {
+            trigger: 'item'
+        },
+        visualMap: {
+            show: false,
+            min: 80,
+            max: 600,
+            inRange: {
+                colorLightness: [0, 1]
+            }
+        },
+        series: [
+            {
+                name: 'Access From',
+                type: 'pie',
+                radius: '55%',
+                center: ['50%', '50%'],
+                data: [
+                    { value: 335, name: 'Direct' },
+                    { value: 310, name: 'Email' },
+                    { value: 274, name: 'Union Ads' },
+                    { value: 235, name: 'Video Ads' },
+                    { value: 400, name: 'Search Engine' }
+                ].sort(function (a, b) {
+                    return a.value - b.value;
+                }),
+                roseType: 'radius',
+                label: {
+                    color: 'rgba(255, 255, 255, 0.3)'
+                },
+                labelLine: {
+                    lineStyle: {
+                        color: 'rgba(255, 255, 255, 0.3)'
+                    },
+                    smooth: 0.2,
+                    length: 10,
+                    length2: 20
+                },
+                itemStyle: {
+                    color: '#c23531',
+                    shadowBlur: 200,
+                    shadowColor: 'rgba(0, 0, 0, 0.5)'
+                },
+                animationType: 'scale',
+                animationEasing: 'elasticOut',
+                animationDelay: function (idx) {
+                    return Math.random() * 200;
+                }
+            }
+        ]
+    };
+
+    if (option && typeof option === 'object') {
+        myChart.setOption(option);
+    }
+
+    window.addEventListener('resize', myChart.resize);
+</script>
+
+
+<script src="
+https://cdn.jsdelivr.net/npm/chart.js@4.3.0/dist/chart.umd.min.js
+"></script>
+
+
+<script>
+    $(document).ready(function () {
+        echartsWaterFallChartInit(),
+            echartsBarLineChartInit(),
+            echartsBarNegativeChartInit()
+
+    });
+
+    echartsWaterFallChartInit = function () {
+        var t, e, r = document.querySelector(".echart-nightfall-chart-example");
+        r && (t = utils.getData(r, "options"), r = window.echarts.init(r), e = ["2021-06-05", "2021-06-06", "2021-06-07", "2021-06-08", "2021-06-09", "2021-06-10", "2021-06-11", "2021-06-12", "2021-06-13", "2021-06-14", "2021-06-15"], echartSetOption(r, t, function () {
+            return {
+                legend: {
+                    data: ["Expenditure", "Income"],
+                    textStyle: {
+                        color: utils.getGrays()[600]
+                    }
+                },
+                tooltip: {
+                    trigger: "axis",
+                    padding: [7, 10],
+                    backgroundColor: utils.getGrays()[100],
+                    borderColor: utils.getGrays()[300],
+                    textStyle: {
+                        color: utils.getColors().dark
+                    },
+                    borderWidth: 1,
+                    formatter: function (t) {
+                        t = "-" !== t[1].value ? t[1] : t[2];
+                        return "".concat(window.dayjs(t.name).format("MMM DD"), "<br/>").concat(t.seriesName, " : ").concat(t.value)
+                    },
+                    transitionDuration: 0,
+                    axisPointer: {
+                        type: "shadow"
+                    }
+                },
+                xAxis: {
+                    type: "category",
+                    data: e,
+                    axisLine: {
+                        lineStyle: {
+                            color: utils.getGrays()[300],
+                            type: "solid"
+                        }
+                    },
+                    axisTick: {
+                        show: !1
+                    },
+                    axisLabel: {
+                        color: utils.getGrays()[400],
+                        formatter: function (t) {
+                            return window.dayjs(t).format("MMM DD")
+                        },
+                        margin: 15
+                    },
+                    splitLine: {
+                        show: !1
+                    }
+                },
+                yAxis: {
+                    type: "value",
+                    boundaryGap: !0,
+                    axisLabel: {
+                        show: !0,
+                        color: utils.getGrays()[400],
+                        margin: 15
+                    },
+                    splitLine: {
+                        show: !0,
+                        lineStyle: {
+                            color: utils.getGrays()[200]
+                        }
+                    },
+                    axisTick: {
+                        show: !1
+                    },
+                    axisLine: {
+                        show: !1
+                    },
+                    min: 600
+                },
+                series: [{
+                    name: "Assist",
+                    type: "bar",
+                    stack: "Total",
+                    itemStyle: {
+                        barBorderColor: "transparent",
+                        color: "transparent"
+                    },
+                    emphasis: {
+                        itemStyle: {
+                            barBorderColor: "transparent",
+                            color: "transparent"
+                        }
+                    },
+                    data: [0, 900, 1245, 1530, 1376, 1376, 1511, 1689, 1856, 1495, 1292]
+                }, {
+                    name: "Income",
+                    type: "bar",
+                    stack: "Total",
+                    label: {
+                        show: !0,
+                        position: "top",
+                        color: utils.getGrays()[600]
+                    },
+                    data: [900, 345, 393, "-", "-", 135, 178, 286, "-", "-", "-"],
+                    itemStyle: {
+                        color: utils.getColor("primary"),
+                        barBorderRadius: [3, 3, 0, 0]
+                    }
+                }, {
+                    name: "Expenditure",
+                    type: "bar",
+                    stack: "Total",
+                    label: {
+                        show: !0,
+                        position: "bottom",
+                        color: utils.getGrays()[600]
+                    },
+                    data: ["-", "-", "-", 108, 154, "-", "-", "-", 119, 361, 203],
+                    itemStyle: {
+                        color: utils.getColor("success"),
+                        barBorderRadius: [3, 3, 0, 0]
+                    }
+                }],
+                grid: {
+                    right: "3%",
+                    left: "10%",
+                    bottom: "10%",
+                    top: "10%"
+                }
+            }
+        }))
+    }
+    echartsBarLineChartInit = function () {
+        var t, e, r = document.querySelector(".echart-bar-line-chart-example");
+        r && (t = utils.getData(r, "options"), r = window.echarts.init(r), e = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"], echartSetOption(r, t, function () {
+            return {
+                tooltip: {
+                    trigger: "axis",
+                    axisPointer: {
+                        type: "cross",
+                        crossStyle: {
+                            color: utils.getGrays()[500]
+                        },
+                        label: {
+                            show: !0,
+                            backgroundColor: utils.getGrays()[600],
+                            color: utils.getGrays()[100]
+                        }
+                    },
+                    padding: [7, 10],
+                    backgroundColor: utils.getGrays()[100],
+                    borderColor: utils.getGrays()[300],
+                    textStyle: {
+                        color: utils.getColors().dark
+                    },
+                    borderWidth: 1,
+                    transitionDuration: 0,
+                    formatter: tooltipFormatter
+                },
+                toolbox: {
+                    top: 0,
+                    feature: {
+                        dataView: {
+                            show: !1
+                        },
+                        magicType: {
+                            show: !0,
+                            type: ["line", "bar"]
+                        },
+                        restore: {
+                            show: !0
+                        },
+                        saveAsImage: {
+                            show: !0
+                        }
+                    },
+                    iconStyle: {
+                        borderColor: utils.getGrays()[700],
+                        borderWidth: 1
+                    },
+                    emphasis: {
+                        iconStyle: {
+                            textFill: utils.getGrays()[600]
+                        }
+                    }
+                },
+                legend: {
+                    top: 40,
+                    data: ["Evaporation", "Precipitation", "Average temperature"],
+                    textStyle: {
+                        color: utils.getGrays()[600]
+                    }
+                },
+                xAxis: [{
+                    type: "category",
+                    data: e,
+                    axisLabel: {
+                        color: utils.getGrays()[600],
+                        formatter: function (t) {
+                            return t.slice(0, 3)
+                        }
+                    },
+                    axisPointer: {
+                        type: "shadow"
+                    },
+                    axisLine: {
+                        show: !0,
+                        lineStyle: {
+                            color: utils.getGrays()[300]
+                        }
+                    }
+                }],
+                yAxis: [{
+                    type: "value",
+                    min: 0,
+                    max: 250,
+                    interval: 50,
+                    axisLabel: {
+                        color: utils.getGrays()[600],
+                        formatter: "{value} ml"
+                    },
+                    splitLine: {
+                        show: !0,
+                        lineStyle: {
+                            color: utils.getGrays()[200]
+                        }
+                    }
+                }, {
+                    type: "value",
+                    min: 0,
+                    max: 25,
+                    interval: 5,
+                    axisLabel: {
+                        color: utils.getGrays()[600],
+                        formatter: "{value} °C"
+                    },
+                    splitLine: {
+                        show: !0,
+                        lineStyle: {
+                            color: utils.getGrays()[200]
+                        }
+                    }
+                }],
+                series: [{
+                    name: "Evaporation",
+                    type: "bar",
+                    data: [2, 4.9, 7, 23.2, 25.6, 76.7, 135.6, 162.2, 32.6, 20, 6.4, 3.3],
+                    itemStyle: {
+                        color: utils.getColor("primary"),
+                        barBorderRadius: [3, 3, 0, 0]
+                    }
+                }, {
+                    name: "Precipitation",
+                    type: "bar",
+                    data: [2.6, 5.9, 9, 26.4, 28.7, 70.7, 175.6, 182.2, 48.7, 18.8, 6, 2.3],
+                    itemStyle: {
+                        color: utils.getColor("info"),
+                        barBorderRadius: [3, 3, 0, 0]
+                    }
+                }, {
+                    name: "Average temperature",
+                    type: "line",
+                    yAxisIndex: 1,
+                    data: [2, 2.2, 3.3, 4.5, 6.3, 10.2, 20.3, 23.4, 23, 16.5, 12, 6.2],
+                    lineStyle: {
+                        color: utils.getColor("warning")
+                    },
+                    itemStyle: {
+                        color: utils.getGrays().white,
+                        borderColor: utils.getColor("warning"),
+                        borderWidth: 2
+                    },
+                    symbol: "circle",
+                    symbolSize: 10
+                }],
+                grid: {
+                    right: 5,
+                    left: 5,
+                    bottom: 5,
+                    top: "23%",
+                    containLabel: !0
+                }
+            }
+        }))
+    }
+
+
+    echartsBarNegativeChartInit = function () {
+        var t, e = document.querySelector(".echart-bar-chart-negative-example");
+        e && (t = utils.getData(e, "options"), e = window.echarts.init(e), echartSetOption(e, t, function () {
+            return {
+                tooltip: {
+                    trigger: "axis",
+                    axisPointer: {
+                        type: "shadow"
+                    },
+                    padding: [7, 10],
+                    backgroundColor: utils.getGrays()[100],
+                    borderColor: utils.getGrays()[300],
+                    textStyle: {
+                        color: utils.getColors().dark
+                    },
+                    borderWidth: 1,
+                    transitionDuration: 0,
+                    formatter: tooltipFormatter
+                },
+                grid: {
+                    top: 5,
+                    bottom: 5,
+                    left: 5,
+                    right: 5
+                },
+                xAxis: {
+                    type: "value",
+                    position: "top",
+                    splitLine: {
+                        lineStyle: {
+                            type: "dashed",
+                            color: utils.getGrays()[200]
+                        }
+                    }
+                },
+                yAxis: {
+                    type: "category",
+                    axisLine: {
+                        show: !1
+                    },
+                    axisLabel: {
+                        show: !1
+                    },
+                    axisTick: {
+                        show: !1
+                    },
+                    splitLine: {
+                        show: !1
+                    },
+                    data: ["Ten", "Nine", "Eight", "Seven", "Six", "Five", "Four", "Three", "Two", "One"]
+                },
+                series: [{
+                    name: "Cost",
+                    type: "bar",
+                    stack: "total",
+                    label: {
+                        show: !0,
+                        formatter: "{b}",
+                        color: "#fff"
+                    },
+                    itemStyle: {
+                        color: utils.getColor("primary")
+                    },
+                    data: [-.12, -.19, .2, .44, -.23, .08, -.17, .47, -.36, .18]
+                }]
+            }
+        }))
+    }
+</script>
+{% endblock javascripts %}

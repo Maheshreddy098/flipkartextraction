@@ -1,0 +1,43 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2025-03-05 15:32:25.847556",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "address_table2"
+ ],
+ "fields": [
+  {
+   "fieldname": "address_table2",
+   "fieldtype": "Table",
+   "label": "address_table2",
+   "options": "Data_Address2"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2025-03-05 17:42:08.758748",
+ "modified_by": "Administrator",
+ "module": "Khanal Tech Integrations",
+ "name": "ADA_2",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "creation",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1
+}

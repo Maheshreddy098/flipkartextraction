@@ -1,0 +1,251 @@
+<div class="row" id="santaReportsPanel">
+  <div class="col-lg-12">
+    <div class="card">
+      <div class="card-header text-white" style="background-color: #351753; position: relative;">
+        <div class="bokeh-container">
+        </div>
+        <h5 class="text-800 fw-bold" style="font-family: 'Arial', sans-serif; text-align: center; margin: 0;">
+          <span style="color: #d18023;">✩</span>
+          <span style="color: #fbeeee; font-family: 'Georgia', serif; font-style: italic;">Warehouse Reports</span>
+          <span style="color: #5ac1cd;">✩</span>
+        </h5>
+        <div id="fetchWareHouseButtonWrapper"
+        style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); display: flex; align-items: center; gap: 8px;">
+        <div id="fetchWarehouseButton1" class="blinking-star" style="cursor: posinter;">
+          <i class="fas fa-sync-alt" aria-hidden="true"></i>
+        </div>
+        <span id="lastFetchedWarehouseDisplay"
+        style="color: #fff; font-size: 14px; font-family: Arial, Helvetica, sans-serif;"></span>
+      </div>
+    </div>
+    <div class="card-body" id="cardBody1" style="background-color: #bbd1d3f9;">
+      <div class="d-flex mb-0 justify-content-end align-items-center" style="margin-bottom: 0; margin-top: -4px;">
+        <div class="d-flex align-items-center">
+          <img id="WarehouseexportExcel" src="https://img.icons8.com/?size=100&id=UECmBSgBOvPT&format=png&color=000000"
+          alt="Export" style="cursor: pointer; width: 24px; height: 24px; margin-right: 8px;" />
+          <img id="WarehouseexportPDF" src="https://img.icons8.com/?size=100&id=13417&format=png&color=000000" alt="Export"
+          style="cursor: pointer; width: 24px; height: 24px; margin-right: 8px;" />
+        </div>
+      </div>
+      <div class="table-container" style="max-height: 1000px; overflow-y: auto; margin-top: 0;">
+        <table id="santaReportsTable" class="table table-striped table-bordered d-none"
+        style="width:100%; background-color: #b8cac7;">
+        <thead class="bg-secondary text-white" style="position: sticky; top: 0; z-index: 1;">
+          <tr>
+            <th scope="col">Item Code</th>
+            <th scope="col">Open Quantity</th>
+            <th scope="col">Line Total</th>
+            <th scope="col">WareHouse Code</th>
+            <th scope="col">Base Card</th>
+          </tr>
+        </thead>
+        <tbody>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+</div>
+</div>
+<div class="row justify-content-center my-4">
+  <div class="col-md-6 mx-auto">
+    <div style="background: #fff; border-radius: 12px; box-shadow: 0 2px 6px #0001; padding: 16px;">
+      <h6 class="fw-bold text-center mb-2" style="color: #351753;">Warehouse Distribution by Item Code</h6>
+      <canvas id="WareHousePieChart" width="400" height="400"></canvas>
+    </div>
+  </div>
+</div>
+
+
+
+<script>
+  
+  document.addEventListener('DOMContentLoaded', function () {
+    console.log('WareHouse Reports page loaded'); // Debug log
+    
+    // let currentPage = 1;
+    let pageSize = 1000;
+    
+    // Attach loadWareHouseReports to the window object for global access
+    window.loadWareHouseReports = function (page, getAll = false) {
+      if (getAll) {
+        page = 1; // Reset to first page if fetching all data
+        pageSize = 1000;
+      }
+      const fetchUrl = `/api/method/khanal_tech_integrations.www.kfl_main.warehouse.get_context?is_api_call=true&page=${page}&page_size=${pageSize}`;
+      console.log('Fetching WareHouse Reports from URL:', fetchUrl); // Debug log
+      showLoader(); // Show loading animation - make sure you have showLoader and hideLoader functions defined
+      fetch(fetchUrl)
+      .then(response => response.json())
+      .then(data => {
+        console.log('Full API Response:', data); // Debug log
+        
+        // Ensure the response contains the expected structure
+        if (data.message && data.message.santa_monica_data) {
+          const reports = data.message.santa_monica_data; // Access santa_monica_data from message          
+          const tableBody = document.querySelector('#santaReportsTable tbody');
+          tableBody.innerHTML = ''; // Clear existing rows
+          
+          if (reports.length > 0) {
+            let rowsHtml = '';
+            reports.forEach(report => {
+              rowsHtml += `
+                     <td>${report.item_code || ''}</td>
+                        <td>${report.open_qty || ''}</td>
+                        <td>${report.line_total || ''}</td>
+                        <td>${report.whse_code || ''}</td>
+                        <td>${report.base_card || ''}</td>
+                  </tr>`;
+              
+            });
+            tableBody.innerHTML += rowsHtml; // Append new rows
+            // // Initialize DataTable
+            if ($.fn.DataTable.isDataTable('#santaReportsTable')) {
+              $('#santaReportsTable').DataTable().destroy();
+            }
+            
+            
+            $(document).ready(function () {
+              const jdtable = $('#santaReportsTable').DataTable();
+              $('#santaReportsTable').removeClass('d-none');
+              
+              jdtable.on('search.dt', function () {
+                showPieChart();  // re-render chart when filter/page changes
+              });
+              showPieChart(); // Call the function to render the pie chart
+            });
+            
+            
+            
+          } else {
+            console.warn('No data available in the API response.');
+            tableBody.innerHTML = '<tr><td colspan="5">No data available. Please check the backend or database.</td></tr>';
+          }
+          
+          
+        } else {
+          console.error('Unexpected API response structure:', data);
+          alert('Failed to load warehouse reports. Please check the backend.');
+        }
+      })
+      .catch(error => {
+        hideLoader(); // Hide loading animation
+        console.error('Error fetching WareHouse reports:', error);
+        alert('An error occurred while fetching WareHouse reports.');
+      });
+    };
+    
+    let WareHouseChart = null; // global chart variable
+    
+    function showPieChart() {
+      const ctx = document.getElementById('WareHousePieChart');
+      
+      if (!ctx) {
+        console.error("Canvas with ID 'WareHousePieChart' not found.");
+        return;
+      }
+      
+      if (WareHouseChart) {
+        WareHouseChart.destroy();
+      }
+      
+      const table = $('#santaReportsTable').DataTable();
+      const displayedData = table.rows({ search: 'applied' }).data();
+      
+      const itemCodes = [];
+      const quantities = {};
+      
+      // Extract data for the pie chart from the displayed table data
+      displayedData.each(function (rowData) {
+        const itemCode = rowData[0]; // Item Code is first column
+        const openQty = Number(rowData[1]) || 0; // Open Quantity is second column
+        
+        if (itemCode && itemCode !== 'N/A') {
+          if (quantities[itemCode]) {
+            quantities[itemCode] += openQty;
+          } else {
+            itemCodes.push(itemCode);
+            quantities[itemCode] = openQty;
+          }
+        }
+      });
+      
+      if (itemCodes.length === 0) {
+        console.warn("No valid data to display in the pie chart.");
+        return;
+      }
+      
+      // Sort by quantity and get top 10
+      const sortedData = itemCodes
+      .map(code => ({ code, qty: quantities[code] }))
+      .sort((a, b) => b.qty - a.qty)
+      
+      const labels = sortedData.map(item => item.code);
+      const data = sortedData.map(item => item.qty);
+      
+      // Calculate total for percentage
+      const total = data.reduce((sum, qty) => sum + qty, 0);
+      
+      WareHouseChart = new Chart(ctx, {
+        type: 'doughnut',
+        data: {
+          labels: labels,
+          datasets: [{
+            label: 'Open Quantity',
+            data: data,
+            backgroundColor: generateColors(labels.length * 2),
+            borderWidth: 1
+          }]
+        },
+        options: {
+          responsive: true,
+          plugins: {
+            legend: {
+              display: false,
+            }
+          }
+        }
+      });
+    }
+    
+    // Define the function to fetch WareHouse Supply data from SAP and update the table
+   
+    // Attach event listener to the button after DOM is ready
+    document.getElementById('fetchWarehouseButton1').addEventListener('click', triggerFetchWareHouseReportsCard);
+    
+    
+     // Export functions
+     document.getElementById('WarehouseexportExcel').addEventListener('click', () => {
+        const data = window.allWarehouseReports;
+        const worksheet = XLSX.utils.json_to_sheet(data);
+        const workbook = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(workbook, worksheet, "Vendors");
+        XLSX.writeFile(workbook, "WareHouseReport.xlsx");
+    });
+
+
+    document.getElementById('WarehouseexportPDF').addEventListener('click', () => {
+        const { jsPDF } = window.jspdf;
+        const doc = new jsPDF();
+        doc.autoTable({
+            head: [["item_code", "open_qty", "line_total", "whse_code", "base_card"]],
+            body: window.allWarehouseReports.map(row => [
+            row.item_code || '',
+            row.open_qty || '',
+            row.line_total || '',
+           row.whse_code || '',
+          row.base_card || ''
+            ])
+        });
+        doc.save('WareHouseReport.pdf');
+    });
+
+
+    loadWareHouseReports(1); // Initial data load
+  });
+  
+  document.addEventListener("DOMContentLoaded", function () {
+    refreshCooldown("fetchWarehouseButton1", "lastFetchedWarehouseDisplay", 1); // 1 minute
+  });
+  
+</script>

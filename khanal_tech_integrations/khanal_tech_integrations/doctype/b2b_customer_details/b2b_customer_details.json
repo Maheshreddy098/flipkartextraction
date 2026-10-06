@@ -1,0 +1,132 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2025-03-03 17:29:11.297630",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "cardcode1",
+  "salespersoncode1",
+  "column_break_gjln",
+  "cardcode2",
+  "salespersoncode2",
+  "column_break_vncb",
+  "cardcode3",
+  "salespersoncode3",
+  "column_break_tsni",
+  "cardcode4",
+  "salespersoncode4",
+  "column_break_zlbe",
+  "cardcode5",
+  "salespersoncode5",
+  "column_break_yetd",
+  "cardcode6",
+  "salespersoncode6"
+ ],
+ "fields": [
+  {
+   "fieldname": "cardcode1",
+   "fieldtype": "Data",
+   "label": "Customer-CODE"
+  },
+  {
+   "fieldname": "salespersoncode1",
+   "fieldtype": "Data",
+   "label": "Employee-CODE"
+  },
+  {
+   "fieldname": "column_break_gjln",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "cardcode2",
+   "fieldtype": "Data",
+   "label": "Customer-CODE"
+  },
+  {
+   "fieldname": "salespersoncode2",
+   "fieldtype": "Data",
+   "label": "Employee-CODE"
+  },
+  {
+   "fieldname": "column_break_vncb",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "cardcode3",
+   "fieldtype": "Data",
+   "label": "Customer-CODE"
+  },
+  {
+   "fieldname": "salespersoncode3",
+   "fieldtype": "Data",
+   "label": "Employee-CODE"
+  },
+  {
+   "fieldname": "column_break_tsni",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "cardcode4",
+   "fieldtype": "Data",
+   "label": "Customer-CODE"
+  },
+  {
+   "fieldname": "salespersoncode4",
+   "fieldtype": "Data",
+   "label": "Employee-CODE"
+  },
+  {
+   "fieldname": "column_break_zlbe",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "cardcode5",
+   "fieldtype": "Data",
+   "label": "Customer-CODE"
+  },
+  {
+   "fieldname": "salespersoncode5",
+   "fieldtype": "Data",
+   "label": "Employee-CODE"
+  },
+  {
+   "fieldname": "column_break_yetd",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "cardcode6",
+   "fieldtype": "Data",
+   "label": "Customer-CODE"
+  },
+  {
+   "fieldname": "salespersoncode6",
+   "fieldtype": "Data",
+   "label": "Employee-CODE"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "issingle": 1,
+ "links": [],
+ "modified": "2025-05-19 12:26:40.856820",
+ "modified_by": "Administrator",
+ "module": "Khanal Tech Integrations",
+ "name": "B2B_Customer_Details",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "print": 1,
+   "read": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "row_format": "Dynamic",
+ "sort_field": "creation",
+ "sort_order": "DESC",
+ "states": []
+}

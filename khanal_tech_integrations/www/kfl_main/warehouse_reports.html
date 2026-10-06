@@ -1,0 +1,96 @@
+{% extends "khanal_tech_integrations/www/kfl_main/base.html" %}
+
+{% block content %}
+<div id="mobileDiv">
+  {% include "templates/includes/warehouse_mobile_view.html" %}
+</div>
+
+<div id="desktopDiv">
+  {% include "templates/includes/warehouse_desktop_view.html" %}
+</div>
+{% endblock %}
+
+{% block javascripts %}
+<!-- Toggle Mobile/Desktop View -->
+<script>
+function toggleView() {
+  const isMobile = window.innerWidth < 985;
+  document.getElementById('mobileDiv').style.display = isMobile ? 'block' : 'none';
+  document.getElementById('desktopDiv').style.display = isMobile ? 'none' : 'block';
+}
+toggleView();
+window.addEventListener('resize', toggleView);
+</script>
+
+<!-- DataTables, Charts, Exports, Styling -->
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js"></script>
+
+<link rel="stylesheet" href="assets/css/vendor_star.css" />
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+<script src="assets/js/vendor_star.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<!-- Warehouse Fetch Logic -->
+<script>
+function triggerFetchWareHouseReportsCard() {
+  if (confirm("Are you sure you want to fetch and update Ware House Data from SAP?")) {
+    if (typeof showLoader === 'function') showLoader();
+
+    fetch("/api/method/khanal_tech_integrations.utils.Dashboard_Reports.warehouse_inventory_report.fetch_santa_monica_data", {
+      headers: { "Content-Type": "application/json" }
+    })
+    .then(response => response.json())
+    .then(data => {
+      if (typeof hideLoader === 'function') hideLoader();
+
+      if (data.message && data.message.includes("Data fetched and inserted successfully")) {
+        alert("WareHouse Data updated successfully.");
+        saveLastFetchedTime(); // ✅ Save time only on success
+        loadAllWareHouseReports(); // Your existing function
+      } else {
+        alert(data.message || "Something went wrong.");
+      }
+    })
+    .catch(error => {
+      console.error("Error:", error);
+      alert("Failed to trigger data fetch.");
+      if (typeof hideLoader === 'function') hideLoader();
+    });
+  }
+}
+
+// Save current time only when fetch happens
+function saveLastFetchedTime() {
+  const currentTime = new Date().toISOString();
+  localStorage.setItem("warehouseLastFetchedTime", currentTime);
+  updateLastFetchedDisplay(currentTime);
+}
+
+// Update both display areas
+function updateLastFetchedDisplay(timeString) {
+  const time = new Date(timeString).toLocaleString('en-IN', {
+    hour: '2-digit',
+    minute: '2-digit',
+    second: '2-digit',
+    day: '2-digit',
+    month: '2-digit',
+    year: 'numeric'
+  });
+
+  const el1 = document.getElementById("lastFetchedWarehouseDisplay");
+  const el2 = document.getElementById("lastFetchedWarehouseDisplay1");
+  if (el1) el1.textContent = "Last fetched: " + time;
+  if (el2) el2.textContent = "Last fetched: " + time;
+}
+
+// On page load, only display saved time (no refresh)
+document.addEventListener("DOMContentLoaded", () => {
+  const savedTime = localStorage.getItem("warehouseLastFetchedTime");
+  if (savedTime) updateLastFetchedDisplay(savedTime);
+});
+</script>
+{% endblock %}

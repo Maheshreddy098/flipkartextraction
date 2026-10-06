@@ -1,0 +1,80 @@
+{% extends "khanal_tech_integrations/www/kfl_main/base.html" %}
+
+{% block content %}
+
+<div id="mobileDiv">
+    {% include "templates/includes/milkprocurement_mobile_view.html" %}
+</div>
+<div id="desktopDiv">
+    {% include "templates/includes/milkprocurement_desktop_view.html" %}
+</div>
+{% endblock %}
+
+{% block javascripts %}
+<script>
+function toggleView() {
+    const isMobile = window.innerWidth < 985;
+    document.getElementById('mobileDiv').style.display = isMobile ? 'block' : 'none';
+    document.getElementById('desktopDiv').style.display = isMobile ? 'none' : 'block';
+}
+toggleView();
+window.addEventListener('resize', toggleView);
+
+function fetchMilkProcurementDataFromSAP(buttonId, timestampDisplayId) {
+    if (confirm("Are you sure you want to fetch and update Milk Procurement Data from SAP?")) {
+        if (typeof showLoader === "function") showLoader();
+
+
+        fetch("/api/method/khanal_tech_integrations.utils.Dashboard_Reports.plant_wise_milk_procurement_report.fetch_Milk_Procurement_data")
+            .then(response => response.json())
+            .then(data => {
+            if (data.message.includes("Data fetched and inserted successfully")) {
+                const searchInput = document.getElementById('MilkSearchInput');
+                if (searchInput) {
+                    searchInput.value = '';
+                }
+                alert("Milk Procurement Data updated successfully.");
+                
+                refreshCooldown("fetchMilkProcurementButton", "lastFetchedDisplay1", 1, true);
+                refreshCooldown("fetchMobileMilkProcurementButton", "lastFetchedDisplay4", 1, true);
+                
+                // Add viewport check here
+                const isMobile = window.innerWidth < 985;
+                if (isMobile && typeof window.displayProcurementCards === "function") {
+                 if (window.allProcurementData) {
+                     window.displayProcurementCards(window.allProcurementData);
+                 }
+                    } else {
+                        if (typeof window.loadMilkProcurementReports === "function") {
+                            loadMilkProcurementReports();
+                        }
+                    }
+                if (typeof triggerConfetti === "function") {
+                    triggerConfetti();
+                }
+                } else {
+                    alert(data.message || "Something went wrong.");
+                }
+            })
+            .catch(error => {
+                console.error("Error:", error);
+                alert("Failed to fetch data. Please check the console.");
+            })
+            .finally(() => {
+                if (typeof hideLoader === "function") hideLoader();
+            });
+    }
+}
+</script>
+
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
+<link rel="stylesheet" href="assets/css/vendor_star.css" />
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script src="/assets/khanal_tech_integrations/js/vendor_star.js" defer></script> 
+{% endblock javascripts %}

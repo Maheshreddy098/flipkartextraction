@@ -1,0 +1,441 @@
+{% extends "khanal_tech_integrations/www/intranet/base.html" %}
+
+{% block content %}
+<style>
+  ul,
+  li {
+    list-style: none;
+    padding: 0;
+  }
+
+  .container {
+    /* display: flex; */
+    justify-content: center;
+    align-items: center;
+    /* padding: 0 1rem;
+padding: 3rem 0; */
+  }
+
+  /* .wrapper {
+background: #eaf6ff;
+padding: 2rem;
+border-radius: 15px;
+} */
+  h1 {
+    font-size: 1px;
+    font-family: sans-serif;
+  }
+
+  .sessions {
+    /* margin-top: 2rem; */
+    border-radius: 12px;
+    position: relative;
+  }
+
+  .sessions li {
+    /* padding-bottom: 1px; */
+    border-left: 1px solid #abaaed;
+    position: relative;
+    padding-left: 20px;
+    margin-left: 10px;
+    margin-bottom: -14px;
+  }
+
+  .sessions li:last-child {
+    border: 0px;
+    padding-bottom: 0;
+  }
+
+  .sessions li:before {
+    content: '';
+    width: 15px;
+    height: 15px;
+    background: white;
+    border: 1px solid #4e5ed3;
+    box-shadow: 3px 3px 0px #bab5f8;
+    box-shadow: 3px 3px 0px #bab5f8;
+    border-radius: 50%;
+    position: absolute;
+    left: -10px;
+    top: 0px;
+  }
+
+  .time {
+    color: #2a2839;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 500;
+  }
+
+  @media screen and (min-width: 601px) {
+    .time {
+      font-size: 0.9rem;
+    }
+  }
+
+  @media screen and (max-width: 600px) {
+    .time {
+      margin-bottom: 0.3rem;
+      font-size: 0.85rem;
+    }
+  }
+
+  p {
+    color: #4f4f4f;
+    font-family: sans-serif;
+    /* line-height: 1.5; */
+    margin-top: 0.4rem;
+  }
+
+  /* @media screen and (max-width: 600px) {
+    p {
+      font-size: 0.9rem;
+    }
+  } */
+
+  .progress-bar:hover::before {
+        content: attr(aria-valuenow) '%';
+        position: absolute;
+        top: -30px;
+        left: calc(100% + 5px);
+        padding: 5px;
+        border-radius: 5px;
+        background-color: #007bff;
+        color: #fff;
+        font-size: 14px;
+        box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+        z-index: 999;
+        transform: translateX(-50%);
+      }
+</style>
+<!-- <style>
+  body {
+    margin-top: 20px;
+  }
+
+  .timeline-steps {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap
+  }
+
+  .timeline-steps .timeline-step {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    margin: 1rem
+  }
+
+  @media (min-width:768px) {
+    .timeline-steps .timeline-step:not(:last-child):after {
+      content: "";
+      display: block;
+      border-top: 0.31rem dotted #3b82f6;
+      width: 7.46rem;
+      position: absolute;
+      left: 5.5rem;
+      top: 0.3125rem;
+
+    }
+
+ 
+  }
+
+  .timeline-steps .timeline-content {
+    text-align: center
+  }
+
+  .timeline-steps .timeline-content .inner-circle {
+    border-radius: 1.5rem;
+    height: 1rem;
+    width: 1rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #3b82f6
+  }
+
+  .timeline-steps .timeline-content .inner-circle:before {
+    content: "";
+    background-color: #3b82f6;
+    display: inline-block;
+    height: 2rem;
+    width: 2rem;
+    min-width: 2rem;
+    border-radius: 6.25rem;
+    opacity: .5
+  }
+</style> -->
+
+<div class="row mb-3">
+  <div class="col">
+    <div class="card bg-100 shadow-none border">
+      <div class="row gx-0 flex-between-center">
+        <div class=" ">
+          <!-- <img class="ms-n2"
+            src="/assets/khanal_tech_integrations/assets/img/illustrations/crm-bar-chart.png" alt="" width="90" /> -->
+          <div class="text-center">
+            <h4 class="text-primary  mb-0 mt-3 mb-3">Hi {{frappe.session.user}}! </h4>
+            <p style="font-size: 15px; font-weight: 600;">Check Out Your Order Details</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-lg-8">
+    <div class="card">
+      <div class="card-body ">
+
+
+        <div class="container">
+         
+          {% if status == "DELIVERED" %}
+          <div class="progress mb-3" style="height:15px" role="progressbar" aria-valuenow="25" aria-valuemin="0"
+            aria-valuemax="100">
+            <div class="progress-bar" style="width: 100%" aria-valuenow="100"></div>
+          </div>
+          {% elif status == "ARRIVED AT DESTINATION" %}
+          <div class="progress mb-3" style="height:15px" role="progressbar" aria-valuenow="25" aria-valuemin="0"
+            aria-valuemax="100">
+            <div class="progress-bar" style="width: 80%" aria-valuenow="80"></div>
+          </div>
+          {% elif status == "OUT FOR DELIVERY" %}
+          <div class="progress mb-3" style="height:15px" role="progressbar" aria-valuenow="25" aria-valuemin="0"
+            aria-valuemax="100">
+            <div class="progress-bar" style="width: 70%" aria-valuenow="70"></div>
+          </div>
+          {% elif status == "IN-TRANSIT" %}
+          <div class="progress mb-3" style="height:15px" role="progressbar" aria-valuenow="25" aria-valuemin="0"
+            aria-valuemax="100">
+            <div class="progress-bar" style="width: 60%" aria-valuenow="60"></div>
+          </div>
+          {% elif status == "DISPATCHED" %}
+          <div class="progress mb-3" style="height:15px" role="progressbar" aria-valuenow="25" aria-valuemin="0"
+            aria-valuemax="100">
+            <div class="progress-bar" style="width: 50%" aria-valuenow="50"></div>
+          </div>
+          {% elif status == "BOOKED" %}
+          <div class="progress mb-3" style="height:15px" role="progressbar" aria-valuenow="25" aria-valuemin="0"
+            aria-valuemax="100">
+            <div class="progress-bar" style="width: 40%" aria-valuenow="40"></div>
+          </div>
+          {% elif status == "Data Not Found" %}
+        <div></div>
+          {% else %}
+          <div class="progress mb-3" style="height:15px" role="progressbar" aria-valuenow="25" aria-valuemin="0"
+          aria-valuemax="100">
+          <div class="progress-bar" style="width: 30%" aria-valuenow="30"></div>
+        </div>
+          {% endif %}
+          <!-- <div class="timeline-steps aos-init aos-animate" data-aos="fade-up">
+
+            <div class="timeline-step">
+              <div class="timeline-content" data-toggle="popover" data-trigger="hover" data-placement="top" title=""
+                data-content="And here's some amazing content. It's very engaging. Right?" data-original-title="2003">
+
+                <div class="inner-circle"></div>
+                <p class="h6 text-muted mb-0 mb-lg-0">Sales Order Created <br><span class="h6 mt-3 mb-1">{{
+                    frappe.format_date(sales_order.created_date) }}</span> </p>
+
+
+              </div>
+            </div>
+            <div class="timeline-step" style="margin-left:1px ;">
+              <div class="timeline-content" data-toggle="popover" data-trigger="hover" data-placement="top" title=""
+                data-content="And here's some amazing content. It's very engaging. Right?" data-original-title="2003">
+
+                <div class="inner-circle"></div>
+                <p class="h6 text-muted mb-0 mb-lg-0">Delivery Note Created <br><span class="h6 mt-3 mb-1">{{
+                    frappe.format_date(doc.created_date) }}</span> </p>
+
+
+              </div>
+            </div>
+            <div class="timeline-step" style="margin-left:1px ;">
+              <div class="timeline-content" data-toggle="popover" data-trigger="hover" data-placement="top" title=""
+                data-content="And here's some amazing content. It's very engaging. Right?" data-original-title="2003">
+
+                <div class="inner-circle"></div>
+                <p class="h6 text-muted mb-0 mb-lg-0"> Invoice Created<br><span class="h6 mt-3 mb-1">{{
+                    frappe.format_date(invoice.created_date) }}</span> </p>
+
+              </div>
+            </div>
+
+          </div> -->
+          <div class="wrapper">
+
+            <ul class="sessions">
+            
+              <li>
+                <p>
+                  <div class="badge fs--4 " style="background-color: #a2d5c6;">
+                    Sales order Created
+                   
+                  </div><br>
+                  <!-- &nbsp; <b> <span style="font-size: 12px;">w/2/32/33</span></b> <br> -->
+                  <span style="font-size: 13px;">
+                    {{ frappe.format_date(sales_order.created_date) }}
+                  </span>
+                </p>
+
+              </li>
+              <li>
+                <p>
+                  <div class="badge fs--4 " style="background-color:  #077b8a;">
+                    Delivery Note Created
+                   
+                  </div>
+                  <br>
+                  <span style="font-size: 13px;">
+                    {{ frappe.format_date(doc.created_date) }}
+                  </span>
+                </p>
+
+              </li>
+              <li>
+                <p>
+                  <div class="badge fs--4 " style="background-color:  #5c3c92;">
+                    Invoice Created
+                   
+                  </div>
+                  <br>
+                  <span style="font-size: 13px;">
+                    {{ frappe.format_date(invoice.created_date) }}
+                  </span>
+                </p>
+
+              </li>
+              
+
+            
+              {% for details in shipping_details %}
+              <li>
+                <p>
+                  {% if details.status == "DELIVERED" %}
+                <div class="badge rounded-pill badge-soft-success ">
+                  {{details.status}}
+                  <span class="fas fa-check-double ms-1" data-fa-transform="shrink-2">
+                  </span>
+                </div>
+                {% elif details.status == "OUT FOR DELIVERY" %}
+                <div class="badge rounded-pill badge-soft-warning ">
+                  {{details.status}}
+                  <span class="fas fa-stop-circle ms-1" data-fa-transform="shrink-2">
+                  </span>
+                </div>
+                {% elif details.status == "IN-TRANSIT" %}
+                <div class="badge rounded-pill badge-soft-secondary ">
+                  {{details.status}}
+                  <span class="fas fa-route ms-1" data-fa-transform="shrink-2">
+                  </span>
+                </div>
+                {% elif details.status == "DISPATCHED" %}
+                <div class="badge rounded-pill badge-soft-info ">
+                  {{details.status}}
+                  <span class="fas fa-shipping-fast ms-1" data-fa-transform="shrink-2">
+                  </span>
+                </div>
+                {% elif details.status == "ARRIVED AT DESTINATION" %}
+                <div class="badge rounded-pill badge-soft-primary ">
+                  {{details.status}}
+                  <span class="fas fa-check ms-1" data-fa-transform="shrink-2">
+                  </span>
+                </div>
+                {% else %}
+                <div class="badge rounded-pill badge-soft-dark ">
+                  {{details.status}}
+                  <span class="fas fa-bookmark ms-1" data-fa-transform="shrink-2">
+                  </span>
+                </div>
+
+                {% endif %}
+                &nbsp; <b> <span style="font-size: 12px;">{{details.description}}</span></b> <br>
+                <span style="font-size: 13px;">
+                  {{details.date}}
+                  {{ frappe.format(details.date, {'fieldtype': 'Date'}) }} &nbsp;&nbsp; {{ frappe.format(details.date,
+                  {'fieldtype':'Time'}) }}
+                </span>
+                </p>
+
+              </li>
+              {% endfor %}
+
+           
+  
+            </ul>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-lg-4">
+
+    <div class="card">
+      <div class="card-body bg-light">
+
+        <div class="border rounded-3 p-x1 mt-3 bg-white dark__bg-1000 row mx-0 g-0">
+          <div class="col-md-6 col-xl-12 pe-md-4 pe-xl-0">
+            <div class="mb-3">
+              <h6 class="mb-1 false">Customer Code</h6>
+              <p class="mb-0 text-700 fs--1">{{sales_order.customer_code}}</p>
+            </div>
+            <div class="mb-3">
+              <h6 class="mb-1 false">Customer Name</h6>
+              <p class="mb-0 text-700 fs--1">{{sales_order.customer_name}}</p>
+            </div>
+            <div class="mb-3">
+              <h6 class="mb-1 false">Sales Order Number</h6>
+              <p class="mb-0 text-700 fs--1">{{sales_order.docnum}}</p>
+            </div>
+            <div class="mb-3">
+              <h6 class="mb-1 false">Delivery Note Number</h6>
+              <p class="mb-0 text-700 fs--1">{{doc.docnum}}</p>
+            </div>
+            <div class="mb-3">
+              <h6 class="mb-1 false">Invoice Number</h6>
+              <p class="mb-0 text-700 fs--1">{{invoice.docnum}}</p>
+            </div>
+            <div class="mb-3">
+              <h6 class="false mb-1">Contact Person Name</h6>
+              <p class="mb-0 text-700 fs--1">{{sales_order.contact_person_name}}</p>
+            </div>
+            <div class="mb-3">
+              <h6 class="false false">Contact Person Email</h6>
+              <p class="mb-0 text-700 fs--1">{{sales_order.contact_person_email}}</p>
+            </div>
+
+            <div class="mb-3 mb-md-0 mb-xl-4">
+              <h6 class="false false">Bill Total</h6>
+              <p class="mb-0 t text-700 fs--1">{{ "{:,.2f}".format(invoice.bill_total|float) }}</p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+{% endblock content %}
+
+
+
+{% block javascripts %}
+<!-- {{ super() }} -->
+
+
+{% endblock javascripts %}

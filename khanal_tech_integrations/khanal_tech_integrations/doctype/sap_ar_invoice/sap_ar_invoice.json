@@ -1,0 +1,116 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "field:docentry",
+ "creation": "2022-10-19 12:25:11.184269",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "docentry",
+  "docnum",
+  "customer_code",
+  "cancellation_status",
+  "created_date",
+  "bill_total",
+  "section_break_6",
+  "ref",
+  "ref_delivery_note",
+  "ref_sales_order",
+  "invoice_pdf"
+ ],
+ "fields": [
+  {
+   "fieldname": "docentry",
+   "fieldtype": "Data",
+   "label": "DocEntry",
+   "unique": 1
+  },
+  {
+   "fieldname": "docnum",
+   "fieldtype": "Data",
+   "label": "DocNum"
+  },
+  {
+   "fieldname": "customer_code",
+   "fieldtype": "Data",
+   "label": "Customer Code"
+  },
+  {
+   "fieldname": "created_date",
+   "fieldtype": "Date",
+   "label": "Created Date"
+  },
+  {
+   "fieldname": "bill_total",
+   "fieldtype": "Currency",
+   "label": "Bill Total"
+  },
+  {
+   "fieldname": "ref",
+   "fieldtype": "Text",
+   "label": "Ref"
+  },
+  {
+   "fieldname": "ref_delivery_note",
+   "fieldtype": "Data",
+   "label": "Ref Delivery Note"
+  },
+  {
+   "fieldname": "ref_sales_order",
+   "fieldtype": "Data",
+   "label": "Ref Sales Order"
+  },
+  {
+   "fieldname": "section_break_6",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "cancellation_status",
+   "fieldtype": "Data",
+   "label": "Cancellation Status"
+  },
+  {
+   "fieldname": "invoice_pdf",
+   "fieldtype": "Attach",
+   "label": "Invoice PDF"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2024-06-17 15:14:45.486579",
+ "modified_by": "Administrator",
+ "module": "Khanal Tech Integrations",
+ "name": "SAP AR Invoice",
+ "naming_rule": "By fieldname",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Sales Logistics Report Viewer",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

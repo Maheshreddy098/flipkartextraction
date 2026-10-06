@@ -1,0 +1,11 @@
+{
+    "private": true,
+    "scripts": {
+        "postinstall": "echo \"skip frontend install\"",
+        "dev": "echo \"no dev server\"",
+        "build": "echo \"No frontend build required\""
+    },
+    "dependencies": {
+        "jquery": "^3.7.1"
+    }
+}

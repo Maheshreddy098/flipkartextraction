@@ -1,0 +1,53 @@
+{
+ "actions": [],
+ "autoname": "format:{########}",
+ "creation": "2024-07-15 13:05:06.002486",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "section_break_axhs",
+  "employee_name",
+  "column_break_vfik",
+  "employee_email"
+ ],
+ "fields": [
+  {
+   "fieldname": "section_break_axhs",
+   "fieldtype": "Section Break",
+   "options": "Employee"
+  },
+  {
+   "fieldname": "employee_name",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Employee Name",
+   "options": "Employee"
+  },
+  {
+   "fieldname": "column_break_vfik",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fetch_from": "employee_name.company_email",
+   "fieldname": "employee_email",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Employee Email"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "istable": 1,
+ "links": [],
+ "modified": "2024-07-15 15:05:08.412848",
+ "modified_by": "Administrator",
+ "module": "Khanal Tech Integrations",
+ "name": "Internal Employee List",
+ "naming_rule": "Expression",
+ "owner": "Administrator",
+ "permissions": [],
+ "queue_in_background": 1,
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

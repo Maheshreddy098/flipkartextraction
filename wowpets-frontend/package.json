@@ -1,0 +1,33 @@
+{
+  "name": "wowpets-frontend",
+  "version": "1.0.0",
+  "description": "WowPets 3PL Warehouse Management Frontend",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build && node scripts/post-build.js",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "axios": "^1.5.0",
+    "frappe-ui": "^0.1.63",
+    "lucide-vue-next": "^0.292.0",
+    "pinia": "^2.1.0",
+    "vue": "^3.4.0",
+    "vue-router": "^4.2.0"
+  },
+  "devDependencies": {
+    "@iconify-json/lucide": "^1.2.94",
+    "@iconify/utils": "^2.3.0",
+    "@vitejs/plugin-vue": "^4.4.0",
+    "autoprefixer": "^10.4.0",
+    "postcss": "^8.4.0",
+    "tailwindcss": "^3.3.0",
+    "unplugin-icons": "^0.18.5",
+    "vite": "^4.5.5"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

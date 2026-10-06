@@ -1,0 +1,192 @@
+{
+  "actions": [],
+  "autoname": "RA-TKT-.YYYY.-.#####",
+  "creation": "2026-03-16 12:00:00",
+  "doctype": "DocType",
+  "editable_grid": 0,
+  "engine": "InnoDB",
+  "field_order": [
+    "title",
+    "ticket_type",
+    "section",
+    "reference_doctype",
+    "reference_name",
+    "status",
+    "priority",
+    "raised_by",
+    "raised_team",
+    "assigned_to",
+    "resolution_notes",
+    "section_description",
+    "description",
+    "section_comments",
+    "comments",
+    "section_attachments",
+    "attachments"
+  ],
+  "fields": [
+    {
+      "fieldname": "title",
+      "fieldtype": "Data",
+      "in_list_view": 1,
+      "label": "Title",
+      "reqd": 1
+    },
+    {
+      "fieldname": "ticket_type",
+      "fieldtype": "Select",
+      "in_list_view": 1,
+      "label": "Type",
+      "options": "Technical\nOperational",
+      "reqd": 1
+    },
+    {
+      "fieldname": "section",
+      "fieldtype": "Select",
+      "in_list_view": 1,
+      "in_standard_filter": 1,
+      "label": "Section",
+      "options": "Purchase Order\nFBA Transfer\nShiphero Transfer\nWork Order\nDispatch Order\nOther",
+      "reqd": 1
+    },
+    {
+      "fieldname": "reference_doctype",
+      "fieldtype": "Link",
+      "in_list_view": 1,
+      "label": "Reference Doctype",
+      "options": "DocType"
+    },
+    {
+      "fieldname": "reference_name",
+      "fieldtype": "Dynamic Link",
+      "label": "Reference Name",
+      "options": "reference_doctype"
+    },
+    {
+      "default": "Open",
+      "fieldname": "status",
+      "fieldtype": "Select",
+      "in_list_view": 1,
+      "in_standard_filter": 1,
+      "label": "Status",
+      "options": "Open\nIn Progress\nWaiting on Warehouse\nWaiting on KhanalFoods\nResolved\nClosed",
+      "reqd": 1,
+      "search_index": 1
+    },
+    {
+      "default": "Medium",
+      "fieldname": "priority",
+      "fieldtype": "Select",
+      "in_standard_filter": 1,
+      "label": "Priority",
+      "options": "Low\nMedium\nHigh\nCritical"
+    },
+    {
+      "fieldname": "raised_by",
+      "fieldtype": "Link",
+      "in_list_view": 1,
+      "label": "Raised By",
+      "options": "User",
+      "read_only": 1
+    },
+    {
+      "fieldname": "raised_team",
+      "fieldtype": "Select",
+      "label": "Raised Team",
+      "options": "khanalfoods\nwarehouse",
+      "read_only": 1
+    },
+    {
+      "fieldname": "assigned_to",
+      "fieldtype": "Link",
+      "in_standard_filter": 1,
+      "label": "Assigned To",
+      "options": "User"
+    },
+    {
+      "fieldname": "resolution_notes",
+      "fieldtype": "Text",
+      "label": "Resolution Notes"
+    },
+    {
+      "fieldname": "section_description",
+      "fieldtype": "Section Break",
+      "label": "Description"
+    },
+    {
+      "fieldname": "description",
+      "fieldtype": "Small Text",
+      "label": "Description",
+      "reqd": 1
+    },
+    {
+      "fieldname": "section_attachments",
+      "fieldtype": "Section Break",
+      "label": "Attachments"
+    },
+    {
+      "fieldname": "section_comments",
+      "fieldtype": "Section Break",
+      "label": "Conversation"
+    },
+    {
+      "fieldname": "comments",
+      "fieldtype": "Table",
+      "label": "Comments",
+      "options": "Real Aquatics Ticket Comment"
+    },
+    {
+      "fieldname": "attachments",
+      "fieldtype": "Table",
+      "label": "Attachments",
+      "options": "Real Aquatics Ticket Attachment"
+    }
+  ],
+  "links": [],
+  "modified": "2026-03-16 12:00:00.000000",
+  "modified_by": "Administrator",
+  "module": "Khanal Tech Integrations",
+  "name": "Real Aquatics Ticket",
+  "naming_rule": "Expression (old style)",
+  "owner": "Administrator",
+  "permissions": [
+    {
+      "create": 1,
+      "email": 1,
+      "print": 1,
+      "read": 1,
+      "role": "System Manager",
+      "share": 1,
+      "write": 1
+    },
+    {
+      "create": 1,
+      "read": 1,
+      "role": "RealAquatics KhanalFoods User",
+      "write": 1
+    },
+    {
+      "create": 1,
+      "read": 1,
+      "role": "RealAquatics KhanalFoods Manager",
+      "write": 1
+    },
+    {
+      "create": 1,
+      "read": 1,
+      "role": "RealAquatics Warehouse User",
+      "write": 1
+    },
+    {
+      "create": 1,
+      "read": 1,
+      "role": "RealAquatics Warehouse Manager",
+      "write": 1
+    }
+  ],
+  "sort_field": "modified",
+  "sort_order": "DESC",
+  "states": [],
+  "track_changes": 1
+}
+

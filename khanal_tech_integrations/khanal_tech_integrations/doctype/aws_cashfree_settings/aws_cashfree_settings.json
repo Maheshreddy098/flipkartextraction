@@ -1,0 +1,111 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2023-08-30 18:19:51.402324",
+ "default_view": "List",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "aws_file_uploading_url",
+  "column_break_r2vx",
+  "aws_file_viewing_url",
+  "cashfree_details_column",
+  "cashfree_secret_id",
+  "cashfree_client_id",
+  "cashfree_expiry",
+  "column_break_am9q",
+  "cashfree_login_url",
+  "cashfree_gst_verification_url",
+  "cashfree_bank_url",
+  "section_break_jwem",
+  "cashfree_access_token"
+ ],
+ "fields": [
+  {
+   "fieldname": "aws_file_uploading_url",
+   "fieldtype": "Data",
+   "label": "AWS File Uploading Url"
+  },
+  {
+   "fieldname": "aws_file_viewing_url",
+   "fieldtype": "Data",
+   "label": "AWS File Viewing Url"
+  },
+  {
+   "fieldname": "cashfree_details_column",
+   "fieldtype": "Section Break",
+   "label": "Cashfree Details"
+  },
+  {
+   "fieldname": "cashfree_gst_verification_url",
+   "fieldtype": "Data",
+   "label": "Cashfree GST Verification Url"
+  },
+  {
+   "fieldname": "cashfree_secret_id",
+   "fieldtype": "Data",
+   "label": "Cashfree secret ID"
+  },
+  {
+   "fieldname": "column_break_r2vx",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "cashfree_login_url",
+   "fieldtype": "Data",
+   "label": "Cashfree Login Url"
+  },
+  {
+   "fieldname": "cashfree_access_token",
+   "fieldtype": "Long Text",
+   "label": "Cashfree Access Token"
+  },
+  {
+   "fieldname": "cashfree_expiry",
+   "fieldtype": "Data",
+   "label": "Cashfree expiry"
+  },
+  {
+   "fieldname": "cashfree_bank_url",
+   "fieldtype": "Data",
+   "label": "Cashfree Bank Url"
+  },
+  {
+   "fieldname": "cashfree_client_id",
+   "fieldtype": "Data",
+   "label": "Cashfree  Client ID"
+  },
+  {
+   "fieldname": "column_break_am9q",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "section_break_jwem",
+   "fieldtype": "Section Break"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "issingle": 1,
+ "links": [],
+ "modified": "2024-03-20 16:28:48.467067",
+ "modified_by": "Administrator",
+ "module": "Khanal Tech Integrations",
+ "name": "AWS_CashFree Settings",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "print": 1,
+   "read": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

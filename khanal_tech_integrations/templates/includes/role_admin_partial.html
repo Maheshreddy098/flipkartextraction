@@ -1,0 +1,103 @@
+{% block content %}
+{% if i.role == "Sales Logistics Report Viewer"%}
+<a class="nav-link dropdown-indicator " href="#social" role="button" data-bs-toggle="collapse" aria-expanded="false"
+  aria-controls="social">
+  <div class="d-flex align-items-center"><span class="nav-link-icon"><span class="fa fa-chart-line"></span></span><span
+      class="nav-link-text ps-1">PURCHASE ORDERS</span>
+  </div>
+</a>
+<ul class="nav collapse" id="social">
+  <li class="nav-item"><a class="nav-link " href="/kfl_main/myorder">
+      <div class="d-flex align-items-center"><span class="nav-link-text ps-1">ORDERS</span>
+      </div>
+    </a>
+  </li>
+
+</ul>
+{% endif %}
+
+{% if i.role == "Accounts Manager"%}
+<a class="nav-link dropdown-indicator " href="#accounts" role="button" data-bs-toggle="collapse" aria-expanded="false"
+  aria-controls="accounts">
+  <div class="d-flex align-items-center"><span class="nav-link-icon"><span class="fas fa-poll"></span></span><span
+      class="nav-link-text ps-1">PURCHASE ORDERS</span>
+  </div>
+</a>
+<ul class="nav collapse" id="accounts">
+
+  <li class="nav-item"><a class="nav-link " href="#" onclick="showB2BOrders()">
+      <div class="d-flex align-items-center"><span class="nav-link-text ps-1">ORDERS</span>
+      </div>
+    </a>
+
+  </li>
+  <!-- <li class="nav-item"><a class="nav-link " href="/unicommerce">
+  <div class="d-flex align-items-center"><span class="nav-link-text ps-1">Unicommerce </span>
+  </div>
+</a>
+
+</li> -->
+
+</ul>
+
+{% endif %}
+
+{% if i.role == "Inventory User"%}
+<a class="nav-link dropdown-indicator " href="#inventory" role="button" data-bs-toggle="collapse" aria-expanded="false"
+  aria-controls="inventory">
+  <div class="d-flex align-items-center"><span class="nav-link-icon"><span class="fab fa-wpforms"></span></span><span
+      class="nav-link-text ps-1">Inventory</span>
+  </div>
+</a>
+<ul class="nav collapse" id="inventory">
+  <!-- <li class="nav-item"><a class="nav-link " href="/kfl_main/inventory_report">
+    <div class="d-flex align-items-center"><span class="nav-link-text ps-1">Inventory Report</span>
+    </div>
+  </a>
+</li> -->
+  <li class="nav-item"><a class="nav-link " href="/kfl_main/vendor_verification">
+      <div class="d-flex align-items-center"><span class="nav-link-text ps-1">Vendor Verification</span>
+      </div>
+    </a>
+  </li>
+
+</ul>
+
+{% endif %}
+
+{% if i.role == "Vendor Manager" %}
+<a class="nav-link dropdown-indicator" href="#vendorReports" role="button" data-bs-toggle="collapse"
+  aria-expanded="false" aria-controls="vendorReports">
+  <div class="d-flex align-items-center"><span class="nav-link-icon"><span
+        class="fas fa-clipboard-list"></span></span><span class="nav-link-text ps-1">View Reports</span>
+  </div>
+</a>
+<ul class="nav collapse" id="vendorReports">
+  <li class="nav-item">
+    <a class="nav-link" href="/kfl_main/vendor_reports">
+      <div class="d-flex align-items-center">
+        <span class="nav-link-text ps-1">Vendors Data</span>
+      </div>
+    </a>
+  </li>
+
+  <li class="nav-item">
+    <a class="nav-link" href="/kfl_main/warehouse_reports">
+      <div class="d-flex align-items-center">
+        <span class="nav-link-text ps-1">WareHouse Data</span>
+      </div>
+    </a>
+  </li>
+
+
+  <li class="nav-item">
+    <a class="nav-link" href="/kfl_main/milkprocurement_report">
+      <div class="d-flex align-items-center">
+        <span class="nav-link-text ps-1">Milk Procurement Data</span>
+      </div>
+    </a>
+  </li>
+</ul>
+{% endif %}
+
+{% endblock %}

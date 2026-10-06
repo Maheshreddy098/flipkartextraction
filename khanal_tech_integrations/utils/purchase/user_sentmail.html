@@ -1,0 +1,254 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous"> -->
+    <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"> -->
+    <title>Khanal Foods</title>
+
+    <style>
+        /* body {
+			font-family: Arial, sans-serif;
+			background-color: #F4F4F4;
+		} */
+        #tablestyle {
+            width: 750px;
+            margin: auto;
+            background-color: white;
+            padding: 10px;
+            border-radius: 12px;
+            border-collapse: collapse;
+        }
+
+        #tablestyle td {
+            /* padding: 5px 14px; */
+            border: 1px solid black;
+            /* text-align: center; */
+            color: #666666;
+            font-size: 11px;
+            text-align: center;
+            padding: 10px;
+        }
+
+
+        #tablestyle th {
+            padding: 10px;
+            background-color: #629b9d;
+            color: white;
+            font-size: 14px;
+            font-weight: bold;
+            border: 1px solid black;
+            text-align: center;
+        }
+
+        #tablestyle h1 {
+            font-size: 24px;
+            color: #629b9d;
+            text-align: center;
+            margin-top: 20px;
+            margin-bottom: 0px;
+        }
+
+        /* #tablestyle p {
+			font-size: 16px;
+			color: #666666;
+			margin-top: 5px;
+			margin-bottom: 5px;
+		} */
+        #tablestyle a {
+            color: #629b9d;
+            text-decoration: none;
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <div style="margin:0 auto;background:#f2f5f7">
+        <table style="margin:auto;background:#f2f5f7  top center no-repeat;padding:35px 0 20px;width:750px"
+            cellpadding="0" cellspacing="0" border="0">
+            <tbody>
+                <tr>
+                    <td align="center" valign="middle" style="margin:0;padding:0">
+                        <table width="750" border="0" cellpadding="0" cellspacing="0" style="width:750px;margin:auto">
+                            <tbody>
+                                <tr>
+                                    <td align="center" valign="middle" style="padding:0 0 24px;margin:0"><a href=""
+                                            target="_blank"
+                                            data-saferedirecturl="https://www.google.com/url?q=https://www.teamcomputers.com&amp;source=gmail&amp;ust=1679554739298000&amp;usg=AOvVaw2tssAqCXSbwiDOCsO24Gng">
+                                            <img src="https://khanaltech.com/files/khanalfoods_logo.jpg" width="60"
+                                                height="60" alt="" class="CToWUd" data-bit="iit">
+                                        </a></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <table width="750" border="0" cellpadding="0" cellspacing="0"
+                            style="width:750px;margin:auto;background:url(https://ci4.googleusercontent.com/proxy/Ic7NVCs2Hj_DUbcW_VKD5QvRjPm2GWgt48QKJi4p_q_TwwHtaNtOUd4PVcqphtxPXNMQDPBpwtKKV8j66a1_vVo9p_9KaGNuw6eYmf36zKEmWv6w00ZEoep59VD08NHGsqUhTzzGjkXpAs91f5FZLAggHNgiejaDrJ8=s0-d-e1-ft#https://www.teamcomputers.com/repositry/edm/customer-order-tracking/order-received/image/content-bg.png) top center no-repeat;padding:0 0 21px">
+                            <tbody>
+                                <tr>
+                                    <td align="left" valign="top" style="padding:15px 54px 0;margin:0" colspan="2">
+                                        <p style="font-size:17px;color:#666666;font-family:sans-serif;margin:0">Hi
+                                            {{doc.first_name}} {{doc.last_name}},</p>
+                                        <p>
+                                        <p>We extend a warm welcome to you as our vendor for Khanal Foods Pvt Ltd.</p>
+                                        <p>This email is regarding the vendor onboarding process. We have received your
+                                            email ID, and now it's time to create your account. Below, you will find the
+                                            login credentials with a username and password. </p> 
+                                        <i>Instructions:</i>
+                                        <p>1. Please log in using the provided credentials <br> <i>Username:</i> <b>{{ doc.email }}</b> and <i>Password:</i> <b>{{ password }}</b></p>
+                                        <p>2. Choose whether you are a food or non-food vendor as per your business.</p>
+                                        <p>3. Refer to the attached folder for further details and requirements</p>
+                                        <p>4. Kindly ensure that you select "Public" as the visibility option while uploading any necessary documents. This is to ensure that the documents are visible to Khanal Foods' procurement team to complete the verification process and ensure a smooth onboarding experience.</p>
+                                        <p>5. Ensure that you have all the necessary documents on hand before proceeding
+                                            with the account creation</p> <br>
+
+                                        <p>URL for Vendor Registration: <a
+                                                href="{{base_url}}/vendor-registration">{{base_url}}</a>
+                                            Please use the provided URL to access the vendor registration portal. Once
+                                            you land on the page, you will need to create your account using the
+                                            following login credentials</p>
+                                        <p>We are excited to have you on board and look forward to a fruitful
+                                            partnership. Should you have any questions or require assistance during the
+                                            onboarding process, feel free to reach out to us.</p>
+                                        <p>Best regards,</p>
+                                       
+                                        <i>Khanal Foods Pvt Ltd</i> <br>
+                                    </td>
+                                </tr>
+                                <tr></tr>
+                                <tr></tr>
+                                <!-- <tr style="margin-top: 10px;">
+                                    <td align="center" valign="top"
+                                        style="padding:0 54px 0;margin:0 0;width:50%;border-right:3px solid #dedede">
+                                        <p
+                                            style="font-size:16px;color:#666666;font-family:sans-serif;font-weight:600;margin:0 0 12px">
+                                            Username</p>
+                                        <p
+                                            style="margin:0;font-size:18px;font-family:sans-serif;color:#000000;font-weight:bold">
+                                            {{ doc.email }}</p>
+                                            
+                                    </td>
+                                    <td align="center" valign="top" style="padding:0 54px 0;margin:0;width:50%">
+                                        <p
+                                            style="font-size:16px;color:#666666;font-family:sans-serif;font-weight:600;margin:0 0 12px">
+                                            Password</p>
+                                        <p
+                                            style="margin:0 0 0;font-size:20px;font-family:sans-serif;color:#000000;font-weight:bold">
+                                            {{ password }}</p>
+                                    </td>
+                                </tr> -->
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+
+
+
+            </tbody>
+        </table>
+        <table border="0" cellpadding="0" cellspacing="0" width="750" style="width:750px;margin:auto">
+            <tbody>
+                <tr>
+                    <td align="center" valign="top"
+                        style="padding:0;margin:0;color:#666;font-size:13px;font-family:sans-serif">
+                        <p style="font-size: 12px; color: #777;font-style: italic;">Note: This is a system generated
+                            email. Please do not reply to this email.</p><br>
+                        Copyright © 2022 khanal Foods Pvt. Ltd. | All rights reserved.
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+    </div>
+
+</body>
+
+</html>
+
+
+
+
+
+
+<!-- <div style="margin:0 auto;background:#f2f5f7">
+
+    <table style="margin:auto;background:#f2f5f7 url() top center no-repeat;padding:35px 0 20px;width:750px"
+        cellpadding="0" cellspacing="0" border="0">
+
+        <tbody>
+            <tr>
+                <td align="center" valign="middle" style="margin:0;padding:0">
+                    <table width="750" border="0" cellpadding="0" cellspacing="0" style="width:750px;margin:auto">
+                        <tbody>
+                            <tr>
+                                <td align="center" valign="middle" style="padding:0 0 24px;margin:0"><a href=""
+                                        target="_blank" data-saferedirecturl="#">
+                                        <img src="https://khanaltech.com/files/khanalfoods_logo.jpg" width="60"
+                                            height="60" alt="" class="CToWUd" data-bit="iit">
+                                    </a></td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table id="tablestyle">
+        <tr>
+            <td colspan="8" valign="top" style="padding:40px 54px 0;margin:0;border: none;">
+                <p style="font-size:14px;color:#666666;font-family:sans-serif;margin-top:5px; text-align: start;" >Hi  {{doc.first_name}} {{doc.last_name}},
+                </p>
+                <p style="justify-content: start; text-align: start; font-size: 13px;">you Account has been createdplease register using here <span><a href="http://dev.localhost:8000/vendor-registration" target="_blank">http://dev.localhost:8000</a></span> </p>
+        
+            
+            </td>
+        </tr>
+        <tr>
+            <td align="center" valign="top"
+                style="padding:0 54px 0;margin:0 0;width:50%;border-right:3px solid #dedede">
+                <p
+                    style="font-size:16px;color:#666666;font-family:sans-serif;font-weight:600;margin:0 0 12px">
+                    User Name</p>
+                <p
+                    style="margin:0;font-size:18px;font-family:sans-serif;color:#000000;font-weight:bold">
+                    {{ doc.email }}</p>
+            </td>
+            <td align="center" valign="top" style="padding:0 54px 0;margin:0;width:50%">
+                <p
+                    style="font-size:16px;color:#666666;font-family:sans-serif;font-weight:600;margin:0 0 12px">
+                    Password</p>
+                <p
+                    style="margin:0 0 0;font-size:20px;font-family:sans-serif;color:#000000;font-weight:bold">
+                    {{ password }}</p>
+            </td>
+        </tr>
+       
+    </table>
+  
+    <table border="0" cellpadding="0" cellspacing="0" width="750" style="width:750px;margin:auto">
+        <tbody>
+            
+            <tr>
+                <td align="center" valign="top"
+                    style="padding:0;margin:0;color:#666;font-size:13px;font-family:sans-serif">
+                    <p style="font-size: 12px; color: #777;font-style: italic;">Note: This is a system generated
+                        email.
+                        Please do
+                        not reply to this email.</p><br>
+                    Copyright © 2023 khanalFoods Pvt. Ltd. | All rights reserved.
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+
+</div> -->

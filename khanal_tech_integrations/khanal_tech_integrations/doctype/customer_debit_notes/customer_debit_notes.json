@@ -1,0 +1,196 @@
+{
+ "actions": [],
+ "allow_import": 1,
+ "allow_rename": 1,
+ "creation": "2024-06-07 13:43:43.761588",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "sap_customer_code",
+  "customer_name",
+  "column_break_gsyl",
+  "original_invoice_number",
+  "dn_type",
+  "column_break_cyph",
+  "customers_dn_number",
+  "customers_dn_date",
+  "section_break_quzi",
+  "credit_note_line_item_details",
+  "more_info_tab",
+  "cn_posting_date",
+  "due_date",
+  "document_date",
+  "column_break_wvuo",
+  "status",
+  "column_break_xdks",
+  "sap_ar_credit_memo_no",
+  "sap_ar_cn_unique_id_docentry",
+  "original_invoice_docentry",
+  "section_break_ietu",
+  "response_json",
+  "posted_json"
+ ],
+ "fields": [
+  {
+   "fieldname": "sap_customer_code",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "SAP Customer Code",
+   "reqd": 1
+  },
+  {
+   "fieldname": "customer_name",
+   "fieldtype": "Link",
+   "label": "Customer Name",
+   "options": "Customer",
+   "read_only": 1
+  },
+  {
+   "fieldname": "original_invoice_number",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Original Invoice Number",
+   "reqd": 1
+  },
+  {
+   "fieldname": "customers_dn_number",
+   "fieldtype": "Data",
+   "label": "Customer's DN Number"
+  },
+  {
+   "fieldname": "column_break_gsyl",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "customers_dn_date",
+   "fieldtype": "Date",
+   "label": "Customer's DN Date "
+  },
+  {
+   "fieldname": "dn_type",
+   "fieldtype": "Select",
+   "label": "DN/CN Type",
+   "options": "\nQuantity Return Debit Note\nPrice Variance Debit Note",
+   "reqd": 1,
+   "sort_options": 1
+  },
+  {
+   "fieldname": "section_break_quzi",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "credit_note_line_item_details",
+   "fieldtype": "Table",
+   "label": "Credit Note Line Item Details",
+   "options": "Customer Debit Notes Lines"
+  },
+  {
+   "fieldname": "column_break_cyph",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "Pending",
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Status",
+   "options": "\nPending\nCompleted\nCancelled",
+   "reqd": 1
+  },
+  {
+   "fieldname": "more_info_tab",
+   "fieldtype": "Tab Break",
+   "label": "More Info"
+  },
+  {
+   "fieldname": "column_break_wvuo",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "column_break_xdks",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "sap_ar_credit_memo_no",
+   "fieldtype": "Data",
+   "label": "SAP A/R Credit Memo (CN) No."
+  },
+  {
+   "fieldname": "sap_ar_cn_unique_id_docentry",
+   "fieldtype": "Data",
+   "label": "SAP A/R CN Unique ID (DocEntry)"
+  },
+  {
+   "fieldname": "cn_posting_date",
+   "fieldtype": "Date",
+   "label": "CN Posting Date (SAP)"
+  },
+  {
+   "fieldname": "due_date",
+   "fieldtype": "Date",
+   "label": "Due Date (SAP)"
+  },
+  {
+   "fieldname": "document_date",
+   "fieldtype": "Date",
+   "label": "Document Date (SAP)"
+  },
+  {
+   "fieldname": "section_break_ietu",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "response_json",
+   "fieldtype": "JSON",
+   "label": "response_json"
+  },
+  {
+   "fieldname": "original_invoice_docentry",
+   "fieldtype": "Data",
+   "label": "Original Invoice DocEntry",
+   "read_only": 1
+  },
+  {
+   "fieldname": "posted_json",
+   "fieldtype": "JSON",
+   "label": "POSTED JSON"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2024-06-19 17:57:30.193101",
+ "modified_by": "Administrator",
+ "module": "Khanal Tech Integrations",
+ "name": "Customer Debit Notes",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Accounts User",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

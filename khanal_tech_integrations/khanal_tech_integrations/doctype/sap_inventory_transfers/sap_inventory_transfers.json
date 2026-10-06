@@ -1,0 +1,187 @@
+{
+ "actions": [],
+ "allow_guest_to_view": 1,
+ "allow_import": 1,
+ "autoname": "field:docentry",
+ "creation": "2022-09-14 12:32:42.901597",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "docnum",
+  "docdate",
+  "docentry",
+  "fromwarehouse",
+  "towarehouse",
+  "column_break_5",
+  "cardcode",
+  "series",
+  "uniware_po_id",
+  "uniware_po_status",
+  "unicommerce_sync_status",
+  "uniware_grn_no",
+  "column_break_9",
+  "prozo_grn_entry",
+  "po_posted_prozo",
+  "prozo_po_id",
+  "delivered",
+  "column_break_10",
+  "line_items",
+  "route",
+  "published",
+  "comments"
+ ],
+ "fields": [
+  {
+   "fieldname": "docnum",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Inventory Transfer No",
+   "reqd": 1
+  },
+  {
+   "fieldname": "docentry",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "DocEntry",
+   "reqd": 1,
+   "unique": 1
+  },
+  {
+   "fieldname": "docdate",
+   "fieldtype": "Date",
+   "in_list_view": 1,
+   "label": "DocDate",
+   "reqd": 1
+  },
+  {
+   "fieldname": "fromwarehouse",
+   "fieldtype": "Data",
+   "label": "From Warehouse",
+   "reqd": 1
+  },
+  {
+   "fieldname": "comments",
+   "fieldtype": "Data",
+   "label": "Comments"
+  },
+  {
+   "fieldname": "column_break_5",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "cardcode",
+   "fieldtype": "Data",
+   "label": "Customer Code"
+  },
+  {
+   "fieldname": "series",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Series",
+   "reqd": 1
+  },
+  {
+   "fieldname": "towarehouse",
+   "fieldtype": "Data",
+   "label": "To Warehouse",
+   "reqd": 1
+  },
+  {
+   "default": "N",
+   "fieldname": "delivered",
+   "fieldtype": "Select",
+   "label": "Delivered to Prozo",
+   "options": "Y\nN"
+  },
+  {
+   "fieldname": "column_break_10",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "line_items",
+   "fieldtype": "Table",
+   "label": "Line Items",
+   "options": "SAP Inventory Transfers Line Items"
+  },
+  {
+   "fieldname": "route",
+   "fieldtype": "Data",
+   "label": "Route"
+  },
+  {
+   "fieldname": "published",
+   "fieldtype": "Data",
+   "label": "Published"
+  },
+  {
+   "fieldname": "uniware_po_id",
+   "fieldtype": "Data",
+   "label": "Uniware PO Id"
+  },
+  {
+   "fieldname": "uniware_grn_no",
+   "fieldtype": "Data",
+   "label": "Uniware GRN No"
+  },
+  {
+   "fieldname": "prozo_grn_entry",
+   "fieldtype": "Data",
+   "label": "Prozo GRN Entry"
+  },
+  {
+   "fieldname": "column_break_9",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "uniware_po_status",
+   "fieldtype": "Data",
+   "label": "Uniware PO Status"
+  },
+  {
+   "default": "Pending",
+   "fieldname": "unicommerce_sync_status",
+   "fieldtype": "Select",
+   "label": "Unicommerce Sync Status",
+   "options": "Pending\nSynced\nFailed\nPartial"
+  },
+  {
+   "fieldname": "po_posted_prozo",
+   "fieldtype": "Data",
+   "label": "PO Posted in Prozo"
+  },
+  {
+   "fieldname": "prozo_po_id",
+   "fieldtype": "Data",
+   "label": "Prozo PO id"
+  }
+ ],
+ "has_web_view": 1,
+ "is_published_field": "published",
+ "links": [],
+ "modified": "2022-11-11 00:16:51.607421",
+ "modified_by": "Administrator",
+ "module": "Khanal Tech Integrations",
+ "name": "SAP Inventory Transfers",
+ "naming_rule": "By fieldname",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "route": "route",
+ "show_name_in_global_search": 1,
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

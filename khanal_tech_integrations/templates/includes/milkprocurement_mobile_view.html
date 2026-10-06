@@ -1,0 +1,253 @@
+<div class="row">
+    <div class="col-lg-12">
+      <div class="card">
+        <div class="card-header text-white" style="background-color: #351753;">
+          <div class="d-flex flex-column flex-sm-row justify-content-between align-items-center">
+          <h5 class="text-800 fw-bold text-center m-0">
+            <span style="color: #d18023;">✩</span>
+            <span style="color: #fbeeee; font-family: 'Georgia', serif; font-style: italic;">Milk Procurement Reports</span>
+            <span style="color: #5ac1cd;">✩</span>
+          </h5>
+          <div id="fetchMilkProcurementButtonWrapper"
+            class="d-flex align-items-center mt-2 mt-sm-0 gap-2">
+            <div id="fetchMobileMilkProcurementButton" class="blinking-star" style="cursor: pointer;">
+              <i class="fas fa-sync-alt" aria-hidden="true"></i>
+            </div>
+            <span id="lastFetchedDisplay4"
+              style="color: #fff; font-size: 14px; font-family: Arial, Helvetica, sans-serif;"></span>
+          </div>
+        </div>
+        </div>
+  
+        <div class="card-body" id="cardBodyCard" style="background-color: #bbd1d3f9;">       
+  
+          <div class="d-flex justify-content-between align-items-center mb-3">
+            <!-- Search input aligned left -->
+            <div class="d-flex align-items-center">
+                <input
+                type="text"
+                id="MilkSearchInput"
+                placeholder="Search by Vendor ID, Name, Doc Number or Plant ID..."
+                class="form-control"
+                style="font-size: 14px; height: 36px;"
+            />
+            </div>
+            
+            <!-- Export buttons aligned right -->
+            <div class="d-flex align-items-center" style="height: 36px;">
+              <img id="exportMobileExcel1" 
+                src="https://img.icons8.com/?size=100&id=UECmBSgBOvPT&format=png&color=000000"
+                alt="Export Excel" 
+                style="cursor: pointer; width: 24px; height: 24px; margin-right: 8px;" 
+                title="Export to Excel"
+              />
+              <img id="exportMobilePDF1" 
+                src="https://img.icons8.com/?size=100&id=13417&format=png&color=000000" 
+                alt="Export PDF"
+                style="cursor: pointer; width: 24px; height: 24px;" 
+                title="Export to PDF"
+              />
+            </div>
+          </div>
+  
+          <div id="scrollableCardsContainer">
+          <div id="MilkProcurementCardsContainer" class="row">
+            <p class="text-center text-muted" id="loadingIndicator2">Loading Milk Procurement data...</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+  
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+    // Toggle function for accordion
+    function toggleAdditionalInfo(icon) {
+        const additionalInfo = icon.closest('.card-body').querySelector('.additional-info');
+        const isCollapsed = additionalInfo.style.display === 'none';
+        additionalInfo.style.display = isCollapsed ? 'block' : 'none';
+        icon.classList.toggle('fa-chevron-down', !isCollapsed);
+        icon.classList.toggle('fa-chevron-up', isCollapsed);
+    }
+    
+    // Make toggle function globally available
+    window.toggleAdditionalInfo = toggleAdditionalInfo;
+    
+    // Load procurement reports
+    window.loadMilkProcurementReports = function() {
+        const searchInput = document.getElementById('MilkSearchInput');
+        if (searchInput) {
+            searchInput.value = '';
+        }
+
+        const url = `/api/method/khanal_tech_integrations.www.kfl_main.milkprocurement.get_context?is_api_call=true&page_size=10000`;
+        const cardsContainer = document.getElementById('MilkProcurementCardsContainer');
+        const loadingIndicator2 = document.getElementById('loadingIndicator2');
+        
+        if (loadingIndicator2) loadingIndicator2.style.display = 'block';
+        if (cardsContainer) cardsContainer.innerHTML = '';
+        if (typeof showLoader === 'function') showLoader();
+
+        fetch(url)
+            .then(response => {
+                if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+                return response.json();
+            })
+            .then(data => {
+                if (data.message && data.message.Milk_Procurement_data) {
+                    window.allProcurementData = data.message.Milk_Procurement_data;
+                    window.displayProcurementCards(window.allProcurementData);
+                } else {
+                    throw new Error('Invalid data structure received');
+                }
+            })
+            .catch(error => {
+                console.error('Error fetching reports:', error);
+                if (cardsContainer) {
+                    cardsContainer.innerHTML = `<p class="text-center text-danger">Error loading data: ${error.message}</p>`;
+                }
+            })
+            .finally(() => {
+                if (typeof hideLoader === 'function') hideLoader();
+                if (loadingIndicator2) loadingIndicator2.style.display = 'none';
+            });
+    };
+
+    // Display procurement cards function
+    function displayProcurementCards(reports) {
+        const cardsContainer = document.getElementById('MilkProcurementCardsContainer');
+        if (!cardsContainer) return;
+
+        cardsContainer.innerHTML = '';
+        
+        if (!reports || !reports.length) {
+            cardsContainer.innerHTML = '<p class="text-center text-muted">No matching reports found.</p>';
+            return;
+        }
+
+        let html = '';
+        reports.forEach(report => {
+            html += `
+                <div class="col-12 mb-3">
+                    <div class="card shadow-sm hover-card">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div>
+                                    <p class="mb-1"><strong>Doc Number:</strong> ${report.doc_num || 'N/A'}</p>
+                                    <p class="mb-1"><strong>Vendor Name:</strong> ${report.vendor_name || 'N/A'}</p>
+                                    <p class="mb-1"><strong>SNF:</strong> ${report.snf || '0'}</p>
+                                </div>
+                                <i class="fas fa-chevron-down accordion-arrow" onclick="toggleAdditionalInfo(this)" style="cursor: pointer;"></i>
+                            </div>
+                            <div class="additional-info" style="display: none; margin-top: 10px;">
+                                <p class="mb-1"><strong>Vendor ID:</strong> ${report.vendor_id || 'N/A'}</p>
+                                <p class="mb-1"><strong>Date:</strong> ${report.supplied_date || 'N/A'}</p>
+                                <p class="mb-1"><strong>Quantity:</strong> ${report.qty_ltr || '0'} Ltr</p>
+                                <p class="mb-1"><strong>Fat:</strong> ${report.fat || '0'}</p>
+                                <p class="mb-1"><strong>TS Value:</strong> ${report.ts_value || '0'}</p>
+                                <p class="mb-1"><strong>Unit Price:</strong> ${report.unit_price || '0'}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>`;
+        });
+
+        cardsContainer.innerHTML = html;
+    }
+
+    // Make displayProcurementCards globally available
+    window.displayProcurementCards = displayProcurementCards;
+
+    // Search functionality
+    document.getElementById('MilkSearchInput')?.addEventListener('input', function(e) {
+        const search = e.target.value.toLowerCase().trim();
+        const filtered = window.allProcurementData?.filter(r =>
+            (r.vendor_id?.toString().toLowerCase().includes(search)) ||
+            (r.vendor_name?.toLowerCase().includes(search)) ||
+            (r.doc_num?.toString().toLowerCase().includes(search)) ||
+            (r.plant_id?.toString().toLowerCase().includes(search))
+        ) || [];
+        displayProcurementCards(filtered);
+    });
+
+    // Export functions
+    document.getElementById('exportMobileExcel1')?.addEventListener('click', () => {
+        if (!window.allProcurementData) return;
+        const worksheet = XLSX.utils.json_to_sheet(window.allProcurementData);
+        const workbook = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(workbook, worksheet, "Vendors");
+        XLSX.writeFile(workbook, "MilkProcurementReport.xlsx");
+    });
+
+    document.getElementById('exportMobilePDF1')?.addEventListener('click', () => {
+        if (!window.allProcurementData) return;
+        const { jsPDF } = window.jspdf;
+        const doc = new jsPDF();
+        doc.autoTable({
+            head: [['Plant ID', 'Doc Number', 'Vendor ID', 'Vendor Name', 'Date', 'Quantity', 'SNF', 'Fat', 'TS Value', 'Unit Price']],
+            body: window.allProcurementData.map(row => [
+                row.plant_id || '',
+                row.doc_num || '',
+                row.vendor_id || '',
+                row.vendor_name || '',
+                row.supplied_date || '',
+                row.qty_ltr || '',
+                row.snf || '',
+                row.fat || '',
+                row.ts_value || '',
+                row.unit_price || ''
+            ])
+        });
+        doc.save('MilkProcurementReport.pdf');
+    });
+
+    // Fetch button event listener
+    document.getElementById('fetchMobileMilkProcurementButton')?.addEventListener('click', fetchMilkProcurementDataFromSAP);
+
+    // Initial load
+    loadMilkProcurementReports();
+
+    // Initialize cooldown
+    refreshCooldown("fetchMobileMilkProcurementButton", "lastFetchedDisplay4", 1);
+});
+  </script>
+
+  <style>
+  @media (max-width: 985px) {
+    html, body {
+      overflow-y: hidden;
+      height: 100%;
+    }
+    #scrollableCardsContainer {
+      overflow-y: auto;
+    }
+  }  
+  .accordion-arrow {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    cursor: pointer;
+    font-size: 1.2em; 
+    color: #555; 
+  }
+  #scrollableCardsContainer {
+    max-height: 100vh; /* Adjust based on your preference */
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding-right: 5px; /* Avoid content getting cut by scrollbar */
+  }
+  /* Optional: prevent scroll bleed from nested containers */
+  #scrollableCardsContainer::-webkit-scrollbar {
+    width: 6px;
+  }
+  
+  #scrollableCardsContainer::-webkit-scrollbar-thumb {
+    background-color: #888;
+    border-radius: 4px;
+  }
+  
+  #scrollableCardsContainer::-webkit-scrollbar-thumb:hover {
+    background: #555;
+  }
+</style>

@@ -1,0 +1,343 @@
+<div id="chart-container" class="row justify-content-center my-4">
+    <div class="col-12">
+        <div
+            style="background: #fff; border-radius: 12px; box-shadow: 0 2px 6px #0001; padding: 16px; overflow-x:auto;">
+            <h6 class="fw-bold text-center mb-2" style="color: #351753;"></h6>
+            <canvas id="monthly-orders-chart" style="min-width:1200px; max-height:600px;"></canvas>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    // Ensure Chart.js is loaded
+    function displayChart(rawData, reportName) {
+        console.log("Raw Data:", rawData);
+        if (!rawData || rawData.length === 0) {
+            document.getElementById('chart-container').style.display = 'none';
+            return;
+        }
+        if (!reportName) {
+            document.getElementById('chart-container').style.display = 'none';
+            return;
+        }
+
+        reportName = reportName.replace(/\s*Reports?$/i, '').trim(); // normalize
+        console.log('Normalized Report Name:', reportName);
+
+        const ctx = document.getElementById('monthly-orders-chart').getContext('2d');
+        let chartType = '';
+        let chartTitle = '';
+        let chartData = {};
+        let chartOptions = {};
+
+        // ----------------------------------------------
+        // CASE 1: Top-5 Items for each Month (Line Chart)
+        // ----------------------------------------------
+        if (reportName === 'Top-5 Items for each Month') {
+            const months = [...new Set(rawData.map(row => row.YearMonth))].sort();
+
+            const itemsMap = {};
+            rawData.forEach(row => {
+                if (!itemsMap[row.ItemName]) itemsMap[row.ItemName] = {};
+                itemsMap[row.ItemName][row.YearMonth] = row.TotalOrderedQty;
+            });
+
+            const datasets = Object.entries(itemsMap).map(([itemName, values], i) => ({
+                label: itemName,
+                data: months.map(m => values[m] || 0),
+                borderColor: ['#7c3aed', '#f43f5e', '#14b8a6', '#eab308', '#3b82f6'][i % 5],
+                fill: false,
+                tension: 0.2
+            }));
+
+            chartType = 'line';
+            chartTitle = 'Top 5 Items (Monthly Trend)';
+            chartData = {
+                labels: months,
+                datasets: datasets
+            };
+
+            chartOptions = {
+                plugins: {
+                    title: {
+                        display: true,
+                        text: chartTitle
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function (context) {
+                                return `${context.dataset.label}: ${context.parsed.y} Qty`;
+                            }
+                        }
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            };
+        }
+
+        // -----------------------------------------------------------
+        // chart 2: Monthly Milk Procured per WareHouse Last 366 days
+        // -----------------------------------------------------------
+        else if (reportName.replace(/_/g, ' ') === 'Monthly Milk Procured per WareHouse Last 366 days') {
+            const months = [...new Set(rawData.map(row => row["Year-Month"]))].sort();
+            const plantMap = {};
+
+            rawData.forEach(row => {
+                const month = row["Year-Month"];
+                const plant = row["Plant Name"];
+                const milk = parseFloat(row["Raw_Milk in Ltr"]) || 0;
+
+                if (!plantMap[plant]) plantMap[plant] = {};
+                if (!plantMap[plant][month]) plantMap[plant][month] = 0;
+                plantMap[plant][month] += milk; // sum up milk per month per plant
+            });
+
+            const colorPalette = ['#7c3aed', '#f43f5e', '#14b8a6', '#eab308', '#3b82f6', '#22c55e', '#9333ea', '#ef4444'];
+            const datasets = Object.entries(plantMap).map(([plant, values], i) => ({
+                label: plant,
+                data: months.map(m => values[m] || 0),
+                backgroundColor: colorPalette[i % colorPalette.length],
+                borderWidth: 1
+            }));
+
+            chartType = 'bar';
+            chartTitle = 'Monthly Milk Procured per Warehouse (Last 366 Days)';
+            chartData = {
+                labels: months,
+                datasets: datasets
+            };
+
+            chartOptions = {
+                responsive: true,
+                plugins: {
+                    title: {
+                        display: true,
+                        text: chartTitle
+                    },
+                    legend: {
+                        position: 'bottom'
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function (context) {
+                                return `${context.dataset.label}: ${context.parsed.y.toLocaleString()} Ltr`;
+                            }
+                        }
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: 'Raw Milk (Litres)'
+                        }
+                    },
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Month'
+                        }
+                    }
+                }
+            };
+        }
+
+        // -----------------------------------------------------------
+        // CASE 3: Ordered Items Summary in 2025 (Pie Chart)
+        // -----------------------------------------------------------
+        else if (reportName.replace(/_/g, ' ') === 'Ordered Items Summary 366 Days') {
+
+            // Step 1: Sort raw data by Total_Order_Qty_Units in descending order
+            const sortedData = [...rawData].sort((a, b) => {
+                const qtyA = parseFloat(a["Total_Order_Qty_Units"]) || 0;
+                const qtyB = parseFloat(b["Total_Order_Qty_Units"]) || 0;
+                return qtyB - qtyA; // descending order
+            });
+
+            // Step 2: Take only top 10 items
+            const top10 = sortedData.slice(0, 10);
+
+            // Step 3: Prepare labels and values based on Total_Order_Amount_Rs
+            const labels = top10.map(row => row["ItemName"]);
+            const values = top10.map(row => parseFloat(row["Total_Order_Amount_Rs"]) || 0);
+
+            const colors = [
+                '#7c3aed', '#f43f5e', '#14b8a6', '#eab308', '#3b82f6',
+                '#22c55e', '#9333ea', '#ef4444', '#06b6d4', '#a855f7'
+            ];
+
+            chartType = 'pie';
+            chartTitle = 'Top 10 Ordered Items (by Quantity) - Total Amount (Rs)';
+
+            chartData = {
+                labels,
+                datasets: [{
+                    label: 'Total Order Amount (Rs)',
+                    data: values,
+                    backgroundColor: colors.slice(0, labels.length),
+                    borderWidth: 1
+                }]
+            };
+
+            chartOptions = {
+                responsive: true,
+                plugins: {
+                    title: {
+                        display: true,
+                        text: chartTitle,
+                        align: 'center',
+                        position: 'top',
+                        font: {
+                            size: 16,
+                            weight: 'bold'
+                        },
+                        padding: { top: 10, bottom: 20 }
+                    },
+                    legend: {
+                        position: 'bottom'
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: ctx => `${ctx.label}: ₹${ctx.parsed.toLocaleString()}`
+                        }
+                    }
+                },
+                layout: {
+                    padding: { top: 10 }
+                }
+            };
+        }
+
+        // -----------------------------------------------------------
+        // CASE 4: Orders Summary per Month Report (line Chart)
+        // -----------------------------------------------------------
+        else if (reportName.replace(/_/g, ' ') === 'Orders Summary per Month') {
+
+            const labels = rawData.map(row => row["Year-Month"]);
+            const totalOrders = rawData.map(row => parseFloat(row["Total_Orders"]) || 0);
+            const totalAmount = rawData.map(row => parseFloat(row["Total_Order_Amount_Rs"]) || 0);
+
+            chartType = 'line';
+            chartTitle = 'Orders Summary per Month (Qty & Amount)';
+
+            chartData = {
+                labels,
+                datasets: [
+                    {
+                        label: 'Total Orders',
+                        data: totalOrders,
+                        borderColor: '#7c3aed',
+                        backgroundColor: 'rgba(124, 58, 237, 0.2)',
+                        fill: true,
+                        tension: 0.3, // smooth curve
+                        yAxisID: 'y-orders'
+                    },
+                    {
+                        label: 'Total Amount (Rs)',
+                        data: totalAmount,
+                        borderColor: '#14b8a6',
+                        backgroundColor: 'rgba(20, 184, 166, 0.2)',
+                        fill: true,
+                        tension: 0.3,
+                        yAxisID: 'y-amount'
+                    }
+                ]
+            };
+
+            chartOptions = {
+                responsive: true,
+                plugins: {
+                    title: {
+                        display: true,
+                        text: chartTitle,
+                        position: 'top',
+                        align: 'center',
+                        font: {
+                            size: 16,
+                            weight: 'bold'
+                        },
+                        padding: { top: 10, bottom: 20 }
+                    },
+                    legend: {
+                        position: 'bottom'
+                    },
+                    tooltip: {
+                        mode: 'index',
+                        intersect: false,
+                        callbacks: {
+                            label: ctx => {
+                                const value = ctx.parsed.y;
+                                if (ctx.dataset.label.includes('Amount'))
+                                    return `${ctx.dataset.label}: ₹${value.toLocaleString()}`;
+                                return `${ctx.dataset.label}: ${value} Orders`;
+                            }
+                        }
+                    }
+                },
+                interaction: {
+                    mode: 'index',
+                    intersect: false
+                },
+                scales: {
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Month'
+                        }
+                    },
+                    'y-orders': {
+                        type: 'linear',
+                        position: 'left',
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: 'Total Orders'
+                        }
+                    },
+                    'y-amount': {
+                        type: 'linear',
+                        position: 'right',
+                        beginAtZero: true,
+                        grid: {
+                            drawOnChartArea: false // prevent grid overlap
+                        },
+                        title: {
+                            display: true,
+                            text: 'Total Amount (Rs)'
+                        }
+                    }
+                }
+            };
+        }
+
+        // ------------------------------------------------
+        // No matching chart
+        // ------------------------------------------------
+        else {
+            console.warn(`No chart configured for report: ${reportName}`);
+            document.getElementById('chart-container').style.display = 'none';
+            return;
+        }
+
+        // Destroy previous chart instance if it exists
+        if (window.currentChart) {
+            window.currentChart.destroy();
+        }
+
+        // ✅ Show chart container only when chart exists
+        document.getElementById('chart-container').style.display = 'block';
+
+        // Create new chart
+        window.currentChart = new Chart(ctx, {
+            type: chartType,
+            data: chartData,
+            options: chartOptions
+        });
+    }
+</script>

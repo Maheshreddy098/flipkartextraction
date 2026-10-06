@@ -1,0 +1,262 @@
+{
+  "actions": [],
+  "autoname": "naming_series:",
+  "creation": "2026-03-11 12:00:00",
+  "doctype": "DocType",
+  "editable_grid": 1,
+  "engine": "InnoDB",
+  "field_order": [
+    "dispatch_order_name",
+    "naming_series",
+    "section_details",
+    "status",
+    "card_code",
+    "card_name",
+    "doc_date",
+    "doc_due_date",
+    "num_at_card",
+    "ship_to_code",
+    "bill_to_code",
+    "column_break_details",
+    "approved_by",
+    "accepted_by",
+    "warehouse_awaiting_kf",
+    "dispatched_at",
+    "comments",
+    "mobile_number",
+    "section_sap",
+    "sap_doc_entry",
+    "sap_doc_num",
+    "sap_sync_error",
+    "sap_delivery_doc_entry",
+    "sap_delivery_doc_num",
+    "sap_invoice_doc_entry",
+    "sap_invoice_doc_num",
+    "section_items",
+    "items"
+  ],
+  "fields": [
+    {
+      "fieldname": "dispatch_order_name",
+      "fieldtype": "Data",
+      "in_list_view": 1,
+      "label": "Dispatch Order Name",
+      "description": "Visible to KhanalFoods and Warehouse"
+    },
+    {
+      "default": "WP-DO-.YYYY.-.#####",
+      "fieldname": "naming_series",
+      "fieldtype": "Select",
+      "label": "Series",
+      "options": "WP-DO-.YYYY.-.#####",
+      "reqd": 1
+    },
+    {
+      "fieldname": "section_details",
+      "fieldtype": "Section Break",
+      "label": "Details"
+    },
+    {
+      "default": "Draft",
+      "fieldname": "status",
+      "fieldtype": "Select",
+      "in_list_view": 1,
+      "in_standard_filter": 1,
+      "label": "Status",
+      "options": "Draft\nPending Approval\nApproved\nAccepted\nIn Preparation\nDispatched\nError",
+      "reqd": 1,
+      "search_index": 1
+    },
+    {
+      "fieldname": "card_code",
+      "fieldtype": "Data",
+      "in_list_view": 1,
+      "label": "Customer Code (SAP)",
+      "reqd": 1
+    },
+    {
+      "fieldname": "card_name",
+      "fieldtype": "Data",
+      "in_list_view": 1,
+      "label": "Customer Name",
+      "read_only": 1
+    },
+    {
+      "default": "Today",
+      "fieldname": "doc_date",
+      "fieldtype": "Date",
+      "in_list_view": 1,
+      "label": "Doc Date",
+      "reqd": 1
+    },
+    {
+      "fieldname": "doc_due_date",
+      "fieldtype": "Date",
+      "label": "Due Date"
+    },
+    {
+      "fieldname": "num_at_card",
+      "fieldtype": "Data",
+      "label": "Reference (Num at Card)"
+    },
+    {
+      "fieldname": "ship_to_code",
+      "fieldtype": "Data",
+      "label": "Ship-To Address (SAP)",
+      "description": "Address name from SAP for this customer. Required to raise Sales Order."
+    },
+    {
+      "fieldname": "bill_to_code",
+      "fieldtype": "Data",
+      "label": "Bill-To Address (SAP)",
+      "description": "Address name from SAP for this customer. Required to raise Sales Order."
+    },
+    {
+      "fieldname": "column_break_details",
+      "fieldtype": "Column Break"
+    },
+    {
+      "fieldname": "approved_by",
+      "fieldtype": "Link",
+      "label": "Approved By",
+      "options": "User",
+      "read_only": 1
+    },
+    {
+      "fieldname": "accepted_by",
+      "fieldtype": "Link",
+      "label": "Accepted By",
+      "options": "User",
+      "read_only": 1
+    },
+    {
+      "default": "0",
+      "fieldname": "warehouse_awaiting_kf",
+      "fieldtype": "Check",
+      "hidden": 1,
+      "label": "Warehouse Awaiting KhanalFoods",
+      "read_only": 1
+    },
+    {
+      "fieldname": "dispatched_at",
+      "fieldtype": "Datetime",
+      "label": "Dispatched At",
+      "read_only": 1
+    },
+    {
+      "fieldname": "comments",
+      "fieldtype": "Text",
+      "label": "Comments"
+    },
+    {
+      "fieldname": "mobile_number",
+      "fieldtype": "Data",
+      "label": "Mobile Number",
+      "description": "Contact mobile number for this dispatch (country code + number, e.g. +1 (555) 123-4567)"
+    },
+    {
+      "collapsible": 1,
+      "fieldname": "section_sap",
+      "fieldtype": "Section Break",
+      "label": "SAP Sales Order"
+    },
+    {
+      "fieldname": "sap_doc_entry",
+      "fieldtype": "Data",
+      "label": "SAP Doc Entry",
+      "read_only": 1
+    },
+    {
+      "fieldname": "sap_doc_num",
+      "fieldtype": "Data",
+      "label": "SAP Doc Num",
+      "read_only": 1
+    },
+    {
+      "fieldname": "sap_sync_error",
+      "fieldtype": "Text",
+      "label": "SAP Sync Error",
+      "read_only": 1
+    },
+    {
+      "fieldname": "sap_delivery_doc_entry",
+      "fieldtype": "Data",
+      "label": "SAP Delivery Doc Entry",
+      "read_only": 1
+    },
+    {
+      "fieldname": "sap_delivery_doc_num",
+      "fieldtype": "Data",
+      "label": "SAP Delivery Doc Num",
+      "read_only": 1
+    },
+    {
+      "fieldname": "sap_invoice_doc_entry",
+      "fieldtype": "Data",
+      "label": "SAP Invoice Doc Entry",
+      "read_only": 1
+    },
+    {
+      "fieldname": "sap_invoice_doc_num",
+      "fieldtype": "Data",
+      "label": "SAP Invoice Doc Num",
+      "read_only": 1
+    },
+    {
+      "fieldname": "section_items",
+      "fieldtype": "Section Break",
+      "label": "Line Items"
+    },
+    {
+      "fieldname": "items",
+      "fieldtype": "Table",
+      "label": "Items",
+      "options": "WowPets Dispatch Order Item",
+      "reqd": 1
+    }
+  ],
+  "links": [],
+  "modified": "2026-03-11 12:00:00.000000",
+  "modified_by": "Administrator",
+  "module": "Khanal Tech Integrations",
+  "name": "WowPets Dispatch Order",
+  "naming_rule": "Expression (old style)",
+  "owner": "Administrator",
+  "permissions": [
+    {
+      "create": 1,
+      "email": 1,
+      "print": 1,
+      "read": 1,
+      "role": "System Manager",
+      "share": 1,
+      "write": 1
+    },
+    {
+      "create": 1,
+      "read": 1,
+      "role": "WowPets KhanalFoods User",
+      "write": 1
+    },
+    {
+      "create": 1,
+      "read": 1,
+      "role": "WowPets KhanalFoods Manager",
+      "write": 1
+    },
+    {
+      "read": 1,
+      "role": "WowPets Warehouse User",
+      "write": 1
+    },
+    {
+      "read": 1,
+      "role": "WowPets Warehouse Manager",
+      "write": 1
+    }
+  ],
+  "sort_field": "modified",
+  "sort_order": "DESC",
+  "states": [],
+  "track_changes": 1
+}

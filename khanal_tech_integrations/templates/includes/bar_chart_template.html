@@ -1,0 +1,85 @@
+<script>
+    function displayBarChart(canvas_id, items_count, sort_column_name, rawData, lables_column_name, values_column_name, reportName) {
+        const ctx = document.getElementById(canvas_id).getContext('2d');
+
+        let chartType = 'bar'; // default
+        let chartTitle = '';
+        let chartData = {};
+        let chartOptions = {};
+        // Step 1: Sort raw data by Total_Order_Qty_Units in descending order
+        const sortedData = [...rawData].sort((a, b) => {
+            const qtyA = parseFloat(a[sort_column_name]) || 0;
+            const qtyB = parseFloat(b[sort_column_name]) || 0;
+            return qtyB - qtyA; // descending order
+        });
+
+        // Step 2: Take only top 10 items
+        const top10 = sortedData.slice(0, items_count);
+
+        // Step 3: Prepare labels and values based on Total_Order_Amount_Rs
+        const labels = top10.map(row => row[lables_column_name]);
+        const values = top10.map(row => parseFloat(row[values_column_name]) || 0);
+
+        const colors = [
+            '#7c3aed', '#f43f5e', '#14b8a6', '#eab308', '#3b82f6',
+            '#22c55e', '#9333ea', '#ef4444', '#06b6d4', '#a855f7'
+        ];
+
+        chartTitle = reportName;
+
+        chartData = {
+            labels,
+            datasets: [{
+                label: lables_column_name,
+                data: values,
+                backgroundColor: colors.slice(0, labels.length),
+                borderWidth: 1
+            }]
+        };
+
+        chartOptions = {
+            indexAxis: 'y',
+            responsive: true,
+            plugins: {
+                title: {
+                    display: true,
+                    text: chartTitle,
+                    align: 'center',
+                    position: 'top',
+                    font: {
+                        size: 16,
+                        weight: 'bold'
+                    },
+                    padding: { top: 10, bottom: 20 }
+                },
+                legend: {
+                    position: 'bottom'
+                },
+                tooltip: {
+                    callbacks: 
+                    {
+                       // label: ctx => ` ${ctx.parsed.x.toLocaleString()}`
+                        label: (ctx) => {
+                            const label = ctx.chart.data.labels[ctx.dataIndex];
+                            const value = ctx.parsed.x;
+                            const dataset = ctx.dataset.data;
+                            const total = dataset.reduce((a, b) => a + b, 0);
+                            const percent = ((value / total) * 100).toFixed(2);
+                            return ` ${value.toLocaleString()} (${percent}%)`;
+                        }
+                    }
+                }
+            },
+            layout: {
+                padding: { top: 10 }
+            }
+        };
+
+        window.currentChart = new Chart(ctx, {
+            type: chartType,
+            data: chartData,
+            options: chartOptions
+        });
+
+    }
+</script>

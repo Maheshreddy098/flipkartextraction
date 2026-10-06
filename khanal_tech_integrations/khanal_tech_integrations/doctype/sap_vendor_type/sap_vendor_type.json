@@ -1,0 +1,43 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "format:{sap_vendor_type}",
+ "creation": "2024-05-22 18:55:42.594418",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "sap_vendor_type"
+ ],
+ "fields": [
+  {
+   "fieldname": "sap_vendor_type",
+   "fieldtype": "Data",
+   "label": "SAP Vendor Type"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2024-05-22 18:58:23.533452",
+ "modified_by": "Administrator",
+ "module": "Khanal Tech Integrations",
+ "name": "SAP Vendor Type",
+ "naming_rule": "Expression",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

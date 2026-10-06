@@ -1,0 +1,209 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "format:{po_number}-{#####}",
+ "creation": "2025-03-03 17:38:10.319538",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "blinkit_section",
+  "po_number",
+  "company_name",
+  "employee_name",
+  "contact_name",
+  "po_expiry_date",
+  "delivered_to",
+  "gst_no",
+  "email_id",
+  "docnum",
+  "docentry",
+  "sap_status",
+  "customer_code",
+  "employee_id",
+  "column_break_yflt",
+  "po_url",
+  "matched_address_name",
+  "matched_state",
+  "billto",
+  "billing_from",
+  "total_quantity",
+  "total_amount",
+  "total_items",
+  "error_status",
+  "update_status",
+  "document_status",
+  "section_break_jbur",
+  "b2b_table"
+ ],
+ "fields": [
+  {
+   "fieldname": "po_number",
+   "fieldtype": "Data",
+   "label": "PO Number",
+   "read_only": 1
+  },
+  {
+   "fieldname": "company_name",
+   "fieldtype": "Data",
+   "label": "Company Name"
+  },
+  {
+   "fieldname": "contact_name",
+   "fieldtype": "Data",
+   "label": "Contact Name"
+  },
+  {
+   "fieldname": "po_expiry_date",
+   "fieldtype": "Data",
+   "label": "PO-Expiry-Date"
+  },
+  {
+   "fieldname": "delivered_to",
+   "fieldtype": "Small Text",
+   "label": "Delivery-Address"
+  },
+  {
+   "fieldname": "gst_no",
+   "fieldtype": "Data",
+   "label": "GST No"
+  },
+  {
+   "fieldname": "email_id",
+   "fieldtype": "Data",
+   "label": "email"
+  },
+  {
+   "fieldname": "docnum",
+   "fieldtype": "Data",
+   "label": "SO-Docnum"
+  },
+  {
+   "fieldname": "docentry",
+   "fieldtype": "Data",
+   "label": "SO-Docentry"
+  },
+  {
+   "fieldname": "sap_status",
+   "fieldtype": "Data",
+   "label": "SAP-STATUS"
+  },
+  {
+   "fieldname": "customer_code",
+   "fieldtype": "Data",
+   "label": "Customer-Code"
+  },
+  {
+   "fieldname": "employee_id",
+   "fieldtype": "Data",
+   "label": "Emplyoee-ID"
+  },
+  {
+   "fieldname": "column_break_yflt",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "po_url",
+   "fieldtype": "Attach",
+   "label": "PO-URL"
+  },
+  {
+   "fieldname": "matched_address_name",
+   "fieldtype": "Data",
+   "label": "Matched Address"
+  },
+  {
+   "fieldname": "matched_state",
+   "fieldtype": "Data",
+   "label": "Matched State"
+  },
+  {
+   "fieldname": "billto",
+   "fieldtype": "Data",
+   "label": "Billto"
+  },
+  {
+   "fieldname": "billing_from",
+   "fieldtype": "Data",
+   "label": "Billing From"
+  },
+  {
+   "fieldname": "total_amount",
+   "fieldtype": "Data",
+   "label": "Total-Amount"
+  },
+  {
+   "fieldname": "total_items",
+   "fieldtype": "Data",
+   "label": "Total-Items"
+  },
+  {
+   "fieldname": "error_status",
+   "fieldtype": "Small Text",
+   "label": "Error"
+  },
+  {
+   "fieldname": "update_status",
+   "fieldtype": "Data",
+   "label": "STATUS"
+  },
+  {
+   "fieldname": "document_status",
+   "fieldtype": "Data",
+   "label": "SO-Status"
+  },
+  {
+   "fieldname": "blinkit_section",
+   "fieldtype": "Section Break",
+   "label": "Blinkit"
+  },
+  {
+   "fieldname": "section_break_jbur",
+   "fieldtype": "Section Break",
+   "label": "Blinkit -ITEMS"
+  },
+  {
+   "fieldname": "b2b_table",
+   "fieldtype": "Table",
+   "label": "Table_B2B",
+   "options": "Table_B2B"
+  },
+  {
+   "fieldname": "employee_name",
+   "fieldtype": "Data",
+   "label": "Employee"
+  },
+  {
+   "fieldname": "total_quantity",
+   "fieldtype": "Data",
+   "label": "Total-Quantity"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2025-09-01 10:03:09.866087",
+ "modified_by": "Administrator",
+ "module": "Khanal Tech Integrations",
+ "name": "B2B",
+ "naming_rule": "Expression",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "row_format": "Dynamic",
+ "sort_field": "creation",
+ "sort_order": "DESC",
+ "states": [],
+ "title_field": "po_number",
+ "track_changes": 1
+}

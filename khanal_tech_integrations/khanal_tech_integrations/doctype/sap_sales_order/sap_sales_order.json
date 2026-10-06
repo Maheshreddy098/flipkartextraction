@@ -1,0 +1,248 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "field:docentry",
+ "creation": "2022-10-18 17:58:35.501878",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "sales_order_document_details_section",
+  "docentry",
+  "docnum",
+  "ref_number",
+  "section_break_8",
+  "created_date",
+  "cancellation_status",
+  "column_break_znpa",
+  "series_no",
+  "series_name",
+  "customer_details_section",
+  "customer_code",
+  "column_break_xcwu",
+  "customer_name",
+  "column_break_jgkf",
+  "section_break_jdwa",
+  "sales_person_email",
+  "lineitem_from_warehouse",
+  "column_break_kkxe",
+  "sales_person_code",
+  "column_break_ndlx",
+  "sales_person_name",
+  "section_break_tpqw",
+  "contact_person_email",
+  "column_break_lpps",
+  "contact_person_name",
+  "column_break_qncm",
+  "contact_person_code",
+  "section_break_piks",
+  "email_status",
+  "column_break_hpuz",
+  "currency",
+  "column_break_rtzq",
+  "doc_total"
+ ],
+ "fields": [
+  {
+   "fieldname": "docentry",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "DocEntry",
+   "unique": 1
+  },
+  {
+   "fieldname": "docnum",
+   "fieldtype": "Data",
+   "label": "DocNum"
+  },
+  {
+   "fieldname": "customer_code",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Customer Code"
+  },
+  {
+   "fieldname": "customer_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Customer Name"
+  },
+  {
+   "fieldname": "created_date",
+   "fieldtype": "Date",
+   "label": "Created Date"
+  },
+  {
+   "fieldname": "sales_person_code",
+   "fieldtype": "Data",
+   "label": "Sales Person Code"
+  },
+  {
+   "fieldname": "cancellation_status",
+   "fieldtype": "Data",
+   "label": "Cancellation Status"
+  },
+  {
+   "fieldname": "section_break_8",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "lineitem_from_warehouse",
+   "fieldtype": "Data",
+   "label": "Lineitem From_Warehouse"
+  },
+  {
+   "fieldname": "sales_person_name",
+   "fieldtype": "Data",
+   "label": "Sales Person Name"
+  },
+  {
+   "fieldname": "sales_person_email",
+   "fieldtype": "Data",
+   "label": "Sales Person Email"
+  },
+  {
+   "fieldname": "contact_person_code",
+   "fieldtype": "Data",
+   "label": "ContactPersonCode"
+  },
+  {
+   "fieldname": "contact_person_name",
+   "fieldtype": "Data",
+   "label": "ContactPersonName"
+  },
+  {
+   "fieldname": "contact_person_email",
+   "fieldtype": "Data",
+   "label": "ContactPersonEmail"
+  },
+  {
+   "fieldname": "email_status",
+   "fieldtype": "Data",
+   "label": "Email Status"
+  },
+  {
+   "fieldname": "ref_number",
+   "fieldtype": "Data",
+   "label": "PO Number"
+  },
+  {
+   "fieldname": "doc_total",
+   "fieldtype": "Float",
+   "in_list_view": 1,
+   "label": "Total"
+  },
+  {
+   "fieldname": "currency",
+   "fieldtype": "Data",
+   "label": "Currency"
+  },
+  {
+   "fieldname": "series_name",
+   "fieldtype": "Data",
+   "label": "Series Name"
+  },
+  {
+   "fieldname": "series_no",
+   "fieldtype": "Data",
+   "label": "Series No"
+  },
+  {
+   "fieldname": "column_break_znpa",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "section_break_jdwa",
+   "fieldtype": "Section Break",
+   "label": "Sales Person Details"
+  },
+  {
+   "fieldname": "column_break_kkxe",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "column_break_ndlx",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "sales_order_document_details_section",
+   "fieldtype": "Section Break",
+   "label": "Sales Order Document Details"
+  },
+  {
+   "fieldname": "section_break_tpqw",
+   "fieldtype": "Section Break",
+   "label": "Contact Details"
+  },
+  {
+   "fieldname": "column_break_lpps",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "column_break_qncm",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "customer_details_section",
+   "fieldtype": "Section Break",
+   "label": "Customer Details"
+  },
+  {
+   "fieldname": "column_break_xcwu",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "column_break_jgkf",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "section_break_piks",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "column_break_hpuz",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "column_break_rtzq",
+   "fieldtype": "Column Break"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2024-06-17 15:19:01.696503",
+ "modified_by": "Administrator",
+ "module": "Khanal Tech Integrations",
+ "name": "SAP Sales Order",
+ "naming_rule": "By fieldname",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Sales Logistics Report Viewer",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

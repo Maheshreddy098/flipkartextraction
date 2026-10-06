@@ -1,0 +1,74 @@
+{
+ "actions": [],
+ "autoname": "field:code",
+ "creation": "2023-09-17 22:48:50.651210",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "code",
+  "statuscode",
+  "shippingprovider",
+  "trackingnumber",
+  "returninvoicecode",
+  "putawaycode",
+  "type",
+  "return_items_detail"
+ ],
+ "fields": [
+  {
+   "fieldname": "code",
+   "fieldtype": "Data",
+   "label": "Shipping Package Code",
+   "unique": 1
+  },
+  {
+   "fieldname": "statuscode",
+   "fieldtype": "Data",
+   "label": "statusCode"
+  },
+  {
+   "fieldname": "shippingprovider",
+   "fieldtype": "Data",
+   "label": "shippingProvider"
+  },
+  {
+   "fieldname": "trackingnumber",
+   "fieldtype": "Data",
+   "label": "Tracking Number"
+  },
+  {
+   "fieldname": "returninvoicecode",
+   "fieldtype": "Data",
+   "label": "Return Invoice Code"
+  },
+  {
+   "fieldname": "putawaycode",
+   "fieldtype": "Data",
+   "label": "Putaway Code"
+  },
+  {
+   "fieldname": "type",
+   "fieldtype": "Data",
+   "label": "Return Type"
+  },
+  {
+   "fieldname": "return_items_detail",
+   "fieldtype": "JSON",
+   "label": "Return Items Detail"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "istable": 1,
+ "links": [],
+ "modified": "2023-09-17 23:49:18.344938",
+ "modified_by": "Administrator",
+ "module": "Khanal Tech Integrations",
+ "name": "Unicommerce Returns",
+ "naming_rule": "By fieldname",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

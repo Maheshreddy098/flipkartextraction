@@ -1,0 +1,13 @@
+{
+ "creation": "2022-10-19 18:16:24.091350",
+ "docstatus": 0,
+ "doctype": "Dashboard Chart Source",
+ "idx": 0,
+ "modified": "2022-10-19 18:16:24.091350",
+ "modified_by": "Administrator",
+ "module": "Khanal Tech Integrations",
+ "name": "Sales Order",
+ "owner": "Administrator",
+ "source_name": "Sales Order",
+ "timeseries": 0
+}

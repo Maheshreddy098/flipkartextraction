@@ -1,0 +1,50 @@
+{
+ "charts": [],
+ "content": "[{\"id\":\"QbiETYB5ww\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\">Sales</span>\",\"col\":12}},{\"id\":\"0NNHbmYJuW\",\"type\":\"number_card\",\"data\":{\"number_card_name\":\"Total Sales Order\",\"col\":3}},{\"id\":\"hzSD7CQLVq\",\"type\":\"number_card\",\"data\":{\"number_card_name\":\"Open SO\",\"col\":3}},{\"id\":\"RaeQqSnTpi\",\"type\":\"number_card\",\"data\":{\"number_card_name\":\"Total SO Value\",\"col\":3}},{\"id\":\"PsFWnoHcWA\",\"type\":\"number_card\",\"data\":{\"number_card_name\":\"Total SO Value (Open)\",\"col\":3}}]",
+ "creation": "2024-06-18 12:05:31.396263",
+ "custom_blocks": [],
+ "docstatus": 0,
+ "doctype": "Workspace",
+ "for_user": "",
+ "hide_custom": 0,
+ "icon": "expenses",
+ "idx": 0,
+ "indicator_color": "green",
+ "is_hidden": 0,
+ "label": "Sales",
+ "links": [],
+ "modified": "2024-08-28 18:17:22.833093",
+ "modified_by": "Administrator",
+ "module": "Khanal Tech Integrations",
+ "name": "Sales",
+ "number_cards": [
+  {
+   "label": "Total Sales Order",
+   "number_card_name": "Total Sales Order"
+  },
+  {
+   "label": "Open SO",
+   "number_card_name": "Open Sales Order"
+  },
+  {
+   "label": "Total SO Value",
+   "number_card_name": "Total SO Value"
+  },
+  {
+   "label": "Total SO Value (Open)",
+   "number_card_name": "Total SO Value (Open)"
+  }
+ ],
+ "owner": "Administrator",
+ "parent_page": "",
+ "public": 1,
+ "quick_lists": [],
+ "roles": [
+  {
+   "role": "System Manager"
+  }
+ ],
+ "sequence_id": 3.0,
+ "shortcuts": [],
+ "title": "Sales"
+}

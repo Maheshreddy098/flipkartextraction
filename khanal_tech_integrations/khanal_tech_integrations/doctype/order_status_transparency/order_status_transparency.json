@@ -1,0 +1,144 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2022-10-17 18:56:29.969822",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "sales_person",
+  "sales_order",
+  "created",
+  "customer_code",
+  "customer_name",
+  "numatcard",
+  "delivery_note_number",
+  "invoice_number",
+  "total_bill",
+  "invoice_pdf",
+  "shipped",
+  "delivery_partner",
+  "shipment_id",
+  "tracking_link",
+  "current_status",
+  "expected_delivery",
+  "delivered",
+  "sap_update"
+ ],
+ "fields": [
+  {
+   "fieldname": "sales_person",
+   "fieldtype": "Data",
+   "label": "Sales Person "
+  },
+  {
+   "fieldname": "sales_order",
+   "fieldtype": "Data",
+   "label": "Sales order"
+  },
+  {
+   "fieldname": "created",
+   "fieldtype": "Date",
+   "label": "Created"
+  },
+  {
+   "fieldname": "customer_code",
+   "fieldtype": "Data",
+   "label": "Customer Code"
+  },
+  {
+   "fieldname": "customer_name",
+   "fieldtype": "Data",
+   "label": "Customer Name"
+  },
+  {
+   "fieldname": "numatcard",
+   "fieldtype": "Data",
+   "label": "NumAtCard"
+  },
+  {
+   "fieldname": "delivery_note_number",
+   "fieldtype": "Data",
+   "label": "Delivery Note Number"
+  },
+  {
+   "fieldname": "invoice_number",
+   "fieldtype": "Data",
+   "label": "Invoice Number"
+  },
+  {
+   "fieldname": "total_bill",
+   "fieldtype": "Data",
+   "label": "Total Bill"
+  },
+  {
+   "fieldname": "invoice_pdf",
+   "fieldtype": "Data",
+   "label": "Invoice PDF"
+  },
+  {
+   "fieldname": "shipped",
+   "fieldtype": "Date",
+   "label": "Shipped "
+  },
+  {
+   "fieldname": "delivery_partner",
+   "fieldtype": "Data",
+   "label": "Delivery Partner"
+  },
+  {
+   "fieldname": "shipment_id",
+   "fieldtype": "Data",
+   "label": "Shipment ID"
+  },
+  {
+   "fieldname": "tracking_link",
+   "fieldtype": "Data",
+   "label": "Tracking Link"
+  },
+  {
+   "fieldname": "current_status",
+   "fieldtype": "Data",
+   "label": "Current Status"
+  },
+  {
+   "fieldname": "expected_delivery",
+   "fieldtype": "Date",
+   "label": "Expected Delivery"
+  },
+  {
+   "fieldname": "delivered",
+   "fieldtype": "Date",
+   "label": "Delivered"
+  },
+  {
+   "fieldname": "sap_update",
+   "fieldtype": "Data",
+   "label": "SAP Update"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2024-03-20 16:27:22.673903",
+ "modified_by": "Administrator",
+ "module": "Khanal Tech Integrations",
+ "name": "Order Status Transparency",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

@@ -1,0 +1,28 @@
+{
+ "cards": [
+  {
+   "card": "SAP Sales Order"
+  },
+  {
+   "card": "SAP Invoices"
+  }
+ ],
+ "charts": [
+  {
+   "chart": "Daily Sales Order",
+   "width": "Full"
+  }
+ ],
+ "creation": "2022-10-24 23:37:04.391177",
+ "dashboard_name": "Logistics Tracking Dashboard",
+ "docstatus": 0,
+ "doctype": "Dashboard",
+ "idx": 0,
+ "is_default": 0,
+ "is_standard": 1,
+ "modified": "2022-10-25 21:09:14.831976",
+ "modified_by": "Administrator",
+ "module": "Khanal Tech Integrations",
+ "name": "Logistics Tracking Dashboard",
+ "owner": "Administrator"
+}

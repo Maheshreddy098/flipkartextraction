@@ -1,0 +1,107 @@
+<div style="display: table-header-group">
+    <h4 style="text-align: center; margin: 0">
+        <b> Ledger Detail </b>
+    </h4>
+
+    <table style="width: 100%; table-layout: fixed">
+        <tr>
+            <td style="border-left: 1px solid #ddd; border-right: 1px solid #ddd">
+                <div style="
+           text-align: center;
+           margin: auto;
+           line-height: 1.5;
+           font-size: 14px;
+           color: #4a4a4a;
+         ">
+                    <img src="https://khanalfoods.com/wp-content/themes/khanalfoods/assets/img/khanalfoods/logo/Group.svg"
+                        alt="" height="100" style="max-width: 100px; display: block; margin: auto;">
+                    <span> Company ID : </span><br>
+                    <span style="color: #00bb07">GST TIN :29AAFCK9270L1ZU</span>
+
+                </div>
+            </td>
+
+            <td align="center" style="
+         text-align: center;
+         padding-left: 50px;
+         line-height: 1.5;
+         color: #323232;
+       ">
+                <div>
+                    <h4 style="margin-top: 5px; margin-bottom: 5px">
+                        Khanal Foods Pvt Ltd
+                    </h4>
+
+                    <p style="font-size: 14px">
+                        NO 40, D M Nagappa,Garudachar palya,<br>
+                        Mahadevapura,Bengaluru,560048 <br>
+                    
+                    </p>
+
+
+
+                </div>
+            </td>
+            <td align="right" style="
+         
+         border-left: 1px solid #ddd;
+          border-right: 1px solid #ddd
+       ">
+                <div style="
+           text-align: center;
+           margin: auto;
+           line-height: 1.5;
+           font-size: 14px;
+           color: #4a4a4a;
+         ">
+                    <span>Posting Period From</span>: <span>{doc.start_date}</span><br>
+                    <span>Posting Period To</span>: <span>{doc.end_date}</span><br>
+                    <span>Point of Contact</span>: <span>{doc.user_name}</span>
+
+
+                </div>
+            </td>
+        </tr>
+
+    </table>
+</div>
+<table class="table table-bordered h4-14" style="width: 100%; -fs-table-paginate: paginate; margin-top: 15px">
+    <thead style="display: table-header-group">
+
+        <tr style="
+       margin: 0;
+       background: #cebd811f;
+       padding: 15px;
+       padding-left: 20px;
+       -webkit-print-color-adjust: exact;
+     ">
+
+        </tr>
+        <tr style="
+       margin: 0;
+       background: #c7c3b51f;
+       padding: 15px;
+       padding-left: 20px;
+       -webkit-print-color-adjust: exact;
+     ">
+            <td colspan="5">
+                <h4 style="margin: 0">Opening Balance:</h4>
+                <p style="margin: 5px 0">{total_balance}</p><br>
+
+
+
+            </td>
+            <td colspan="5">
+
+                <h4 style="margin: 0">Bp Name:</h4>
+                <p style="margin: 5px 0">{doc.vendor_name}</p>
+
+            </td>
+        </tr>
+
+
+
+    </thead>
+    {html_table}
+    <tfoot></tfoot>
+</table>

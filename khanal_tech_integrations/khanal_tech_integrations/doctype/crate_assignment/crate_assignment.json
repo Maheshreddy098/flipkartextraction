@@ -1,0 +1,86 @@
+{
+ "actions": [],
+ "autoname": "format:{batch_number}-{item_code}",
+ "creation": "2024-02-14 12:50:38.953418",
+ "default_view": "List",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "batch_number",
+  "created_date",
+  "column_break_peb9",
+  "item_code",
+  "item_description",
+  "crate_consumed",
+  "section_break_ewr1",
+  "crate_assignment_table"
+ ],
+ "fields": [
+  {
+   "fieldname": "batch_number",
+   "fieldtype": "Data",
+   "label": "Batch Number"
+  },
+  {
+   "fieldname": "item_code",
+   "fieldtype": "Data",
+   "label": "Item Code"
+  },
+  {
+   "fieldname": "item_description",
+   "fieldtype": "Data",
+   "label": "Item Description"
+  },
+  {
+   "fieldname": "created_date",
+   "fieldtype": "Datetime",
+   "label": "Created Date"
+  },
+  {
+   "fieldname": "column_break_peb9",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "section_break_ewr1",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "crate_assignment_table",
+   "fieldtype": "Table",
+   "label": "Crate Assignment",
+   "options": "Crate Assignment Table"
+  },
+  {
+   "default": "0",
+   "fieldname": "crate_consumed",
+   "fieldtype": "Check",
+   "label": "Crate Consumed"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2024-03-18 16:04:08.530004",
+ "modified_by": "Administrator",
+ "module": "Khanal Tech Integrations",
+ "name": "Crate Assignment",
+ "naming_rule": "Expression",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

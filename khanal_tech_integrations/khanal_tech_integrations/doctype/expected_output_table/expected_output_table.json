@@ -1,0 +1,68 @@
+{
+ "actions": [],
+ "creation": "2024-02-21 16:25:40.472139",
+ "default_view": "List",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "item_code",
+  "item_name",
+  "column_break_8fgi",
+  "batch_number",
+  "output_Quantity",
+  "column_break_qfja",
+  "line_items_deatils"
+ ],
+ "fields": [
+  {
+   "fieldname": "item_code",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Item Code"
+  },
+  {
+   "fieldname": "item_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "item Name"
+  },
+  {
+   "fieldname": "batch_number",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Batch Number"
+  },
+  {
+   "fieldname": "line_items_deatils",
+   "fieldtype": "JSON",
+   "label": "Line Items Deatils"
+  },
+  {
+   "fieldname": "column_break_8fgi",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "column_break_qfja",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "output_Quantity",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Output Quantity"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "istable": 1,
+ "links": [],
+ "modified": "2024-03-18 15:40:09.581909",
+ "modified_by": "Administrator",
+ "module": "Khanal Tech Integrations",
+ "name": "Expected Output Table",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

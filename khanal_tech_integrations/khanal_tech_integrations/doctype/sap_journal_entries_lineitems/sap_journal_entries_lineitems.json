@@ -1,0 +1,173 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2024-02-01 17:04:10.104989",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "line_id",
+  "customervendor_code",
+  "debit",
+  "credit",
+  "fcdebit",
+  "fccredit",
+  "fccurrency",
+  "line_duedate",
+  "contraaccount",
+  "linememo",
+  "referencedate1",
+  "column_break_8ni7",
+  "reference1",
+  "projectcode",
+  "line_taxdate",
+  "costingcode2",
+  "costingcode3",
+  "costingcode4",
+  "taxcode",
+  "taxpostaccount",
+  "costingcode5",
+  "locationcode",
+  "controlaccount",
+  "totaltax",
+  "accountcode"
+ ],
+ "fields": [
+  {
+   "fieldname": "line_id",
+   "fieldtype": "Data",
+   "label": "Line_ID"
+  },
+  {
+   "fieldname": "customervendor_code",
+   "fieldtype": "Data",
+   "label": "Customer/Vendor Code"
+  },
+  {
+   "fieldname": "debit",
+   "fieldtype": "Data",
+   "label": "Debit"
+  },
+  {
+   "fieldname": "credit",
+   "fieldtype": "Data",
+   "label": "Credit"
+  },
+  {
+   "fieldname": "fcdebit",
+   "fieldtype": "Data",
+   "label": "FCDebit"
+  },
+  {
+   "fieldname": "fccredit",
+   "fieldtype": "Data",
+   "label": "FCCredit"
+  },
+  {
+   "fieldname": "fccurrency",
+   "fieldtype": "Data",
+   "label": "FCCurrency"
+  },
+  {
+   "fieldname": "line_duedate",
+   "fieldtype": "Data",
+   "label": "Line_DueDate"
+  },
+  {
+   "fieldname": "contraaccount",
+   "fieldtype": "Data",
+   "label": "ContraAccount"
+  },
+  {
+   "fieldname": "linememo",
+   "fieldtype": "Long Text",
+   "label": "LineMemo"
+  },
+  {
+   "fieldname": "referencedate1",
+   "fieldtype": "Date",
+   "label": "ReferenceDate1"
+  },
+  {
+   "fieldname": "column_break_8ni7",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "reference1",
+   "fieldtype": "Data",
+   "label": "Reference1"
+  },
+  {
+   "fieldname": "projectcode",
+   "fieldtype": "Data",
+   "label": "ProjectCode"
+  },
+  {
+   "fieldname": "line_taxdate",
+   "fieldtype": "Data",
+   "label": "Line_TaxDate"
+  },
+  {
+   "fieldname": "costingcode2",
+   "fieldtype": "Data",
+   "label": "CostingCode2"
+  },
+  {
+   "fieldname": "costingcode3",
+   "fieldtype": "Data",
+   "label": "CostingCode3"
+  },
+  {
+   "fieldname": "costingcode4",
+   "fieldtype": "Data",
+   "label": "CostingCode4"
+  },
+  {
+   "fieldname": "taxcode",
+   "fieldtype": "Data",
+   "label": "TaxCode"
+  },
+  {
+   "fieldname": "taxpostaccount",
+   "fieldtype": "Data",
+   "label": "TaxPostAccount"
+  },
+  {
+   "fieldname": "costingcode5",
+   "fieldtype": "Data",
+   "label": "CostingCode5"
+  },
+  {
+   "fieldname": "locationcode",
+   "fieldtype": "Data",
+   "label": "LocationCode"
+  },
+  {
+   "fieldname": "controlaccount",
+   "fieldtype": "Data",
+   "label": "ControlAccount"
+  },
+  {
+   "fieldname": "totaltax",
+   "fieldtype": "Data",
+   "label": "TotalTax"
+  },
+  {
+   "fieldname": "accountcode",
+   "fieldtype": "Data",
+   "label": "AccountCode"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "istable": 1,
+ "links": [],
+ "modified": "2024-02-05 11:36:15.751668",
+ "modified_by": "Administrator",
+ "module": "Khanal Tech Integrations",
+ "name": "SAP Journal Entries LineItems",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

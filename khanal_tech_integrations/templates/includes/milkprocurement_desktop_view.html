@@ -1,0 +1,281 @@
+<div class="row" id="MilkProcurementReportsPanel">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-header text-white" style="background-color: #351753; position: relative;">
+                <div class="bokeh-container">
+                    <!-- Bokeh particles will be dynamically added here -->
+                </div>
+                <h5 class="text-800 fw-bold" style="font-family: 'Arial', sans-serif; text-align: center; margin: 0;">
+                    <span style="color: #d18023;">✩</span>
+                    <span style="color: #fbeeee; font-family: 'Georgia', serif; font-style: italic;">Milk Procurement
+                        Reports</span>
+                    <span style="color: #5ac1cd;">✩</span>
+                </h5>
+                <div id="fetchMilkProcurementButtonWrapper"
+                    style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); display: flex; align-items: center; gap: 8px;">
+                    <div id="fetchMilkProcurementButton" class="blinking-star" style="cursor: pointer;">
+                        <i class="fas fa-sync-alt" aria-hidden="true"></i>
+                    </div>
+                    <span id="lastFetchedDisplay1"
+                        style="color: #fff; font-size: 14px; font-family: Arial, Helvetica, sans-serif;"></span>
+                </div>
+            </div>
+            <div class="card-body" id="cardBody" style="background-color: #bbd1d3f9;">
+                <div class="d-flex mb-0 justify-content-end align-items-center"
+                    style="margin-bottom: 0; margin-top: -4px;">
+                    <div class="d-flex align-items-center">
+                        <img id="exportExcel"
+                            src="https://img.icons8.com/?size=100&id=UECmBSgBOvPT&format=png&color=000000" alt="Export"
+                            style="cursor: pointer; width: 24px; height: 24px; margin-right: 8px;" />
+                        <img id="exportPDF" src="https://img.icons8.com/?size=100&id=13417&format=png&color=000000"
+                            alt="Export" style="cursor: pointer; width: 24px; height: 24px; margin-right: 8px;" />
+                    </div>
+                </div>
+                <div class="table-container" style="max-height: 1000px; overflow-y: auto; margin-top: 0;">
+                    <table id="milkProcurementTable" class="table table-striped table-bordered d-none"
+                        style="width:100%; background-color: #b8cac7;">
+                        <thead class="bg-secondary text-white" style="position: sticky; top: 0; z-index: 1;">
+                            <tr>
+                                <th scope="col">Plant ID</th>
+                                <th scope="col">Doc Number</th>
+                                <th scope="col">Vendor ID</th>
+                                <th scope="col">Vendor Name</th>
+                                <th scope="col">Supplied Date</th>
+                                <th scope="col">Qty in Ltr</th>
+                                <th scope="col">SNF</th>
+                                <th scope="col">Fat</th>
+                                <th scope="col">TS Value</th>
+                                <th scope="col">Unit Price</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Rows will be dynamically added here -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row justify-content-center my-4">
+    <div class="col-md-6 mx-auto">
+        <div style="background: #fff; border-radius: 12px; box-shadow: 0 2px 6px #0001; padding: 16px;">
+            <h6 class="fw-bold text-center mb-2" style="color: #351753;">Daily Supply Distribution</h6>
+            <canvas id="milkProcurementBarChart" height="120"></canvas>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // console.log('Milk Procurement Reports page loaded');
+        let pageSize = 1000;
+        let procurementChart = null;
+
+        window.loadMilkProcurementReports = function (page, getAll = true) {
+            if (getAll) {
+                page = 1;
+                pageSize = 1000;
+            }
+            showLoader();
+            const fetchUrl = `/api/method/khanal_tech_integrations.www.kfl_main.milkprocurement.get_context?is_api_call=true`;
+
+            fetch(fetchUrl)
+                .then(response => response.json())
+                .then(data => {
+                    // console.log('Full API Response:', data);
+
+                    if (data.message && data.message.Milk_Procurement_data) {
+                        const reports = data.message.Milk_Procurement_data;
+                        const tableBody = document.querySelector('#milkProcurementTable tbody');
+                        tableBody.innerHTML = '';
+
+                        if (reports.length > 0) {
+
+                            let rowsHtml = '';
+                            reports.forEach(report => {
+                                rowsHtml += `
+                                <tr>
+                                    <td>${report.plant_id || 'N/A'}</td>
+                                    <td>${report.doc_num || 'N/A'}</td>
+                                    <td>${report.vendor_id || 'N/A'}</td>
+                                    <td>${report.vendor_name || 'N/A'}</td>
+                                    <td>${report.supplied_date || 'N/A'}</td>
+                                    <td>${report.qty_ltr || '0'}</td>
+                                    <td>${report.snf || '0'}</td>
+                                    <td>${report.fat || '0'}</td>
+                                    <td>${report.ts_value || '0'}</td>
+                                    <td>${report.unit_price || '0'}</td>
+                                </tr>`;
+                               
+                            });
+                            tableBody.innerHTML += rowsHtml;
+                            if ($.fn.DataTable.isDataTable('#milkProcurementTable')) {
+                                $('#milkProcurementTable').DataTable().destroy();
+                            }
+
+                                                      
+
+                            $(document).ready(function () {
+    const jdtable = $('#milkProcurementTable').DataTable();
+    $('#milkProcurementTable').removeClass('d-none');
+
+    // Update bar chart on search, page, or order change
+    jdtable.on('search.dt page.dt order.dt', function () {
+        // Get only the displayed (filtered) data
+        const displayedData = jdtable.rows({ search: 'applied' }).data().toArray();
+        // Map displayedData back to report objects
+        const filteredReports = displayedData.map(row => ({
+            plant_id: row[0],
+            doc_num: row[1],
+            vendor_id: row[2],
+            vendor_name: row[3],
+            supplied_date: row[4],
+            qty_ltr: row[5],
+            snf: row[6],
+            fat: row[7],
+            ts_value: row[8],
+            unit_price: row[9]
+        }));
+        showBarChart(filteredReports);
+    });
+
+    // Initial chart with all data
+    showBarChart(reports);
+});
+                           
+                        } else {
+                            tableBody.innerHTML = '<tr><td colspan="10">No data available</td></tr>';
+                        }
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Failed to load milk procurement reports');
+                })
+                .finally(() => {
+                    hideLoader();
+                });
+        };
+
+
+        function showBarChart(reports) {
+    const ctx = document.getElementById('milkProcurementBarChart').getContext('2d');
+
+    // Group by Vendor and Supplied Date
+    const groupedData = {};
+    const fullLabels = [];
+
+    reports.forEach(report => {
+        const vendor = report.vendor_name || 'Unknown Vendor';
+        const date = report.supplied_date || 'N/A';
+        const qty = parseFloat(report.qty_ltr || 0);
+
+        const key = `${vendor} - ${date}`;
+        if (!groupedData[key]) {
+            groupedData[key] = 0;
+            fullLabels.push(key); // store full label for tooltip only
+        }
+        groupedData[key] += qty;
+    });
+
+    const quantities = Object.values(groupedData);
+
+    // Destroy existing chart if it exists
+    if (window.barChart) {
+        window.barChart.destroy();
+    }
+
+    // Create new chart
+    window.barChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: fullLabels.map(() => ''), // blank x-axis labels
+            datasets: [{
+                label: 'Quantity in Litres',
+                data: quantities,
+                backgroundColor: '#5ac1cd',
+                borderColor: '#351753',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                x: {
+                    title: {
+                        display: true,
+                        text: 'Vendor - Supplied Date',
+                    },
+                    ticks: {
+                        display: false // hide tick labels
+                    },
+                    grid: {
+                        display: false
+                    }
+                },
+                y: {
+                    beginAtZero: true,
+                    title: {
+                        display: true,
+                        text: 'Quantity (Ltr)'
+                    }
+                }
+            },
+            plugins: {
+                legend: {
+                    display: false
+                },
+                tooltip: {
+                    callbacks: {
+                        title: function (context) {
+                            return fullLabels[context[0].dataIndex].split(' - ').join('\n');
+                        }
+                    }
+                }
+            }
+        }
+    });
+}
+
+
+        document.getElementById('exportExcel').addEventListener('click', () => {
+            export_data_to_excel({
+                tableId: 'milkProcurementTable',
+                fetchUrl: '/api/method/khanal_tech_integrations.www.kfl_main.milkprocurement.get_context?is_api_call=true&page_size=1000',
+                mapRowFn: mapProcurementRows
+            });
+        });
+
+        document.getElementById('exportPDF').addEventListener('click', () => {
+            export_data_to_pdf({
+                tableId: 'milkProcurementTable',
+                fetchUrl: '/api/method/khanal_tech_integrations.www.kfl_main.milkprocurement.get_context?is_api_call=true&page_size=1000',
+                mapRowFn: mapProcurementRows
+            });
+        });
+
+        function mapProcurementRows(data) {
+            return data.message.Milk_Procurement_data.map(row => [
+                row.plant_id || '',
+                row.doc_num || '',
+                row.vendor_id || '',
+                row.vendor_name || '',
+                row.supplied_date || '',
+                row.qty_ltr || '',
+                row.snf || '',
+                row.fat || '',
+                row.ts_value || '',
+                row.unit_price || ''
+            ]);
+        }
+
+        document.getElementById("fetchMilkProcurementButton").addEventListener("click", fetchMilkProcurementDataFromSAP); 
+
+        loadMilkProcurementReports(1);
+    });
+
+    document.addEventListener("DOMContentLoaded", function () {
+        refreshCooldown("fetchMilkProcurementButton", "lastFetchedDisplay1", 1); // 1 minute cooldown
+    });
+</script>

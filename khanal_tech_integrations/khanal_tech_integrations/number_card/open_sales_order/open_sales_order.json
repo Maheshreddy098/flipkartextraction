@@ -1,0 +1,21 @@
+{
+ "creation": "2024-07-03 18:10:31.102981",
+ "docstatus": 0,
+ "doctype": "Number Card",
+ "filters_json": "null",
+ "function": "Count",
+ "idx": 0,
+ "is_public": 1,
+ "is_standard": 1,
+ "label": "Open Sales Order",
+ "method": "khanal_tech_integrations.api.sales_dashboard.open_sales_order",
+ "modified": "2024-07-03 18:10:31.102981",
+ "modified_by": "Administrator",
+ "module": "Khanal Tech Integrations",
+ "name": "Open Sales Order",
+ "owner": "Administrator",
+ "report_function": "Sum",
+ "show_percentage_stats": 1,
+ "stats_time_interval": "Daily",
+ "type": "Custom"
+}

@@ -1,0 +1,220 @@
+{
+ "actions": [],
+ "allow_import": 1,
+ "autoname": "field:jdtnum",
+ "creation": "2024-05-07 11:54:52.387499",
+ "default_view": "List",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "jdtnum",
+  "referencedate",
+  "memo",
+  "taxdate",
+  "duedate",
+  "reference",
+  "reference2",
+  "transactioncode",
+  "projectcode",
+  "indicator",
+  "number",
+  "locationcode",
+  "basereference",
+  "original",
+  "column_break_xrby",
+  "useautostorno",
+  "stornodate",
+  "vatdate",
+  "series",
+  "wtsum",
+  "wtsumsc",
+  "wtsumfc",
+  "originaljournal",
+  "reference3",
+  "documenttype",
+  "operationcode",
+  "residencenumbertype",
+  "ecdpostingtype",
+  "section_break_nbjq",
+  "lineitem"
+ ],
+ "fields": [
+  {
+   "fieldname": "jdtnum",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "JdtNum",
+   "unique": 1
+  },
+  {
+   "fieldname": "referencedate",
+   "fieldtype": "Date",
+   "label": "ReferenceDate"
+  },
+  {
+   "fieldname": "memo",
+   "fieldtype": "Long Text",
+   "label": "Memo"
+  },
+  {
+   "fieldname": "taxdate",
+   "fieldtype": "Date",
+   "label": "TaxDate"
+  },
+  {
+   "fieldname": "duedate",
+   "fieldtype": "Date",
+   "label": "DueDate"
+  },
+  {
+   "fieldname": "reference",
+   "fieldtype": "Data",
+   "label": "Reference"
+  },
+  {
+   "fieldname": "reference2",
+   "fieldtype": "Data",
+   "label": "Reference2"
+  },
+  {
+   "fieldname": "transactioncode",
+   "fieldtype": "Data",
+   "label": "TransactionCode"
+  },
+  {
+   "fieldname": "projectcode",
+   "fieldtype": "Data",
+   "label": "ProjectCode"
+  },
+  {
+   "fieldname": "indicator",
+   "fieldtype": "Data",
+   "label": "Indicator"
+  },
+  {
+   "fieldname": "number",
+   "fieldtype": "Data",
+   "label": "Number"
+  },
+  {
+   "fieldname": "locationcode",
+   "fieldtype": "Data",
+   "label": "LocationCode"
+  },
+  {
+   "fieldname": "basereference",
+   "fieldtype": "Data",
+   "label": "BaseReference"
+  },
+  {
+   "fieldname": "original",
+   "fieldtype": "Data",
+   "label": "Original"
+  },
+  {
+   "fieldname": "column_break_xrby",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "useautostorno",
+   "fieldtype": "Data",
+   "label": "UseAutoStorno"
+  },
+  {
+   "fieldname": "stornodate",
+   "fieldtype": "Data",
+   "label": "StornoDate"
+  },
+  {
+   "fieldname": "vatdate",
+   "fieldtype": "Data",
+   "label": "VatDate"
+  },
+  {
+   "fieldname": "series",
+   "fieldtype": "Data",
+   "label": "Series"
+  },
+  {
+   "fieldname": "wtsum",
+   "fieldtype": "Data",
+   "label": "WTSum"
+  },
+  {
+   "fieldname": "wtsumsc",
+   "fieldtype": "Data",
+   "label": "WTSumSC"
+  },
+  {
+   "fieldname": "wtsumfc",
+   "fieldtype": "Data",
+   "label": "WTSumFC"
+  },
+  {
+   "fieldname": "originaljournal",
+   "fieldtype": "Data",
+   "label": "OriginalJournal"
+  },
+  {
+   "fieldname": "reference3",
+   "fieldtype": "Data",
+   "label": "Reference3"
+  },
+  {
+   "fieldname": "documenttype",
+   "fieldtype": "Data",
+   "label": "DocumentType"
+  },
+  {
+   "fieldname": "operationcode",
+   "fieldtype": "Data",
+   "label": "OperationCode"
+  },
+  {
+   "fieldname": "residencenumbertype",
+   "fieldtype": "Data",
+   "label": "ResidenceNumberType"
+  },
+  {
+   "fieldname": "ecdpostingtype",
+   "fieldtype": "Data",
+   "label": "ECDPostingType"
+  },
+  {
+   "fieldname": "section_break_nbjq",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "lineitem",
+   "fieldtype": "Table",
+   "label": "LineItem",
+   "options": "SAP Journal Entries LineItems"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2024-05-07 11:54:52.387499",
+ "modified_by": "Administrator",
+ "module": "Khanal Tech Integrations",
+ "name": "SAP Journal Entries Test",
+ "naming_rule": "By fieldname",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

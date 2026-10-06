@@ -1,0 +1,184 @@
+{
+ "actions": [],
+ "allow_import": 1,
+ "allow_rename": 1,
+ "autoname": "format:BH-{####}",
+ "creation": "2025-01-18 10:00:00",
+ "default_view": "List",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+  "field_order": [
+    "section_break_header",
+    "channel_name",
+    "status",
+    "hold_reason",
+    "column_break_1",
+    "created_by",
+    "resumed_by",
+    "resumed_at",
+    "section_break_analytics",
+    "total_orders",
+    "total_failed_items",
+    "assigned_to",
+    "section_break_technical",
+    "order_list",
+    "column_break_njai",
+    "payload",
+    "column_break_etcq",
+    "full_payload_size",
+    "payload_truncated",
+    "notes"
+  ],
+  "fields": [
+  {
+   "fieldname": "section_break_header",
+   "fieldtype": "Section Break",
+   "label": "Batch Hold Information"
+  },
+  {
+   "fieldname": "channel_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Channel Name",
+   "reqd": 1
+  },
+  {
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Status",
+   "options": "Hold - Batch Quantity Issues\nHold - Other Issues\nResumed\nCompleted\nFailed",
+   "reqd": 1
+  },
+  {
+   "fieldname": "hold_reason",
+   "fieldtype": "Text",
+   "in_list_view": 1,
+   "label": "Hold Reason",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_1",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "created_by",
+   "fieldtype": "Link",
+   "label": "Created By",
+   "options": "User",
+   "read_only": 1
+  },
+  {
+   "fieldname": "resumed_by",
+   "fieldtype": "Link",
+   "label": "Resumed By",
+   "options": "User",
+   "read_only": 1
+  },
+  {
+   "fieldname": "resumed_at",
+   "fieldtype": "Datetime",
+   "label": "Resumed At",
+   "read_only": 1
+  },
+  {
+   "fieldname": "order_list",
+   "fieldtype": "Long Text",
+   "label": "Order List (JSON)",
+   "read_only": 1,
+   "hidden": 1
+  },
+  {
+   "fieldname": "payload",
+   "fieldtype": "Long Text",
+   "label": "SAP Payload (JSON)",
+   "read_only": 1,
+   "hidden": 1
+  },
+  {
+   "fieldname": "full_payload_size",
+   "fieldtype": "Int",
+   "label": "Full Payload Size",
+   "read_only": 1,
+   "description": "Original size of the full payload before truncation"
+  },
+  {
+   "fieldname": "payload_truncated",
+   "fieldtype": "Check",
+   "label": "Payload Truncated",
+   "read_only": 1,
+   "description": "Indicates if the payload was truncated to prevent MySQL packet size issues"
+  },
+  {
+   "fieldname": "notes",
+   "fieldtype": "Text",
+   "label": "Notes"
+  },
+  {
+   "fieldname": "column_break_njai",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "column_break_etcq",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "total_orders",
+   "fieldtype": "Int",
+   "label": "Total Orders",
+   "read_only": 1,
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "total_failed_items",
+   "fieldtype": "Int",
+   "label": "Total Failed Items",
+   "read_only": 1,
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "assigned_to",
+   "fieldtype": "Link",
+   "label": "Assigned To",
+   "options": "User"
+  },
+  {
+   "fieldname": "section_break_analytics",
+   "fieldtype": "Section Break",
+   "label": "Analytics & Metrics"
+  },
+  {
+   "fieldname": "section_break_technical",
+   "fieldtype": "Section Break",
+   "label": "Technical Data (Hidden)"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2025-09-22 12:05:44.751959",
+ "modified_by": "yogesha@khanalfoods.com",
+ "module": "Khanal Tech Integrations",
+ "name": "SAP Batch Hold",
+ "naming_rule": "Expression",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "quick_entry": 1,
+ "row_format": "Dynamic",
+ "sort_field": "creation",
+ "sort_order": "DESC",
+ "states": []
+}

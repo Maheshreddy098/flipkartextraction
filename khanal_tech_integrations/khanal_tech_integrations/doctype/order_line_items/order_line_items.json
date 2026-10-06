@@ -1,0 +1,217 @@
+{
+ "actions": [],
+ "autoname": "autoincrement",
+ "creation": "2022-08-29 16:20:14.630967",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "id",
+  "itemsku",
+  "sellerskucode",
+  "channelproductid",
+  "quantity",
+  "total_price",
+  "selling_price",
+  "created",
+  "updated",
+  "totalintegratedgst",
+  "integratedgstpercentage",
+  "sellingpricewithouttaxesanddiscount",
+  "shippingcharges",
+  "shippingmethodcharges",
+  "cashondeliverycharges",
+  "cancellationreason",
+  "batchcode",
+  "vendorbatchnumber",
+  "statuscode",
+  "discount",
+  "shippingchargetaxpercentage",
+  "code",
+  "bundleskucode",
+  "state_gst_tax_percentage",
+  "central_gst_tax_percentage",
+  "column_break_20",
+  "sap_filled_status",
+  "sap_delivery_no",
+  "sap_invoice_no",
+  "delivery_linenum",
+  "uniware_return_status",
+  "uniware_return_items"
+ ],
+ "fields": [
+  {
+   "fieldname": "sellerskucode",
+   "fieldtype": "Data",
+   "label": "Seller SKU Code"
+  },
+  {
+   "fieldname": "channelproductid",
+   "fieldtype": "Data",
+   "label": "Channel Product Id"
+  },
+  {
+   "fieldname": "quantity",
+   "fieldtype": "Data",
+   "label": "Quantity"
+  },
+  {
+   "fieldname": "selling_price",
+   "fieldtype": "Data",
+   "label": "Selling Price"
+  },
+  {
+   "fieldname": "created",
+   "fieldtype": "Data",
+   "label": "Created"
+  },
+  {
+   "fieldname": "updated",
+   "fieldtype": "Data",
+   "label": "Updated"
+  },
+  {
+   "fieldname": "totalintegratedgst",
+   "fieldtype": "Data",
+   "label": "Total Integrated GST"
+  },
+  {
+   "fieldname": "integratedgstpercentage",
+   "fieldtype": "Data",
+   "label": "Integrated GST Percentage"
+  },
+  {
+   "fieldname": "sellingpricewithouttaxesanddiscount",
+   "fieldtype": "Data",
+   "label": "Selling Price Without Taxes And Discount"
+  },
+  {
+   "fieldname": "total_price",
+   "fieldtype": "Data",
+   "label": "Total Price"
+  },
+  {
+   "fieldname": "shippingcharges",
+   "fieldtype": "Data",
+   "label": "Shipping Charges"
+  },
+  {
+   "fieldname": "shippingmethodcharges",
+   "fieldtype": "Data",
+   "label": "Shipping Method Charges"
+  },
+  {
+   "fieldname": "cashondeliverycharges",
+   "fieldtype": "Data",
+   "label": "Cash On Delivery Charges"
+  },
+  {
+   "fieldname": "cancellationreason",
+   "fieldtype": "Data",
+   "label": "Cancellation Reason"
+  },
+  {
+   "fieldname": "id",
+   "fieldtype": "Data",
+   "label": "Order Id"
+  },
+  {
+   "fieldname": "itemsku",
+   "fieldtype": "Data",
+   "label": "Item Code"
+  },
+  {
+   "fieldname": "batchcode",
+   "fieldtype": "Data",
+   "label": "Uniware Batch Code"
+  },
+  {
+   "fieldname": "vendorbatchnumber",
+   "fieldtype": "Data",
+   "label": "SAP Batch Code"
+  },
+  {
+   "fieldname": "statuscode",
+   "fieldtype": "Data",
+   "label": "Status Code"
+  },
+  {
+   "fieldname": "column_break_20",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "sap_filled_status",
+   "fieldtype": "Data",
+   "label": "SAP Filled Status"
+  },
+  {
+   "fieldname": "sap_delivery_no",
+   "fieldtype": "Data",
+   "label": "SAP Delivery No"
+  },
+  {
+   "fieldname": "sap_invoice_no",
+   "fieldtype": "Data",
+   "label": "SAP Invoice No"
+  },
+  {
+   "fieldname": "delivery_linenum",
+   "fieldtype": "Data",
+   "label": "Delivery Linenum"
+  },
+  {
+   "fieldname": "discount",
+   "fieldtype": "Data",
+   "label": "Discount"
+  },
+  {
+   "fieldname": "shippingchargetaxpercentage",
+   "fieldtype": "Data",
+   "label": "shippingchargetaxpercentage"
+  },
+  {
+   "fieldname": "code",
+   "fieldtype": "Data",
+   "label": "code"
+  },
+  {
+   "fieldname": "bundleskucode",
+   "fieldtype": "Data",
+   "label": "bundleskucode"
+  },
+  {
+   "fieldname": "uniware_return_status",
+   "fieldtype": "Data",
+   "label": "Uniware Return Status"
+  },
+  {
+   "fieldname": "uniware_return_items",
+   "fieldtype": "JSON",
+   "label": "Uniware_Return_Items"
+  },
+  {
+   "fieldname": "state_gst_tax_percentage",
+   "fieldtype": "Data",
+   "label": "State GST"
+  },
+  {
+   "fieldname": "central_gst_tax_percentage",
+   "fieldtype": "Data",
+   "label": "Central GST"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "istable": 1,
+ "links": [],
+ "modified": "2025-06-26 17:20:46.568559",
+ "modified_by": "Administrator",
+ "module": "Khanal Tech Integrations",
+ "name": "Order Line Items",
+ "naming_rule": "Autoincrement",
+ "owner": "Administrator",
+ "permissions": [],
+ "quick_entry": 1,
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

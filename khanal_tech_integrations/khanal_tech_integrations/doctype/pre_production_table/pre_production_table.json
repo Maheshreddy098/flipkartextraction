@@ -1,0 +1,53 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2024-02-21 16:23:28.513981",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "crate_number",
+  "input_quantity",
+  "column_break_0s18",
+  "crate_quantity",
+  "moisture_loss"
+ ],
+ "fields": [
+  {
+   "fieldname": "crate_number",
+   "fieldtype": "Data",
+   "label": "Crate Number"
+  },
+  {
+   "fieldname": "input_quantity",
+   "fieldtype": "Data",
+   "label": "Input Quantity"
+  },
+  {
+   "fieldname": "column_break_0s18",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "crate_quantity",
+   "fieldtype": "Data",
+   "label": "Crate Quantity"
+  },
+  {
+   "fieldname": "moisture_loss",
+   "fieldtype": "Data",
+   "label": "Moisture Loss"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "istable": 1,
+ "links": [],
+ "modified": "2024-02-21 16:23:28.513981",
+ "modified_by": "Administrator",
+ "module": "Khanal Tech Integrations",
+ "name": "Pre Production Table",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

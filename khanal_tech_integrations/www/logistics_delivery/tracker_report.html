@@ -1,0 +1,2214 @@
+{% extends "khanal_tech_integrations/www/logistics_delivery/base.html" %}
+{% set active = "tracker" %}
+
+{% block title %}Tracker report{% endblock %}
+
+{% block topbar_title %}Tracker report{% endblock %}
+
+{% block page_content %}
+<style>
+  .tr-page { max-width: 1200px; }
+  .tr-filter-row .form-label {
+    font-size: 0.7rem; font-weight: 700; text-transform: uppercase;
+    letter-spacing: 0.07em; color: #64748b; margin-bottom: 0.22rem;
+  }
+  .tr-filter-row .form-control, .tr-filter-row .form-select {
+    font-size: 0.85rem; border-radius: 0.5rem;
+    border-color: rgba(148,163,184,0.5);
+  }
+  .tr-btn-brand {
+    background: linear-gradient(180deg, #2c5e58 0%, #1a2f2b 100%);
+    color: #fff !important; border: none; font-weight: 600;
+    padding: 0.5rem 1.25rem; border-radius: 0.5rem; white-space: nowrap;
+  }
+  .tr-btn-brand:hover:not(:disabled) { filter: brightness(1.08); color: #fff !important; }
+  .tr-btn-brand:disabled { opacity: 0.55; }
+  .tr-btn-outline {
+    border: 1px solid rgba(44,94,88,0.4); color: #1a2f2b; background: #fff;
+    font-weight: 600; padding: 0.5rem 1rem; border-radius: 0.5rem; white-space: nowrap;
+  }
+  .tr-btn-outline:hover:not(:disabled) { background: rgba(44,94,88,0.07); }
+  .tr-table { font-size: 0.8rem; table-layout: auto; width: 100%; }
+  .tr-table thead th {
+    background: rgba(44,94,88,0.08); color: #1e293b;
+    font-size: 0.65rem; font-weight: 700; text-transform: uppercase;
+    letter-spacing: 0.06em; border-bottom: 1px solid rgba(44,94,88,0.12);
+    white-space: nowrap; padding: 0.5rem 0.45rem;
+  }
+  .tr-table tbody td { vertical-align: middle; padding: 0.45rem 0.45rem; }
+  .tr-table tbody tr[data-ridx]:nth-child(even) {
+    background: rgba(248, 250, 252, 0.65);
+  }
+  .tr-table tbody tr[data-ridx]:hover {
+    background: rgba(44, 94, 88, 0.07) !important;
+    box-shadow: inset 3px 0 0 0 rgba(44, 94, 88, 0.35);
+  }
+  .tr-table .tr-col-clip {
+    max-width: 6.5rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  @media (min-width: 1200px) {
+    .tr-table .tr-col-clip { max-width: 9rem; }
+  }
+  .tr-th-lr-sap { vertical-align: bottom !important; white-space: normal; max-width: 11rem; }
+  .tr-th-lr-sap .tr-th-sub {
+    display: block;
+    font-weight: 600;
+    text-transform: none;
+    letter-spacing: 0.02em;
+    color: #64748b;
+    font-size: 0.58rem;
+    margin-top: 0.2rem;
+    white-space: normal;
+    line-height: 1.3;
+    max-width: 11rem;
+  }
+  .tr-lr-sap {
+    min-width: 10.5rem;
+    max-width: 15rem;
+    vertical-align: top !important;
+    padding-top: 0.42rem !important;
+    padding-bottom: 0.42rem !important;
+  }
+  .tr-lr-sap__card {
+    background: linear-gradient(160deg, #ffffff 0%, #f4fcf9 42%, #eef6f4 100%);
+    border: 1px solid rgba(44, 94, 88, 0.2);
+    border-radius: 0.65rem;
+    padding: 0.5rem 0.62rem;
+    box-shadow:
+      0 2px 10px rgba(15, 23, 42, 0.06),
+      inset 0 1px 0 rgba(255, 255, 255, 0.9);
+  }
+  .tr-lr-sap__head {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.35rem;
+    flex-wrap: wrap;
+    margin-bottom: 0;
+  }
+  .tr-records-card {
+    border-radius: 0.85rem;
+    box-shadow: 0 4px 24px rgba(15, 23, 42, 0.06);
+    border: 1px solid rgba(148, 163, 184, 0.22) !important;
+  }
+  .tr-table-scroll {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    margin: 0 -0.25rem;
+    padding: 0 0.25rem;
+    border-radius: 0.6rem;
+    border: 1px solid rgba(148,163,184,0.28);
+  }
+  .tr-table-scroll .tr-table { min-width: 960px; }
+  .tr-table tbody tr:hover { background: transparent; }
+  .tr-badge {
+    display: inline-block; font-size: 0.68rem; font-weight: 700;
+    padding: 0.18rem 0.55rem; border-radius: 999px;
+    text-transform: uppercase; letter-spacing: 0.06em;
+  }
+  .tr-btn-fix-pod {
+    font-size: 0.72rem;
+    font-weight: 700;
+    color: #fff !important;
+    background: linear-gradient(180deg, #2c5e58 0%, #1a3d36 100%);
+    border: none;
+    padding: 0.35rem 0.75rem;
+    border-radius: 0.45rem;
+    cursor: pointer;
+    white-space: nowrap;
+    box-shadow: 0 1px 4px rgba(26, 61, 54, 0.25);
+    display: inline-flex;
+    align-items: center;
+    line-height: 1.2;
+    vertical-align: middle;
+  }
+  .tr-btn-fix-pod:hover:not(:disabled) {
+    filter: brightness(1.06);
+    color: #fff !important;
+  }
+  .tr-btn-fix-pod:disabled { opacity: 0.55; cursor: wait; }
+  .tr-sap-pod-cell { vertical-align: middle !important; }
+  .tr-badge--manifested   { background: #dbeafe; color: #1d4ed8; }
+  .tr-badge--transit      { background: #fef9c3; color: #854d0e; }
+  .tr-badge--delivered    { background: #dcfce7; color: #15803d; }
+  .tr-badge--rto          { background: #fee2e2; color: #b91c1c; }
+  .tr-badge--other        { background: #f1f5f9; color: #475569; }
+  .tr-badge--sap-failed  { background: #fee2e2; color: #b91c1c; }
+  .tr-badge--sap-ok      { background: #dcfce7; color: #15803d; }
+  .tr-badge--sap-stale   { background: #ffedd5; color: #c2410c; }
+  .tr-sap-warn {
+    background: #fff7ed; border: 1px solid #fdba74; border-radius: 0.55rem;
+    padding: 0.65rem 0.85rem; font-size: 0.82rem; color: #9a3412; margin-bottom: 1rem;
+  }
+  .tr-pager { display: flex; gap: 0.35rem; align-items: center; flex-wrap: wrap; }
+  .tr-pager-btn {
+    min-width: 2.1rem; height: 2.1rem; display: inline-flex; align-items: center;
+    justify-content: center; border-radius: 0.45rem; border: 1px solid rgba(148,163,184,0.45);
+    background: #fff; color: #1e293b; font-size: 0.82rem; font-weight: 600; cursor: pointer;
+    transition: background 0.12s, border-color 0.12s;
+  }
+  .tr-pager-btn:hover:not(:disabled) { background: rgba(44,94,88,0.08); border-color: #2c5e58; }
+  .tr-pager-btn:disabled { opacity: 0.45; cursor: default; }
+  .tr-pager-btn.is-current { background: #2c5e58; color: #fff; border-color: #2c5e58; }
+  .tr-empty { text-align: center; color: #94a3b8; padding: 2.5rem 1rem; font-size: 0.88rem; }
+  .tr-spin { display: inline-block; width: 1rem; height: 1rem; border: 2px solid rgba(44,94,88,0.25);
+    border-top-color: #2c5e58; border-radius: 50%; animation: trSpin 0.65s linear infinite; }
+  @keyframes trSpin { to { transform: rotate(360deg); } }
+  .tr-null { color: #cbd5e1; font-style: italic; }
+
+  /* Table skeleton shimmer (LinkedIn-style) */
+  @keyframes tr-shimmer-slide {
+    0% { transform: translateX(-120%); }
+    100% { transform: translateX(120%); }
+  }
+  .tr-table tbody tr.tr-skel-row {
+    pointer-events: none;
+    user-select: none;
+  }
+  .tr-table tbody tr.tr-skel-row td {
+    border-color: rgba(148, 163, 184, 0.12);
+    vertical-align: middle;
+  }
+  .tr-skel-bar {
+    display: inline-block;
+    height: 0.72rem;
+    min-width: 1.75rem;
+    max-width: 100%;
+    border-radius: 8px;
+    background: #e5e7eb;
+    position: relative;
+    overflow: hidden;
+    vertical-align: middle;
+  }
+  .tr-skel-bar--hash {
+    width: 1.35rem;
+    height: 0.65rem;
+    min-width: 0;
+    border-radius: 6px;
+  }
+  .tr-skel-bar--actions {
+    height: 1.55rem;
+    width: 3.25rem;
+    border-radius: 8px;
+    margin: 0 auto;
+    display: block;
+  }
+  .tr-skel-bar::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      90deg,
+      transparent 0%,
+      rgba(255, 255, 255, 0) 32%,
+      rgba(255, 255, 255, 0.52) 50%,
+      rgba(255, 255, 255, 0) 68%,
+      transparent 100%
+    );
+    width: 55%;
+    animation: tr-shimmer-slide 1.45s ease-in-out infinite;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .tr-skel-bar::after { animation: none; opacity: 0.35; }
+  }
+
+  /* View modal */
+  .tr-modal-overlay {
+    position: fixed; inset: 0; z-index: 9990;
+    background: rgba(15,23,42,0.55); backdrop-filter: blur(3px);
+    display: flex; align-items: center; justify-content: center;
+    padding: 1rem;
+    opacity: 0; transition: opacity 0.2s ease;
+    pointer-events: none;
+  }
+  .tr-modal-overlay.is-open { opacity: 1; pointer-events: auto; }
+  .tr-modal {
+    background: #fff; border-radius: 1rem;
+    box-shadow: 0 24px 64px rgba(0,0,0,0.22);
+    width: 100%; max-width: 960px;
+    max-height: 88vh; display: flex; flex-direction: column;
+    transform: translateY(18px) scale(0.97);
+    transition: transform 0.22s cubic-bezier(0.16,1,0.3,1);
+  }
+  .tr-modal-overlay.is-open .tr-modal { transform: none; }
+  .tr-modal-head {
+    display: flex; align-items: center; gap: 0.75rem;
+    padding: 1rem 1.25rem; border-bottom: 1px solid rgba(148,163,184,0.25);
+    flex-shrink: 0;
+  }
+  .tr-modal-title { font-weight: 700; font-size: 1rem; color: #0f172a; margin: 0; flex: 1; }
+  .tr-modal-close {
+    background: none; border: none; font-size: 1.35rem; line-height: 1;
+    color: #94a3b8; cursor: pointer; padding: 0.15rem 0.35rem; border-radius: 0.35rem;
+    transition: background 0.12s, color 0.12s;
+  }
+  .tr-modal-close:hover { background: #f1f5f9; color: #475569; }
+  .tr-modal-body { overflow-y: auto; padding: 1.25rem; flex: 1; }
+  .tr-modal-section { margin-bottom: 1.35rem; }
+  .tr-modal-section-title {
+    font-size: 0.68rem; font-weight: 800; text-transform: uppercase;
+    letter-spacing: 0.1em; color: #2c5e58; margin-bottom: 0.55rem;
+    padding-bottom: 0.3rem; border-bottom: 1px solid rgba(44,94,88,0.15);
+  }
+  .tr-detail-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: 0.65rem 0.85rem;
+  }
+  .tr-field {
+    background: #f8fafc;
+    border: 1px solid rgba(148, 163, 184, 0.28);
+    border-radius: 0.55rem;
+    padding: 0.55rem 0.7rem;
+    min-width: 0;
+  }
+  .tr-field-label {
+    display: block;
+    font-size: 0.65rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    color: #64748b;
+    margin-bottom: 0.28rem;
+    line-height: 1.2;
+  }
+  .tr-field-value {
+    display: block;
+    font-size: 0.88rem;
+    font-weight: 600;
+    color: #0f172a;
+    word-break: break-word;
+    line-height: 1.35;
+  }
+  .tr-json-box {
+    background: #0f172a; color: #a5f3fc; border-radius: 0.65rem;
+    padding: 0.85rem 1rem; font-family: "Fira Code", "Cascadia Code", monospace;
+    font-size: 0.76rem; line-height: 1.55; overflow-x: auto;
+    white-space: pre; max-height: 320px; overflow-y: auto;
+  }
+  .tr-json-null { color: #64748b; font-style: italic; font-size: 0.8rem; }
+  .tr-btn-view {
+    font-size: 0.75rem; font-weight: 700; color: #2c5e58; background: none;
+    border: 1px solid rgba(44,94,88,0.3); padding: 0.18rem 0.55rem;
+    border-radius: 0.4rem; cursor: pointer; white-space: nowrap;
+    transition: background 0.12s;
+  }
+  .tr-btn-view:hover { background: rgba(44,94,88,0.08); }
+  td.tr-actions {
+    vertical-align: middle;
+    text-align: center;
+    position: relative;
+    z-index: 2;
+    min-width: 10.25rem;
+    max-width: 12rem;
+    box-sizing: border-box;
+  }
+  .tr-actions-inner {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.45rem;
+    width: 100%;
+    box-sizing: border-box;
+    margin: 0 auto;
+  }
+  .tr-actions-row {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    align-items: stretch;
+    justify-content: flex-start;
+    gap: 0.4rem;
+    width: 100%;
+  }
+  .tr-actions-row .tr-btn-admin,
+  .tr-actions-row .tr-btn-track {
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+    justify-content: center;
+  }
+  .tr-actions-inner > .tr-btn-retry {
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+    padding: 0.32rem 0.5rem;
+  }
+  .tr-btn-admin {
+    font-size: 0.7rem; font-weight: 700; color: #fff; background: linear-gradient(180deg, #2c5e58 0%, #1a3d36 100%);
+    border: none; padding: 0.28rem 0.55rem; border-radius: 0.45rem; cursor: pointer;
+    white-space: nowrap; transition: filter 0.12s, box-shadow 0.12s;
+    box-shadow: 0 1px 3px rgba(26,47,43,0.2);
+  }
+  .tr-btn-admin:hover { filter: brightness(1.06); }
+  .tr-btn-admin--ghost {
+    background: #fff; color: #1a2f2b; border: 1px solid rgba(44,94,88,0.45);
+    box-shadow: none; font-size: 0.72rem; padding: 0.35rem 0.65rem;
+  }
+  .tr-btn-admin--ghost:hover { background: rgba(44,94,88,0.06); }
+  .tr-btn-track {
+    display: inline-flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-items: center;
+    justify-content: center;
+    gap: 0.28rem;
+    font-size: 0.68rem; font-weight: 700;
+    line-height: 1.2;
+    padding: 0.32rem 0.5rem;
+    border: 1px solid rgba(44,94,88,0.4);
+    border-radius: 0.45rem;
+    background: #fff;
+    color: #1a2f2b;
+    cursor: pointer;
+    transition: background 0.12s, border-color 0.12s, box-shadow 0.12s;
+    white-space: nowrap;
+    box-shadow: 0 1px 2px rgba(15,23,42,0.06);
+  }
+  .tr-btn-track:hover { background: rgba(44,94,88,0.07); border-color: #2c5e58; }
+  .tr-btn-track.is-open {
+    background: rgba(44,94,88,0.12);
+    border-color: #2c5e58;
+    box-shadow: inset 0 1px 2px rgba(0,0,0,0.06);
+  }
+  .tr-btn-track__ic {
+    font-size: 0.85rem;
+    line-height: 1;
+    opacity: 0.9;
+  }
+  .tr-btn-track__txt { letter-spacing: 0.02em; }
+  .tr-btn-track__caret {
+    font-size: 0.55rem;
+    opacity: 0.75;
+    margin-left: 0.05rem;
+    transform: translateY(0.05em);
+  }
+  .tr-btn-track.is-open .tr-btn-track__caret {
+    transform: rotate(180deg) translateY(-0.05em);
+  }
+  .tr-btn-retry {
+    font-size: 0.68rem;
+    font-weight: 700;
+    color: #b91c1c;
+    background: #fff;
+    border: 1px solid #fca5a5;
+    padding: 0.15rem 0.45rem;
+    border-radius: 0.4rem;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: background 0.12s;
+  }
+  .tr-btn-retry:hover:not(:disabled) { background: #fef2f2; }
+  .tr-btn-retry:disabled { opacity: 0.55; cursor: wait; }
+  .tr-modal-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid rgba(148,163,184,0.25);
+  }
+  .tr-btn-retry-modal {
+    background: linear-gradient(180deg, #2c5e58 0%, #1a2f2b 100%);
+    color: #fff !important;
+    border: none;
+    font-weight: 600;
+    padding: 0.45rem 1rem;
+    border-radius: 0.5rem;
+    font-size: 0.82rem;
+    cursor: pointer;
+  }
+  .tr-btn-retry-modal:hover:not(:disabled) { filter: brightness(1.07); }
+  .tr-btn-retry-modal:disabled { opacity: 0.55; cursor: wait; }
+  .tr-toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+  }
+  .tr-btn-retry-all {
+    background: #fff;
+    color: #b91c1c !important;
+    border: 1px solid #fca5a5;
+    font-weight: 700;
+    padding: 0.5rem 1.1rem;
+    border-radius: 0.5rem;
+    font-size: 0.85rem;
+    white-space: nowrap;
+  }
+  .tr-btn-retry-all:hover:not(:disabled) {
+    background: #fef2f2;
+    color: #991b1b !important;
+  }
+  .tr-btn-retry-all:disabled { opacity: 0.5; cursor: not-allowed; }
+
+  .tr-summary-bar {
+    display: flex; gap: 0.75rem; flex-wrap: wrap; margin-bottom: 1.1rem;
+  }
+  .tr-stat {
+    flex: 1 1 120px; background: #fff; border-radius: 0.75rem;
+    border: 1px solid rgba(148,163,184,0.25); padding: 0.75rem 1rem;
+    box-shadow: 0 2px 8px rgba(26,47,43,0.06);
+  }
+  .tr-stat__val { font-size: 1.5rem; font-weight: 800; color: #0f172a; line-height: 1.1; }
+  .tr-stat__lbl { font-size: 0.68rem; font-weight: 700; text-transform: uppercase;
+    letter-spacing: 0.08em; color: #64748b; margin-top: 0.15rem; }
+
+  .tr-exp-row td {
+    background: linear-gradient(180deg, #f0fdf9 0%, #f8fafc 12%, #f1f5f9 100%);
+    border-top: none !important;
+    padding: 0 !important;
+    vertical-align: top;
+  }
+  .tr-exp-inner {
+    padding: 0;
+    border-top: 1px solid rgba(44,94,88,0.18);
+    max-height: 480px;
+    overflow: auto;
+    font-size: 0.8rem;
+  }
+  .tr-exp-hero {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    padding: 0.95rem 1.05rem;
+    background: linear-gradient(
+      118deg,
+      rgba(44, 94, 88, 0.2) 0%,
+      rgba(236, 253, 245, 0.92) 26%,
+      #ffffff 72%
+    );
+    border-bottom: 1px solid rgba(44, 94, 88, 0.14);
+    box-shadow: 0 6px 22px rgba(15, 23, 42, 0.05);
+  }
+  .tr-exp-hero__left {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.65rem;
+    min-width: 0;
+    flex: 1 1 200px;
+  }
+  .tr-exp-hero__logo {
+    flex-shrink: 0;
+    width: 2.35rem;
+    height: 2.35rem;
+    border-radius: 0.65rem;
+    background: linear-gradient(145deg, #2c5e58, #14302a);
+    color: #ecfdf5;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.1rem;
+    box-shadow: 0 4px 14px rgba(44,94,88,0.35);
+  }
+  .tr-exp-hero__title {
+    font-weight: 800;
+    font-size: 0.95rem;
+    color: #0f172a;
+    letter-spacing: -0.02em;
+    line-height: 1.25;
+  }
+  .tr-exp-hero__sub {
+    font-size: 0.78rem;
+    color: #64748b;
+    margin-top: 0.15rem;
+    line-height: 1.35;
+  }
+  .tr-exp-hero__actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 0.45rem;
+    flex-shrink: 0;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+  .tr-exp-collapse {
+    font-size: 0.72rem;
+    font-weight: 700;
+    color: #475569;
+    background: #fff;
+    border: 1px solid rgba(148,163,184,0.55);
+    padding: 0.35rem 0.65rem;
+    border-radius: 0.45rem;
+    cursor: pointer;
+    transition: background 0.12s, color 0.12s;
+  }
+  .tr-exp-collapse:hover {
+    background: #f1f5f9;
+    color: #0f172a;
+  }
+  .tr-exp-body {
+    padding: 0.85rem 1rem 1.1rem;
+    background: linear-gradient(180deg, rgba(255,255,255,0.5) 0%, rgba(248,250,252,0.9) 100%);
+  }
+  .tr-exp-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(132px, 1fr));
+    gap: 0.55rem;
+    margin-bottom: 0.85rem;
+  }
+  .tr-exp-stat {
+    background: #fff;
+    border: 1px solid rgba(148,163,184,0.28);
+    border-radius: 0.6rem;
+    padding: 0.55rem 0.65rem;
+    box-shadow: 0 2px 8px rgba(15,23,42,0.04);
+  }
+  .tr-exp-stat__lbl {
+    font-size: 0.6rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #94a3b8;
+    margin-bottom: 0.2rem;
+  }
+  .tr-exp-stat__val {
+    font-size: 0.88rem;
+    font-weight: 700;
+    color: #0f172a;
+    word-break: break-word;
+  }
+  .tr-exp-stat--wide { grid-column: 1 / -1; }
+  .tr-exp-stat--wide .tr-exp-stat__val {
+    font-weight: 600;
+    font-size: 0.8rem;
+    max-height: 3.2em;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+  }
+  .tr-exp-locrem {
+    border: 1px solid rgba(44, 94, 88, 0.18);
+    border-radius: 0.65rem;
+    padding: 0.65rem 0.8rem;
+    margin-bottom: 0.65rem;
+    background: linear-gradient(165deg, #ffffff 0%, #f4fcf9 55%, #eef6f4 100%);
+    box-shadow: 0 2px 10px rgba(15, 23, 42, 0.05);
+  }
+  .tr-exp-locrem__title {
+    font-size: 0.62rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: #1a4d45;
+    margin-bottom: 0.5rem;
+  }
+  .tr-exp-locrem__row {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.5rem;
+    font-size: 0.84rem;
+    line-height: 1.4;
+    margin-top: 0.4rem;
+  }
+  .tr-exp-locrem__row:first-of-type { margin-top: 0; }
+  .tr-exp-locrem__ic {
+    flex-shrink: 0;
+    width: 1.2rem;
+    height: 1.2rem;
+    border-radius: 0.35rem;
+    background: rgba(44, 94, 88, 0.12);
+    color: #1a4d45;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.65rem;
+    margin-top: 0.06rem;
+  }
+  .tr-exp-locrem__txt {
+    min-width: 0;
+    flex: 1;
+    color: #0f172a;
+    font-weight: 600;
+    word-break: break-word;
+  }
+  .tr-exp-locrem__txt .tr-null { font-weight: 500; }
+  .tr-exp-sec-title {
+    font-size: 0.68rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: #1a3d36;
+    margin: 1.1rem 0 0.6rem;
+    display: flex;
+    align-items: center;
+    gap: 0.45rem;
+    padding: 0.4rem 0.55rem 0.4rem 0.7rem;
+    border-left: 3px solid #2c5e58;
+    background: rgba(255, 255, 255, 0.72);
+    border-radius: 0 0.45rem 0.45rem 0;
+    box-shadow: 0 1px 4px rgba(15, 23, 42, 0.04);
+  }
+  .tr-exp-sec-title:first-of-type { margin-top: 0; }
+  .tr-vtl {
+    position: relative;
+    padding-left: 0.15rem;
+  }
+  .tr-vtl::before {
+    content: "";
+    position: absolute;
+    left: 0.92rem;
+    top: 0.5rem;
+    bottom: 0.5rem;
+    width: 2px;
+    background: linear-gradient(180deg, rgba(44,94,88,0.45), rgba(148,163,184,0.25));
+    border-radius: 2px;
+  }
+  .tr-vtl-item {
+    position: relative;
+    padding: 0.35rem 0 0.85rem 2.65rem;
+    min-height: 2.5rem;
+  }
+  .tr-vtl-item:last-child { padding-bottom: 0.25rem; }
+  .tr-vtl-ic {
+    position: absolute;
+    left: 0.35rem;
+    top: 0.15rem;
+    width: 1.2rem;
+    height: 1.2rem;
+    border-radius: 50%;
+    background: #fff;
+    border: 2px solid rgba(44,94,88,0.45);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.62rem;
+    z-index: 1;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+  }
+  .tr-vtl-ic--delivered { border-color: #22c55e; background: #ecfdf5; }
+  .tr-vtl-ic--pending { border-color: #f59e0b; background: #fffbeb; }
+  .tr-vtl-ic--transit { border-color: #3b82f6; background: #eff6ff; }
+  .tr-vtl-ic--rto { border-color: #ef4444; background: #fef2f2; }
+  .tr-vtl-ic--default { border-color: #94a3b8; background: #f8fafc; }
+  .tr-vtl-time {
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: #64748b;
+    margin-bottom: 0.12rem;
+  }
+  .tr-vtl-status {
+    font-size: 0.84rem;
+    font-weight: 700;
+    color: #0f172a;
+    letter-spacing: -0.01em;
+  }
+  .tr-tl-meta { font-size: 0.72rem; color: #64748b; margin-bottom: 0.15rem; }
+  .tr-pod-card {
+    background: #fff;
+    border: 1px solid rgba(44,94,88,0.15);
+    border-radius: 0.65rem;
+    padding: 0.65rem 0.75rem;
+    margin-bottom: 0.55rem;
+    box-shadow: 0 2px 12px rgba(15,23,42,0.05);
+    border-left: 4px solid #2c5e58;
+  }
+  .tr-pod-card__head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.35rem;
+    margin-bottom: 0.35rem;
+  }
+  .tr-pod-card__badge {
+    font-size: 0.68rem;
+    font-weight: 800;
+    text-transform: none;
+    letter-spacing: 0.04em;
+    padding: 0.18rem 0.5rem;
+    border-radius: 999px;
+    background: rgba(44, 94, 88, 0.12);
+    color: #1a2f2b;
+    font-variant-numeric: tabular-nums;
+  }
+  .tr-pod-card__meta { font-size: 0.72rem; color: #64748b; }
+  .tr-pod-card__id {
+    font-size: 0.58rem;
+    font-weight: 600;
+    color: #94a3b8;
+    text-transform: none;
+    letter-spacing: 0.02em;
+    margin-left: 0.35rem;
+  }
+  .tr-pod-dl-wrap {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.45rem;
+    align-items: center;
+    margin-top: 0.15rem;
+  }
+  a.tr-pod-dl-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.4rem;
+    font-size: 0.74rem;
+    font-weight: 700;
+    padding: 0.42rem 0.95rem;
+    border-radius: 0.5rem;
+    background: linear-gradient(180deg, #2c5e58 0%, #1a3d36 100%);
+    color: #fff !important;
+    text-decoration: none !important;
+    border: none;
+    box-shadow: 0 2px 10px rgba(44, 94, 88, 0.28);
+    transition: filter 0.12s, box-shadow 0.12s;
+    line-height: 1.2;
+  }
+  a.tr-pod-dl-btn:hover {
+    filter: brightness(1.07);
+    color: #fff !important;
+    box-shadow: 0 3px 12px rgba(44, 94, 88, 0.35);
+  }
+  .tr-pod-onfile {
+    font-size: 0.76rem;
+    color: #64748b;
+    line-height: 1.4;
+    margin: 0;
+    padding: 0.35rem 0.5rem;
+    background: rgba(148, 163, 184, 0.12);
+    border-radius: 0.45rem;
+    border: 1px solid rgba(148, 163, 184, 0.25);
+  }
+  .tr-exp-skel { padding: 0.85rem 1rem; }
+  .tr-exp-skel-line {
+    height: 0.72rem;
+    border-radius: 8px;
+    background: #e2e8f0;
+    margin-bottom: 0.55rem;
+    position: relative;
+    overflow: hidden;
+  }
+  .tr-exp-skel-line::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      90deg,
+      transparent 0%,
+      rgba(255,255,255,0) 30%,
+      rgba(255,255,255,0.55) 50%,
+      rgba(255,255,255,0) 70%,
+      transparent 100%
+    );
+    width: 50%;
+    animation: tr-shimmer-slide 1.35s ease-in-out infinite;
+  }
+  .tr-exp-skel-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0.5rem;
+    margin-bottom: 0.75rem;
+  }
+  .tr-exp-skel-pill {
+    height: 2.6rem;
+    border-radius: 0.55rem;
+    background: #e2e8f0;
+    position: relative;
+    overflow: hidden;
+  }
+  .tr-exp-skel-pill::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      90deg,
+      transparent 0%,
+      rgba(255,255,255,0) 30%,
+      rgba(255,255,255,0.5) 50%,
+      rgba(255,255,255,0) 70%,
+      transparent 100%
+    );
+    width: 55%;
+    animation: tr-shimmer-slide 1.35s ease-in-out infinite;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .tr-exp-skel-line::after, .tr-exp-skel-pill::after { animation: none; opacity: 0.4; }
+  }
+  .tr-tab-bar {
+    display: flex; flex-wrap: wrap; gap: 0.35rem; margin-bottom: 0.75rem;
+  }
+  .tr-tab {
+    font-size: 0.72rem; font-weight: 700; padding: 0.35rem 0.65rem;
+    border-radius: 0.45rem; border: 1px solid rgba(148,163,184,0.45);
+    background: #fff; color: #334155; cursor: pointer;
+  }
+  .tr-tab.is-active {
+    background: #2c5e58; color: #fff; border-color: #2c5e58;
+  }
+  .tr-tab-panel { display: none; }
+  .tr-tab-panel.is-active { display: block; }
+  .tr-modal-loading { text-align: center; padding: 2rem; color: #64748b; }
+  .tr-report-alerts {
+    border-radius: 0.75rem;
+    border: 1px solid rgba(251, 191, 36, 0.45);
+    background: linear-gradient(180deg, #fffbeb 0%, #fff 50%);
+    padding: 0.65rem 0.85rem;
+    margin-bottom: 1rem;
+    font-size: 0.8rem;
+  }
+  .tr-report-alerts h3 {
+    font-size: 0.72rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: #92400e;
+    margin: 0 0 0.45rem;
+  }
+  .tr-report-alerts__list { margin: 0; padding: 0; list-style: none; }
+  .tr-report-alerts__list li { margin-bottom: 0.35rem; }
+  .tr-report-alerts__list a { font-weight: 600; color: #2c5e58; text-decoration: none; }
+  .tr-report-alerts__list a:hover { text-decoration: underline; }
+  .tr-report-alerts.d-none { display: none !important; }
+</style>
+
+<!-- View detail modal -->
+<div id="tr_modal_overlay" class="tr-modal-overlay" role="dialog" aria-modal="true" aria-label="LR admin detail">
+  <div class="tr-modal">
+    <div class="tr-modal-head">
+      <h3 class="tr-modal-title" id="tr_modal_title">Admin — LR</h3>
+      <button type="button" class="tr-modal-close" id="tr_modal_close" aria-label="Close">&times;</button>
+    </div>
+    <div class="tr-modal-body" id="tr_modal_body"></div>
+  </div>
+</div>
+
+<div class="tr-page mx-auto px-2 px-md-0">
+
+  <!-- Summary stats -->
+  <div id="tr_summary" class="tr-summary-bar d-none">
+    <div class="tr-stat">
+      <div class="tr-stat__val" id="tr_stat_total">—</div>
+      <div class="tr-stat__lbl">Total records</div>
+    </div>
+    <div class="tr-stat">
+      <div class="tr-stat__val" id="tr_stat_manifested">—</div>
+      <div class="tr-stat__lbl">Manifested</div>
+    </div>
+    <div class="tr-stat">
+      <div class="tr-stat__val" id="tr_stat_transit">—</div>
+      <div class="tr-stat__lbl">In transit</div>
+    </div>
+    <div class="tr-stat">
+      <div class="tr-stat__val" id="tr_stat_delivered">—</div>
+      <div class="tr-stat__lbl">Delivered</div>
+    </div>
+  </div>
+
+  <div id="tr_report_alerts" class="tr-report-alerts d-none" role="region" aria-label="Tracker report issues">
+    <h3>Open report issues</h3>
+    <ul class="tr-report-alerts__list" id="tr_report_alerts_list"></ul>
+    <p class="small text-muted mb-0 mt-1" id="tr_report_alerts_hint"></p>
+  </div>
+
+  <div class="tr-toolbar">
+    <button type="button" id="tr_btn_retry_all" class="tr-btn-retry-all" disabled>
+      Retry all failed SAP
+    </button>
+    <span class="small text-muted" id="tr_retry_all_hint"></span>
+  </div>
+
+  <!-- Filters -->
+  <div class="ld-card p-3 p-md-4 mb-3">
+    <div class="row g-2 g-md-3 tr-filter-row align-items-end">
+      <div class="col-6 col-md-3">
+        <label class="form-label">LR number</label>
+        <input type="text" id="tr_f_lrnum" class="form-control" placeholder="Search LR…" autocomplete="off">
+      </div>
+      <div class="col-6 col-md-2">
+        <label class="form-label">DocEntry</label>
+        <input type="text" id="tr_f_doc_entry" class="form-control" placeholder="e.g. 45350" autocomplete="off">
+      </div>
+      <div class="col-6 col-md-2">
+        <label class="form-label">DocNum</label>
+        <input type="text" id="tr_f_doc_num" class="form-control" placeholder="e.g. 151" autocomplete="off">
+      </div>
+      <div class="col-6 col-md-2">
+        <label class="form-label">Status</label>
+        <select id="tr_f_status" class="form-select">
+          <option value="">All</option>
+          <option>MANIFESTED</option>
+          <option>In Transit</option>
+          <option>DELIVERED</option>
+          <option>RTO</option>
+        </select>
+      </div>
+      <div class="col-12 col-md-3">
+        <div class="d-flex gap-2">
+          <button type="button" id="tr_btn_search" class="btn tr-btn-brand flex-grow-1">Search</button>
+          <button type="button" id="tr_btn_clear" class="btn tr-btn-outline">Clear</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="tr_alert" class="alert alert-danger py-2 px-3 small d-none mb-3" role="alert"></div>
+
+  <!-- Results -->
+  <div class="ld-card p-3 p-md-4 tr-records-card">
+    <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-3">
+      <h2 class="h6 mb-0">
+        Records
+        <span class="text-muted fw-normal ms-1" id="tr_count_label"></span>
+      </h2>
+      <div id="tr_spinner" class="d-none" aria-hidden="true"><span class="tr-spin"></span></div>
+    </div>
+
+    <div class="tr-table-scroll">
+      <table id="tr_main_table" class="table tr-table mb-0">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>LR Number</th>
+            <th>Status</th>
+            <th>Waybill</th>
+            <th class="tr-th-lr-sap">LR-SAP<span class="tr-th-sub">LR tracking only</span></th>
+            <th>DocEntry</th>
+            <th>DocNum</th>
+            <th>Series</th>
+            <th>SAP-POD</th>
+            <th>Updated</th>
+          <th class="tr-th-actions" style="min-width:10.5rem;text-align:center">Actions</th>
+          </tr>
+        </thead>
+        <tbody id="tr_tbody"></tbody>
+      </table>
+    </div>
+
+    <!-- Pagination -->
+    <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mt-3">
+      <div class="small text-muted" id="tr_pager_info"></div>
+      <div id="tr_pager" class="tr-pager"></div>
+    </div>
+  </div>
+
+</div>
+{% endblock %}
+
+{% block page_scripts %}
+<script>
+(function () {
+  var API = "khanal_tech_integrations.api.logistics_delivery.tracker_data.get_tracker_records";
+  var API_ADMIN_LR = "khanal_tech_integrations.api.logistics_delivery.tracker_data.get_tracker_lr_admin_detail";
+  var API_RETRY = "khanal_tech_integrations.api.logistics_delivery.lr_submit.retry_sap_sync_for_lr";
+  var API_FIX_POD = "khanal_tech_integrations.api.logistics_delivery.lr_submit.fix_delhivery_pod_sap_from_rds";
+  var API_RETRY_ALL = "khanal_tech_integrations.api.logistics_delivery.lr_submit.retry_sap_sync_all_failed";
+  var API_RETRY_COUNT = "khanal_tech_integrations.api.logistics_delivery.tracker_data.count_sap_retry_pending";
+  var API_ALERTS = "khanal_tech_integrations.api.logistics_delivery.tracker_data.get_logistics_report_alerts";
+  var PAGE_SIZE = 10;
+  var TR_SKELETON_ROWS = 10;
+  /** In-memory list cache only (lost on full page refresh → always fresh after F5). Speeds pager 1↔2. */
+  var TR_LIST_MEM_CACHE = {};
+  var TR_LIST_MEM_TTL_MS = 180000;
+  var TR_LIST_MEM_MAX_KEYS = 24;
+  var _adminBundleCache = {};
+  var _retryInFlight = false;
+  var _fixPodInFlight = false;
+  var _pendingSapRetry = 0;
+  var TR_COL_COUNT = 11;
+
+  var tbody   = document.getElementById("tr_tbody");
+  var mainTable = document.getElementById("tr_main_table");
+  var spinner = document.getElementById("tr_spinner");
+  var alertEl = document.getElementById("tr_alert");
+  var countLbl = document.getElementById("tr_count_label");
+  var pager   = document.getElementById("tr_pager");
+  var pagerInfo = document.getElementById("tr_pager_info");
+  var summary = document.getElementById("tr_summary");
+  var statTotal     = document.getElementById("tr_stat_total");
+  var statManifested= document.getElementById("tr_stat_manifested");
+  var statTransit   = document.getElementById("tr_stat_transit");
+  var statDelivered = document.getElementById("tr_stat_delivered");
+
+  var fLrnum    = document.getElementById("tr_f_lrnum");
+  var fDocEntry = document.getElementById("tr_f_doc_entry");
+  var fDocNum   = document.getElementById("tr_f_doc_num");
+  var fStatus   = document.getElementById("tr_f_status");
+  var btnSearch = document.getElementById("tr_btn_search");
+  var btnClear  = document.getElementById("tr_btn_clear");
+  var btnRetryAll = document.getElementById("tr_btn_retry_all");
+  var retryAllHint = document.getElementById("tr_retry_all_hint");
+  var reportAlertsWrap = document.getElementById("tr_report_alerts");
+  var reportAlertsList = document.getElementById("tr_report_alerts_list");
+  var reportAlertsHint = document.getElementById("tr_report_alerts_hint");
+
+  var state = { page: 1, total: 0, pages: 1, filters: {} };
+
+  function refreshReportAlertsBanner() {
+    if (!reportAlertsWrap || !reportAlertsList) return;
+    fetch("/api/method/" + API_ALERTS + "?limit=25", {
+      method: "GET",
+      credentials: "same-origin",
+      headers: { Accept: "application/json" },
+    })
+      .then(function (r) {
+        return r.json();
+      })
+      .catch(function () {
+        return {};
+      })
+      .then(function (data) {
+        if (data.exc_type) return;
+        var payload = data.message !== undefined ? data.message : data;
+        var alerts = payload.alerts || [];
+        reportAlertsList.innerHTML = "";
+        if (!alerts.length) {
+          reportAlertsWrap.classList.add("d-none");
+          return;
+        }
+        reportAlertsWrap.classList.remove("d-none");
+        alerts.slice(0, 8).forEach(function (a) {
+          var li = document.createElement("li");
+          var link = document.createElement("a");
+          link.href = "#";
+          link.addEventListener("click", function (e) {
+            e.preventDefault();
+            if (fLrnum) fLrnum.value = a.lrnum || "";
+            applyFilters();
+          });
+          link.textContent = (a.title || "Issue") + " — LR " + (a.lrnum || "—") + " — " + (a.message || "");
+          li.appendChild(link);
+          reportAlertsList.appendChild(li);
+        });
+        if (reportAlertsHint) {
+          reportAlertsHint.textContent =
+            "Click a row to filter this page to that LR, or use Search. Header notifications stay in sync.";
+        }
+        if (typeof window.ldRefreshHeaderNotifications === "function") window.ldRefreshHeaderNotifications();
+      });
+  }
+
+  function showAlert(msg, kind) {
+    alertEl.textContent = msg;
+    alertEl.className = "alert py-2 px-3 small mb-3 " + (kind === "success" ? "alert-success" : "alert-danger");
+    alertEl.classList.remove("d-none");
+  }
+  function hideAlert() { alertEl.classList.add("d-none"); }
+
+  function canRetrySap(r) {
+    if (!r || !r.lrnum || !r.doc_entry) return false;
+    /* POD needs Fix it from RDS — Retry SAP is for LR tracking only; hide duplicate action. */
+    if (r.sap_pod_fixable === true || r.sap_pod_fixable === 1 || String(r.sap_pod_fixable).toLowerCase() === "true") {
+      return false;
+    }
+    if (r.sap_pod_display === "failed_fixable") {
+      return false;
+    }
+    var info = sapSyncInfo(r);
+    return info.failed || info.stale;
+  }
+
+  function fmtDate(v) {
+    if (!v) return "";
+    try {
+      var d = new Date(v);
+      return d.toLocaleString(undefined, {
+        day: "2-digit", month: "short", year: "numeric",
+        hour: "2-digit", minute: "2-digit"
+      });
+    } catch (e) { return String(v).slice(0, 16); }
+  }
+
+  function statusBadge(s) {
+    if (!s) return '<span class="tr-null">—</span>';
+    var cls = "tr-badge--other";
+    var sl = s.toLowerCase();
+    if (sl.includes("manifest"))  cls = "tr-badge--manifested";
+    else if (sl.includes("transit") || sl.includes("picked")) cls = "tr-badge--transit";
+    else if (sl.includes("deliver")) cls = "tr-badge--delivered";
+    else if (sl.includes("rto"))   cls = "tr-badge--rto";
+    return '<span class="tr-badge ' + cls + '">' + escHtml(s) + '</span>';
+  }
+
+  function docEntryFromSapUrl(url) {
+    if (!url) return "";
+    var m = String(url).match(/Invoices\((\d+)\)/i);
+    return m ? m[1] : "";
+  }
+
+  function sapSyncInfo(r) {
+    var docEntry = r.doc_entry ? String(r.doc_entry).trim() : "";
+    var sap = r.sap_response;
+    if (!sap || typeof sap !== "object") {
+      return { label: "—", cls: "tr-badge--other", stale: false, failed: false };
+    }
+    if (sap.ok === false || sap.sap_sync_status === "failed") {
+      return { label: "Failed", cls: "tr-badge--sap-failed", stale: false, failed: true };
+    }
+    var urlDe = docEntryFromSapUrl(sap.url);
+    var sapDe = sap.doc_entry != null ? String(sap.doc_entry).trim() : urlDe;
+    if (docEntry && sapDe && docEntry !== sapDe) {
+      return {
+        label: "Stale",
+        cls: "tr-badge--sap-stale",
+        stale: true,
+        failed: false,
+        urlDe: sapDe,
+      };
+    }
+    if (sap.ok === true || sap.sap_sync_status === "synced") {
+      return { label: "Synced", cls: "tr-badge--sap-ok", stale: false, failed: false };
+    }
+    return { label: "—", cls: "tr-badge--other", stale: false, failed: false };
+  }
+
+  function sapPodPostedFromSapPodResponse(sp) {
+    if (!sp || typeof sp !== "object") return false;
+    if (sp.ok !== true) return false;
+    if (String(sp.phase || "").toLowerCase() !== "patch") return false;
+    var h = parseInt(String(sp.http_status), 10);
+    if (isNaN(h)) return false;
+    return h === 200 || h === 204;
+  }
+
+  function sapPodPostedFromRecord(r) {
+    if (r.sap_pod_display === "posted") return true;
+    return r.sap_pod_posted === true || r.sap_pod_posted === 1 || String(r.sap_pod_posted).toLowerCase() === "true";
+  }
+
+  function sapPodPostedFromBundle(bundle) {
+    if (bundle.sap_pod_posted === true || bundle.sap_pod_posted === 1 || String(bundle.sap_pod_posted).toLowerCase() === "true") {
+      return true;
+    }
+    var pods = bundle.pods || [];
+    if (pods.length && sapPodPostedFromSapPodResponse(pods[0].sap_pod_response)) return true;
+    return false;
+  }
+
+  function sapSyncInfoForDisplay(r, bundle) {
+    var base = sapSyncInfo(r);
+    if (base.label !== "Synced" || base.failed || base.stale) {
+      return base;
+    }
+    var podReceived = r.pod_received === true || r.pod_received === 1 || String(r.pod_received).toLowerCase() === "true";
+    var hasLatestPodId = r.latest_pod_id != null && String(r.latest_pod_id).trim() !== "" && String(r.latest_pod_id).trim() !== "0";
+    var podNeeded = podReceived || hasLatestPodId;
+    if (!podNeeded) {
+      return base;
+    }
+    var podPosted = sapPodPostedFromRecord(r);
+    if (!podPosted && bundle) {
+      podPosted = sapPodPostedFromBundle(bundle);
+    }
+    if (podPosted) {
+      return base;
+    }
+    return {
+      label: "Incomplete",
+      cls: "tr-badge--sap-stale",
+      stale: false,
+      failed: false,
+    };
+  }
+
+  function sapSyncBadge(r, bundle) {
+    var info = sapSyncInfoForDisplay(r, bundle || null);
+    if (info.label === "—") return '<span class="tr-null">—</span>';
+    return '<span class="tr-badge ' + info.cls + '">' + escHtml(info.label) + "</span>";
+  }
+
+  function escHtml(s) {
+    if (s === null || s === undefined) return "";
+    return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+  }
+
+  function cell(v, cls) {
+    if (v === null || v === undefined || v === "") return '<td class="tr-null' + (cls ? " " + cls : "") + '">—</td>';
+    return '<td' + (cls ? ' class="' + cls + '"' : "") + ">" + escHtml(v) + "</td>";
+  }
+
+  // Store records for modal access
+  var _allRecords = [];
+
+  function showTableSkeleton() {
+    if (!tbody) return;
+    if (mainTable) mainTable.setAttribute("aria-busy", "true");
+    var colWidths = [
+      "tr-skel-bar--hash",
+      "46%", "40%", "34%", "52%", "34%", "30%", "32%", "28%", "42%",
+      "tr-skel-bar--actions",
+    ];
+    var html = "";
+    for (var r = 0; r < TR_SKELETON_ROWS; r++) {
+      html += '<tr class="tr-skel-row" aria-hidden="true">';
+      for (var c = 0; c < TR_COL_COUNT; c++) {
+        var w = colWidths[c];
+        var isClass = w.indexOf("tr-skel-bar--") === 0;
+        var inner = isClass
+          ? '<span class="tr-skel-bar ' + w + '"></span>'
+          : '<span class="tr-skel-bar" style="width:' + w + '"></span>';
+        var tdCls = c === TR_COL_COUNT - 1 ? ' class="text-center"' : "";
+        html += "<td" + tdCls + ">" + inner + "</td>";
+      }
+      html += "</tr>";
+    }
+    tbody.innerHTML = html;
+  }
+
+  function clearTableBusy() {
+    if (mainTable) mainTable.removeAttribute("aria-busy");
+  }
+
+  function isJunkLocRem(s) {
+    if (s == null) return true;
+    var t = String(s).trim();
+    if (!t) return true;
+    var low = t.toLowerCase();
+    return (
+      low === "string" ||
+      low === "str" ||
+      low === "x" ||
+      low === "-" ||
+      low === "—" ||
+      low === "n/a" ||
+      low === "na" ||
+      low === "null" ||
+      low === "undefined" ||
+      low === "none" ||
+      low === "."
+    );
+  }
+
+  function lrSapCell(r) {
+    var sapHtml = sapSyncBadge(r, null);
+    return (
+      '<td class="tr-lr-sap">' +
+        '<div class="tr-lr-sap__card">' +
+        '<div class="tr-lr-sap__head">' +
+        sapHtml +
+        "</div>" +
+        "</div></td>"
+    );
+  }
+
+  function displayLocRemPlain(raw) {
+    var t = raw != null ? String(raw).trim() : "";
+    if (!t || isJunkLocRem(t)) return "";
+    return t;
+  }
+
+  function renderExpLocRemBlock(lr) {
+    var loc = displayLocRemPlain(lr.location);
+    var rem = displayLocRemPlain(lr.shipment_remark);
+    var locInner = loc ? escHtml(loc) : '<span class="tr-null">—</span>';
+    var remInner = rem ? escHtml(rem) : '<span class="tr-null">—</span>';
+    return (
+      '<div class="tr-exp-locrem">' +
+      '<div class="tr-exp-locrem__title">Location &amp; remark</div>' +
+      '<div class="tr-exp-locrem__row">' +
+      '<span class="tr-exp-locrem__ic" aria-hidden="true">▸</span>' +
+      '<div class="tr-exp-locrem__txt">' +
+      locInner +
+      "</div></div>" +
+      '<div class="tr-exp-locrem__row">' +
+      '<span class="tr-exp-locrem__ic" aria-hidden="true">≋</span>' +
+      '<div class="tr-exp-locrem__txt">' +
+      remInner +
+      "</div></div></div>"
+    );
+  }
+
+  /** Pods are ordered newest-first; v1 = oldest submission, vN = latest. */
+  function podVersionLabel(indexNewestFirst, totalPods) {
+    var n = parseInt(totalPods, 10) || 0;
+    var i = parseInt(indexNewestFirst, 10) || 0;
+    if (n < 1) return "v1";
+    var rev = n - i;
+    return "v" + rev;
+  }
+
+  function sapPodStatusCell(r) {
+    var d = r.sap_pod_display;
+    if (!d && sapPodPostedFromRecord(r)) d = "posted";
+    if (d === "posted" || sapPodPostedFromRecord(r)) {
+      return '<td><span class="tr-badge tr-badge--sap-ok">Posted</span></td>';
+    }
+    if (d === "failed_fixable") {
+      return '<td class="tr-sap-pod-cell">' +
+        '<button type="button" class="tr-btn-fix-pod" data-fix-pod-lrnum="' + escHtml(r.lrnum) + '"' +
+        ' title="Send POD link and date from RDS to SAP (same as after webhook)">Fix it</button></td>';
+    }
+    if (d === "failed_blocked") {
+      return '<td class="tr-sap-pod-cell">' +
+        '<span class="tr-badge tr-badge--sap-failed">Failed</span>' +
+        '<div class="small text-muted mt-1">No DocEntry</div></td>';
+    }
+    if (d === "pending") {
+      return '<td><span class="tr-badge tr-badge--sap-stale">Pending</span></td>';
+    }
+    return '<td><span class="tr-null">—</span></td>';
+  }
+
+  function renderRows(records, pageOffset) {
+    clearTableBusy();
+    _allRecords = records;
+    if (!records.length) {
+      tbody.innerHTML = '<tr><td colspan="' + TR_COL_COUNT + '" class="tr-empty">No records found for the selected filters.</td></tr>';
+      return;
+    }
+    var html = "";
+    records.forEach(function (r, i) {
+      html += "<tr data-ridx='" + i + "'>" +
+        "<td>" + (pageOffset + i + 1) + "</td>" +
+        "<td><strong>" + escHtml(r.lrnum) + "</strong></td>" +
+        "<td>" + statusBadge(r.delhivery_status) + "</td>" +
+        cell(r.waybill) +
+        lrSapCell(r) +
+        cell(r.doc_entry) +
+        cell(r.doc_num) +
+        cell(r.series) +
+        sapPodStatusCell(r) +
+        "<td>" + escHtml(fmtDate(r.updated_at)) + "</td>" +
+        '<td class="tr-actions">' +
+          '<div class="tr-actions-inner">' +
+          '<div class="tr-actions-row">' +
+            '<button type="button" class="tr-btn-admin" data-ridx="' + i + '">Admin view</button>' +
+            '<button type="button" class="tr-btn-track" data-ridx="' + i + '" aria-expanded="false" title="Shipment trace &amp; POD preview">' +
+              '<span class="tr-btn-track__ic" aria-hidden="true">◎</span>' +
+              '<span class="tr-btn-track__txt">Quick trace</span>' +
+              '<span class="tr-btn-track__caret" aria-hidden="true">▼</span>' +
+            "</button>" +
+          "</div>" +
+          (canRetrySap(r)
+            ? '<button type="button" class="tr-btn-retry" data-ridx="' + i + '">Retry SAP</button>'
+            : "") +
+          "</div></td>" +
+        "</tr>";
+    });
+    tbody.innerHTML = html;
+  }
+
+  /* ── Modal + admin API ───────────────────────────────── */
+  var overlay = document.getElementById("tr_modal_overlay");
+  var modalTitle = document.getElementById("tr_modal_title");
+  var modalBody  = document.getElementById("tr_modal_body");
+  var modalClose = document.getElementById("tr_modal_close");
+
+  function modalSection(title, html) {
+    return '<div class="tr-modal-section">' +
+      '<div class="tr-modal-section-title">' + title + '</div>' +
+      html + '</div>';
+  }
+  function modalGrid(pairs) {
+    var inner = "";
+    pairs.forEach(function (p) {
+      var v = (p[1] === null || p[1] === undefined || p[1] === "")
+        ? '<span class="tr-null">—</span>'
+        : escHtml(String(p[1]));
+      inner +=
+        '<div class="tr-field">' +
+          '<span class="tr-field-label">' + escHtml(p[0]) + '</span>' +
+          '<span class="tr-field-value">' + v + '</span>' +
+        '</div>';
+    });
+    return '<div class="tr-detail-grid">' + inner + "</div>";
+  }
+  function jsonBox(v) {
+    if (v === null || v === undefined) return '<div class="tr-json-null">null — not set</div>';
+    try {
+      var s = typeof v === "string" ? v : JSON.stringify(v, null, 2);
+      return '<pre class="tr-json-box">' + escHtml(s) + '</pre>';
+    } catch (e) {
+      return '<pre class="tr-json-box">' + escHtml(String(v)) + '</pre>';
+    }
+  }
+
+  async function fetchAdminDetail(lrnum) {
+    var r = await fetch("/api/method/" + API_ADMIN_LR, {
+      method: "POST",
+      credentials: "same-origin",
+      headers: { Accept: "application/json", "Content-Type": "application/json" },
+      body: JSON.stringify({ lrnum: String(lrnum || "").trim() }),
+    });
+    var data = await r.json().catch(function () { return {}; });
+    if (!r.ok || data.exc_type) throw new Error(apiErrorMessage(data));
+    return (data.message !== undefined && data.message !== null) ? data.message : data;
+  }
+
+  function payloadStatusSnippet(payload) {
+    if (!payload || typeof payload !== "object") return "";
+    var st = payload.status || payload.Status || payload.shipment_status;
+    if (st && typeof st === "object" && st.status) return String(st.status);
+    return st != null ? String(st) : "";
+  }
+
+  function timelineIconMeta(statusText) {
+    var s = (statusText || "").toLowerCase();
+    var cls = "tr-vtl-ic--default";
+    var glyph = "●";
+    if (s.indexOf("deliver") !== -1) { cls = "tr-vtl-ic--delivered"; glyph = "✓"; }
+    else if (s.indexOf("pending") !== -1 || s.indexOf("book") !== -1) { cls = "tr-vtl-ic--pending"; glyph = "◷"; }
+    else if (s.indexOf("transit") !== -1 || s.indexOf("pick") !== -1 || s.indexOf("manifest") !== -1) {
+      cls = "tr-vtl-ic--transit";
+      glyph = "➜";
+    }
+    else if (s.indexOf("rto") !== -1 || s.indexOf("return") !== -1) { cls = "tr-vtl-ic--rto"; glyph = "↩"; }
+    return { cls: cls, glyph: glyph };
+  }
+
+  function renderExpPanelHero(ridx, lrnum) {
+    return (
+      '<div class="tr-exp-hero">' +
+        '<div class="tr-exp-hero__left">' +
+          '<span class="tr-exp-hero__logo" aria-hidden="true">⌖</span>' +
+          '<div>' +
+            '<div class="tr-exp-hero__title">Shipment trace</div>' +
+            '<div class="tr-exp-hero__sub">LR <strong>' + escHtml(lrnum) + "</strong> · " +
+            '<span class="text-nowrap">Open <strong>Admin view</strong> for full JSON, webhooks &amp; POD payloads.</span></div>' +
+          "</div>" +
+        "</div>" +
+        '<div class="tr-exp-hero__actions">' +
+          '<button type="button" class="tr-btn-admin tr-btn-admin--ghost" data-open-admin-ridx="' + ridx + '">Open Admin view</button>' +
+          '<button type="button" class="tr-exp-collapse" data-collapse-ridx="' + ridx + '" title="Hide trace">Hide trace ▲</button>' +
+        "</div>" +
+      "</div>"
+    );
+  }
+
+  function renderExpPanelSkeleton() {
+    var pills = "";
+    for (var i = 0; i < 4; i++) pills += '<div class="tr-exp-skel-pill"></div>';
+    var lines = "";
+    for (var j = 0; j < 6; j++) lines += '<div class="tr-exp-skel-line" style="width:' + (70 + (j % 3) * 10) + '%"></div>';
+    return (
+      '<div class="tr-exp-skel">' +
+        '<div class="tr-exp-skel-grid">' + pills + "</div>" +
+        lines +
+      "</div>"
+    );
+  }
+
+  function renderExpPanelBody(bundle) {
+    var w = (bundle.warnings || []).map(function (x) {
+      return '<div class="alert alert-warning py-2 small mb-2">' + escHtml(String(x)) + "</div>";
+    }).join("");
+    if (!bundle.lr) {
+      return w + '<p class="text-muted small mb-0">No delhivery_lr row for this LR.</p>';
+    }
+    var lr = bundle.lr;
+    var html = w;
+    html += renderExpLocRemBlock(lr);
+    var podsSnap = bundle.pods || [];
+    var podSapHtmlSnap;
+    if (!podsSnap.length) {
+      podSapHtmlSnap = '<span class="tr-null">—</span>';
+    } else if (sapPodPostedFromBundle(bundle)) {
+      podSapHtmlSnap = '<span class="tr-badge tr-badge--sap-ok">Posted</span>';
+    } else {
+      podSapHtmlSnap = '<span class="tr-badge tr-badge--sap-stale">Not posted</span>';
+    }
+    html += '<div class="tr-exp-sec-title"><span aria-hidden="true">◈</span> SAP snapshot</div>';
+    html += '<div class="tr-exp-stats">' +
+      '<div class="tr-exp-stat"><div class="tr-exp-stat__lbl">Track → SAP</div><div class="tr-exp-stat__val">' +
+      sapSyncBadge(lr, bundle) +
+      "</div></div>" +
+      '<div class="tr-exp-stat"><div class="tr-exp-stat__lbl">POD → SAP</div><div class="tr-exp-stat__val">' +
+      podSapHtmlSnap +
+      "</div></div>" +
+      '<div class="tr-exp-stat"><div class="tr-exp-stat__lbl">latest_pod_id</div><div class="tr-exp-stat__val">' +
+      escHtml(lr.latest_pod_id != null ? String(lr.latest_pod_id) : "—") +
+      "</div></div>" +
+      '<div class="tr-exp-stat"><div class="tr-exp-stat__lbl">pod_received</div><div class="tr-exp-stat__val">' +
+      (lr.pod_received === true || lr.pod_received === 1 ? "Yes" : "No") +
+      "</div></div>" +
+      '<div class="tr-exp-stat"><div class="tr-exp-stat__lbl">Delhivery status</div><div class="tr-exp-stat__val">' +
+      escHtml(lr.delhivery_status || "—") +
+      "</div></div>" +
+      '<div class="tr-exp-stat"><div class="tr-exp-stat__lbl">Waybill</div><div class="tr-exp-stat__val">' +
+      escHtml(lr.waybill || "—") +
+      "</div></div></div>";
+
+    var evs = bundle.status_events || [];
+    html += '<div class="tr-exp-sec-title"><span aria-hidden="true">⏱</span> Status timeline (' + evs.length + ")</div>";
+    if (!evs.length) {
+      html += '<p class="small text-muted mb-0">No events in <code>delhivery_lr_status_events</code>.</p>';
+    } else {
+      html += '<div class="tr-vtl">';
+      evs.slice(0, 40).forEach(function (ev) {
+        var sn = payloadStatusSnippet(ev.payload);
+        var meta = timelineIconMeta(sn);
+        html +=
+          '<div class="tr-vtl-item">' +
+          '<span class="tr-vtl-ic ' + meta.cls + '" aria-hidden="true">' + meta.glyph + "</span>" +
+          '<div class="tr-vtl-time">#' + escHtml(String(ev.id)) + " · " + escHtml(fmtDate(ev.received_at)) + "</div>" +
+          (sn ? '<div class="tr-vtl-status">' + escHtml(sn) + "</div>" : '<div class="tr-vtl-status tr-null">Event</div>') +
+          "</div>";
+      });
+      html += "</div>";
+      if (evs.length > 40) {
+        html += '<p class="small text-muted mt-2 mb-0">Showing newest 40 of ' + evs.length + ". Full list in Admin view.</p>";
+      }
+    }
+
+    var pods = bundle.pods || [];
+    html += '<div class="tr-exp-sec-title"><span aria-hidden="true">▤</span> POD delivery (' + pods.length + ")</div>";
+    if (!pods.length) {
+      html += '<p class="small text-muted mb-0">No rows in <code>delhivery_lr_pod</code>.</p>';
+    } else {
+      pods.slice(0, 15).forEach(function (p, i) {
+        var vLbl = podVersionLabel(i, pods.length);
+        var hasUrl = p.pod_url && String(p.pod_url).trim();
+        var actionsHtml = "";
+        if (hasUrl) {
+          actionsHtml =
+            '<div class="tr-pod-dl-wrap">' +
+            '<a class="tr-pod-dl-btn" href="' + escHtml(String(p.pod_url).trim()) + '" target="_blank" rel="noopener">' +
+            "Download / open POD</a></div>";
+        } else if (p.epod_b64) {
+          actionsHtml =
+            '<p class="tr-pod-onfile mb-0">POD on file (no URL). Open <strong>Admin view</strong> → PODs if you need the raw payload.</p>';
+        } else {
+          actionsHtml = '<span class="tr-null">No link</span>';
+        }
+        html +=
+          '<div class="tr-pod-card">' +
+          '<div class="tr-pod-card__head">' +
+          '<span><span class="tr-pod-card__badge">' +
+          escHtml(vLbl) +
+          '</span><span class="tr-pod-card__id">id ' +
+          escHtml(String(p.id)) +
+          "</span></span>" +
+          '<span class="tr-pod-card__meta">' + escHtml(fmtDate(p.received_at)) + "</span>" +
+          "</div>" +
+          "<div>" + actionsHtml + "</div>" +
+          "</div>";
+      });
+      if (pods.length > 15) {
+        html += '<p class="small text-muted mt-1 mb-0">Showing newest 15 of ' + pods.length + ".</p>";
+      }
+    }
+    return html;
+  }
+
+  function buildAdminModalHtml(tableRow, bundle) {
+    var lr = bundle.lr || tableRow;
+    var sapInfo = sapSyncInfo(lr);
+    var sapDisp = sapSyncInfoForDisplay(lr, bundle);
+    var warnHtml = "";
+    if (sapInfo.failed) {
+      var err = (lr.sap_response && lr.sap_response.error) ? lr.sap_response.error : "SAP update failed.";
+      warnHtml =
+        '<div class="tr-sap-warn"><strong>SAP not updated</strong> for DocEntry ' +
+        escHtml(lr.doc_entry || "—") + ". " + escHtml(err) + "</div>";
+    } else if (sapInfo.stale) {
+      warnHtml =
+        '<div class="tr-sap-warn"><strong>SAP response is for a different invoice</strong> (DocEntry ' +
+        escHtml(sapInfo.urlDe || "?") + "). Current row is DocEntry " +
+        escHtml(lr.doc_entry || "—") + ". Re-submit from Delivery after fixing SAP.</div>";
+    }
+    (bundle.warnings || []).forEach(function (msg) {
+      warnHtml += '<div class="alert alert-warning py-2 small mb-2">' + escHtml(String(msg)) + "</div>";
+    });
+
+    var overview = modalSection("Overview (delhivery_lr)", modalGrid([
+      ["LR Number", lr.lrnum],
+      ["Delhivery status", lr.delhivery_status],
+      ["Status type", lr.status_type],
+      ["Waybill (WBN)", lr.waybill],
+      ["Location", lr.location],
+      ["Shipment remark", lr.shipment_remark],
+      ["latest_pod_id", lr.latest_pod_id != null ? String(lr.latest_pod_id) : null],
+      ["pod_received", lr.pod_received === true || lr.pod_received === 1 ? "true" : String(lr.pod_received != null ? lr.pod_received : "false")],
+      ["test (legacy)", lr.test],
+      ["DocEntry", lr.doc_entry],
+      ["DocNum", lr.doc_num],
+      ["Series", lr.series],
+      ["Track → SAP", sapDisp.label === "—" ? null : sapDisp.label],
+      ["POD → SAP", (function () {
+        var pds = bundle.pods || [];
+        if (!pds.length) return null;
+        return sapPodPostedFromBundle(bundle) ? "Posted" : "Not posted";
+      })()],
+      ["Created", fmtDate(lr.created_at)],
+      ["Updated", fmtDate(lr.updated_at)],
+    ]));
+
+    var evs = bundle.status_events || [];
+    var evHtml = '<p class="small text-muted">' + evs.length + " event(s) · newest first.</p>";
+    evs.forEach(function (ev) {
+      evHtml +=
+        '<div class="tr-modal-section" style="margin-bottom:0.85rem">' +
+        '<div class="tr-tl-meta mb-1">Event id ' + escHtml(String(ev.id)) + " · " + escHtml(fmtDate(ev.received_at)) + "</div>" +
+        jsonBox(ev.payload) +
+        "</div>";
+    });
+    if (!evs.length) evHtml += '<p class="small text-muted">No rows in delhivery_lr_status_events.</p>';
+
+    var pods = bundle.pods || [];
+    var podHtml = "";
+    if (!pods.length) {
+      podHtml = '<p class="small text-muted">No rows in delhivery_lr_pod.</p>';
+    } else {
+      podHtml =
+        '<p class="small text-muted">' +
+        pods.length +
+        " POD row(s) · newest first" +
+        (pods.length > 1
+          ? " · <strong>v" + pods.length + "</strong> = latest, <strong>v1</strong> = earliest"
+          : " · <strong>v1</strong>") +
+        ".</p>";
+      pods.forEach(function (p, i) {
+        var vLbl = podVersionLabel(i, pods.length);
+        var hasUrl = p.pod_url && String(p.pod_url).trim();
+        var urlLine = hasUrl
+          ? '<div class="mb-2 tr-pod-dl-wrap"><a class="tr-pod-dl-btn" href="' + escHtml(String(p.pod_url).trim()) + '" target="_blank" rel="noopener">Download / open POD</a></div>'
+          : "";
+        var epodLine = "";
+        if (p.epod_b64 && !hasUrl) {
+          epodLine =
+            '<p class="small text-muted mb-2">Binary POD on file (base64 not shown). Expand <strong>raw_payload</strong> below or export from the database if you need bytes.</p>';
+        }
+        podHtml +=
+          '<div class="tr-modal-section" style="margin-bottom:1rem;border-bottom:1px solid rgba(148,163,184,0.2);padding-bottom:0.75rem">' +
+          '<div class="tr-modal-section-title">' +
+          escHtml(vLbl) +
+          " · " +
+          escHtml(fmtDate(p.received_at)) +
+          ' <span class="text-muted fw-normal">· id ' +
+          escHtml(String(p.id)) +
+          "</span></div>" +
+          modalGrid([
+            ["waybill", p.waybill],
+            ["order_id", p.order_id],
+            ["pod_format", p.pod_format],
+          ]) +
+          urlLine +
+          epodLine +
+          modalSection("raw_payload (full POD webhook JSON)", jsonBox(p.raw_payload)) +
+          modalSection("sap_pod_response (SAP after POD upload)", jsonBox(p.sap_pod_response)) +
+          "</div>";
+      });
+    }
+
+    var jsonTab =
+      modalSection("raw_tracking (Delhivery track / snapshot)", jsonBox(lr.raw_tracking)) +
+      modalSection("last_status_webhook", jsonBox(lr.last_status_webhook)) +
+      modalSection("sap_response (PATCH audit)", jsonBox(lr.sap_response));
+
+    var tabs =
+      '<div class="tr-tab-bar" id="tr_admin_tabs">' +
+      '<button type="button" class="tr-tab is-active" data-tab="ov">Overview</button>' +
+      '<button type="button" class="tr-tab" data-tab="st">Status history</button>' +
+      '<button type="button" class="tr-tab" data-tab="pd">PODs</button>' +
+      '<button type="button" class="tr-tab" data-tab="js">Raw JSON</button>' +
+      "</div>" +
+      '<div id="tr_tab_ov" class="tr-tab-panel is-active">' + overview + "</div>" +
+      '<div id="tr_tab_st" class="tr-tab-panel">' + modalSection("delhivery_lr_status_events", evHtml) + "</div>" +
+      '<div id="tr_tab_pd" class="tr-tab-panel">' + modalSection("delhivery_lr_pod", podHtml) + "</div>" +
+      '<div id="tr_tab_js" class="tr-tab-panel">' + jsonTab + "</div>";
+
+    var actions = "";
+    if (canRetrySap(tableRow)) {
+      actions =
+        '<div class="tr-modal-actions">' +
+        '<button type="button" class="tr-btn-retry-modal" id="tr_modal_retry_btn">Retry SAP</button>' +
+        '<span class="small text-muted align-self-center">Updates U_LRtrackno on DocEntry ' +
+        escHtml(tableRow.doc_entry) + " only (no Delhivery call).</span></div>";
+    }
+
+    return warnHtml + tabs + actions;
+  }
+
+  function wireAdminTabs(root) {
+    if (!root) return;
+    var tabs = root.querySelectorAll("#tr_admin_tabs .tr-tab");
+    var panels = {
+      ov: root.querySelector("#tr_tab_ov"),
+      st: root.querySelector("#tr_tab_st"),
+      pd: root.querySelector("#tr_tab_pd"),
+      js: root.querySelector("#tr_tab_js"),
+    };
+    tabs.forEach(function (t) {
+      t.addEventListener("click", function () {
+        var key = t.getAttribute("data-tab");
+        tabs.forEach(function (x) { x.classList.toggle("is-active", x === t); });
+        Object.keys(panels).forEach(function (k) {
+          if (panels[k]) panels[k].classList.toggle("is-active", k === key);
+        });
+      });
+    });
+  }
+
+  function wireModalRetry(tableRow) {
+    var modalRetryBtn = document.getElementById("tr_modal_retry_btn");
+    if (modalRetryBtn) {
+      modalRetryBtn.addEventListener("click", function () {
+        retrySap(tableRow.lrnum, modalRetryBtn);
+      });
+    }
+  }
+
+  async function openAdminModal(r) {
+    modalTitle.textContent = "Admin — LR " + (r.lrnum || "—");
+    modalBody.innerHTML =
+      '<div class="tr-modal-admin-skel">' +
+      '<div class="tr-modal-loading" style="padding:1.25rem 1rem 0.75rem">' +
+      '<span class="tr-spin" style="margin-right:0.5rem"></span> Loading admin data…' +
+      "</div>" +
+      '<div style="padding:0 1.25rem 1.25rem">' +
+      renderExpPanelSkeleton() +
+      "</div></div>";
+    overlay.classList.add("is-open");
+    document.body.style.overflow = "hidden";
+    try {
+      var bundle = _adminBundleCache[r.lrnum];
+      if (!bundle) {
+        bundle = await fetchAdminDetail(r.lrnum);
+        _adminBundleCache[r.lrnum] = bundle;
+      }
+      modalBody.innerHTML = buildAdminModalHtml(r, bundle);
+      wireAdminTabs(modalBody);
+      wireModalRetry(r);
+    } catch (err) {
+      modalBody.innerHTML =
+        '<div class="alert alert-danger">' + escHtml(err.message || String(err)) + "</div>";
+    }
+  }
+
+  function toggleAdminDropdown(ridx) {
+    var rows = tbody.querySelectorAll("tr[data-ridx]");
+    var targetTr = null;
+    rows.forEach(function (tr) {
+      if (parseInt(tr.getAttribute("data-ridx"), 10) === ridx) targetTr = tr;
+    });
+    if (!targetTr || !_allRecords[ridx]) return;
+    var next = targetTr.nextElementSibling;
+    if (next && next.classList.contains("tr-exp-row") && String(next.getAttribute("data-exp-for")) === String(ridx)) {
+      next.remove();
+      var tb = targetTr.querySelector(".tr-btn-track");
+      if (tb) {
+        tb.classList.remove("is-open");
+        tb.setAttribute("aria-expanded", "false");
+      }
+      return;
+    }
+    tbody.querySelectorAll("tr.tr-exp-row").forEach(function (x) { x.remove(); });
+    tbody.querySelectorAll(".tr-btn-track").forEach(function (b) {
+      b.classList.remove("is-open");
+      b.setAttribute("aria-expanded", "false");
+    });
+    var lrnum = _allRecords[ridx].lrnum;
+    var exp = document.createElement("tr");
+    exp.className = "tr-exp-row";
+    exp.setAttribute("data-exp-for", String(ridx));
+    exp.innerHTML =
+      '<td colspan="' + TR_COL_COUNT + '">' +
+      '<div class="tr-exp-inner">' +
+      renderExpPanelHero(ridx, lrnum) +
+      '<div class="tr-exp-body">' +
+      renderExpPanelSkeleton() +
+      "</div></div></td>";
+    targetTr.parentNode.insertBefore(exp, targetTr.nextSibling);
+    var bodyEl = exp.querySelector(".tr-exp-body");
+    var tbtn = targetTr.querySelector(".tr-btn-track");
+    if (tbtn) {
+      tbtn.classList.add("is-open");
+      tbtn.setAttribute("aria-expanded", "true");
+    }
+    fetchAdminDetail(lrnum)
+      .then(function (bundle) {
+        _adminBundleCache[lrnum] = bundle;
+        if (bodyEl) bodyEl.innerHTML = renderExpPanelBody(bundle);
+      })
+      .catch(function (e) {
+        if (bodyEl) {
+          bodyEl.innerHTML =
+            '<div class="alert alert-danger py-2 small">' + escHtml(e.message || String(e)) + "</div>";
+        }
+      });
+  }
+
+  function closeModal() {
+    overlay.classList.remove("is-open");
+    document.body.style.overflow = "";
+  }
+
+  if (modalClose) modalClose.addEventListener("click", closeModal);
+  if (overlay) {
+    overlay.addEventListener("click", function (e) {
+      if (e.target === overlay) closeModal();
+    });
+  }
+  document.addEventListener("keydown", function (e) {
+    if (e.key === "Escape") closeModal();
+  });
+
+  function apiErrorMessage(data) {
+    if (!data) return "Request failed.";
+    if (typeof data.message === "string" && data.message) return data.message;
+    if (data._server_messages) {
+      try {
+        var arr = JSON.parse(data._server_messages);
+        if (arr && arr[0]) {
+          var div = document.createElement("div");
+          div.innerHTML = arr[0];
+          return div.textContent || div.innerText || "Error";
+        }
+      } catch (e) {}
+    }
+    return "Request failed.";
+  }
+
+  function updateRetryAllButton() {
+    if (!btnRetryAll) return;
+    if (_pendingSapRetry > 0) {
+      btnRetryAll.disabled = _retryInFlight;
+      btnRetryAll.textContent = "Retry all failed SAP (" + _pendingSapRetry + ")";
+      if (retryAllHint) {
+        retryAllHint.textContent = "Retries up to 50 records (SAP only, no Delhivery).";
+      }
+    } else {
+      btnRetryAll.disabled = true;
+      btnRetryAll.textContent = "Retry all failed SAP";
+      if (retryAllHint) retryAllHint.textContent = "No failed SAP syncs in database.";
+    }
+  }
+
+  async function refreshPendingRetryCount() {
+    try {
+      var r = await fetch("/api/method/" + API_RETRY_COUNT, {
+        method: "GET",
+        credentials: "same-origin",
+        headers: { Accept: "application/json" },
+      });
+      var data = await r.json().catch(function () { return {}; });
+      if (!r.ok || data.exc_type) return;
+      var payload = (data.message !== undefined) ? data.message : data;
+      _pendingSapRetry = payload.count || 0;
+      updateRetryAllButton();
+    } catch (e) {}
+  }
+
+  async function retryAllFailedSap() {
+    if (_retryInFlight || _pendingSapRetry < 1) return;
+    if (!window.confirm(
+      "Retry SAP for all failed/stale records (up to 50)?\n\n" +
+      "Fix SAP issues (e.g. tax codes) first, or retries may fail again."
+    )) {
+      return;
+    }
+    _retryInFlight = true;
+    updateRetryAllButton();
+    hideAlert();
+    if (btnRetryAll) btnRetryAll.disabled = true;
+    spinner.classList.remove("d-none");
+
+    try {
+      var r = await fetch("/api/method/" + API_RETRY_ALL, {
+        method: "POST",
+        credentials: "same-origin",
+        headers: { Accept: "application/json", "Content-Type": "application/json" },
+        body: JSON.stringify({ max_rows: 50 }),
+      });
+      var data = await r.json().catch(function () { return {}; });
+      if (!r.ok || data.exc_type) throw new Error(apiErrorMessage(data));
+      var payload = (data.message !== undefined) ? data.message : data;
+      var msg = payload.message || "Batch retry finished.";
+      showAlert(msg, payload.failed > 0 && payload.success === 0 ? undefined : "success");
+      clearTrackerListMemCache();
+      await loadPage(state.page);
+      await refreshPendingRetryCount();
+    } catch (err) {
+      showAlert(err.message || String(err));
+    } finally {
+      _retryInFlight = false;
+      spinner.classList.add("d-none");
+      updateRetryAllButton();
+    }
+  }
+
+  async function retrySap(lrnum, triggerBtn) {
+    if (!lrnum || _retryInFlight) return;
+    _retryInFlight = true;
+    hideAlert();
+    if (triggerBtn) triggerBtn.disabled = true;
+    var rowRetries = tbody ? tbody.querySelectorAll(".tr-btn-retry") : [];
+    rowRetries.forEach(function (b) { b.disabled = true; });
+
+    try {
+      var r = await fetch("/api/method/" + API_RETRY, {
+        method: "POST",
+        credentials: "same-origin",
+        headers: { Accept: "application/json", "Content-Type": "application/json" },
+        body: JSON.stringify({ lrnum: String(lrnum).trim() }),
+      });
+      var data = await r.json().catch(function () { return {}; });
+      if (!r.ok || data.exc_type) throw new Error(apiErrorMessage(data));
+      var payload = (data.message !== undefined) ? data.message : data;
+      var msg = payload.message || "SAP updated.";
+      showAlert(msg, payload.status === "already_synced" ? "success" : "success");
+      closeModal();
+      clearTrackerListMemCache();
+      await loadPage(state.page);
+      await refreshPendingRetryCount();
+    } catch (err) {
+      showAlert(err.message || String(err));
+    } finally {
+      _retryInFlight = false;
+      if (triggerBtn) triggerBtn.disabled = false;
+      rowRetries.forEach(function (b) { b.disabled = false; });
+      updateRetryAllButton();
+    }
+  }
+
+  async function fixSapPod(lrnum, triggerBtn) {
+    if (!lrnum || _fixPodInFlight) return;
+    _fixPodInFlight = true;
+    hideAlert();
+    if (triggerBtn) triggerBtn.disabled = true;
+    var fixBtns = tbody ? tbody.querySelectorAll(".tr-btn-fix-pod") : [];
+    fixBtns.forEach(function (b) { b.disabled = true; });
+    spinner.classList.remove("d-none");
+    try {
+      var r = await fetch("/api/method/" + API_FIX_POD, {
+        method: "POST",
+        credentials: "same-origin",
+        headers: { Accept: "application/json", "Content-Type": "application/json" },
+        body: JSON.stringify({ lrnum: String(lrnum).trim() }),
+      });
+      var data = await r.json().catch(function () { return {}; });
+      if (!r.ok || data.exc_type) throw new Error(apiErrorMessage(data));
+      var payload = (data.message !== undefined) ? data.message : data;
+      showAlert(payload.message || "POD sent to SAP.", "success");
+      clearTrackerListMemCache();
+      await loadPage(state.page);
+    } catch (err) {
+      showAlert(err.message || String(err));
+    } finally {
+      _fixPodInFlight = false;
+      if (triggerBtn) triggerBtn.disabled = false;
+      fixBtns.forEach(function (b) { b.disabled = false; });
+      spinner.classList.add("d-none");
+    }
+  }
+
+  tbody.addEventListener("click", function (e) {
+    var collapseBtn = e.target.closest(".tr-exp-collapse");
+    if (collapseBtn) {
+      e.preventDefault();
+      var cr = parseInt(collapseBtn.getAttribute("data-collapse-ridx"), 10);
+      if (!isNaN(cr)) toggleAdminDropdown(cr);
+      return;
+    }
+    var openAdminFromPanel = e.target.closest("[data-open-admin-ridx]");
+    if (openAdminFromPanel) {
+      e.preventDefault();
+      var oi = parseInt(openAdminFromPanel.getAttribute("data-open-admin-ridx"), 10);
+      if (_allRecords[oi]) openAdminModal(_allRecords[oi]);
+      return;
+    }
+    var fixPodBtn = e.target.closest(".tr-btn-fix-pod");
+    if (fixPodBtn) {
+      e.preventDefault();
+      var lrnFix = fixPodBtn.getAttribute("data-fix-pod-lrnum");
+      if (lrnFix) fixSapPod(lrnFix, fixPodBtn);
+      return;
+    }
+    var retryBtn = e.target.closest(".tr-btn-retry");
+    if (retryBtn) {
+      e.preventDefault();
+      var idxR = parseInt(retryBtn.getAttribute("data-ridx"), 10);
+      if (_allRecords[idxR]) retrySap(_allRecords[idxR].lrnum, retryBtn);
+      return;
+    }
+    var trackBtn = e.target.closest(".tr-btn-track");
+    if (trackBtn) {
+      e.preventDefault();
+      e.stopPropagation();
+      var idxD = parseInt(trackBtn.getAttribute("data-ridx"), 10);
+      if (!isNaN(idxD)) toggleAdminDropdown(idxD);
+      return;
+    }
+    var adminBtn = e.target.closest(".tr-btn-admin");
+    if (!adminBtn) return;
+    e.preventDefault();
+    var idx = parseInt(adminBtn.getAttribute("data-ridx"), 10);
+    if (_allRecords[idx]) openAdminModal(_allRecords[idx]);
+  });
+
+  function renderPager(page, pages, total, ps) {
+    pagerInfo.textContent = "Showing " + Math.min((page - 1) * ps + 1, total) + " – " +
+      Math.min(page * ps, total) + " of " + total;
+    pager.innerHTML = "";
+    if (pages <= 1) return;
+    function btn(label, p, isCurrent) {
+      var b = document.createElement("button");
+      b.type = "button";
+      b.className = "tr-pager-btn" + (isCurrent ? " is-current" : "");
+      b.textContent = label;
+      b.disabled = isCurrent;
+      b.addEventListener("click", function () { loadPage(p); });
+      return b;
+    }
+    pager.appendChild(btn("‹", page - 1, false));
+    if (pager.lastChild) pager.lastChild.disabled = page <= 1;
+    var start = Math.max(1, page - 2);
+    var end   = Math.min(pages, page + 2);
+    if (start > 1) { pager.appendChild(btn(1, 1, false)); if (start > 2) { var e = document.createElement("span"); e.textContent = "…"; e.className = "text-muted small align-self-center"; pager.appendChild(e); } }
+    for (var p = start; p <= end; p++) pager.appendChild(btn(p, p, p === page));
+    if (end < pages) { if (end < pages - 1) { var e2 = document.createElement("span"); e2.textContent = "…"; e2.className = "text-muted small align-self-center"; pager.appendChild(e2); } pager.appendChild(btn(pages, pages, false)); }
+    var next = btn("›", page + 1, false);
+    if (page >= pages) next.disabled = true;
+    pager.appendChild(next);
+  }
+
+  function updateStats(records) {
+    var manifested = 0, transit = 0, delivered = 0;
+    records.forEach(function (r) {
+      var s = (r.delhivery_status || "").toLowerCase();
+      if (s.includes("manifest")) manifested++;
+      else if (s.includes("transit") || s.includes("pick")) transit++;
+      else if (s.includes("deliver")) delivered++;
+    });
+    statManifested.textContent = manifested;
+    statTransit.textContent = transit;
+    statDelivered.textContent = delivered;
+  }
+
+  function clearTrackerListMemCache() {
+    TR_LIST_MEM_CACHE = {};
+    _adminBundleCache = {};
+  }
+
+  function getTrackerListMemCache(url) {
+    var ent = TR_LIST_MEM_CACHE[url];
+    if (!ent || !ent.payload) return null;
+    if (Date.now() - ent.at > TR_LIST_MEM_TTL_MS) {
+      delete TR_LIST_MEM_CACHE[url];
+      return null;
+    }
+    return ent.payload;
+  }
+
+  function setTrackerListMemCache(url, payload) {
+    var keys = Object.keys(TR_LIST_MEM_CACHE);
+    if (keys.length >= TR_LIST_MEM_MAX_KEYS) {
+      keys.sort(function (a, b) {
+        return (TR_LIST_MEM_CACHE[a].at || 0) - (TR_LIST_MEM_CACHE[b].at || 0);
+      });
+      for (var i = 0; i < keys.length - TR_LIST_MEM_MAX_KEYS + 8; i++) {
+        delete TR_LIST_MEM_CACHE[keys[i]];
+      }
+    }
+    TR_LIST_MEM_CACHE[url] = { at: Date.now(), payload: payload };
+  }
+
+  function applyTrackerListPayload(payload) {
+    var records = payload.records || [];
+    state.total = payload.total || 0;
+    state.pages = payload.pages || 1;
+    var offset = (state.page - 1) * PAGE_SIZE;
+    countLbl.textContent = "(" + state.total + ")";
+    renderRows(records, offset);
+    renderPager(state.page, state.pages, state.total, PAGE_SIZE);
+    statTotal.textContent = state.total;
+    updateStats(records);
+    summary.classList.remove("d-none");
+    refreshPendingRetryCount();
+  }
+
+  async function loadPage(page) {
+    state.page = page || 1;
+    hideAlert();
+
+    var params = Object.assign({}, state.filters, { page: state.page, page_size: PAGE_SIZE });
+    var qs = new URLSearchParams();
+    Object.keys(params).forEach(function (k) {
+      var v = params[k];
+      if (v !== undefined && v !== null && String(v).trim() !== "") qs.set(k, String(v).trim());
+    });
+    var url = "/api/method/" + API + "?" + qs.toString();
+
+    var memHit = getTrackerListMemCache(url);
+    if (memHit) {
+      applyTrackerListPayload(memHit);
+      spinner.classList.add("d-none");
+      btnSearch.disabled = false;
+      return;
+    }
+
+    showTableSkeleton();
+    spinner.classList.add("d-none");
+    btnSearch.disabled = true;
+
+    try {
+      var r = await fetch(url, { method: "GET", credentials: "same-origin", headers: { Accept: "application/json" } });
+      var data = await r.json().catch(function () { return {}; });
+      if (!r.ok || data.exc_type) {
+        var msg = "Failed to load data.";
+        if (data._server_messages) { try { var arr = JSON.parse(data._server_messages); if (arr && arr[0]) { var div = document.createElement("div"); div.innerHTML = arr[0]; msg = div.textContent || msg; } } catch(e){} }
+        else if (typeof data.message === "string") msg = data.message;
+        showAlert(msg);
+        clearTableBusy();
+        if (tbody) {
+          tbody.innerHTML = '<tr><td colspan="12" class="tr-empty">Could not load records.</td></tr>';
+        }
+        return;
+      }
+      var payload = (data.message !== undefined) ? data.message : data;
+      setTrackerListMemCache(url, payload);
+      applyTrackerListPayload(payload);
+      refreshReportAlertsBanner();
+    } catch (err) {
+      showAlert(err.message || String(err));
+      clearTableBusy();
+      if (tbody) {
+        tbody.innerHTML = '<tr><td colspan="12" class="tr-empty">Could not load records. Try again.</td></tr>';
+      }
+    } finally {
+      spinner.classList.add("d-none");
+      btnSearch.disabled = false;
+    }
+  }
+
+  function applyFilters() {
+    clearTrackerListMemCache();
+    state.filters = {
+      lrnum:     fLrnum.value.trim(),
+      doc_entry: fDocEntry.value.trim(),
+      doc_num:   fDocNum.value.trim(),
+      status:    fStatus.value,
+    };
+    loadPage(1);
+  }
+
+  btnSearch.addEventListener("click", applyFilters);
+  btnClear.addEventListener("click", function () {
+    clearTrackerListMemCache();
+    fLrnum.value = ""; fDocEntry.value = ""; fDocNum.value = ""; fStatus.value = "";
+    applyFilters();
+  });
+  [fLrnum, fDocEntry, fDocNum].forEach(function (el) {
+    el.addEventListener("keydown", function (e) { if (e.key === "Enter") applyFilters(); });
+  });
+  fStatus.addEventListener("change", applyFilters);
+
+  if (btnRetryAll) {
+    btnRetryAll.addEventListener("click", retryAllFailedSap);
+  }
+
+  (function initFromQuery() {
+    try {
+      var up = new URLSearchParams(window.location.search);
+      var qlr = up.get("lrnum");
+      if (qlr && fLrnum) fLrnum.value = qlr;
+    } catch (e) {}
+  })();
+
+  refreshReportAlertsBanner();
+  loadPage(1);
+  refreshPendingRetryCount();
+})();
+</script>
+{% endblock %}

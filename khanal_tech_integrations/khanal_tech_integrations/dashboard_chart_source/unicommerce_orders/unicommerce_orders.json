@@ -1,0 +1,13 @@
+{
+ "creation": "2022-11-09 15:33:16.708675",
+ "docstatus": 0,
+ "doctype": "Dashboard Chart Source",
+ "idx": 0,
+ "modified": "2022-11-09 15:33:16.708675",
+ "modified_by": "Administrator",
+ "module": "Khanal Tech Integrations",
+ "name": "Unicommerce Orders",
+ "owner": "Administrator",
+ "source_name": "Unicommerce Orders",
+ "timeseries": 1
+}

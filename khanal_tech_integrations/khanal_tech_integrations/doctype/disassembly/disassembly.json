@@ -1,0 +1,136 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2025-11-03 12:00:00.000000",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+  "field_order": [
+  "production_order_docnum",
+  "production_order_docentry",
+  "transaction_type",
+  "doc_date",
+  "sap_goods_receipt_docnum",
+  "sap_goods_receipt_docentry",
+  "sap_goods_issue_docnum",
+  "sap_goods_issue_docentry",
+  "status",
+  "column_break_1",
+  "journal_memo",
+  "response_json",
+  "goods_issue_response",
+  "goods_receipt_response"
+ ],
+ "fields": [
+  {
+   "fieldname": "production_order_docnum",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Production Order DocNum",
+   "reqd": 1,
+   "unique": 1
+  },
+  {
+   "fieldname": "production_order_docentry",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Production Order DocEntry"
+  },
+  {
+   "fieldname": "transaction_type",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Transaction Type",
+   "options": "Goods Issue\nGoods Receipt\nBoth",
+   "reqd": 1
+  },
+  {
+   "fieldname": "doc_date",
+   "fieldtype": "Date",
+   "in_list_view": 1,
+   "label": "Document Date",
+   "reqd": 1
+  },
+  {
+   "fieldname": "sap_goods_receipt_docnum",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "SAP Goods Receipt DocNum"
+  },
+  {
+   "fieldname": "sap_goods_receipt_docentry",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "SAP Goods Receipt DocEntry"
+  },
+  {
+   "fieldname": "sap_goods_issue_docnum",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "SAP Goods Issue DocNum"
+  },
+  {
+   "fieldname": "sap_goods_issue_docentry",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "SAP Goods Issue DocEntry"
+  },
+  {
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Status",
+   "options": "Success\nError",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_1",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "journal_memo",
+   "fieldtype": "Small Text",
+   "label": "Journal Memo"
+  },
+  {
+   "fieldname": "response_json",
+   "fieldtype": "Long Text",
+   "label": "SAP B1 Response (JSON)"
+  },
+  {
+   "fieldname": "goods_issue_response",
+   "fieldtype": "Long Text",
+   "label": "Goods Issue Response (JSON)"
+  },
+  {
+   "fieldname": "goods_receipt_response",
+   "fieldtype": "Long Text",
+   "label": "Goods Receipt Response (JSON)"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2025-11-03 12:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Khanal Tech Integrations",
+ "name": "Disassembly",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}
+

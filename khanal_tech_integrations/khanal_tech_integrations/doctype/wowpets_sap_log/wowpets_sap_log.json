@@ -1,0 +1,103 @@
+{
+ "actions": [],
+ "creation": "2026-03-08 12:00:00.000000",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "reference_doctype",
+  "reference_name",
+  "operation",
+  "status",
+  "column_break_ref",
+  "error_message",
+  "section_payloads",
+  "request_payload",
+  "response_payload"
+ ],
+ "fields": [
+  {
+   "fieldname": "reference_doctype",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Reference Doctype",
+   "options": "DocType"
+  },
+  {
+   "fieldname": "reference_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Reference Name",
+   "search_index": 1
+  },
+  {
+   "fieldname": "operation",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Operation",
+   "options": "PO Create\nStock Transfer - Shiphero\nGRN Create\nStock Transfer - Order\nProduction Order Create\nProduction Order Release\nIssue for Production\nReceipt from Production\nStock Transfer Close\nSales Order\nSales Order (Retry)\nDelivery\nAR Invoice"
+  },
+  {
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Status",
+   "options": "Success\nFailed",
+   "reqd": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "column_break_ref",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "error_message",
+   "fieldtype": "Text",
+   "label": "Error Message"
+  },
+  {
+   "fieldname": "section_payloads",
+   "fieldtype": "Section Break",
+   "label": "Payloads",
+   "collapsible": 1
+  },
+  {
+   "fieldname": "request_payload",
+   "fieldtype": "Small Text",
+   "label": "Request Payload"
+  },
+  {
+   "fieldname": "response_payload",
+   "fieldtype": "Small Text",
+   "label": "Response Payload"
+  }
+ ],
+ "index_web_pages_for_search": 0,
+ "links": [],
+ "modified": "2026-03-08 12:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Khanal Tech Integrations",
+ "name": "WowPets SAP Log",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "creation",
+ "sort_order": "DESC",
+ "states": []
+}

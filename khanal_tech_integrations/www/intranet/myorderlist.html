@@ -1,0 +1,434 @@
+{% extends "khanal_tech_integrations/www/intranet/base.html" %}
+
+{% block content %}
+<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.1/css/jquery.dataTables.min.css">
+
+<style>
+    table.dataTable tbody td {
+        padding: 13px 0px;
+    }
+
+    thead>tr>th.sorting_desc {
+        padding-right: 15px;
+        padding-top: 20px;
+    }
+
+    /* #myorderTable th{
+    width: 256.445px;
+  } */
+
+    .table-bordered>:not(caption)>*>* {
+        border-width: 1px 0px;
+    }
+</style>
+<div class="row mb-3">
+    <div class="col">
+        <div class="card bg-100 shadow-none border">
+            <div class="row gx-0 flex-between-center">
+                <div class="col-sm-auto d-flex align-items-center"><img class="ms-n2"
+                        src="/assets/khanal_tech_integrations/assets/img/illustrations/crm-bar-chart.png" alt=""
+                        width="90" />
+                    <div>
+                        <h6 class="text-primary fs--1 mb-0">Welcome to </h6>
+                        <h4 class="text-primary fw-bold mb-0">KhanalFoods <span class="text-info fw-medium">My
+                                Order</span></h4>
+                    </div><img class="ms-n4 d-md-none d-lg-block"
+                        src="/assets/khanal_tech_integrations/assets/img/illustrations/crm-line-chart.png" alt=""
+                        width="150" />
+                </div>
+                <div class="col-md-auto p-3">
+                    <form class="row align-items-center g-3">
+                        <div class="col-auto">
+                            <h6 class="text-700 mb-0">Showing Data For: </h6>
+                        </div>
+
+
+                        <div class="col-md-auto position-relative">
+                            <div id="LogisticDatereportrangeList"
+                                style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc; width: 100%">
+                                <i class="fa fa-calendar"></i>&nbsp;
+                                <span></span> <i class="fa fa-caret-down"></i>
+                            </div>
+                        </div>
+
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<div class="row mb-3">
+    <div class="col">
+        <div class="card bg-100 shadow-none border">
+            <div class="card-header">
+                <div class="row flex-between-end">
+                    <div class="col-auto align-self-center">
+                        <h5 class="mb-0" data-anchor="data-anchor">My Order</h5>
+
+                    </div>
+
+                </div>
+            </div>
+            <div class="card-body pt-0">
+                <div class="tab-content">
+                    <div class="tab-pane preview-tab-pane active" role="tabpanel"
+                        aria-labelledby="tab-dom-2190de4e-5b61-4e58-923a-d0604c18408f"
+                        id="dom-2190de4e-5b61-4e58-923a-d0604c18408f">
+                        <div id="tableExample3">
+                            <div class="row justify-content-end g-0">
+                                <div class="col-auto col-sm-5 mb-3">
+
+                                </div>
+                            </div>
+                            <div class="table-responsive scrollbar">
+                                <table class="table table-bordered table-striped fs--1 mb-0" id="myorderTable">
+                                    <thead class="bg-200 text-900">
+                                        <tr>
+                                            <!-- <th  data-sort="name">Name</th>
+                      <th  data-sort="email">Email</th>
+                      <th  data-sort="age">Age</th> -->
+                                            <th class="align-middle text-center" data-sort="slno">#</th>
+                                            <th class="align-middle text-center" data-sort="date">Date </th>
+                                            <th class="align-middle text-center" data-sort="number">SO No.</th>
+                                            <th class="align-middle text-center" data-sort="name">Customer</th>
+                                            <th class="align-middle text-center" data-sort="invoicenumber">Invoice No.
+                                            </th>
+                                            <th class="align-middle text-center" data-sort="invoiceamount">Invoice
+                                                Amount</th>
+                                            <th class="align-middle text-center" data-sort="status">Status</th>
+                                            <th class="align-middle text-center" data-sort="status">Ware House</th>
+                                            <th class="align-middle text-center"> Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="list">
+                                        {% for data in logistics_data %}
+                                        <tr>
+
+                                            <td class="slno align-middle text-center"> {{ loop.index }} </td>
+                                            <td style="font-size: 12px; font-weight: bold;"
+                                                class="date align-middle text-center"><i> {{ frappe.format(data[0],
+                                                    {'fieldtype': 'Date'}) }} </i></td>
+                                            <td class="number align-middle text-center">{{ data[1] }}</td>
+                                            <td class="name align-middle text-start">
+                                                <h6 class="text-900">{{ data[3] }}</h6> <b>({{ data[2] }})</b>
+                                            </td>
+                                            <td class="invoicenumber align-middle text-center ">{% if data[9] %}
+                                                {{data[9]}}
+                                                {% else %}
+                                                <small
+                                                    class="badge rounded badge-soft-secondary   dark__bg-1000">Pending</small>
+                                                {% endif %}
+                                            </td>
+                                            <td align="right"
+                                                class="invoiceamount fw-semi-bold align-middle text-center"> {% if
+                                                data[10] %} {{ "{:,.2f}".format(data[10]|float) }} {% else %} 0.00 {%
+                                                endif %} </td>
+                                            <td class="align-middle status text-center fs-0 pe-4">
+                                                {% if data[8] %}
+                                                <small
+                                                    class="badge badge rounded-pill   badge-soft-success false">Shipped</small>
+                                                {% elif data[9] %}
+                                                <small class="badge badge rounded-pill   badge-soft-info false">Invoice
+                                                    Created</small>
+                                                {% elif data[4] %}
+                                                <small
+                                                    class="badge badge rounded-pill   badge-soft-warning false">Delivery
+                                                    Note Created</small>
+                                                {% else %}
+                                                <small class="badge badge rounded-pill   badge-soft-primary false"> SO
+                                                    Created</small>
+                                                {% endif %}
+                                            </td>
+                                            <td class="name align-middle text-center">
+                                                <h6> {{ data[11] }}</h6>
+                                            </td>
+                                            <td class="text-end">
+                                                {% if data[8] %}
+                                                <div class="dropdown font-sans-serif position-static">
+                                                    <button
+                                                        class="btn btn-link text-600 btn-sm dropdown-toggle btn-reveal"
+                                                        type="button" data-bs-toggle="dropdown" data-boundary="window"
+                                                        aria-haspopup="true" aria-expanded="false"><span
+                                                            class="fas fa-ellipsis-h fs--1"></span></button>
+                                                    <div class="dropdown-menu dropdown-menu-end border py-0">
+                                                        <div class="py-2">
+                                                            {% if data[7] %}
+                                                            {% if 'safexpress' == data[7].lower() %}
+                                                            <a class="dropdown-item"
+                                                                href="https://www.aftership.com/track/{{data[7].lower()}}/{{data[8]}}"
+                                                                target="_blank">Track</a>
+                                                            {% else %}
+                                                            <a class="dropdown-item"
+                                                                href="https://www.trackingmore.com/track/en/{{data[8]}}?express=bluedart"
+                                                                target="_blank">Track</a>
+                                                            {% endif %}
+                                                            {% else %}
+                                                            <h6>none</h6>
+                                                            {% endif %}
+                                                        </div>
+                                                    </div>
+                                                    {% else %}
+                                                    <small class="badge rounded badge-soft-primary   dark__bg-1000">No
+                                                        Tracking ID</small>
+                                                    {% endif %}
+                                            </td>
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                            <!-- <div class="d-flex justify-content-center mt-3">
+                <button class="btn btn-sm btn-falcon-default me-1" type="button" title="Previous"
+                  data-list-pagination="prev"><span class="fas fa-chevron-left"></span></button>
+                <ul class="pagination mb-0"></ul>
+                <button class="btn btn-sm btn-falcon-default ms-1" type="button" title="Next"
+                  data-list-pagination="next"><span class="fas fa-chevron-right"> </span></button>
+              </div> -->
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+{% endblock content %}
+
+
+
+{% block javascripts %}
+<!-- {{ super() }} -->
+<script src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
+<!-- <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script> -->
+<script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+
+<script>
+    $(function () {
+        // var start = moment().subtract(29, 'days');
+        // var end = moment();
+
+
+
+
+
+
+        value = location.protocol + '//' + location.host + location.pathname
+        if (window.location.href == value) {
+            // var start = moment().subtract(29, 'days');
+            // var end = moment();
+            function cb(start, end) {
+
+                $('#LogisticDatereportrangeList span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
+            }
+        }
+        else {
+            url = new URL(window.location.href)
+            var startdate = url.searchParams.get("startDate");
+            var enddate = url.searchParams.get("endDate");
+            var start = new Date(startdate).toDateString().slice(4, 15);
+
+            var end = new Date(enddate).toDateString().slice(4, 15);
+
+            // $('#LogisticDatereportrangeList span').html(start + ' - ' + end );
+
+
+
+            $('#LogisticDatereportrangeList span').html(start + ' - ' + end);
+
+
+        }
+
+
+        start = moment().subtract(29, 'days');
+        end = moment();
+        $('#LogisticDatereportrangeList').daterangepicker({
+            startDate: start,
+            endDate: end,
+
+            ranges: {
+                'Today': [moment(), moment()],
+                'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+                'Last 7 Days': [moment().subtract(6, 'days'), moment()],
+                'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+                'This Month': [moment().startOf('month'), moment().endOf('month')],
+                'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+            }
+        }, cb);
+        cb(start, end);
+
+    });
+    $('#LogisticDatereportrangeList').on('apply.daterangepicker', function (ev, picker) {
+        var startDate = picker.startDate.format('YYYY-MM-DD');
+        var endDate = picker.endDate.format('YYYY-MM-DD');
+        //   alert(startDate)
+        //   alert(endDate)
+        $.ajax({
+            method: "GET",
+            url: "/",
+            // dataType: 'json',
+            // contentType: 'application/json; charset=utf-8',
+            // // traditional:true,
+            data: {
+                cmd: "khanal_tech_integrations.www.intranet.myorderlist.get_StartandEnd_Dates",
+                startDate: startDate,
+                endDate: endDate,
+                // context:""
+
+            },
+            dataType: "json",
+            success: function (data) {
+                console.log(data.message.logistics_data)
+                var arrayLength = data.message.logistics_data;
+                console.log(lenght(arrayLength))
+                for (var i = 0; i < arrayLength; i++) {
+                    var experiencecontent = '<tr class="add-row">' +
+                        '<td class="align-middle">' +
+                        valuesLenght[i]['DocDate'] +
+                        '</td>' +
+                        '<td class="align-middle">' +
+                        valuesLenght[i]['DocNUm'] +
+                        '</td>' +
+                        '<td class="align-middle">' +
+                        '<b>' +
+                        valuesLenght[i]['CardName'] +
+                        '</b>' +
+                        // '<br>' +
+                        // valuesLenght[i]['CardCode'] +
+                        // '</br>' +
+                        '</td>' +
+                        // '<td class="align-middle">' +
+                        // valuesLenght[i]['NumAtCard'] +
+                        // '</td>' +
+                        '<td class="align-middle">' +
+                        valuesLenght[i]['DocDueDate'] +
+                        '</td>' +
+                        '<td class="align-middle">' +
+                        '<b>' +
+                        valuesLenght[i]['TotalPayment'] +
+                        '</b>' +
+                        '</td>' +
+                        '</tr>';
+                    $(".add-table-items").append(experiencecontent);
+
+
+
+                }
+            }
+
+
+        })
+        return false;
+        //   alert(startDate)
+        //   alert(endDate)
+        //   var url = "/intranet/myorder?startDate=" + startDate + "&endDate=" + endDate;
+        //   window.location.href = url;
+
+    });
+
+
+
+
+    $(document).ready(function () {
+        $('#myorderTable').DataTable({
+            order: [[3, 'desc']],
+        });
+    });
+</script>
+{% endblock javascripts %}
+
+
+
+
+
+<!-- var newData ={{ SingleListDn |safe }}
+.map(function (item) {
+ return {
+   value: item[1],
+   name: item[0] + " " + item[1],
+   // itemStyle: {
+   //   color: utils.getColor('primary')
+   // }
+ };
+});
+
+var echartsDoughnutRoundedChartInit = function echartsDoughnutRoundedChartInit() {
+ var $doughnutRoundedChartEl = document.querySelector('.echart-doughnut-rounded-chart');
+
+ if ($doughnutRoundedChartEl) {
+   // Get options from data attribute
+   var userOptions = utils.getData($doughnutRoundedChartEl, 'options');
+   var chart = window.echarts.init($doughnutRoundedChartEl);
+
+   var getDefaultOptions = function getDefaultOptions() {
+     return {
+       legend: {
+         orient: 'vertical',
+         left: 'left',
+         textStyle: {
+           color: utils.getGrays()['600']
+         }
+       },
+       series: [{
+         type: 'pie',
+         radius: ['40%', '70%'],
+         center: window.innerWidth < 530 ? ['65%', '55%'] : ['50%', '55%'],
+         avoidLabelOverlap: false,
+         itemStyle: {
+           borderRadius: 10,
+           borderColor: utils.getGrays()['100'],
+           borderWidth: 2
+         },
+         label: {
+           show: false,
+           position: 'center'
+         },
+         labelLine: {
+           show: false
+         },
+         data: newData, // set data to newData variable
+       }],
+       tooltip: {
+         trigger: 'item',
+         padding: [7, 10],
+         backgroundColor: utils.getGrays()['100'],
+         borderColor: utils.getGrays()['300'],
+         textStyle: {
+           color: utils.getColors().dark
+         },
+         borderWidth: 1,
+         transitionDuration: 0,
+         axisPointer: {
+           type: 'none'
+         }
+       }
+     };
+   };
+
+   echartSetOption(chart, userOptions, getDefaultOptions);
+   utils.resize(function () {
+     if (window.innerWidth < 530) {
+       chart.setOption({
+         series: [{
+           center: ['65%', '55%']
+         }]
+       });
+     } else {
+       chart.setOption({
+         series: [{
+           center: ['50%', '55%']
+         }]
+       });
+     }
+   });
+ }
+}; -->

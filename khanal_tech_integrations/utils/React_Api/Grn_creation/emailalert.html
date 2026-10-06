@@ -1,0 +1,187 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous"> -->
+    <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"> -->
+    <title>Khanal Foods</title>
+
+    <style>
+        /* body {
+			font-family: Arial, sans-serif;
+			background-color: #F4F4F4;
+		} */
+        #tablestyle {
+            width: 750px;
+            margin: auto;
+            background-color: white;
+            padding: 10px;
+            border-radius: 12px;
+            border-collapse: collapse;
+        }
+
+        #tablestyle td {
+            /* padding: 5px 14px; */
+            border: 1px solid black;
+            /* text-align: center; */
+            font-size: 14px;
+            color: #666666;
+        }
+
+
+        #tablestyle th {
+            padding: 10px;
+            background-color: #629b9d;
+            color: white;
+            font-size: 14px;
+            font-weight: bold;
+            border: 1px solid black;
+            text-align: center;
+        }
+
+        #tablestyle h1 {
+            font-size: 24px;
+            color: #629b9d;
+            text-align: center;
+            margin-top: 20px;
+            margin-bottom: 0px;
+        }
+
+        /* #tablestyle p {
+			font-size: 16px;
+			color: #666666;
+			margin-top: 5px;
+			margin-bottom: 5px;
+		} */
+        #tablestyle a {
+            color: #629b9d;
+            text-decoration: none;
+        }
+
+        .Button {
+            background-color: #8aafb0;
+            padding: 3px 5px;
+            font-size: 10px;
+            text-align: center;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            display: block;
+            margin: 5px;
+        }
+    </style>
+
+</head>
+
+<body>
+    <div style="margin:0 auto;background:#f2f5f7">
+
+        <table style="margin:auto;background:#f2f5f7 url() top center no-repeat;padding:35px 0 20px;width:750px"
+            cellpadding="0" cellspacing="0" border="0">
+
+            <tbody>
+                <tr>
+                    <td align="center" valign="middle" style="margin:0;padding:0">
+                        <table width="750" border="0" cellpadding="0" cellspacing="0" style="width:750px;margin:auto">
+                            <tbody>
+                                <tr>
+                                    <td align="center" valign="middle" style="padding:0 0 24px;margin:0"><a href=""
+                                            target="_blank" data-saferedirecturl="#">
+                                            <img src="https://khanaltech.com/files/khanalfoods_logo.jpg" width="60"
+                                                height="60" alt="" class="CToWUd" data-bit="iit">
+                                        </a></td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+
+                    </td>
+                </tr>
+
+            </tbody>
+        </table>
+        <table id="tablestyle">
+            <tr>
+                <td colspan="8" valign="top" style="padding:40px 54px 0;margin:0;border: none;">
+                    <p style="font-size:17px;color:#666666;font-family:sans-serif;margin-top:5px;">Hi Team,
+                    </p>
+                    <!-- <p>We would like to inform you that the order details for the period of  <b> </b>  to
+                        <b></b>, have been provided below. You can track them for further updates.</p> -->
+                    <p>We are pleased to inform you that the Goods Receipt Note (GRN) has been successfully generated
+                        and uploaded to Draft with i with the following details:</p>
+
+                    <ul>
+                        <li><strong>Draft Invoice Number:</strong> {{DraftInvoice}}</li>
+                        <li><strong>Vendor Invoice Number:</strong> {{InvoiceNumber}}</li>
+                        <!-- <li><strong>Purchase Order (PO) Number:</strong> [Insert PO Number]</li> -->
+                        <li><strong>Invoice Date:</strong> {{InvoiceDate}}</li>
+                        <li><strong>Received Date:</strong> {{ReceivedDate}}</li>
+                    </ul>
+
+                    <p>Thank you for your attention to these important details.</p>
+
+
+                </td>
+
+            </tr>
+            <tr>
+                <th style="background-color: white;border: none;"></th>
+                <th>Item Code</th>
+                <th>Item Name</th>
+                <th>PO Qty</th>
+                <th>Received Qty</th>
+                <th>Batch Number</th>
+                {% if resulted_List | selectattr('MoistureValue', 'defined') | list %}
+                    <th>Moisture Value</th>
+                {% endif %}
+                <th style="background-color: white;border: none;"></th>
+            </tr>
+            {% for item in resulted_List %}
+            <tr style="margin-bottom: 10px; padding-bottom:20px;">
+                <td style="background-color: white;border: none;"></td>
+                <td style="text-align: center; font-size: 9px;"><b>{{ item.skuName }}</b></td>
+                <td style="text-align: center; font-size: 9px;"> <b>{{ item.skuDesc }}</b></td>
+                <td style="text-align: center; font-size: 9px;"> <b>{{ item.Quantity }}</b> </td>
+                <td style="text-align: center; font-size: 9px;"> <b>{{ item.InputValue }}</b> </td>
+                <td style="text-align: center; font-size: 9px;"> <b>{{ item.BatchNumber }}</b> </td>
+                {% if item.MoistureValue is defined and item.MoistureValue != '' %}
+                    <td style="text-align: center; font-size: 9px;"> <b>{{ item.MoistureValue }}</b> </td>
+                {% endif %}
+                <td style="background-color: white;border: none;"></td>
+            </tr>
+            {% endfor %}
+            
+            <tr>
+                <td colspan="8" valign="top" style="padding:40px 54px 0;margin:0;border: none;">
+
+
+                </td>
+
+            </tr>
+        </table>
+        <table border="0" cellpadding="0" cellspacing="0" width="750" style="width:750px;margin:auto">
+            <tbody>
+                <tr>
+                    <td align="center" valign="top"
+                        style="padding:0;margin:0;color:#666;font-size:13px;font-family:sans-serif">
+                        <p style="font-size: 12px; color: #777;font-style: italic;">Note: This is a system generated
+                            email.
+                            Please do
+                            not reply to this email.</p><br>
+                        Copyright © 2023 khanalFoods Pvt. Ltd. | All rights reserved.
+                    </td>
+                </tr>
+
+            </tbody>
+        </table>
+
+    </div>
+
+</body>
+
+</html>

@@ -1,0 +1,70 @@
+{
+ "actions": [],
+ "creation": "2026-04-29 00:00:00.000000",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "consumable_item_groups",
+  "hana_schema",
+  "default_delivery_customer",
+  "sap_posting_queue",
+  "enable_realtime_notifications"
+ ],
+ "fields": [
+  {
+   "fieldname": "consumable_item_groups",
+   "fieldtype": "Table",
+   "label": "Consumable Item Groups",
+   "options": "Consumables Item Group"
+  },
+  {
+   "default": "KFL_LIVE",
+   "fieldname": "hana_schema",
+   "fieldtype": "Data",
+   "label": "HANA Schema"
+  },
+  {
+   "fieldname": "default_delivery_customer",
+   "fieldtype": "Data",
+   "label": "Default Delivery Customer"
+  },
+  {
+   "default": "long",
+   "fieldname": "sap_posting_queue",
+   "fieldtype": "Select",
+   "label": "SAP Posting Queue",
+   "options": "long\nshort"
+  },
+  {
+   "default": "1",
+   "fieldname": "enable_realtime_notifications",
+   "fieldtype": "Check",
+   "label": "Enable Realtime Notifications"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "issingle": 1,
+ "links": [],
+ "modified": "2026-04-29 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Consumables",
+ "name": "Consumables Settings",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "print": 1,
+   "read": 1,
+   "role": "Consumables Super Admin",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1
+}

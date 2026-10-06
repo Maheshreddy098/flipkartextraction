@@ -1,0 +1,393 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2022-08-26 14:54:37.401025",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "section_break_uc_credentials",
+  "username",
+  "password",
+  "tenant_url",
+  "column_break_4",
+  "facility",
+  "access_token",
+  "refresh_token",
+  "expires_on",
+  "section_break_sap_integration_maps",
+  "channel_customer_map",
+  "bill_to_code_map",
+  "ship_to_code_map",
+  "column_break_sap_maps",
+  "tax_code_map",
+  "tax_inclusive_map",
+  "warehouse_map",
+  "channel_warehouse_map",
+  "gl_account_map",
+  "sku_alias_map",
+  "last_fetched_at_json",
+  "section_break_geo_defaults",
+  "origin_state_code",
+  "default_warehouse_code",
+  "column_break_geo",
+  "channel_origin_state_map",
+  "channel_series_map",
+  "gst_recon_sap_series",
+  "section_break_series_controls",
+  "ar_invoice_series_map",
+  "ar_invoice_series",
+  "credit_note_series",
+  "column_break_controls",
+  "max_retry_attempts",
+  "posting_timeout_mins",
+  "section_break_hyzj",
+  "column_break_yvuy",
+  "export_job_endpoint",
+  "export_job_status_endpoint",
+  "export_job_type",
+  "frequency",
+  "content_type",
+  "column_break_jzqq",
+  "export_columns",
+  "export_filters",
+  "ops_alerts_section",
+  "ops_enable_alerts",
+  "alert_debounce_minutes",
+  "recon_gap_alert_threshold",
+  "ops_alerts_col_break",
+  "alert_recipients",
+  "section_break_posting_behaviour",
+  "ec_fg_fefo_fallback"
+ ],
+ "fields": [
+  {
+   "fieldname": "section_break_uc_credentials",
+   "fieldtype": "Section Break",
+   "label": "Unicommerce Credentials"
+  },
+  {
+   "fieldname": "username",
+   "fieldtype": "Data",
+   "label": "UserName"
+  },
+  {
+   "fieldname": "password",
+   "fieldtype": "Password",
+   "label": "Password"
+  },
+  {
+   "fieldname": "tenant_url",
+   "fieldtype": "Data",
+   "label": "Tenant URL"
+  },
+  {
+   "fieldname": "column_break_4",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "facility",
+   "fieldtype": "Data",
+   "label": "Facility"
+  },
+  {
+   "fieldname": "access_token",
+   "fieldtype": "Data",
+   "label": "Access Token"
+  },
+  {
+   "fieldname": "refresh_token",
+   "fieldtype": "Data",
+   "label": "Refresh Token"
+  },
+  {
+   "fieldname": "expires_on",
+   "fieldtype": "Data",
+   "label": "Expires On"
+  },
+  {
+   "fieldname": "section_break_sap_integration_maps",
+   "fieldtype": "Section Break",
+   "label": "SAP Integration Maps"
+  },
+  {
+   "description": "JSON map: channel -> SAP AR customer code. E.g. {\"AMAZON\": \"C001\"}",
+   "fieldname": "channel_customer_map",
+   "fieldtype": "Code",
+   "label": "Channel Customer Map",
+   "options": "JSON"
+  },
+  {
+   "description": "JSON map: channel -> SAP bill-to address code. E.g. {\"AMAZON\": \"BT001\"}",
+   "fieldname": "bill_to_code_map",
+   "fieldtype": "Code",
+   "label": "Bill-To Code Map",
+   "options": "JSON"
+  },
+  {
+   "description": "JSON map: channel -> SAP ship-to address code. E.g. {\"AMAZON\": \"ST001\"}",
+   "fieldname": "ship_to_code_map",
+   "fieldtype": "Code",
+   "label": "Ship-To Code Map",
+   "options": "JSON"
+  },
+  {
+   "fieldname": "column_break_sap_maps",
+   "fieldtype": "Column Break"
+  },
+  {
+   "description": "JSON map: tax key (e.g. \"18_intra\") -> SAP tax code string",
+   "fieldname": "tax_code_map",
+   "fieldtype": "Code",
+   "label": "Tax Code Map",
+   "options": "JSON"
+  },
+  {
+   "description": "JSON map: channel -> true/false (whether UC prices are tax-inclusive)",
+   "fieldname": "tax_inclusive_map",
+   "fieldtype": "Code",
+   "label": "Tax Inclusive Map",
+   "options": "JSON"
+  },
+  {
+   "description": "JSON map: UC warehouse code -> SAP warehouse code",
+   "fieldname": "warehouse_map",
+   "fieldtype": "Code",
+   "label": "Warehouse Map",
+   "options": "JSON"
+  },
+  {
+   "description": "JSON map: channel -> SAP warehouse code (per-channel override over warehouse_map)",
+   "fieldname": "channel_warehouse_map",
+   "fieldtype": "Code",
+   "label": "Channel Warehouse Map",
+   "options": "JSON"
+  },
+  {
+   "description": "JSON map: channel -> destination state (2-letter, e.g. KA) -> intra|inter -> {product, shipping} G/L account codes. intra = same state (CGST+SGST), inter = IGST. Use top-level \"default\" for channel or state fallback. Example: {\"FLIPKART\":{\"KA\":{\"intra\":{\"product\":\"41101\",\"shipping\":\"41102\"},\"inter\":{\"product\":\"41103\",\"shipping\":\"41102\"}},\"default\":{\"intra\":{\"product\":\"41100\",\"shipping\":\"41102\"},\"inter\":{\"product\":\"41100\",\"shipping\":\"41102\"}}}}",
+   "fieldname": "gl_account_map",
+   "fieldtype": "Code",
+   "label": "G/L Account Map (channel, state, intra/inter)",
+   "options": "JSON"
+  },
+  {
+   "description": "JSON map: UC itemSku -> {item_code, qty_multiplier}, for UC catalog SKUs that are broken duplicates of a real bundle (registered as SIMPLE in UC instead of BUNDLE, so bundleSkuCode never appears on their order lines). Rewrites the line to N x the real component before invoicing/batch-checks. E.g. {\"FGHN0056\": {\"item_code\": \"FGHN0054\", \"qty_multiplier\": 3}}",
+   "fieldname": "sku_alias_map",
+   "fieldtype": "Code",
+   "label": "SKU Alias Map (broken bundle duplicates)",
+   "options": "JSON"
+  },
+  {
+   "description": "JSON map: channel -> last fetched timestamp (ISO format). Managed automatically by the fetch worker.",
+   "fieldname": "last_fetched_at_json",
+   "fieldtype": "Code",
+   "label": "Last Fetched At JSON",
+   "options": "JSON"
+  },
+  {
+   "fieldname": "section_break_geo_defaults",
+   "fieldtype": "Section Break",
+   "label": "Geo & Warehouse Defaults"
+  },
+  {
+   "description": "Default GST origin state code for tax classification (e.g. KA for Karnataka). Used when channel has no override.",
+   "fieldname": "origin_state_code",
+   "fieldtype": "Data",
+   "label": "Default Origin State Code"
+  },
+  {
+   "description": "Fallback SAP warehouse code when no channel or UC warehouse mapping is found.",
+   "fieldname": "default_warehouse_code",
+   "fieldtype": "Data",
+   "label": "Default Warehouse Code"
+  },
+  {
+   "fieldname": "column_break_geo",
+   "fieldtype": "Column Break"
+  },
+  {
+   "description": "JSON map: channel -> origin state code (2-letter). Overrides built-in defaults and Default Origin State Code. Built-in: AMAZON_FBA_IN_MAA4/CJB1 -> TN; DEL4/DEL5 -> HR; BOM5/BOM7 -> MH; all other channels use Default Origin State Code (e.g. KA). Example: {\"FLIPKART\": \"KA\", \"AMAZON_FBA_IN_BOM5\": \"MH\"}",
+   "fieldname": "channel_origin_state_map",
+   "fieldtype": "Code",
+   "label": "Channel Origin State Map",
+   "options": "JSON"
+  },
+  {
+   "description": "JSON map: UC channel code -> SAP SeriesN bucket used for GST reconciliation. Keys are the **channel** codes that appear in UC sale orders (e.g. FLIPKART, MEESHO, CRED, AMAZON_IN_API, AMAZON_FBA_IN_BLR7, AMAZON_FBA_IN_BOM5, HN_SITE_IN, DOGSEE_SITE_IN, SNAPDEAL, ...). Values are the SAP SeriesN that every invoice for that channel should roll up to (KAB2C26 / MHB2C26 / HRB2C26 / TNB2C26). Used only by the GST Reconciliation flow on the Ops Center.",
+   "fieldname": "channel_series_map",
+   "fieldtype": "Code",
+   "label": "Channel to SAP Series Map (GST Recon)",
+   "options": "JSON"
+  },
+  {
+   "default": "KAB2C26,TNB2C26,MHB2C26,HRB2C26",
+   "description": "Comma-separated SAP SeriesN values to include in the GST Reconciliation SAP pivot (defaults to the FY26 B2C series).",
+   "fieldname": "gst_recon_sap_series",
+   "fieldtype": "Data",
+   "label": "GST Reconciliation SAP Series"
+  },
+  {
+   "fieldname": "section_break_series_controls",
+   "fieldtype": "Section Break",
+   "label": "SAP Series & Controls"
+  },
+  {
+   "description": "JSON map: channel -> SAP AR Invoice series number. Takes priority over ar_invoice_series.",
+   "fieldname": "ar_invoice_series_map",
+   "fieldtype": "Code",
+   "label": "AR Invoice Series Map",
+   "options": "JSON"
+  },
+  {
+   "description": "Default SAP series number for AR Invoices (used when no channel-specific series is mapped).",
+   "fieldname": "ar_invoice_series",
+   "fieldtype": "Int",
+   "label": "AR Invoice Series"
+  },
+  {
+   "description": "SAP series number for Credit Notes.",
+   "fieldname": "credit_note_series",
+   "fieldtype": "Int",
+   "label": "Credit Note Series"
+  },
+  {
+   "fieldname": "column_break_controls",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "3",
+   "description": "Number of times to retry a failed invoice or credit note post before marking it dead.",
+   "fieldname": "max_retry_attempts",
+   "fieldtype": "Int",
+   "label": "Max Retry Attempts",
+   "reqd": 1
+  },
+  {
+   "default": "5",
+   "description": "Minutes to wait before treating a 'posting' order as timed out and moving it to verify queue.",
+   "fieldname": "posting_timeout_mins",
+   "fieldtype": "Int",
+   "label": "Posting Timeout (Mins)",
+   "reqd": 1
+  },
+  {
+   "fieldname": "section_break_hyzj",
+   "fieldtype": "Section Break",
+   "label": "Export Job Settings"
+  },
+  {
+   "fieldname": "column_break_yvuy",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "export_job_endpoint",
+   "fieldtype": "Data",
+   "label": "Export Job Endpoint"
+  },
+  {
+   "fieldname": "export_job_status_endpoint",
+   "fieldtype": "Data",
+   "label": "Export Job Status Endpoint"
+  },
+  {
+   "fieldname": "export_job_type",
+   "fieldtype": "Data",
+   "label": "Export Job Type"
+  },
+  {
+   "fieldname": "frequency",
+   "fieldtype": "Data",
+   "label": "Frequency"
+  },
+  {
+   "default": "application/json",
+   "fieldname": "content_type",
+   "fieldtype": "Data",
+   "label": "Content Type"
+  },
+  {
+   "fieldname": "column_break_jzqq",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "export_columns",
+   "fieldtype": "Long Text",
+   "label": "Export Columns"
+  },
+  {
+   "fieldname": "export_filters",
+   "fieldtype": "Small Text",
+   "label": "Export Filters"
+  },
+  {
+   "fieldname": "ops_alerts_section",
+   "fieldtype": "Section Break",
+   "label": "Ops Alerts"
+  },
+  {
+   "default": "1",
+   "fieldname": "ops_enable_alerts",
+   "fieldtype": "Check",
+   "label": "Enable Failure Alerts"
+  },
+  {
+   "default": "15",
+   "description": "Suppress duplicate alerts for the same record within this many minutes.",
+   "fieldname": "alert_debounce_minutes",
+   "fieldtype": "Int",
+   "label": "Alert Debounce (minutes)"
+  },
+  {
+   "default": "5",
+   "description": "Only send a reconciliation alert once the gap count exceeds this threshold.",
+   "fieldname": "recon_gap_alert_threshold",
+   "fieldtype": "Int",
+   "label": "Reconciliation Gap Threshold"
+  },
+  {
+   "fieldname": "ops_alerts_col_break",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "alert_recipients",
+   "fieldtype": "Table",
+   "label": "Alert Recipients",
+   "options": "Unicommerce Alert Recipient"
+  },
+  {
+   "fieldname": "section_break_posting_behaviour",
+   "fieldtype": "Section Break",
+   "label": "Posting Behaviour"
+  },
+  {
+   "fieldname": "ec_fg_fefo_fallback",
+   "fieldtype": "Check",
+   "label": "EC-FG FEFO Fallback on Batch Shortage",
+   "description": "When enabled, orders whose UC-specified batch has insufficient stock in EC-FG will automatically use FEFO-allocated batches instead of going to batch_hold. Disable to require exact batch availability."
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "issingle": 1,
+ "links": [],
+ "modified": "2026-04-13 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Khanal Tech Integrations",
+ "name": "Unicommerce Settings",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "print": 1,
+   "read": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "row_format": "Dynamic",
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

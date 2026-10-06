@@ -1,0 +1,103 @@
+{
+ "actions": [],
+ "creation": "2026-04-29 00:00:00.000000",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "item_code",
+  "item_name",
+  "requested_quantity",
+  "unit_price",
+  "reference_cost",
+  "tax_code",
+  "account_code",
+  "uom",
+  "fefo_batches",
+  "total_allocated_quantity",
+  "fefo_status"
+ ],
+ "fields": [
+  {
+   "fieldname": "item_code",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Item Code",
+   "reqd": 1
+  },
+  {
+   "fieldname": "item_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Item Name"
+  },
+  {
+   "fieldname": "requested_quantity",
+   "fieldtype": "Float",
+   "in_list_view": 1,
+   "label": "Requested Quantity",
+   "reqd": 1
+  },
+  {
+   "fieldname": "unit_price",
+   "fieldtype": "Float",
+   "label": "Unit Price"
+  },
+  {
+   "description": "The cost basis unit_price was actually computed from at FEFO time. Used to verify Total Document Value = Total COGS before posting to SAP — never re-fetched live, so this check only fires on a genuine pricing bug, not on cost drift or an old batch's real (lower/higher) historical price.",
+   "fieldname": "reference_cost",
+   "fieldtype": "Float",
+   "label": "Reference Cost (COGS basis)",
+   "read_only": 1
+  },
+  {
+   "fieldname": "tax_code",
+   "fieldtype": "Data",
+   "label": "Tax Code"
+  },
+  {
+   "fieldname": "account_code",
+   "fieldtype": "Data",
+   "label": "Account Code"
+  },
+  {
+   "fieldname": "uom",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "UOM"
+  },
+  {
+   "fieldname": "fefo_batches",
+   "fieldtype": "Text",
+   "label": "FEFO Batches (JSON)",
+   "read_only": 1
+  },
+  {
+   "fieldname": "total_allocated_quantity",
+   "fieldtype": "Float",
+   "label": "Total Allocated Quantity",
+   "read_only": 1
+  },
+  {
+   "default": "Pending",
+   "fieldname": "fefo_status",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "FEFO Status",
+   "options": "Pending\nAllocated\nInsufficient Stock",
+   "read_only": 1
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "istable": 1,
+ "links": [],
+ "modified": "2026-04-29 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Consumables",
+ "name": "Consumables Delivery Note Item",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

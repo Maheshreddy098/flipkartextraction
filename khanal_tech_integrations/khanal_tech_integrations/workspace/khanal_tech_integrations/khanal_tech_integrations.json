@@ -1,0 +1,128 @@
+{
+ "app": "khanal_tech_integrations",
+ "charts": [
+  {
+   "chart_name": "Daily Unicommerce Orders",
+   "label": "Daily Unicommerce Orders"
+  },
+  {
+   "chart_name": "Daily Dispatch Status",
+   "label": "Daily Dispatch Status"
+  }
+ ],
+ "content": "[{\"id\":\"_rjHKDlRwc\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\">Khanal Tech Integrations</span>\",\"col\":12}},{\"id\":\"p-YZ85SVCr\",\"type\":\"card\",\"data\":{\"card_name\":\"SAP Quick Links\",\"col\":4}},{\"id\":\"qZUfxD9y3v\",\"type\":\"card\",\"data\":{\"card_name\":\"Unicommerce Quick Links\",\"col\":4}},{\"id\":\"A5hGFt9f3Q\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Prozo Utility\",\"col\":3}},{\"id\":\"1U0oVav538\",\"type\":\"chart\",\"data\":{\"chart_name\":\"Daily Unicommerce Orders\",\"col\":12}},{\"id\":\"UJ6r0s-nYl\",\"type\":\"chart\",\"data\":{\"chart_name\":\"Daily Dispatch Status\",\"col\":12}}]",
+ "creation": "2022-09-19 23:56:28.948688",
+ "custom_blocks": [],
+ "docstatus": 0,
+ "doctype": "Workspace",
+ "for_user": "",
+ "hide_custom": 0,
+ "icon": "income",
+ "idx": 0,
+ "is_hidden": 0,
+ "label": "Khanal Tech Integrations",
+ "links": [
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "SAP Quick Links",
+   "link_count": 3,
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "SAP Inventory Transfers",
+   "link_count": 0,
+   "link_to": "SAP Inventory Transfers",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "SAP Settings",
+   "link_count": 0,
+   "link_to": "SAP Settings",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Inventory in Whse",
+   "link_count": 0,
+   "link_to": "Inventory in Whse",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Unicommerce Quick Links",
+   "link_count": 3,
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Unicommerce Orders",
+   "link_count": 0,
+   "link_to": "Unicommerce Orders",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Unicommerce Settings",
+   "link_count": 0,
+   "link_to": "Unicommerce Settings",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Unicommerce SAP update log",
+   "link_count": 0,
+   "link_to": "Unicommerce SAP update log",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  }
+ ],
+ "modified": "2025-04-09 11:56:42.824331",
+ "modified_by": "yogesha@khanalfoods.com",
+ "module": "Khanal Tech Integrations",
+ "name": "Khanal Tech Integrations",
+ "number_cards": [],
+ "owner": "Administrator",
+ "parent_page": "",
+ "public": 1,
+ "quick_lists": [],
+ "roles": [
+  {
+   "role": "System Manager"
+  }
+ ],
+ "sequence_id": 9.0,
+ "shortcuts": [
+  {
+   "color": "Grey",
+   "doc_view": "List",
+   "label": "Prozo Utility",
+   "link_to": "prozo-utility",
+   "type": "Page"
+  }
+ ],
+ "title": "Khanal Tech Integrations",
+ "type": "Workspace"
+}

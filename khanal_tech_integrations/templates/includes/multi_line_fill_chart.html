@@ -1,0 +1,111 @@
+<script>
+    function displayMultiLineFillChart(canvas_id, rawData, x_axis_group_by, x_axis_Name, y_axis_line_1, y_axis_line_2, values_column_1, values_column_2, reportName) {
+        const ctx = document.getElementById(canvas_id).getContext('2d');
+        let chartType = 'line'; // default
+        let chartTitle = '';
+        let chartData = {};
+        let chartOptions = {};
+
+        const labels = rawData.map(row => row[x_axis_group_by]);
+        const column_1_values = rawData.map(row => parseFloat(row[values_column_1]) || 0);
+        const column_2_values = rawData.map(row => parseFloat(row[values_column_2]) || 0);
+
+        chartTitle = reportName;
+
+        chartData = {
+            labels,
+            datasets: [
+                {
+                    label: values_column_1,
+                    data: column_1_values,
+                    borderColor: '#7c3aed',
+                    backgroundColor: 'rgba(124, 58, 237, 0.2)',
+                    fill: true,
+                    tension: 0.3, // smooth curve
+                    yAxisID: 'y-orders'
+                },
+                {
+                    label: values_column_2,
+                    data: column_2_values,
+                    borderColor: '#14b8a6',
+                    backgroundColor: 'rgba(20, 184, 166, 0.2)',
+                    fill: true,
+                    tension: 0.3,
+                    yAxisID: 'y-amount'
+                }
+            ]
+        };
+
+        chartOptions = {
+            responsive: true,
+            plugins: {
+                title: {
+                    display: true,
+                    text: chartTitle,
+                    position: 'top',
+                    align: 'center',
+                    font: {
+                        size: 16,
+                        weight: 'bold'
+                    },
+                    padding: { top: 10, bottom: 20 }
+                },
+                legend: {
+                    position: 'bottom'
+                },
+                tooltip: {
+                    mode: 'index',
+                    intersect: false,
+                    callbacks: {
+                        label: ctx => {
+                            const value = ctx.parsed.y;
+                            if (ctx.dataset.label.includes('Amount'))
+                                return `${ctx.dataset.label}: ₹${value.toLocaleString()}`;
+                            return `${ctx.dataset.label}: ${value} Orders`;
+                        }
+                    }
+                }
+            },
+            interaction: {
+                mode: 'index',
+                intersect: false
+            },
+            scales: {
+                x: {
+                    title: {
+                        display: true,
+                        text: x_axis_Name
+                    }
+                },
+                'y-orders': {
+                    type: 'linear',
+                    position: 'left',
+                    beginAtZero: true,
+                    title: {
+                        display: true,
+                        text: y_axis_line_1
+                    }
+                },
+                'y-amount': {
+                    type: 'linear',
+                    position: 'right',
+                    beginAtZero: true,
+                    grid: {
+                        drawOnChartArea: false // prevent grid overlap
+                    },
+                    title: {
+                        display: true,
+                        text: y_axis_line_2
+                    }
+                }
+            }
+        };
+    
+    window.currentChart = new Chart(ctx, {
+        type: 'line',
+        data: chartData,
+        options: chartOptions
+    });
+}   
+
+</script>

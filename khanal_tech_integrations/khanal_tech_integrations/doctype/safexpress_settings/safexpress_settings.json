@@ -1,0 +1,100 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2023-08-11 11:01:41.478058",
+ "default_view": "List",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "deatils_section",
+  "username",
+  "password",
+  "login_url",
+  "pod_url",
+  "column_break_wqjo",
+  "api_key",
+  "expires_on",
+  "identifier",
+  "column_break_hcll",
+  "access_token"
+ ],
+ "fields": [
+  {
+   "fieldname": "username",
+   "fieldtype": "Data",
+   "label": "Username"
+  },
+  {
+   "fieldname": "password",
+   "fieldtype": "Data",
+   "label": "Password"
+  },
+  {
+   "fieldname": "column_break_wqjo",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "access_token",
+   "fieldtype": "Long Text",
+   "label": "Access Token"
+  },
+  {
+   "fieldname": "api_key",
+   "fieldtype": "Data",
+   "label": "Api Key"
+  },
+  {
+   "fieldname": "expires_on",
+   "fieldtype": "Data",
+   "label": "Expires On"
+  },
+  {
+   "fieldname": "column_break_hcll",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "identifier",
+   "fieldtype": "Data",
+   "label": "Identifier"
+  },
+  {
+   "fieldname": "login_url",
+   "fieldtype": "Data",
+   "label": "Login Url"
+  },
+  {
+   "fieldname": "pod_url",
+   "fieldtype": "Data",
+   "label": "Pod Url"
+  },
+  {
+   "fieldname": "deatils_section",
+   "fieldtype": "Section Break",
+   "label": "Deatils"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "issingle": 1,
+ "links": [],
+ "modified": "2024-09-24 14:55:45.439987",
+ "modified_by": "Administrator",
+ "module": "Khanal Tech Integrations",
+ "name": "Safexpress Settings",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "print": 1,
+   "read": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

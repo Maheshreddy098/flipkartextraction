@@ -1,0 +1,267 @@
+{
+ "actions": [],
+ "autoname": "RA-PO-.YYYY.-.#####",
+ "creation": "2026-02-26 10:00:00",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "purchase_order_name",
+  "section_details",
+  "status",
+  "vendor_code",
+  "vendor_name",
+  "supplier_name",
+  "posting_date",
+  "received_date",
+  "vendor_ref_no",
+  "column_break_details",
+  "created_by_user",
+  "approved_by",
+  "accepted_by",
+  "warehouse_awaiting_kf",
+  "remarks",
+  "section_sap",
+  "sap_sync_status",
+  "sap_sync_error",
+  "sap_po_doc_entry",
+  "sap_po_doc_num",
+  "sap_grpo_doc_entry",
+  "sap_grpo_doc_num",
+  "sap_inventory_transfer_doc_entry",
+  "section_items",
+  "items",
+  "section_totals",
+  "total_qty",
+  "column_break_totals",
+  "total_amount"
+ ],
+ "fields": [
+  {
+   "fieldname": "section_details",
+   "fieldtype": "Section Break",
+   "label": "Order Details"
+  },
+  {
+   "default": "Draft",
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Status",
+   "options": "Draft\nPending Approval\nApproved\nRejected\nAccepted\nReceived",
+   "reqd": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "vendor_code",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Vendor Code"
+  },
+  {
+   "fieldname": "vendor_name",
+   "fieldtype": "Data",
+   "label": "Vendor Name"
+  },
+  {
+   "fieldname": "supplier_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Supplier Name"
+  },
+  {
+   "default": "Today",
+   "fieldname": "posting_date",
+   "fieldtype": "Date",
+   "in_list_view": 1,
+   "label": "Posting Date",
+   "reqd": 1
+  },
+  {
+   "fieldname": "received_date",
+   "fieldtype": "Date",
+   "label": "Received Date",
+   "read_only": 1
+  },
+  {
+   "fieldname": "vendor_ref_no",
+   "fieldtype": "Data",
+   "label": "Vendor Reference No",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_details",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "__user",
+   "fieldname": "created_by_user",
+   "fieldtype": "Link",
+   "label": "Created By",
+   "options": "User",
+   "read_only": 1
+  },
+  {
+   "fieldname": "approved_by",
+   "fieldtype": "Link",
+   "label": "Approved By",
+   "options": "User",
+   "read_only": 1
+  },
+  {
+   "fieldname": "accepted_by",
+   "fieldtype": "Link",
+   "label": "Accepted By",
+   "options": "User",
+   "read_only": 1
+  },
+  {
+   "default": "0",
+   "fieldname": "warehouse_awaiting_kf",
+   "fieldtype": "Check",
+   "hidden": 1,
+   "label": "Warehouse Awaiting KhanalFoods",
+   "read_only": 1
+  },
+  {
+   "fieldname": "remarks",
+   "fieldtype": "Small Text",
+   "label": "Remarks"
+  },
+  {
+   "collapsible": 1,
+   "fieldname": "section_sap",
+   "fieldtype": "Section Break",
+   "label": "SAP Sync"
+  },
+  {
+   "fieldname": "sap_sync_status",
+   "fieldtype": "Data",
+   "label": "SAP Sync Status",
+   "read_only": 1
+  },
+  {
+   "fieldname": "sap_sync_error",
+   "fieldtype": "Text",
+   "label": "SAP Sync Error",
+   "read_only": 1
+  },
+  {
+   "fieldname": "sap_po_doc_entry",
+   "fieldtype": "Int",
+   "label": "SAP PO Doc Entry",
+   "read_only": 1
+  },
+  {
+   "fieldname": "sap_po_doc_num",
+   "fieldtype": "Int",
+   "label": "SAP PO Doc Num",
+   "read_only": 1
+  },
+  {
+   "fieldname": "sap_grpo_doc_entry",
+   "fieldtype": "Int",
+   "label": "SAP GRPO Doc Entry",
+   "read_only": 1
+  },
+  {
+   "fieldname": "sap_grpo_doc_num",
+   "fieldtype": "Int",
+   "label": "SAP GRPO Doc Num",
+   "read_only": 1
+  },
+  {
+   "fieldname": "sap_inventory_transfer_doc_entry",
+   "fieldtype": "Int",
+   "label": "SAP Inventory Transfer Doc Entry",
+   "read_only": 1
+  },
+  {
+   "fieldname": "section_items",
+   "fieldtype": "Section Break",
+   "label": "Items"
+  },
+  {
+   "fieldname": "items",
+   "fieldtype": "Table",
+   "label": "Items",
+   "options": "Real Aquatics Purchase Order Item",
+   "reqd": 1
+  },
+  {
+   "fieldname": "section_totals",
+   "fieldtype": "Section Break",
+   "label": "Totals"
+  },
+  {
+   "default": "0",
+   "fieldname": "total_qty",
+   "fieldtype": "Float",
+   "label": "Total Quantity",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_totals",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "0",
+   "fieldname": "total_amount",
+   "fieldtype": "Currency",
+   "label": "Total Amount",
+   "read_only": 1
+  },
+  {
+   "description": "Name",
+   "fieldname": "purchase_order_name",
+   "fieldtype": "Data",
+   "label": "Purchase Order Name"
+  }
+ ],
+ "links": [],
+ "modified": "2026-03-13 13:13:16.380446",
+ "modified_by": "yogesha@khanalfoods.com",
+ "module": "Khanal Tech Integrations",
+ "name": "Real Aquatics Purchase Order",
+ "naming_rule": "Expression",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "email": 1,
+   "print": 1,
+   "read": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "read": 1,
+   "role": "RealAquatics KhanalFoods User",
+   "write": 1
+  },
+  {
+   "create": 1,
+   "read": 1,
+   "role": "RealAquatics KhanalFoods Manager",
+   "write": 1
+  },
+  {
+   "read": 1,
+   "role": "RealAquatics Warehouse User",
+   "write": 1
+  },
+  {
+   "read": 1,
+   "role": "RealAquatics Warehouse Manager",
+   "write": 1
+  }
+ ],
+ "row_format": "Dynamic",
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1
+}

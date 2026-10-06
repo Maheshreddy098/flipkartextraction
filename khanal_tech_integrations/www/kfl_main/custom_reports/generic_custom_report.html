@@ -1,0 +1,209 @@
+{% extends "khanal_tech_integrations/www/kfl_main/base.html" %}
+
+{% block content %}
+
+
+<div id="mobileDiv">
+    {% include "templates/includes/generic_custom_report_mobile_view.html" %}
+</div>
+<div id="desktopDiv">
+    {% include "templates/includes/generic_custom_report_desktop_view.html" %}
+</div>
+{% endblock %}
+
+{% block javascripts %}
+{% if frappe.local.dev_server == false and frappe.session.user != "Administrator" and frappe.session.user != 'sarath.gattineni@ektha.com' %}
+    <script>
+        document.getElementById('genericfetchButton').style.display = 'none';
+        document.getElementById('fetchMobileGenericButton').style.display = 'none' ;
+    </script>
+{% endif %}
+<script>
+    
+    function toggleView() {
+        const isMobile = window.innerWidth < 985;
+        document.getElementById('mobileDiv').style.display = isMobile ? 'block' : 'none';
+        document.getElementById('desktopDiv').style.display = isMobile ? 'none' : 'block';
+        if (isMobile && typeof window.displayGenericCards === "function") {
+            displayGenericCards();
+        } else {
+            displayGenericDataTable();
+        }
+
+    }
+    toggleView();
+    window.addEventListener('resize', toggleView);
+
+    function fetchLatestDataFromSAP(sql_report_name = "{{ report_name }}") {
+        if (confirm("Are you sure you want to fetch LATEST SAP data for the report: " + "{{ report_display_name.replace('_', ' ') }}" + "? This will update the report data.")) {
+            if (typeof showLoader === "function") showLoader();
+            // alert("Fetching latest data for report will begin now... and may take a few moments.");
+
+            const timestamp = new Date().getTime();
+            fetch("/api/method/khanal_tech_integrations.utils.Dashboard_Reports.custom_report_data_from_sap.get_context?report_name=" + encodeURIComponent(sql_report_name) + "&_t=" + timestamp)
+                .then(response => response.json())
+                .then(data => {
+                    let response_msg = typeof data.message === "string" ? data.message : JSON.stringify(data.message)
+
+                    if (response_msg && response_msg.includes("Data fetched and inserted successfully")) {
+                        const searchInput = document.getElementById('GenericSearchInput');
+                        if (searchInput) {
+                            searchInput.value = '';
+                        }
+                        alert("Report Data updated successfully.");
+
+                        refreshCooldown("genericfetchButton", "genericlastFetchedDisplay", 0.5, true);
+                        refreshCooldown("fetchMobileGenericButton", "genericlastFetchedDisplay1", 0.5, true);
+                        getGenericReportsData();
+
+                        if (typeof triggerConfetti === "function") {
+                            triggerConfetti();
+                        }
+                    } else {
+                        alert(data.message || "Something went wrong.");
+                    }
+                })
+                .catch(error => {
+                    console.error("Error:", error);
+                    alert("Failed to fetch data. Please check the console.");
+                })
+                .finally(() => {
+                    if (typeof hideLoader === "function") hideLoader();
+                });
+        }
+    }
+
+    // Load procurement reports
+    function getGenericReportsData() {
+        // Clear any existing global data to prevent caching between different reports
+        window.allgenericData = [];
+        // Reset search input
+        const searchInput = document.getElementById('GenericSearchInput');
+        if (searchInput) {
+            searchInput.value = '';
+        }
+        // Fetch data from the server
+        const timestamp = new Date().getTime();
+        const url = `/api/method/khanal_tech_integrations.utils.Dashboard_Reports.custom_report_data_from_mariadb.get_context?is_api_call=true&report_name={{ report_name }}&_t=${timestamp}`;
+
+        const cardsContainer = document.getElementById('GenericCardsContainer');
+        const loadingIndicator2 = document.getElementById('loadingIndicator2');
+        const lastFetchedDisplay = document.getElementById('genericlastFetchedDisplay');
+        const lastFetchedDisplay1 = document.getElementById('genericlastFetchedDisplay1');
+
+        if (loadingIndicator2) loadingIndicator2.style.display = 'block';
+        if (cardsContainer) cardsContainer.innerHTML = '';
+        if (typeof showLoader === 'function') showLoader();
+
+        fetch(url)
+            .then(response => {
+                if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+                return response.json();
+            })
+            .then(data => {
+                // let response_msg = typeof data.message === "string" ? data.message : JSON.stringify(data.message);
+                let response_msg = typeof data.message === "string" ? JSON.parse(data.message) : data.message;
+
+                console.log('Fetched data:', response_msg); // Debug log
+                if (response_msg && response_msg.custom_report_data_rows) {
+                    // Parse each row's data field
+                    window.allgenericData = response_msg.custom_report_data_rows.map(item => {
+                        try {
+                            return JSON.parse(item.sap_data_row);
+                        } catch (e) {
+                            return {}; // fallback if parsing fails
+                        }
+                    });
+                    // alert("Total records fetched: " + window.allgenericData.length);
+                    // displayGenericCards(window.allgenericData);
+                    // Add viewport check here
+                    const isMobile = window.innerWidth < 985;
+                    if (isMobile) {
+                        displayGenericCards(window.allgenericData);
+                    } else {
+                        displayGenericDataTable();
+                    }
+                    lastFetchedDisplay1.setAttribute('data-saptime', time_str_to_miils(response_msg.last_fetched_time_from_sap || '') || '');
+                    refreshCooldown("fetchMobileGenericButton", "genericlastFetchedDisplay1", 0.5, false);
+                    lastFetchedDisplay.setAttribute('data-saptime', time_str_to_miils(response_msg.last_fetched_time_from_sap || '') || '');
+                    refreshCooldown("genericfetchButton", "genericlastFetchedDisplay", 0.5, false); 
+
+                } else {
+                    throw new Error('Invalid data structure received');
+                }
+            })
+            .catch(error => {
+                console.error('Error fetching reports:', error);
+                if (cardsContainer) {
+                    cardsContainer.innerHTML = `<p class="text-center text-danger">Error loading data: ${error.message}</p>`;
+                }
+            })
+            .finally(() => {
+                if (typeof hideLoader === 'function') hideLoader();
+                if (loadingIndicator2) loadingIndicator2.style.display = 'none';
+            });
+    };
+
+    document.addEventListener('DOMContentLoaded', function () {
+        // Debug: Log the report name from template
+        console.log('Template report_name:', "{{ report_name }}");
+        console.log('Template report_display_name:', "{{ report_display_name }}");
+        console.log('Page timestamp:', "{{ timestamp }}");
+        console.log('Current URL:', window.location.href);
+        
+        // Clear any existing global data to prevent caching between different reports
+        window.allgenericData = [];
+        getGenericReportsData();
+    });
+
+    // Export functionality
+    document.querySelectorAll('.export-button')?.forEach(button => {
+        button.addEventListener('click', () => {
+            const exportType = button.getAttribute('data-export-type');
+
+            if (!window.allgenericData || !Array.isArray(window.allgenericData) || window.allgenericData.length === 0) {
+                console.warn("No data available for export.");
+                return;
+            }
+
+            // If you're rendering this from a template (Jinja2/Django/etc.)
+            let reportDisplayName = "{{ report_display_name }}".replace(/[^a-z0-9_\- ]/gi, '_'); // sanitize filename
+
+            if (exportType === 'excel') {
+                const worksheet = XLSX.utils.json_to_sheet(window.allgenericData);
+                const workbook = XLSX.utils.book_new();
+                XLSX.utils.book_append_sheet(workbook, worksheet, "Report");
+                XLSX.writeFile(workbook, reportDisplayName + ".xlsx");
+            }
+
+            if (exportType === 'pdf') {
+                const { jsPDF } = window.jspdf;
+                const doc = new jsPDF();
+
+                doc.autoTable({
+                    head: [Object.keys(window.allgenericData[0])],
+                    body: window.allgenericData.map(item => Object.values(item)),
+                    startY: 10,
+                    styles: { fontSize: 8 },
+                    headStyles: { fillColor: [52, 73, 94] },
+                    margin: { top: 10 }
+                });
+
+                doc.save(reportDisplayName + ".pdf");
+            }
+        });
+    });
+
+</script>
+
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
+<link rel="stylesheet" href="assets/css/vendor_star.css" />
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script src="/assets/khanal_tech_integrations/js/vendor_star.js" defer></script>
+{% endblock javascripts %}

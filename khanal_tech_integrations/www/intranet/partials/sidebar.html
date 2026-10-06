@@ -1,0 +1,106 @@
+<nav class="navbar navbar-light navbar-transparent    navbar-vertical navbar-expand-xl ">
+  <div class="d-flex align-items-center">
+    <div class="toggle-icon-wrapper">
+
+      <button class="btn navbar-toggler-humburger-icon navbar-vertical-toggle" data-bs-toggle="tooltip"
+        data-bs-placement="left" title="Toggle Navigation"><span class="navbar-toggle-icon"><span
+            class="toggle-line"></span></span></button>
+
+    </div><a class="navbar-brand" href="/intranet/">
+      <div class="d-flex align-items-center py-3"><img class="me-2"
+          src="/assets/khanal_tech_integrations/assets/img/khanal_foods_logo.png" alt="" width="40" /><span
+          class="font-sans-serif" style="font-size: 17px;">KhanalFoods</span>
+      </div>
+    </a>
+  </div>
+  <div class="collapse navbar-collapse" id="navbarVerticalCollapse">
+    <div class="sidebar-left navbar-vertical-content scrollbar">
+      <ul class="navbar-nav flex-column mb-3" id="navbarVerticalNav">
+        <li class="nav-item">
+          <a class="nav-link" href="/intranet" role="button">
+            <div class="d-flex align-items-center"><span class="nav-link-icon"><span
+                  class="fas fa-chart-pie"></span></span><span class="nav-link-text ps-1">Dashboard</span>
+            </div>
+          </a>
+          {% set User_doc = frappe.get_doc('User', frappe.session.user ) %}
+          {% for i in User_doc.roles %}
+          {% if i.role == "Sales Logistics Report Viewer"%}
+          <a class="nav-link dropdown-indicator " href="#social" role="button" data-bs-toggle="collapse"
+            aria-expanded="false" aria-controls="social">
+            <div class="d-flex align-items-center"><span class="nav-link-icon"><span
+                  class="fa fa-chart-line"></span></span><span class="nav-link-text ps-1">Logistics</span>
+            </div>
+          </a>
+          <ul class="nav collapse" id="social">
+            <li class="nav-item"><a class="nav-link " href="/intranet/myorder">
+                <div class="d-flex align-items-center"><span class="nav-link-text ps-1">My Order</span>
+                </div>
+              </a>
+            </li>
+
+          </ul>
+          {% endif %}
+          {% if i.role == "Accounts Manager"%}
+          <a class="nav-link dropdown-indicator " href="#accounts" role="button" data-bs-toggle="collapse"
+            aria-expanded="false" aria-controls="accounts">
+            <div class="d-flex align-items-center"><span class="nav-link-icon"><span
+                  class="fas fa-poll"></span></span><span class="nav-link-text ps-1">Accounts</span>
+            </div>
+          </a>
+          <ul class="nav collapse" id="accounts">
+
+            <li class="nav-item"><a class="nav-link " href="/intranet/search_ap_invoicelist">
+                <div class="d-flex align-items-center"><span class="nav-link-text ps-1">A/P Invoice </span>
+                </div>
+              </a>
+
+            </li>
+            <!-- <li class="nav-item"><a class="nav-link " href="/unicommerce">
+                <div class="d-flex align-items-center"><span class="nav-link-text ps-1">Unicommerce </span>
+                </div>
+              </a>
+
+            </li> -->
+
+          </ul>
+
+          {% endif %}
+          {% if i.role == "Inventory User"%}
+          <a class="nav-link dropdown-indicator " href="#inventory" role="button" data-bs-toggle="collapse"
+          aria-expanded="false" aria-controls="inventory">
+          <div class="d-flex align-items-center"><span class="nav-link-icon"><span
+                class="fab fa-wpforms"></span></span><span class="nav-link-text ps-1">Inventory</span>
+          </div>
+        </a>
+        <ul class="nav collapse" id="inventory">
+          <!-- <li class="nav-item"><a class="nav-link " href="/intranet/inventory_report">
+              <div class="d-flex align-items-center"><span class="nav-link-text ps-1">Inventory Report</span>
+              </div>
+            </a>
+          </li> -->
+          <li class="nav-item"><a class="nav-link " href="/intranet/vendor_verification">
+            <div class="d-flex align-items-center"><span class="nav-link-text ps-1">Vendor Verification</span>
+            </div>
+          </a>
+        </li>
+
+        </ul>
+
+          {% endif %}
+
+          {% endfor %}
+         
+
+
+        </li>
+
+
+      </ul>
+
+    </div>
+  </div>
+</nav>
+
+{% block javascripts %}
+
+{% endblock %}

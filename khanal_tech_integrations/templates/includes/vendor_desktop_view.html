@@ -1,0 +1,239 @@
+<div class="row" id="santaReportsPanel">
+  <div class="col-lg-12">
+    <div class="card">
+      <div class="card-header text-white" style="background-color: #351753; position: relative;">
+        <div class="bokeh-container">
+          <!-- Bokeh particles will be dynamically added here -->
+        </div>
+        <h5 class="text-800 fw-bold" style="font-family: 'Arial', sans-serif; text-align: center; margin: 0;">
+          <span style="color: #d18023;">✩</span>
+          <span style="color: #fbeeee; font-family: 'Georgia', serif; font-style: italic;">Vendor Reports</span>
+          <span style="color: #5ac1cd;">✩</span>
+        </h5>
+        <div id="fetchVendorButtonWrapper"
+          style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); display: flex; align-items: center; gap: 8px;">
+          <div id="fetchVendorButton" class="blinking-star" style="cursor: pointer;">
+            <i class="fas fa-sync-alt" aria-hidden="true"></i>
+          </div>
+          <span id="lastFetchedDesktopDisplay" style="color: #fff; font-size: 14px; font-family: Arial, Helvetica, sans-serif;"></span>
+        </div>
+      </div>
+      <div class="card-body" id="cardBody" style="background-color: #bbd1d3f9;">
+        <div class="d-flex mb-0 justify-content-end align-items-center" style="margin-bottom: 0; margin-top: -4px;">
+          <div class="d-flex align-items-center">
+            <!-- <input type="color" id="colorPicker" style="display: none;" /> -->
+            <img id="exportExcel" src="https://img.icons8.com/?size=100&id=UECmBSgBOvPT&format=png&color=000000"
+              alt="Export" style="cursor: pointer; width: 24px; height: 24px; margin-right: 8px;" />
+            <img id="exportPDF" src="https://img.icons8.com/?size=100&id=13417&format=png&color=000000" alt="Export"
+              style="cursor: pointer; width: 24px; height: 24px; margin-right: 8px;" />
+          </div>
+        </div>
+        <div class="table-container" style="max-height: 1000px; overflow-y: auto; margin-top: 0;">
+          <table id="vendorReportsTable" class="table table-striped table-bordered d-none"
+            style="width:100%; background-color: #b8cac7;">
+            <thead class="bg-secondary text-white" style="position: sticky; top: 0; z-index: 1;">
+              <tr>
+                <th scope="col">Card Code</th>
+                <th scope="col">Card Name</th>
+                <th scope="col">Vendor Mobile No</th>
+                <th scope="col">Vendor Email</th>
+                <th scope="col">Registered Date</th>
+                <th scope="col">Days Supplied</th>
+                <th scope="col">Total Quantity Supplied</th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- Rows will be dynamically added here -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="row justify-content-center my-4">
+  <div class="col-md-6 mx-auto">
+    <div style="background: #fff; border-radius: 12px; box-shadow: 0 2px 6px #0001; padding: 16px;">
+      <h6 class="fw-bold text-center mb-2" style="color: #351753;">Vendor Supply by Quantity Supplied</h6>
+      <canvas id="vendorPieChart" width="400" height="400"></canvas>
+    </div>
+  </div>
+</div>
+
+<link rel="stylesheet" href="assets/css/vendor_star.css" />
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+<script src="assets/js/vendor_star.js" defer></script>
+
+
+<script>
+
+  document.addEventListener('DOMContentLoaded', function () {
+    console.log('Vendor Reports page loaded'); // Debug log
+
+    // let currentPage = 1;
+    let pageSize = 1000;
+
+    // Attach vendor Reports to the window object for global access
+    window.loadVendorReports = function (page, getAll = false) {
+      if (getAll) {
+        page = 1; // Reset to first page if fetching all data
+        pageSize = 1000;
+      }
+      const fetchUrl = `/api/method/khanal_tech_integrations.www.kfl_main.vendor.get_context?is_api_call=true&page=${page}&page_size=${pageSize}`;
+      console.log('Fetching Vendor Reports from URL:', fetchUrl); // Debug log
+
+      fetch(fetchUrl)
+        .then(response => response.json())
+        .then(data => {
+          console.log('Full API Response:', data); // Debug log
+
+          // Ensure the response contains the expected structure
+          if (data.message && data.message.vendor_reports) {
+            const reports = data.message.vendor_reports; // Access vendor_reports from message
+            const tableBody = document.querySelector('#vendorReportsTable tbody');
+            tableBody.innerHTML = ''; // Clear existing rows
+
+            if (reports.length > 0) {
+              let rowsHtml = '';
+              reports.forEach(report => {
+                rowsHtml += `
+                   <tr>
+                    <td>${report.card_code || 'N/A'}</td>
+                    <td>${report.card_name || 'N/A'}</td>
+                    <td>${report.vendor_mobile_no || 'N/A'}</td>
+                    <td>${report.vendor_email || 'N/A'}</td>
+                    <td>${report.registered_date || 'N/A'}</td>
+                    <td>${report.days_supplied || 'N/A'}</td>
+                    <td>${report.total_quantity_supplied || 'N/A'}</td>
+                  </tr>`;
+              });
+                tableBody.innerHTML += rowsHtml;
+              // Initialize DataTable
+              if ($.fn.DataTable.isDataTable('#vendorReportsTable')) {
+                $('#vendorReportsTable').DataTable().destroy();
+              }
+
+              $(document).ready(function () {
+              const jdtable = $('#vendorReportsTable').DataTable();
+              $('#vendorReportsTable').removeClass('d-none');
+              
+              jdtable.on('search.dt', function () {
+                showPieChart();  // re-render chart when filter/page changes
+              });
+              showPieChart(); // Call the function to render the pie chart
+            });
+            
+            } else {
+              console.warn('No data available in the API response.');
+              tableBody.innerHTML = '<tr><td colspan="7">No data available. Please check the backend or database.</td></tr>';
+            }
+
+
+          } else {
+            console.error('Unexpected API response structure:', data);
+            alert('Failed to load vendor reports. Please check the backend.');
+          }
+        })
+        .catch(error => {
+          console.error('Error fetching Vendor reports:', error);
+          alert('An error occurred while fetching Vendor reports.');
+        });
+    };
+
+    let vendorChart = null; // global chart variable
+
+    function showPieChart() {
+      const ctx = document.getElementById('vendorPieChart');
+
+      if (!ctx) {
+        console.error("Canvas with ID 'vendorPieChart' not found.");
+        return;
+      }
+
+      if (vendorChart) {
+        vendorChart.destroy();
+      }
+
+      const table = $('#vendorReportsTable').DataTable();
+      const displayedData = table.rows({ search: 'applied' }).data();
+
+      const vendorNames = [];
+      const totalQuantities = [];
+
+      displayedData.each(function (rowData) {
+        vendorNames.push(rowData[1]); // Card Name
+        totalQuantities.push(Number(rowData[6]) || 0); // Total Quantity Supplied
+      });
+
+      if (vendorNames.length === 0 || totalQuantities.every(q => q === 0)) {
+        console.warn("No valid data to display in the pie chart.");
+        return;
+      }
+
+      vendorChart = new Chart(ctx, {
+        type: 'doughnut',
+        data: {
+          labels: vendorNames,
+          datasets: [{
+            label: 'Total Quantity Supplied',
+            data: totalQuantities,
+            backgroundColor: generateColors(vendorNames.length * 2), // vendorNames.map(() => '#' + Math.floor(Math.random() * 16777215).toString(16)),
+            borderWidth: 1
+          }]
+        },
+        options: {
+          responsive: true,
+          plugins: {
+            legend: {
+              position: 'bottom',
+            }
+          }
+        }
+      });
+    }
+
+    
+    // Attach event listener to the button after DOM is ready
+    document.getElementById('fetchVendorButton').addEventListener('click', fetchVendorSupplyDataFromSAP);
+
+    // Export to Excel
+    document.getElementById('exportExcel').addEventListener('click', () => {
+
+      export_data_to_excel({
+        tableId: 'vendorReportsTable',
+        fetchUrl: '/api/method/khanal_tech_integrations.www.kfl_main.vendor.get_context?is_api_call=true&page_size=1000',
+        mapRowFn: mapVendorRows
+      });
+    });
+
+    // Export to PDF
+    document.getElementById('exportPDF').addEventListener('click', async () => {
+
+      export_data_to_pdf({
+        tableId: 'vendorReportsTable',
+        fetchUrl: '/api/method/khanal_tech_integrations.www.kfl_main.vendor.get_context?is_api_call=true&page_size=1000',
+        mapRowFn: mapVendorRows
+      });
+
+    });
+
+    function mapVendorRows(data) {
+      return data.message.vendor_reports.map(row => [
+        row.card_code || '',
+        row.card_name || '',
+        row.vendor_mobile_no || '',
+        row.vendor_email || '',
+        row.registered_date || '',
+        row.days_supplied || '',
+        row.total_quantity_supplied || ''
+      ]);
+    }
+
+    loadVendorReports(1);
+  });
+
+  document.addEventListener("DOMContentLoaded", function () {
+    refreshCooldown("fetchVendorButton", "lastFetchedDesktopDisplay", 1); // 1 minute
+  });
+
+</script>

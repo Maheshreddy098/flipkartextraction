@@ -1,0 +1,649 @@
+{% extends "templates/web.html" %}
+
+{% block title %}E-invoice JSON Generator{% endblock %}
+
+{% block page_content %}
+{# CSRF token rendered server-side into the DOM; fallback JS also reads frappe.csrf_token. #}
+<input type="hidden" id="einv-csrf" value="{{ csrf_token }}">
+
+<div class="einv-wrap">
+  <div class="einv-head">
+    <div>
+      <h1 class="einv-h1">E-invoice JSON Generator</h1>
+      <p class="einv-sub">
+        Upload a Khanal Foods SAP tax-invoice PDF, review the NIC IRP JSON
+        (schema v1.1), then download it for the GST e-invoice portal.
+      </p>
+    </div>
+  </div>
+
+  <div class="einv-section">
+    <div class="einv-section-title">AR Invoices — Upload SAP Tax-Invoice PDF</div>
+    <p class="einv-section-hint">
+      For AR <strong>Invoices</strong>: upload the SAP tax-invoice PDF to generate IRP JSON.
+      For AR <strong>Credit Notes</strong>: use the HANA section below (HANA query is the correct source — do not upload a credit note PDF here).
+    </p>
+    <div class="einv-upload-row">
+      <label class="einv-file-label">
+        <input type="file" id="einv-pdf" accept=".pdf,application/pdf" />
+        <span id="einv-pdf-name">No file chosen</span>
+      </label>
+      <button class="einv-btn einv-btn--primary" id="einv-parse-btn">Generate JSON</button>
+    </div>
+
+    <div class="einv-or-sep">— or enter DocNum(s) directly (HANA) —</div>
+
+    <div class="einv-direct-row">
+      <input type="text" id="inv-doc-nums" class="einv-input" placeholder="e.g. 30491, 30493" style="flex:1; min-width:180px;" />
+      <button class="einv-btn einv-btn--primary" id="inv-gen-direct-btn">Generate JSON</button>
+    </div>
+  </div>
+
+  <div class="einv-section">
+    <div class="einv-section-title">AR Credit Notes (HANA)</div>
+    <p class="einv-section-hint">
+      Fetch AR Credit Notes from SAP and generate NIC IRP JSON (schema v1.1).
+      <strong>DocDtls.Typ</strong> = <code>CRN</code>; the original invoice is referenced in <strong>RefDtls.PrecDocDtls</strong>.
+    </p>
+
+    <div class="einv-filter-row">
+      <label class="einv-field-lbl">From
+        <input type="date" id="cn-from" class="einv-input" />
+      </label>
+      <label class="einv-field-lbl">To
+        <input type="date" id="cn-to" class="einv-input" />
+      </label>
+      <label class="einv-field-lbl">Customer Code
+        <input type="text" id="cn-card-code" class="einv-input" style="width:130px;" placeholder="Optional" />
+      </label>
+      <label class="einv-check-lbl">
+        <input type="checkbox" id="cn-b2b" checked /> B2B only
+      </label>
+      <button class="einv-btn" id="cn-list-btn">Fetch</button>
+    </div>
+
+    <div id="cn-table-wrap" style="display:none; margin-top:14px;">
+      <div id="cn-table-meta" class="einv-section-hint" style="margin:0 0 6px;"></div>
+      <div style="overflow-x:auto;">
+        <table class="einv-tbl">
+          <thead>
+            <tr>
+              <th><input type="checkbox" id="cn-chk-all" title="Select all" /></th>
+              <th>DocNum</th><th>Date</th><th>Customer</th><th>Buyer GSTIN</th><th style="text-align:right;">Total</th>
+            </tr>
+          </thead>
+          <tbody id="cn-tbody"></tbody>
+        </table>
+      </div>
+      <div style="margin-top:10px; display:flex; align-items:center; gap:10px; flex-wrap:wrap;">
+        <button class="einv-btn einv-btn--primary" id="cn-gen-sel-btn" disabled>Generate JSON for Selected</button>
+        <span id="cn-sel-count" style="font-size:0.82rem; color:#6b7280;"></span>
+      </div>
+    </div>
+
+    <div class="einv-or-sep">— or enter DocNum(s) directly —</div>
+
+    <div class="einv-direct-row">
+      <input type="text" id="cn-doc-nums" class="einv-input" placeholder="e.g. 30832, 30833" style="flex:1; min-width:180px;" />
+      <button class="einv-btn einv-btn--primary" id="cn-gen-direct-btn">Generate JSON</button>
+    </div>
+  </div>
+
+  <div id="einv-status" class="einv-status"></div>
+  <div id="einv-warnings" class="einv-warnings" style="display:none;"></div>
+
+  <div class="einv-preview" id="einv-preview" style="display:none;">
+    <div class="einv-preview-head">
+      <div>
+        <div class="einv-preview-title">Generated IRP JSON</div>
+        <div class="einv-preview-meta" id="einv-preview-meta"></div>
+      </div>
+      <div class="einv-preview-actions">
+        <button class="einv-btn" id="einv-copy" disabled>Copy JSON</button>
+        <button class="einv-btn einv-btn--primary" id="einv-download" disabled>Download JSON</button>
+        <button class="einv-btn" id="einv-clear" disabled>Clear</button>
+      </div>
+    </div>
+    <pre class="einv-json" id="einv-json" aria-label="Generated JSON preview"></pre>
+  </div>
+</div>
+
+<style>
+  .einv-wrap {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 24px 8px 60px;
+  }
+  .einv-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 16px;
+    margin-bottom: 20px;
+  }
+  .einv-h1 {
+    font-size: 1.6rem;
+    font-weight: 700;
+    margin: 0 0 4px;
+  }
+  .einv-sub {
+    color: #6b7280;
+    font-size: 0.92rem;
+    line-height: 1.55;
+    margin: 0;
+    max-width: 760px;
+  }
+  .einv-section {
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    padding: 18px;
+    margin-bottom: 14px;
+    background: #fff;
+  }
+  .einv-section-title {
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: #374151;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    margin-bottom: 8px;
+  }
+  .einv-section-hint {
+    font-size: 0.86rem;
+    color: #6b7280;
+    margin: 0 0 14px;
+    line-height: 1.5;
+  }
+  .einv-upload-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    align-items: center;
+  }
+  .einv-btn {
+    min-height: 38px;
+    padding: 8px 16px;
+    border: 1px solid #d1d5db;
+    background: #fff;
+    border-radius: 8px;
+    color: #111827;
+    font-size: 0.9rem;
+    cursor: pointer;
+  }
+  .einv-btn:hover:not(:disabled) {
+    background: #f9fafb;
+  }
+  .einv-btn--primary {
+    background: #2563eb;
+    color: #fff;
+    border-color: #2563eb;
+  }
+  .einv-btn--primary:hover:not(:disabled) {
+    background: #1d4ed8;
+  }
+  .einv-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+  .einv-file-label {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+  }
+  .einv-file-label input[type="file"] {
+    display: none;
+  }
+  .einv-file-label #einv-pdf-name {
+    display: block;
+    min-width: 260px;
+    max-width: 520px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    padding: 9px 12px;
+    border: 1px dashed #9ca3af;
+    border-radius: 8px;
+    font-size: 0.88rem;
+    color: #4b5563;
+    background: #f9fafb;
+  }
+  .einv-file-label:hover #einv-pdf-name {
+    border-color: #2563eb;
+    color: #1d4ed8;
+    background: #eff6ff;
+  }
+  .einv-status {
+    font-size: 0.88rem;
+    color: #4b5563;
+    margin: 10px 0;
+    min-height: 20px;
+  }
+  .einv-status.ok {
+    color: #047857;
+  }
+  .einv-status.err {
+    color: #dc2626;
+  }
+  .einv-warnings {
+    border: 1px solid #f59e0b;
+    background: #fffbeb;
+    color: #92400e;
+    border-radius: 8px;
+    padding: 10px 12px;
+    font-size: 0.84rem;
+    margin: 10px 0 14px;
+    line-height: 1.5;
+  }
+  .einv-preview {
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    background: #fff;
+    overflow: hidden;
+  }
+  .einv-preview-head {
+    display: flex;
+    justify-content: space-between;
+    gap: 14px;
+    align-items: center;
+    padding: 14px 16px;
+    border-bottom: 1px solid #e5e7eb;
+    background: #f9fafb;
+  }
+  .einv-preview-title {
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: #111827;
+  }
+  .einv-preview-meta {
+    color: #6b7280;
+    font-size: 0.8rem;
+    margin-top: 2px;
+  }
+  .einv-preview-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    justify-content: flex-end;
+  }
+  .einv-json {
+    margin: 0;
+    padding: 16px;
+    min-height: 260px;
+    max-height: 620px;
+    overflow: auto;
+    background: #111827;
+    color: #f9fafb;
+    font-size: 0.78rem;
+    line-height: 1.55;
+    white-space: pre;
+  }
+  .einv-filter-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    align-items: flex-end;
+  }
+  .einv-field-lbl {
+    display: flex;
+    flex-direction: column;
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: #374151;
+    gap: 4px;
+  }
+  .einv-input {
+    min-height: 36px;
+    padding: 6px 10px;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    font-size: 0.88rem;
+    color: #111827;
+    background: #fff;
+  }
+  .einv-input:focus {
+    outline: none;
+    border-color: #2563eb;
+    box-shadow: 0 0 0 2px rgba(37,99,235,0.15);
+  }
+  .einv-check-lbl {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.88rem;
+    color: #374151;
+    padding-bottom: 4px;
+    cursor: pointer;
+  }
+  .einv-tbl {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.84rem;
+  }
+  .einv-tbl th {
+    text-align: left;
+    font-weight: 600;
+    color: #374151;
+    padding: 6px 10px;
+    border-bottom: 2px solid #e5e7eb;
+    background: #f9fafb;
+    white-space: nowrap;
+  }
+  .einv-tbl td {
+    padding: 6px 10px;
+    border-bottom: 1px solid #f3f4f6;
+    vertical-align: middle;
+  }
+  .einv-tbl tr:hover td {
+    background: #f9fafb;
+  }
+  .einv-or-sep {
+    text-align: center;
+    font-size: 0.8rem;
+    color: #9ca3af;
+    margin: 16px 0 10px;
+  }
+  .einv-direct-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    align-items: center;
+  }
+  @media (max-width: 640px) {
+    .einv-wrap {
+      padding: 18px 0 44px;
+    }
+    .einv-section {
+      padding: 14px;
+    }
+    .einv-upload-row,
+    .einv-preview-head,
+    .einv-preview-actions {
+      align-items: stretch;
+      flex-direction: column;
+    }
+    .einv-file-label #einv-pdf-name,
+    .einv-btn {
+      width: 100%;
+      max-width: none;
+    }
+  }
+</style>
+
+<script>
+(function () {
+  var generatedJSON = "";
+  var generatedFilename = "";
+
+  function el(id) { return document.getElementById(id); }
+
+  function getCSRFToken() {
+    var field = el("einv-csrf");
+    return (field && field.value) ||
+      (window.frappe && window.frappe.csrf_token) ||
+      window.csrf_token ||
+      "";
+  }
+
+  function setStatus(msg, type) {
+    var s = el("einv-status");
+    s.textContent = msg || "";
+    s.className = "einv-status" + (type ? " " + type : "");
+  }
+
+  function setWarnings(warnings) {
+    var box = el("einv-warnings");
+    warnings = warnings || [];
+    if (!warnings.length) {
+      box.style.display = "none";
+      box.textContent = "";
+      return;
+    }
+    box.style.display = "block";
+    box.textContent = "Check: " + warnings.join(" | ");
+  }
+
+  function setPreview(data, warnings, fnPrefix) {
+    var count = Array.isArray(data) ? data.length : 0;
+    var stamp = new Date().toISOString().slice(0, 10);
+    generatedFilename = (fnPrefix || "einvoice_pdf") + "_" + stamp + "_" + count + ".json";
+    generatedJSON = JSON.stringify(data || [], null, 2);
+
+    el("einv-json").textContent = generatedJSON;
+    el("einv-preview-meta").textContent = count + " invoice(s) ready - " + generatedFilename;
+    el("einv-preview").style.display = "block";
+    el("einv-copy").disabled = !count;
+    el("einv-download").disabled = !count;
+    el("einv-clear").disabled = false;
+    setWarnings(warnings);
+    setStatus("JSON generated. Review it below, then download or copy.", "ok");
+  }
+
+  function clearPreview() {
+    generatedJSON = "";
+    generatedFilename = "";
+    el("einv-json").textContent = "";
+    el("einv-preview-meta").textContent = "";
+    el("einv-preview").style.display = "none";
+    el("einv-copy").disabled = true;
+    el("einv-download").disabled = true;
+    el("einv-clear").disabled = true;
+    setWarnings([]);
+    setStatus("");
+  }
+
+  function parseErrorResponse(response) {
+    return response.json().then(function (j) {
+      if (response.ok) {
+        return j.message;
+      }
+      var msg = (j && j.exception) || (j && j._server_messages) || ("Request failed (" + response.status + ")");
+      throw new Error(msg);
+    });
+  }
+
+  function download(filename, text) {
+    var blob = new Blob([text], { type: "application/json;charset=utf-8" });
+    var url = URL.createObjectURL(blob);
+    var a = document.createElement("a");
+    a.href = url;
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  }
+
+  function uploadPDF() {
+    var fileInput = el("einv-pdf");
+    var file = fileInput && fileInput.files && fileInput.files[0];
+    if (!file) {
+      setStatus("Select a PDF file first.", "err");
+      return;
+    }
+
+    var csrfToken = getCSRFToken();
+    if (!csrfToken) {
+      setStatus("CSRF token missing. Refresh the page and sign in again.", "err");
+      return;
+    }
+
+    clearPreview();
+    var btn = el("einv-parse-btn");
+    btn.disabled = true;
+    setStatus("Parsing PDF. This may take a moment...");
+
+    var fd = new FormData();
+    fd.append("pdf_file", file);
+    fd.append("csrf_token", csrfToken);
+
+    fetch("/api/method/khanal_tech_integrations.api.einvoice.parse_invoice_pdf", {
+      method: "POST",
+      credentials: "same-origin",
+      headers: {
+        "X-Frappe-CSRF-Token": csrfToken
+      },
+      body: fd
+    }).then(parseErrorResponse).then(function (res) {
+      var data = (res && res.data) || [];
+      setPreview(data, (res && res.warnings) || []);
+    }).catch(function (e) {
+      setStatus("Failed to parse PDF: " + e.message, "err");
+      setWarnings([]);
+    }).finally(function () {
+      btn.disabled = false;
+    });
+  }
+
+  function copyJSON() {
+    if (!generatedJSON) return;
+    navigator.clipboard.writeText(generatedJSON).then(function () {
+      setStatus("JSON copied to clipboard.", "ok");
+    }).catch(function () {
+      setStatus("Could not copy automatically. Select the preview text and copy it manually.", "err");
+    });
+  }
+
+  function downloadJSON() {
+    if (!generatedJSON || !generatedFilename) return;
+    download(generatedFilename, generatedJSON);
+    setStatus("Downloaded " + generatedFilename + ".", "ok");
+  }
+
+  el("einv-parse-btn").addEventListener("click", uploadPDF);
+  el("einv-copy").addEventListener("click", copyJSON);
+  el("einv-download").addEventListener("click", downloadJSON);
+  el("einv-clear").addEventListener("click", clearPreview);
+
+  el("einv-pdf").addEventListener("change", function () {
+    var f = this.files && this.files[0];
+    el("einv-pdf-name").textContent = f ? f.name : "No file chosen";
+    clearPreview();
+  });
+
+  // ---- AR Invoices direct DocNum (HANA) ----
+  function invGenerate(docNums) {
+    if (!docNums || !docNums.length) { setStatus("No invoice DocNum(s) to generate.", "err"); return; }
+    var csrfToken = getCSRFToken();
+    clearPreview();
+    setStatus("Generating invoice JSON…");
+    fetch("/api/method/khanal_tech_integrations.api.einvoice.generate_einvoice_json", {
+      method: "POST",
+      credentials: "same-origin",
+      headers: { "X-Frappe-CSRF-Token": csrfToken, "Content-Type": "application/x-www-form-urlencoded" },
+      body: new URLSearchParams({ doc_nums: JSON.stringify(docNums) }).toString()
+    }).then(parseErrorResponse).then(function (res) {
+      setPreview((res && res.data) || [], (res && res.warnings) || [], "einvoice_inv");
+    }).catch(function (e) {
+      setStatus("Failed: " + e.message, "err");
+    });
+  }
+
+  el("inv-gen-direct-btn").addEventListener("click", function () {
+    var raw = (el("inv-doc-nums").value || "").trim();
+    if (!raw) { setStatus("Enter at least one invoice DocNum.", "err"); return; }
+    invGenerate(raw.split(/[,\s]+/).filter(Boolean));
+  });
+
+  // ---- Credit Notes (HANA) ----
+  function escHtml(str) {
+    return (str || "").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+  }
+
+  function cnUpdateSel() {
+    var checked = document.querySelectorAll("#cn-tbody .cn-row-chk:checked");
+    var n = checked.length;
+    el("cn-sel-count").textContent = n ? n + " selected" : "";
+    el("cn-gen-sel-btn").disabled = !n;
+  }
+
+  function cnRenderTable(data) {
+    var tbody = el("cn-tbody");
+    tbody.innerHTML = "";
+    (data || []).forEach(function (row) {
+      var tr = document.createElement("tr");
+      tr.innerHTML =
+        "<td><input type='checkbox' class='cn-row-chk' data-num='" + row.doc_num + "' /></td>" +
+        "<td>" + escHtml(String(row.doc_num || "")) + "</td>" +
+        "<td>" + escHtml(row.doc_date || "") + "</td>" +
+        "<td>" + escHtml(row.card_name || row.card_code || "") + "</td>" +
+        "<td>" + escHtml(row.buyer_gstin || "—") + "</td>" +
+        "<td style='text-align:right;'>" +
+          (row.doc_total != null
+            ? "₹" + Number(row.doc_total).toLocaleString("en-IN", { minimumFractionDigits: 2, maximumFractionDigits: 2 })
+            : "—") +
+        "</td>";
+      tbody.appendChild(tr);
+    });
+    tbody.querySelectorAll(".cn-row-chk").forEach(function (chk) {
+      chk.addEventListener("change", cnUpdateSel);
+    });
+    el("cn-table-meta").textContent = (data || []).length + " credit note(s) found.";
+    el("cn-table-wrap").style.display = "block";
+    el("cn-chk-all").checked = false;
+    cnUpdateSel();
+  }
+
+  function cnGenerate(docNums) {
+    if (!docNums || !docNums.length) { setStatus("No credit note(s) to generate.", "err"); return; }
+    var csrfToken = getCSRFToken();
+    clearPreview();
+    setStatus("Generating credit note JSON…");
+    fetch("/api/method/khanal_tech_integrations.api.einvoice.generate_credit_note_json", {
+      method: "POST",
+      credentials: "same-origin",
+      headers: { "X-Frappe-CSRF-Token": csrfToken, "Content-Type": "application/x-www-form-urlencoded" },
+      body: new URLSearchParams({ doc_nums: JSON.stringify(docNums) }).toString()
+    }).then(parseErrorResponse).then(function (res) {
+      setPreview((res && res.data) || [], (res && res.warnings) || [], "einvoice_crn");
+    }).catch(function (e) {
+      setStatus("Failed: " + e.message, "err");
+    });
+  }
+
+  el("cn-list-btn").addEventListener("click", function () {
+    var from = el("cn-from").value;
+    var to = el("cn-to").value;
+    if (!from || !to) { setStatus("Select From and To dates for credit notes.", "err"); return; }
+    var csrfToken = getCSRFToken();
+    el("cn-list-btn").disabled = true;
+    setStatus("Fetching credit notes…");
+    var params = new URLSearchParams({
+      from_date: from, to_date: to, b2b_only: el("cn-b2b").checked ? 1 : 0
+    });
+    var cc = (el("cn-card-code").value || "").trim();
+    if (cc) params.set("card_code", cc);
+    fetch("/api/method/khanal_tech_integrations.api.einvoice.list_ar_credit_notes", {
+      method: "POST",
+      credentials: "same-origin",
+      headers: { "X-Frappe-CSRF-Token": csrfToken, "Content-Type": "application/x-www-form-urlencoded" },
+      body: params.toString()
+    }).then(parseErrorResponse).then(function (res) {
+      cnRenderTable((res && res.data) || []);
+      setStatus(((res && res.data) || []).length + " credit note(s) fetched.", "ok");
+    }).catch(function (e) {
+      setStatus("Failed: " + e.message, "err");
+    }).finally(function () {
+      el("cn-list-btn").disabled = false;
+    });
+  });
+
+  el("cn-chk-all").addEventListener("change", function () {
+    document.querySelectorAll("#cn-tbody .cn-row-chk").forEach(function (chk) {
+      chk.checked = el("cn-chk-all").checked;
+    });
+    cnUpdateSel();
+  });
+
+  el("cn-gen-sel-btn").addEventListener("click", function () {
+    var nums = Array.from(document.querySelectorAll("#cn-tbody .cn-row-chk:checked")).map(function (c) { return c.dataset.num; });
+    cnGenerate(nums);
+  });
+
+  el("cn-gen-direct-btn").addEventListener("click", function () {
+    var raw = (el("cn-doc-nums").value || "").trim();
+    if (!raw) { setStatus("Enter at least one credit note DocNum.", "err"); return; }
+    cnGenerate(raw.split(/[,\s]+/).filter(Boolean));
+  });
+})();
+</script>
+{% endblock %}

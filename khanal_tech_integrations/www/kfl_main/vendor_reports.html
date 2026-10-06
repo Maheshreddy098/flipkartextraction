@@ -1,0 +1,110 @@
+{% extends "khanal_tech_integrations/www/kfl_main/base.html" %}
+
+{% block content %}
+<div id="mobileDiv">
+    {% include "templates/includes/vendor_mobile_view.html" %}
+</div>
+<div id="desktopDiv">
+    {% include "templates/includes/vendor_desktop_view.html" %}
+</div>
+{% endblock %}
+
+{% block javascripts %}
+<script>
+// ✅ Shared timestamp
+let lastFetchedTime = null;
+
+// ✅ Load saved time from localStorage
+const savedTime = localStorage.getItem("lastFetchedVendorTime");
+if (savedTime) {
+    lastFetchedTime = new Date(savedTime);
+}
+
+// ✅ Refresh timestamp display
+function refreshCooldown(buttonId, displayId, minutes, autoEnable, timestamp) {
+    const displayElement = document.getElementById(displayId);
+    if (!displayElement || !timestamp) return;
+
+    const options = {
+    year: 'numeric', month: 'short', day: 'numeric',
+    hour: '2-digit', minute: '2-digit', second: '2-digit'
+};
+    const formattedTime = timestamp.toLocaleString('en-IN', options);
+    displayElement.innerText = "Last fetched: " + formattedTime;
+}
+
+// ✅ Toggle between views
+function toggleView() {
+    const isMobile = window.innerWidth < 985;
+    document.getElementById('mobileDiv').style.display = isMobile ? 'block' : 'none';
+    document.getElementById('desktopDiv').style.display = isMobile ? 'none' : 'block';
+
+    if (lastFetchedTime) {
+        refreshCooldown("fetchVendorButton", "lastFetchedDesktopDisplay", 1, true, lastFetchedTime);
+        refreshCooldown("fetchMobileVendorButton", "lastFetchedDisplay6", 1, true, lastFetchedTime);
+    }
+}
+
+window.addEventListener('resize', toggleView);
+document.addEventListener('DOMContentLoaded', () => {
+    toggleView();
+    document.getElementById('fetchVendorButton')?.addEventListener('click', fetchVendorSupplyDataFromSAP);
+    document.getElementById('fetchMobileVendorButton')?.addEventListener('click', fetchVendorSupplyDataFromSAP);
+});
+
+// ✅ Fetch and update function
+function fetchVendorSupplyDataFromSAP() {
+    if (confirm("Are you sure you want to fetch and update vendor supply data from SAP?")) {
+        if (typeof showLoader === "function") showLoader();
+
+        fetch("/api/method/khanal_tech_integrations.utils.Dashboard_Reports.vendor_suply_report.fetch_vendor_supply_data")
+            .then(response => response.json())
+            .then(data => {
+                if (data.message.includes("Data fetched and inserted successfully")) {
+                    const searchInput = document.getElementById('VendorSearchInput');
+                    if (searchInput) {
+                        searchInput.value = '';
+                    }
+
+                    alert("Vendor Supply Data updated successfully.");
+                    
+                    // ✅ Update time
+                    lastFetchedTime = new Date();
+                    localStorage.setItem("lastFetchedVendorTime", lastFetchedTime.toISOString());
+
+                    // ✅ Update both timestamps
+                    refreshCooldown("fetchVendorButton", "lastFetchedDesktopDisplay", 1, true, lastFetchedTime);
+                    refreshCooldown("fetchMobileVendorButton", "lastFetchedDisplay6", 1, true, lastFetchedTime);
+
+                    // ✅ Reload cards/tables
+                    const isMobile = window.innerWidth < 985;
+                    if (isMobile && typeof window.displayVendorCards === "function") {
+                        if (window.allVendorData) window.displayVendorCards(window.allVendorData);
+                    } else if (typeof window.loadVendorReports === "function") {
+                        loadVendorReports(1);
+                    }
+
+                    if (typeof triggerConfetti === "function") triggerConfetti();
+                } else {
+                    alert(data.message || "Something went wrong.");
+                }
+            })
+            .catch(error => {
+                console.error("Error:", error);
+                alert("Failed to fetch data. Please check the console.");
+            })
+            .finally(() => {
+                if (typeof hideLoader === "function") hideLoader();
+            });
+    }
+}
+</script>
+
+<!-- Required JS & CSS libraries -->
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+{% endblock javascripts %}

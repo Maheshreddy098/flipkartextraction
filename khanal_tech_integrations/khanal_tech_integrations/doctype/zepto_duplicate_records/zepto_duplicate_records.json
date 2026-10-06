@@ -1,0 +1,90 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2025-05-26 16:18:41.695798",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "po_number",
+  "docnum",
+  "custom_modified",
+  "custom_modified_by",
+  "column_break_dvnx",
+  "docentry",
+  "sap_status",
+  "custom_creation",
+  "update_status",
+  "section_break_iqms",
+  "record_data"
+ ],
+ "fields": [
+  {
+   "fieldname": "po_number",
+   "fieldtype": "Data",
+   "label": "po_number"
+  },
+  {
+   "fieldname": "docnum",
+   "fieldtype": "Data",
+   "label": "SO-docnum"
+  },
+  {
+   "fieldname": "custom_modified",
+   "fieldtype": "Datetime",
+   "label": "custom_modified"
+  },
+  {
+   "fieldname": "custom_modified_by",
+   "fieldtype": "Data",
+   "label": "custom_modified_by"
+  },
+  {
+   "fieldname": "column_break_dvnx",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "docentry",
+   "fieldtype": "Data",
+   "label": "SO-Docentry"
+  },
+  {
+   "fieldname": "sap_status",
+   "fieldtype": "Data",
+   "label": "sap_status"
+  },
+  {
+   "fieldname": "custom_creation",
+   "fieldtype": "Datetime",
+   "label": "custom_creation"
+  },
+  {
+   "fieldname": "update_status",
+   "fieldtype": "Data",
+   "label": "update_status"
+  },
+  {
+   "fieldname": "section_break_iqms",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "record_data",
+   "fieldtype": "JSON",
+   "label": "record_data"
+  }
+ ],
+ "grid_page_length": 50,
+ "index_web_pages_for_search": 1,
+ "istable": 1,
+ "links": [],
+ "modified": "2025-05-26 16:23:52.919681",
+ "modified_by": "Administrator",
+ "module": "Khanal Tech Integrations",
+ "name": "zepto_duplicate_records",
+ "owner": "Administrator",
+ "permissions": [],
+ "row_format": "Dynamic",
+ "sort_field": "creation",
+ "sort_order": "DESC",
+ "states": []
+}

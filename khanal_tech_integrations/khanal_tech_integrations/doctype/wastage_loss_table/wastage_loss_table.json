@@ -1,0 +1,49 @@
+{
+ "actions": [],
+ "creation": "2024-03-04 10:47:22.658872",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "item_code",
+  "item_description",
+  "column_break_jekt",
+  "loss_value"
+ ],
+ "fields": [
+  {
+   "fieldname": "item_code",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Item Code"
+  },
+  {
+   "fieldname": "item_description",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Item Description"
+  },
+  {
+   "fieldname": "loss_value",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Loss value"
+  },
+  {
+   "fieldname": "column_break_jekt",
+   "fieldtype": "Column Break"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "istable": 1,
+ "links": [],
+ "modified": "2024-03-18 15:45:34.632591",
+ "modified_by": "Administrator",
+ "module": "Khanal Tech Integrations",
+ "name": "Wastage Loss Table",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

@@ -1,0 +1,594 @@
+{% extends "khanal_tech_integrations/www/intranet/base.html" %}
+
+{% block content %}
+
+
+
+<div class="card mt-3">
+    <div class="card-header bg-light">
+        <div class="row align-items-center">
+            <div class="col">
+                <h5 class="mb-0" id="followers">Vendor <span class="d-none d-sm-inline-block">Uploaded Files</span></h5>
+            </div>
+
+        </div>
+    </div>
+    <div class="card-body bg-light px-1 py-0">
+        <div class="row g-0 text-center fs--1">
+
+            <div class="col-6 col-md-4 col-lg-3 col-xxl-2 mb-1">
+                <div class="bg-white dark__bg-1100 p-3 h-100">
+                    <a href="{{doc.fssai_licence}}" style="text-decoration: none;" style="text-decoration: none;"
+                        target="_blank">
+                        <i class="fas fa-file-download " style="font-size: 50px;"></i> <br> <br>
+                        <h6 class="mb-1 {% if doc.fssai_licence %} text-dark {% else %} text-danger {% endif %}">
+                            <span>Fssai Licence</span>
+                        </h6>
+                    </a>
+
+                </div>
+            </div>
+            <div class="col-6 col-md-4 col-lg-3 col-xxl-2 mb-1">
+                <div class="bg-white dark__bg-1100 p-3 h-100">
+                    <a href="{{doc.gst_certificate}}" style="text-decoration: none;" target="_blank">
+                        <i class="fas fa-file-download " style="font-size: 50px;"></i> <br> <br>
+                        <h6 class="mb-1 {% if doc.gst_certificate %} text-dark {% else %} text-danger {% endif %}">
+                            <span>GST Certificate</span>
+                        </h6>
+                    </a>
+
+                </div>
+            </div>
+            <div class="col-6 col-md-4 col-lg-3 col-xxl-2 mb-1">
+                <div class="bg-white dark__bg-1100 p-3 h-100">
+                    <a href="{{doc.gst_declaration_form}}" style="text-decoration: none;" target="_blank">
+                        <i class="fas fa-file-download " style="font-size: 50px;"></i> <br> <br>
+                        <h6 class="mb-1 {% if doc.gst_declaration_form %} text-dark {% else %} text-danger {% endif %}">
+                            <span>GST Declaration Form</span>
+                        </h6>
+                    </a>
+
+                </div>
+            </div>
+            <div class="col-6 col-md-4 col-lg-3 col-xxl-2 mb-1">
+                <div class="bg-white dark__bg-1100 p-3 h-100">
+                    <a href="{{doc.mill_licence}}" style="text-decoration: none;" target="_blank">
+                        <i class="fas fa-file-download " style="font-size: 50px;"></i> <br> <br>
+                        <h6 class="mb-1 {% if doc.mill_licence %} text-dark {% else %} text-danger {% endif %}">
+                            <span>Mill Licence</span>
+                        </h6>
+                    </a>
+
+                </div>
+            </div>
+            <div class="col-6 col-md-4 col-lg-3 col-xxl-2 mb-1">
+                <div class="bg-white dark__bg-1100 p-3 h-100">
+                    <a href="{{doc.msme_licence}}" style="text-decoration: none;" target="_blank">
+                        <i class="fas fa-file-download " style="font-size: 50px;"></i> <br> <br>
+                        <h6 class="mb-1 {% if doc.msme_licence %} text-dark {% else %} text-danger {% endif %}">
+                            <span>MSME Licence</span>
+                        </h6>
+                    </a>
+
+                </div>
+            </div>
+            <div class="col-6 col-md-4 col-lg-3 col-xxl-2 mb-1">
+                <div class="bg-white dark__bg-1100 p-3 h-100">
+                    <a href="{{doc.msme_declaration}}" style="text-decoration: none;" target="_blank">
+                        <i class="fas fa-file-download " style="font-size: 50px;"></i> <br> <br>
+                        <h6 class="mb-1 {% if doc.msme_declaration %} text-dark {% else %} text-danger {% endif %}">
+                            <span>MSME Declaration</span>
+                        </h6>
+                    </a>
+
+                </div>
+            </div>
+            <div class="col-6 col-md-4 col-lg-3 col-xxl-2 mb-1">
+                <div class="bg-white dark__bg-1100 p-3 h-100">
+                    <a href="{{doc.standard_for_food_and_safety}}" style="text-decoration: none;" target="_blank">
+                        <i class="fas fa-file-download " style="font-size: 50px;"></i> <br> <br>
+                        <h6
+                            class="mb-1 {% if doc.standard_for_food_and_safety %} text-dark {% else %} text-danger {% endif %}">
+                            <span>Standard For Food And Safety</span>
+                        </h6>
+                    </a>
+
+                </div>
+            </div>
+            <div class="col-6 col-md-4 col-lg-3 col-xxl-2 mb-1">
+                <div class="bg-white dark__bg-1100 p-3 h-100">
+                    <a href="{{doc.trade_licence}}" style="text-decoration: none;" target="_blank">
+                        <i class="fas fa-file-download " style="font-size: 50px;"></i> <br> <br>
+                        <h6 class="mb-1 {% if doc.trade_licence %} text-dark {% else %} text-danger {% endif %}">
+                            <span>Trade Licence</span>
+                        </h6>
+                    </a>
+
+                </div>
+            </div>
+            <div class="col-6 col-md-4 col-lg-3 col-xxl-2 mb-1">
+                <div class="bg-white dark__bg-1100 p-3 h-100">
+                    <a href="{{doc.pan_card}}" style="text-decoration: none;" target="_blank">
+                        <i class="fas fa-file-download " style="font-size: 50px;"></i> <br> <br>
+                        <h6 class="mb-1 {% if doc.pan_card %} text-dark {% else %} text-danger {% endif %}"><span>Pan
+                                Card</span>
+                        </h6>
+                    </a>
+
+                </div>
+            </div>
+            <div class="col-6 col-md-4 col-lg-3 col-xxl-2 mb-1">
+                <div class="bg-white dark__bg-1100 p-3 h-100">
+                    <a href="{{doc.cancel_cheque}}" style="text-decoration: none;" target="_blank">
+                        <i class="fas fa-file-download " style="font-size: 50px;"></i> <br> <br>
+                        <h6 class="mb-1 {% if doc.cancel_cheque %} text-dark {% else %} text-danger {% endif %}">
+                            <span>Cancel Cheque</span>
+                        </h6>
+
+                    </a>
+
+                </div>
+            </div>
+            <div class="col-6 col-md-4 col-lg-3 col-xxl-2 mb-1">
+                <div class="bg-white dark__bg-1100 p-3 h-100">
+                    <a href="{{doc.code_of_conduct}}" style="text-decoration: none;" target="_blank">
+                        <i class="fas fa-file-download " style="font-size: 50px;"></i> <br> <br>
+                        <h6 class="mb-1  {% if doc.code_of_conduct %} text-dark {% else %} text-danger {% endif %}">
+                            <span>Code Of Conduct</span>
+                        </h6>
+
+                    </a>
+
+                </div>
+            </div>
+            <div class="col-6 col-md-4 col-lg-3 col-xxl-2 mb-1">
+                <div class="bg-white dark__bg-1100 p-3 h-100">
+                    <a href="{{doc.food_analysis_report}}" style="text-decoration: none;" target="_blank">
+                        <i class="fas fa-file-download " style="font-size: 50px;"></i> <br> <br>
+                        <h6 class="mb-1 {% if doc.food_analysis_report %} text-dark {% else %} text-danger {% endif %}">
+                            <span>Food Analysis Report</span>
+                        </h6>
+                    </a>
+
+
+                </div>
+            </div>
+
+
+
+        </div>
+    </div>
+</div>
+
+
+
+<div class="card mb-3 mt-5">
+    <div class="card-header">
+        <div class="row align-items-center">
+            <div class="col">
+                <h5 class="mb-0">Vendor Details</h5>
+            </div>
+        </div>
+    </div>
+    <div class="card-body bg-light border-top">
+        <br>
+        <div class="row">
+            <div class="col-lg col-xxl-5">
+                <h6 class="fw-semi-bold ls mb-3 text-uppercase">Basic Information</h6>
+                <br>
+                <div class="row">
+                    <div class="col-5 col-sm-4">
+                        <p class="fw-semi-bold mb-1">Company Name</p>
+                    </div>
+                    <div class="col">{{doc.company_name}}</div>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-5 col-sm-4">
+                        <p class="fw-semi-bold mb-1">Vendor Name</p>
+                    </div>
+                    <div class="col">{{doc.vendor_name}}</div>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-5 col-sm-4">
+                        <p class="fw-semi-bold mb-1">Email</p>
+                    </div>
+                    <div class="col"><a href="mailto:{{doc.email}}">{{doc.email}}</a></div>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-5 col-sm-4">
+                        <p class="fw-semi-bold mb-1">Telephone Number</p>
+                    </div>
+                    <div class="col">{{doc.telephone_number}}</div>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-5 col-sm-4">
+                        <p class="fw-semi-bold mb-0">Mobile Number</p>
+                    </div>
+                    <div class="col">{{doc.mobile_number}}</div>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-5 col-sm-4">
+                        <p class="fw-semi-bold mb-1">Contact Name</p>
+                    </div>
+                    <div class="col">{{doc.contact_person_name}}</div>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-5 col-sm-4">
+                        <p class="fw-semi-bold mb-1">Designation</p>
+                    </div>
+                    <div class="col">{{doc.designation}}</div>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-5 col-sm-4">
+                        <p class="fw-semi-bold mb-1">Bank Name</p>
+                    </div>
+                    <div class="col">{{doc.bank_name}}</div>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-5 col-sm-4">
+                        <p class="fw-semi-bold mb-1">Account Number</p>
+                    </div>
+                    <div class="col">{{doc.account_number}}</div>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-5 col-sm-4">
+                        <p class="fw-semi-bold mb-1">Ship To Address</p>
+                    </div>
+                    <div class="col">{{doc.ship_to_address}}</div>
+                </div>
+            </div>
+
+            <div class="col-lg col-xxl-5 mt-4 mt-lg-0 offset-xxl-1">
+                <h6 class="fw-semi-bold ls mb-3 text-uppercase">Other Information</h6>
+
+                <br>
+                <div class="row">
+                    <div class="col-5 col-sm-4">
+                        <p class="fw-semi-bold mb-0">GST Number</p>
+                    </div>
+                    <div class="col">
+                        <p class="fw-semi-bold mb-0">{{doc.gst_number}}</p>
+                    </div>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-5 col-sm-4">
+                        <p class="fw-semi-bold mb-0">MSMED Present</p>
+                    </div>
+                    <div class="col">
+                        <p class="fw-semi-bold mb-0">{{doc.mesme_present}}</p>
+                    </div>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-5 col-sm-4">
+                        <p class="fw-semi-bold mb-0">MSMED Number</p>
+                    </div>
+                    <div class="col">
+                        <p class="fw-semi-bold mb-0">{{doc.msmed_number}}</p>
+                    </div>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-5 col-sm-4">
+                        <p class="fw-semi-bold mb-0">Payment Terms</p>
+                    </div>
+                    <div class="col">
+                        <p class="fw-semi-bold mb-0">{{doc.payment_terms}}</p>
+                    </div>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-5 col-sm-4">
+                        <p class="fw-semi-bold mb-0">Days</p>
+                    </div>
+                    <div class="col">
+                        <p class="fw-semi-bold mb-0">{{doc.days}}</p>
+                    </div>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-5 col-sm-4">
+                        <p class="fw-semi-bold mb-0">Return Policy</p>
+                    </div>
+                    <div class="col">
+                        <p class="fw-semi-bold mb-0">{{doc.return_policy}}</p>
+                    </div>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-5 col-sm-4">
+                        <p class="fw-semi-bold mb-0">Days</p>
+                    </div>
+                    <div class="col">
+                        <p class="fw-semi-bold mb-0">{{doc.days}}</p>
+                    </div>
+                </div><br>
+                <div class="row">
+                    <div class="col-5 col-sm-4">
+                        <p class="fw-semi-bold mb-0">Contact Email</p>
+                    </div>
+                    <div class="col">
+                        <p class="fw-semi-bold mb-0">{{doc.contact_person_email}}</p>
+                    </div>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-5 col-sm-4">
+                        <p class="fw-semi-bold mb-0">Contact Phone</p>
+                    </div>
+                    <div class="col">
+                        <p class="fw-semi-bold mb-0">{{doc.contact_person_number}}</p>
+                    </div>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-5 col-sm-4">
+                        <p class="fw-semi-bold mb-0">IFSC Code</p>
+                    </div>
+                    <div class="col">
+                        <p class="fw-semi-bold mb-0">{{doc.ifsc_code}}</p>
+                    </div>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-5 col-sm-4">
+                    </div>
+                    <div class="col">
+                    </div>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-5 col-sm-4">
+                        <p class="fw-semi-bold mb-1">Bill To Address</p>
+                    </div>
+                    <div class="col">{{doc.address}}</div>
+                </div>
+                <!-- <div class="row">
+                    <div class="col-5 col-sm-4">
+                        <p class="fw-semi-bold mb-0">Address</p>
+                    </div>
+                    <div class="col">
+                        <p class="fw-semi-bold mb-0">{{doc.address}}</p>
+                    </div>
+                </div> -->
+                <br>
+
+            </div>
+
+            <div class="row" style="margin-top: 40px;">
+                <div class="col">
+                    <label for=""> Customer Bill To State</label>
+                    <select id="bill_to" class="form-control" required>
+                        <option value="" disabled selected> Choose Bill To State</option>
+                        {% for statelist in LineItem_list %}
+                        <option value="{{statelist.Code}}">{{statelist.Name}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="col">
+                    <label for=""> Customer Ship To State</label>
+                    <select id="ship_to" class="form-control" required>
+                        <option value="" disabled selected> Choose Ship To State</option>
+                        {% for statelist in LineItem_list %}
+                        <option value="{{statelist.Code}}">{{statelist.Name}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="col">
+                    <label for="">Vendor Type</label>
+                    <select id="vendor_type" class="form-control" required>
+                        <option value="" disabled selected> Choose Vendor Type</option>
+
+                        <option value="Civil Construction">Civil Construction</option>
+                        <option value="Expenses">Expenses</option>
+                        <option value="Furnitures">Furnitures</option>
+                        <option value="Machinery">Machinery</option>
+                        <option value="Non-Food">Non-Food</option>
+                        <option value="One time Vendor">One time Vendor</option>
+                        <option value="Packaging">Packaging</option>
+                        <option value="Raw Material">Raw Material</option>
+                        <option value="Service">Service</option>
+                        <option value="Vehicle">Vehicle</option>
+
+
+
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="card-footer border-top text-end">
+        <a class="btn btn-falcon-default btn-sm" href="#authentication-modal" data-bs-toggle="modal"
+            onclick="RejectButton('{{doc.name}}')"><i class="fas fa-backspace"> </i> Reject</a>
+        <a class="btn btn-falcon-default btn-sm ms-2" onclick="ApprovedButton('{{doc.name}}')"><i class="fas fa-check">
+            </i> Approved</a>
+    </div>
+
+</div>
+
+
+<div class="modal fade" id="authentication-modal" tabindex="-1" role="dialog"
+    aria-labelledby="authentication-modal-label" aria-hidden="true">
+    <div class="modal-dialog " role="document">
+        <div class="modal-content border-0">
+            <div class="modal-header position-relative modal-shape-header bg-shape">
+
+                <div class="card-body position-relative">
+                    <!-- <h1>Reason For Rejection</h1> -->
+                    <h5 style="color: white;">Reason For Rejection
+                    </h5>
+                    <!-- <p class="fs--1" style="color: white;">EDD :- <span id="edd"></span></p> -->
+
+                    <!-- <div><strong class="me-2" style="color: white;">Status: </strong>
+                        <div id="colorStatus" class="badge rounded-pill  fs--2"><span id="status"
+                                style="color: black;"></span>
+                            <span id="IconStatus" class=" ms-1" data-fa-transform="shrink-2"></span>
+                        </div>
+                    </div> -->
+                </div>
+                <button class="btn-close btn-close-white position-absolute top-0 end-0 mt-2 me-2"
+                    data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body px-5">
+
+                <div class="container">
+                    <div class="wrapper">
+
+                        <div class="row">
+
+                            <div class="col">
+                                <!-- <label for=""> Reason for Reject</label> -->
+                                <textarea class="form-control" required name="" id="reasonforrejection" cols="30"
+                                    rows="5"></textarea>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <a class="btn btn-falcon-default btn-sm" id="CancelClick"> Cancel</a>
+                <a class="btn btn-falcon-default btn-sm ms-2" id="ButtonClick">Reject</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}
+
+
+
+{% block javascripts %}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<!-- <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script> -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+
+    function RejectButton(name) {
+        $('#ButtonClick').click(() => {
+            console.log('hello')
+            Reason = $('#reasonforrejection').val();
+
+            if (Reason !== null && Reason !== '') {
+                // alert('if')
+                $.ajax({
+                    method: "GET",
+                    url: "/",
+                    data: {
+                        cmd: "khanal_tech_integrations.www.intranet.view_details.Rejecting_vendor",
+                        name: name,
+                        Reason: Reason
+                    },
+                    dataType: "json",
+                    success: function (response) {
+                        Swal.fire({
+                            position: 'top-end',
+                            icon: 'success',
+                            title: 'Your Responce has been Submitted',
+                            showConfirmButton: false,
+                            timer: 1500
+                        })
+                        setTimeout(function () {
+                            window.location.href = "/intranet/vendor_verification";
+                        }, 3000);
+                    }
+                });
+            }
+            else {
+                // alert('else')
+                Swal.fire({
+                    title: 'Enter Reson For Rejection',
+                    showClass: {
+                        popup: 'animate__animated animate__fadeInDown'
+                    },
+                    hideClass: {
+                        popup: 'animate__animated animate__fadeOutUp'
+                    }
+                })
+            }
+        });
+    }
+
+
+
+
+    function ApprovedButton(name) {
+        var vendorType = $('#vendor_type').val();
+        var billTo = $('#bill_to').val();
+        var shipTo = $('#ship_to').val();
+        if (!billTo) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Bill To State is Missing',
+            })
+        } else if (!shipTo) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Ship To State is Missing',
+            })
+        } else if (!vendorType) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Vendor Type is Missing',
+            })
+        }
+        else {
+            $.ajax({
+                method: "GET",
+                url: "/",
+                data: {
+                    cmd: "khanal_tech_integrations.www.intranet.view_details.PostingVendor_to_SAP",
+                    name: name,
+                    vendor_type: vendorType,
+                    bill_to: billTo,
+                    ship_to: shipTo,
+                },
+                dataType: "json",
+                success: function (response) {
+                    console.log(response)
+                    if (response.message) {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Oops...',
+                            text: response.message,
+                        })
+                    } else {
+                           Swal.fire({
+                            icon: 'success',
+                            title: 'Vendor Added To SAP',
+                        })
+                        setTimeout(function () {
+                            window.location.href = "/intranet/vendor_verification";
+                        }, 3000);
+                    }
+                }
+            })
+        }
+
+
+    }
+
+
+
+    $('#CancelClick').click(() => {
+        $('#reasonforrejection').val('');
+        // window.location.reload()
+    })
+
+</script>
+
+
+{% endblock javascripts %}

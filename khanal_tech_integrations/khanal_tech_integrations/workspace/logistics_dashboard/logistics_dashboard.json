@@ -1,0 +1,50 @@
+{
+ "charts": [],
+ "content": "[{\"id\":\"i9EDAr8RvG\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\">Logistics Dashboard</span>\",\"col\":12}},{\"id\":\"HrHcdgn6a3\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Update Proof of Delivery (POD)\",\"col\":3}},{\"id\":\"R4VGfr6e3e\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"tGZyuSJNj0\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Update Shipment Details\",\"col\":3}}]",
+ "creation": "2024-08-28 18:02:23.472432",
+ "custom_blocks": [],
+ "docstatus": 0,
+ "doctype": "Workspace",
+ "for_user": "",
+ "hide_custom": 0,
+ "icon": "dashboard-list",
+ "idx": 0,
+ "indicator_color": "green",
+ "is_hidden": 0,
+ "label": "Logistics Dashboard",
+ "links": [],
+ "modified": "2024-08-29 09:51:08.531172",
+ "modified_by": "Administrator",
+ "module": "Khanal Tech Integrations",
+ "name": "Logistics Dashboard",
+ "number_cards": [],
+ "owner": "Administrator",
+ "parent_page": "",
+ "public": 1,
+ "quick_lists": [],
+ "roles": [
+  {
+   "role": "Delivery Manager"
+  }
+ ],
+ "sequence_id": 27.0,
+ "shortcuts": [
+  {
+   "color": "Red",
+   "doc_view": "List",
+   "label": "Update Proof of Delivery (POD)",
+   "link_to": "SAP AR Invoice Detail",
+   "stats_filter": "[[\"SAP AR Invoice Detail\",\"pod_url\",\"is\",\"not set\",false]]",
+   "type": "DocType"
+  },
+  {
+   "color": "Yellow",
+   "doc_view": "List",
+   "label": "Update Shipment Details",
+   "link_to": "SAP AR Invoice Detail",
+   "stats_filter": "[[\"SAP AR Invoice Detail\",\"shipping_status\",\"=\",\"Pending\",false]]",
+   "type": "DocType"
+  }
+ ],
+ "title": "Logistics Dashboard"
+}

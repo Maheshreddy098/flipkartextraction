@@ -1,0 +1,246 @@
+{
+ "actions": [],
+ "autoname": "WP-ORD-.YYYY.-.#####",
+ "creation": "2026-03-06 12:00:00",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+ "fba_transfer_name",
+ "section_details",
+ "status",
+ "doc_date",
+ "accepted_date",
+ "completed_date",
+ "to_warehouse",
+ "column_break_details",
+ "approved_by",
+ "accepted_by",
+ "warehouse_awaiting_kf",
+ "comments",
+ "section_address",
+ "address_line1",
+ "address_line2",
+ "city",
+ "state",
+ "zip_code",
+ "section_sap",
+ "sap_request_doc_entry",
+ "sap_request_doc_num",
+ "sap_doc_entry",
+ "sap_doc_num",
+ "sap_sync_error",
+ "section_items",
+ "items"
+ ],
+ "fields": [
+  {
+   "fieldname": "section_details",
+   "fieldtype": "Section Break",
+   "label": "Order Details"
+  },
+  {
+   "default": "Draft",
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Status",
+   "options": "Draft\nPending Approval\nApproved\nAccepted\nPackaging\nDispatched\nSent to SAP\nError",
+   "reqd": 1,
+   "search_index": 1
+  },
+  {
+   "default": "Today",
+   "fieldname": "doc_date",
+   "fieldtype": "Date",
+   "in_list_view": 1,
+   "label": "Doc Date",
+   "reqd": 1
+  },
+  {
+   "fieldname": "accepted_date",
+   "fieldtype": "Date",
+   "label": "Accepted Date",
+   "read_only": 1
+  },
+  {
+   "fieldname": "completed_date",
+   "fieldtype": "Date",
+   "label": "Completed Date",
+   "read_only": 1
+  },
+  {
+   "fieldname": "to_warehouse",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "To Warehouse",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_details",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "approved_by",
+   "fieldtype": "Link",
+   "label": "Approved By",
+   "options": "User",
+   "read_only": 1
+  },
+  {
+   "fieldname": "accepted_by",
+   "fieldtype": "Link",
+   "label": "Accepted By",
+   "options": "User",
+   "read_only": 1
+  },
+  {
+   "default": "0",
+   "fieldname": "warehouse_awaiting_kf",
+   "fieldtype": "Check",
+   "hidden": 1,
+   "label": "Warehouse Awaiting KhanalFoods",
+   "read_only": 1
+  },
+  {
+   "fieldname": "comments",
+   "fieldtype": "Text",
+   "label": "Comments"
+  },
+  {
+   "fieldname": "section_address",
+   "fieldtype": "Section Break",
+   "label": "Address (USA – not sent to SAP)"
+  },
+  {
+   "fieldname": "address_line1",
+   "fieldtype": "Data",
+   "label": "Address Line 1",
+   "reqd": 1
+  },
+  {
+   "fieldname": "address_line2",
+   "fieldtype": "Data",
+   "label": "Address Line 2"
+  },
+  {
+   "fieldname": "city",
+   "fieldtype": "Data",
+   "label": "City",
+   "reqd": 1
+  },
+  {
+   "fieldname": "state",
+   "fieldtype": "Data",
+   "label": "State (e.g. CA)",
+   "length": 2,
+   "reqd": 1
+  },
+  {
+   "fieldname": "zip_code",
+   "fieldtype": "Data",
+   "label": "ZIP Code",
+   "reqd": 1
+  },
+  {
+   "collapsible": 1,
+   "fieldname": "section_sap",
+   "fieldtype": "Section Break",
+   "label": "SAP Sync"
+  },
+  {
+   "fieldname": "sap_request_doc_entry",
+   "fieldtype": "Data",
+   "label": "SAP Request Doc Entry",
+   "read_only": 1
+  },
+  {
+   "fieldname": "sap_request_doc_num",
+   "fieldtype": "Data",
+   "label": "SAP Request Doc Num",
+   "read_only": 1
+  },
+  {
+   "fieldname": "sap_doc_entry",
+   "fieldtype": "Data",
+   "label": "SAP Doc Entry",
+   "read_only": 1
+  },
+  {
+   "fieldname": "sap_doc_num",
+   "fieldtype": "Data",
+   "label": "SAP Doc Num",
+   "read_only": 1
+  },
+  {
+   "fieldname": "sap_sync_error",
+   "fieldtype": "Text",
+   "label": "SAP Sync Error",
+   "read_only": 1
+  },
+  {
+   "fieldname": "section_items",
+   "fieldtype": "Section Break",
+   "label": "Items"
+  },
+  {
+   "fieldname": "items",
+   "fieldtype": "Table",
+   "label": "Items",
+   "options": "WowPets Order Item",
+   "reqd": 1
+  },
+  {
+   "description": "name",
+   "fieldname": "fba_transfer_name",
+   "fieldtype": "Data",
+   "label": "FBA Transfer Name"
+  }
+ ],
+ "links": [],
+ "modified": "2026-03-13 13:15:58.173033",
+ "modified_by": "yogesha@khanalfoods.com",
+ "module": "Khanal Tech Integrations",
+ "name": "WowPets Order",
+ "naming_rule": "Expression (old style)",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "email": 1,
+   "print": 1,
+   "read": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "read": 1,
+   "role": "WowPets KhanalFoods User",
+   "write": 1
+  },
+  {
+   "create": 1,
+   "read": 1,
+   "role": "WowPets KhanalFoods Manager",
+   "write": 1
+  },
+  {
+   "read": 1,
+   "role": "WowPets Warehouse User",
+   "write": 1
+  },
+  {
+   "read": 1,
+   "role": "WowPets Warehouse Manager",
+   "write": 1
+  }
+ ],
+ "row_format": "Dynamic",
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1
+}

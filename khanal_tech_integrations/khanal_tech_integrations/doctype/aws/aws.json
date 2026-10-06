@@ -1,0 +1,182 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2025-03-03 17:06:34.582599",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "b2b_section",
+  "aws_access_key_id",
+  "aws_secret_access_key",
+  "bucket_name",
+  "folder_blinkit",
+  "folder_insta",
+  "folder_moreretails",
+  "s3_settings_section",
+  "access_key_id",
+  "secret_access_key",
+  "column_break_odnt",
+  "region",
+  "bucket_name_dsr",
+  "folder_prefix",
+  "wowpets_s3_section",
+  "wowpets_access_key_id",
+  "wowpets_secret_access_key",
+  "column_break_wowpets",
+  "wowpets_region",
+  "wowpets_tickets_bucket",
+  "wowpets_khanalfoods_bucket",
+  "real_aquatics_s3_section",
+  "real_aquatics_tickets_bucket",
+  "real_aquatics_khanalfoods_bucket"
+ ],
+ "fields": [
+  {
+   "fieldname": "aws_access_key_id",
+   "fieldtype": "Data",
+   "label": "aws_access_key_id"
+  },
+  {
+   "fieldname": "aws_secret_access_key",
+   "fieldtype": "Data",
+   "label": "aws_secret_access_key"
+  },
+  {
+   "fieldname": "bucket_name",
+   "fieldtype": "Data",
+   "label": "bucket_name"
+  },
+  {
+   "fieldname": "folder_blinkit",
+   "fieldtype": "Data",
+   "label": "folder_blinkit"
+  },
+  {
+   "fieldname": "folder_insta",
+   "fieldtype": "Data",
+   "label": "folder_insta"
+  },
+  {
+   "fieldname": "folder_moreretails",
+   "fieldtype": "Data",
+   "label": "folder_moreretails"
+  },
+  {
+   "fieldname": "b2b_section",
+   "fieldtype": "Section Break",
+   "label": "B2B "
+  },
+  {
+   "fieldname": "s3_settings_section",
+   "fieldtype": "Section Break",
+   "label": "S3 Settings "
+  },
+  {
+   "fieldname": "access_key_id",
+   "fieldtype": "Data",
+   "label": "Access Key ID"
+  },
+  {
+   "fieldname": "secret_access_key",
+   "fieldtype": "Data",
+   "label": "Secret Access Key"
+  },
+  {
+   "fieldname": "column_break_odnt",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "region",
+   "fieldtype": "Data",
+   "label": "Region"
+  },
+  {
+   "fieldname": "bucket_name_dsr",
+   "fieldtype": "Data",
+   "label": "Bucket Name DSR"
+  },
+  {
+   "fieldname": "folder_prefix",
+   "fieldtype": "Data",
+   "label": "Folder Path Prefix\t"
+  },
+  {
+   "fieldname": "wowpets_s3_section",
+   "fieldtype": "Section Break",
+   "label": "WowPets S3"
+  },
+  {
+   "fieldname": "wowpets_access_key_id",
+   "fieldtype": "Data",
+   "label": "WowPets Access Key ID"
+  },
+  {
+   "fieldname": "wowpets_secret_access_key",
+   "fieldtype": "Password",
+   "label": "WowPets Secret Access Key"
+  },
+  {
+   "fieldname": "column_break_wowpets",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "wowpets_region",
+   "fieldtype": "Data",
+   "label": "WowPets Region",
+   "default": "us-west-1"
+  },
+  {
+   "fieldname": "wowpets_tickets_bucket",
+   "fieldtype": "Data",
+   "label": "Tickets Bucket",
+   "default": "wowpets-tickets"
+  },
+  {
+   "fieldname": "wowpets_khanalfoods_bucket",
+   "fieldtype": "Data",
+   "label": "KhanalFoods Attachments Bucket",
+   "default": "wowpets-khanalfoods"
+  },
+  {
+   "fieldname": "real_aquatics_s3_section",
+   "fieldtype": "Section Break",
+   "label": "Real Aquatics S3 (reuses WowPets IAM credentials & region)"
+  },
+  {
+   "fieldname": "real_aquatics_tickets_bucket",
+   "fieldtype": "Data",
+   "label": "Real Aquatics Tickets Bucket",
+   "default": "realaquatics-tickets"
+  },
+  {
+   "fieldname": "real_aquatics_khanalfoods_bucket",
+   "fieldtype": "Data",
+   "label": "Real Aquatics KhanalFoods Attachments Bucket",
+   "default": "realaquatics-khanalfoods"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "issingle": 1,
+ "links": [],
+ "modified": "2025-04-25 13:38:36.232728",
+ "modified_by": "Administrator",
+ "module": "Khanal Tech Integrations",
+ "name": "AWS",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "print": 1,
+   "read": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "creation",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1
+}

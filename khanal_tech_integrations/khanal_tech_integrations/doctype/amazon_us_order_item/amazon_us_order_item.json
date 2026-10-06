@@ -1,0 +1,164 @@
+{
+ "actions": [],
+ "creation": "2026-06-16 00:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "istable": 1,
+ "field_order": [
+  "seller_sku",
+  "sap_item_code",
+  "is_mapped",
+  "quantity_ordered",
+  "quantity_shipped",
+  "column_break_1",
+  "asin",
+  "order_item_id",
+  "condition_id",
+  "title",
+  "section_financials",
+  "item_price_amount",
+  "item_tax_amount",
+  "shipping_price_amount",
+  "shipping_tax_amount",
+  "shipping_discount_amount",
+  "column_break_financials",
+  "promotion_discount_amount",
+  "cod_fee",
+  "unit_price",
+  "quantity"
+ ],
+ "fields": [
+  {
+   "fieldname": "seller_sku",
+   "fieldtype": "Data",
+   "label": "Seller SKU",
+   "reqd": 1,
+   "in_list_view": 1,
+   "bold": 1
+  },
+  {
+   "fieldname": "sap_item_code",
+   "fieldtype": "Data",
+   "label": "SAP Item Code",
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "is_mapped",
+   "fieldtype": "Check",
+   "label": "Mapped to SAP",
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "quantity_ordered",
+   "fieldtype": "Float",
+   "label": "Qty Ordered",
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "quantity_shipped",
+   "fieldtype": "Float",
+   "label": "Qty Shipped",
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "column_break_1",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "asin",
+   "fieldtype": "Data",
+   "label": "ASIN"
+  },
+  {
+   "fieldname": "order_item_id",
+   "fieldtype": "Data",
+   "label": "Order Item ID"
+  },
+  {
+   "fieldname": "condition_id",
+   "fieldtype": "Data",
+   "label": "Condition"
+  },
+  {
+   "fieldname": "title",
+   "fieldtype": "Data",
+   "label": "Item Title"
+  },
+  {
+   "fieldname": "section_financials",
+   "fieldtype": "Section Break",
+   "label": "Financials (USD)"
+  },
+  {
+   "fieldname": "item_price_amount",
+   "fieldtype": "Currency",
+   "label": "Item Price",
+   "options": "USD",
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "item_tax_amount",
+   "fieldtype": "Currency",
+   "label": "Item Tax",
+   "options": "USD"
+  },
+  {
+   "fieldname": "shipping_price_amount",
+   "fieldtype": "Currency",
+   "label": "Shipping Price",
+   "options": "USD"
+  },
+  {
+   "fieldname": "shipping_tax_amount",
+   "fieldtype": "Currency",
+   "label": "Shipping Tax",
+   "options": "USD"
+  },
+  {
+   "fieldname": "column_break_financials",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "shipping_discount_amount",
+   "fieldtype": "Currency",
+   "label": "Shipping Discount",
+   "options": "USD"
+  },
+  {
+   "fieldname": "promotion_discount_amount",
+   "fieldtype": "Currency",
+   "label": "Promotion Discount",
+   "options": "USD"
+  },
+  {
+   "fieldname": "cod_fee",
+   "fieldtype": "Currency",
+   "label": "COD Fee",
+   "options": "USD"
+  },
+  {
+   "fieldname": "unit_price",
+   "fieldtype": "Currency",
+   "label": "Unit Price (for SAP)",
+   "options": "USD",
+   "description": "item_price_amount / quantity_shipped — used as SAP line UnitPrice."
+  },
+  {
+   "fieldname": "quantity",
+   "fieldtype": "Float",
+   "label": "Quantity (for SAP)",
+   "description": "quantity_shipped if > 0, else quantity_ordered."
+  }
+ ],
+ "index_web_pages_for_search": 0,
+ "links": [],
+ "modified": "2026-06-16 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Khanal Tech Integrations",
+ "name": "Amazon US Order Item",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "idx",
+ "sort_order": "ASC",
+ "states": []
+}

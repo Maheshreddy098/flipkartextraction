@@ -1,0 +1,105 @@
+{% block content %}
+<nav class="navbar navbar-light navbar-transparent    navbar-vertical navbar-expand-xl ">
+  <div class="d-flex align-items-center">
+    <div class="toggle-icon-wrapper">
+
+      <button class="btn navbar-toggler-humburger-icon navbar-vertical-toggle" data-bs-toggle="tooltip"
+        data-bs-placement="left" title="Toggle Navigation"><span class="navbar-toggle-icon"><span
+            class="toggle-line"></span></span></button>
+
+    </div><a class="navbar-brand" href="/kfl_main/">
+      <div class="d-flex align-items-center py-3"><img class="me-2"
+          src="/assets/khanal_tech_integrations/assets/img/khanal_foods_logo.png" alt="" width="40" /><span
+          class="font-sans-serif" style="font-size: 17px;">KFL Dashboard</span>
+      </div>
+    </a>
+  </div>
+  <div class="collapse navbar-collapse" id="navbarVerticalCollapse">
+    <div class="sidebar-left navbar-vertical-content scrollbar">
+      <ul class="navbar-nav flex-column mb-3" id="navbarVerticalNav">
+        <li class="nav-item">
+          <a class="nav-link" href="/kfl_main" role="button">
+            <div class="d-flex align-items-center">
+              <span class="nav-link-icon"><span class="fas fa-chart-pie"></span></span>
+              <span class="nav-link-text ps-1">Dashboard</span>
+            </div>
+          </a>
+        </li>
+
+        {% set custom_reports_queries_names = get_session_custom_reports() %}
+        <!-- {{ custom_reports_queries_names }} -->
+
+        {# Group reports by category #}
+        {% set grouped = {} %}
+        {% for item in custom_reports_queries_names %}
+        {% set category = item.category %}
+        {% if category not in grouped %}
+        {% set _ = grouped.update({category: []}) %}
+        {% endif %}
+        {% set _ = grouped[category].append({item.name: item.report_display_name, "icon_color": item.get("icon_color")
+        or ''}) %}
+
+        {% endfor %}
+
+        {% set selected_report = frappe.form_dict.get("report_name") %}
+
+        {% for category, reports in grouped.items() %}
+
+        {% set ns = namespace(is_open=false) %}
+        {% for report in reports %}
+        {% set report_key = report.keys()|list|first %}
+        {% if report_key == selected_report %}
+        {% set ns.is_open = true %}
+        {% endif %}
+        {% endfor %}
+
+
+        <a class="nav-link dropdown-indicator" href="#{{category}}Reports" role="button" data-bs-toggle="collapse"
+          aria-expanded="{{ 'true' if ns.is_open else 'false' }}" aria-controls="{{category}}Reports">
+          <div class="d-flex align-items-center"><span class="nav-link-icon"><span
+                class="fas fa-clipboard-list"></span></span><span class="nav-link-text ps-1">{{ category }}</span>
+          </div>
+        </a>
+        <ul class="nav flex-column collapse {{ 'show' if ns.is_open else '' }}" id="{{ category }}Reports">
+          {% for report in reports %}
+          {% set name_n_report_name = list(report.items())[0] %}
+          {% set report_key = name_n_report_name[0] %}
+          {% set report_label = name_n_report_name[1].replace('_', ' ') %}
+          {% set color_tag = report.icon_color if report.icon_color else 'blue' %}
+          {% set is_active = selected_report == report_key %}
+
+          <li class="nav-item" style="margin-bottom:4px;">
+            <a href="/kfl_main/custom_reports?report_name={{ report_key }}" target="{{ report_key }}" class="nav-link"
+              style=" display:flex;  align-items:center; border-radius:8px; padding:6px 12px; transition: all 0.2s ease; color: {{ '#fff' if is_active else color_tag }}; background-color: {{ color_tag if is_active else 'transparent' }};">
+              <i class="fas fa-chevron-circle-right me-2" style="color: {{ '#fff' if is_active else color_tag }};"></i>
+              <span>{{ report_label }}</span>
+            </a>
+          </li>
+          {% endfor %}
+        </ul>
+        {% endfor %}
+
+
+        {% set User_doc = frappe.get_doc('User', frappe.session.user ) %}
+        {% for i in User_doc.roles %}
+        {% if i.role == "Sales Logistics Report Viewer" %}
+        {% include "/templates/includes/role_admin_partial.html" %}
+        {% endif %}
+        {% if i.role == "Accounts Manager" %}
+        {% include "/templates/includes/role_admin_partial.html" %}
+        {% endif %}
+        {% if i.role == "Inventory User" %}
+        {% include "/templates/includes/role_admin_partial.html" %}
+        {% endif %}
+        {% if i.role == "Vendor Manager" %}
+        {% include "templates/includes/role_admin_partial.html" %}
+        {% endif %}
+        {% endfor %}
+
+
+      </ul>
+    </div>
+  </div>
+</nav>
+
+{% endblock %}

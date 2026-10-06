@@ -1,0 +1,111 @@
+{
+ "actions": [],
+ "creation": "2026-04-01 00:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "reference_doctype",
+  "reference_name",
+  "module_folder",
+  "column_break_1",
+  "file_name",
+  "s3_key",
+  "uploaded_by",
+  "uploaded_at"
+ ],
+ "fields": [
+  {
+   "fieldname": "reference_doctype",
+   "fieldtype": "Data",
+   "label": "Reference Doctype",
+   "reqd": 1,
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "reference_name",
+   "fieldtype": "Data",
+   "label": "Reference Name",
+   "reqd": 1,
+   "in_list_view": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "module_folder",
+   "fieldtype": "Data",
+   "label": "Module Folder"
+  },
+  {
+   "fieldname": "column_break_1",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "file_name",
+   "fieldtype": "Data",
+   "label": "File Name",
+   "reqd": 1,
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "s3_key",
+   "fieldtype": "Data",
+   "label": "S3 Key",
+   "hidden": 1
+  },
+  {
+   "fieldname": "uploaded_by",
+   "fieldtype": "Data",
+   "label": "Uploaded By",
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "uploaded_at",
+   "fieldtype": "Datetime",
+   "label": "Uploaded At",
+   "in_list_view": 1
+  }
+ ],
+ "index_web_pages_for_search": 0,
+ "issingle": 0,
+ "links": [],
+ "modified": "2026-04-01 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Khanal Tech Integrations",
+ "name": "WowPets KF Attachment",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "read": 1,
+   "role": "System Manager",
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "read": 1,
+   "role": "WowPets KhanalFoods Manager",
+   "write": 1
+  },
+  {
+   "create": 1,
+   "read": 1,
+   "role": "WowPets KhanalFoods User",
+   "write": 1
+  },
+  {
+   "read": 1,
+   "role": "WowPets Warehouse Manager",
+   "write": 0
+  },
+  {
+   "read": 1,
+   "role": "WowPets Warehouse User",
+   "write": 0
+  }
+ ],
+ "sort_field": "uploaded_at",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 0
+}

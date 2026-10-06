@@ -1,0 +1,770 @@
+{% extends "khanal_tech_integrations/www/logistics_delivery/base.html" %}
+{% set active = "home" %}
+
+{% block title %}Home{% endblock %}
+
+{% block topbar_title %}Home{% endblock %}
+
+{% block head_extra %}
+<style>
+  .ld-home-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  @media (min-width: 768px) {
+    .ld-home-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  /* ── Hero banner ── */
+  .ld-home-welcome {
+    position: relative;
+    overflow: hidden;
+    border-radius: 1rem;
+    background: linear-gradient(110deg, #0a2623 0%, #0f4440 55%, #155c57 100%);
+    min-height: 220px;
+    display: flex;
+    align-items: center;
+  }
+  /* The truck/globe PNG sits absolutely on the right */
+  .ld-home-welcome__art {
+    position: absolute;
+    right: 8%;
+    bottom: 0;
+    height: 115%;
+    width: auto;
+    pointer-events: none;
+    z-index: 1;
+    user-select: none;
+    /* drop-shadow to blend softly onto the teal background */
+    filter: drop-shadow(-8px 0 32px rgba(10,38,35,0.55));
+  }
+  /* Fade art into bg on the left edge so it doesn't hard-cut into the text */
+  .ld-home-welcome::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    pointer-events: none;
+    background: linear-gradient(
+      90deg,
+      #0a2623 0%,
+      #0a2623 30%,
+      rgba(10,38,35,0.7) 50%,
+      transparent 68%
+    );
+  }
+  .ld-home-welcome__inner {
+    position: relative;
+    z-index: 3;
+    max-width: 55%;
+  }
+  @media (max-width: 640px) {
+    .ld-home-welcome__art { display: none; }
+    .ld-home-welcome__inner { max-width: 100%; }
+  }
+  .ld-home-welcome__title {
+    font-size: clamp(1.35rem, 3.5vw, 1.75rem);
+    font-weight: 800;
+    margin: 0 0 0.5rem;
+    letter-spacing: -0.03em;
+    color: #f8fafc;
+    line-height: 1.2;
+    text-shadow: 0 1px 2px rgba(15, 23, 42, 0.35);
+  }
+  .ld-home-welcome__lead {
+    margin: 0;
+    font-size: 0.95rem;
+    line-height: 1.6;
+    color: rgba(226, 232, 240, 0.94);
+    max-width: 40rem;
+    text-shadow: 0 1px 2px rgba(15, 23, 42, 0.25);
+  }
+  .ld-home-welcome-pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.55rem;
+    margin-top: 1.15rem;
+  }
+  .ld-home-welcome-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    font-size: 0.7rem;
+    font-weight: 800;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 0.42rem 0.85rem;
+    border-radius: 999px;
+    color: #ecfdf5;
+    border: 1px solid rgba(255, 255, 255, 0.28);
+    background: rgba(15, 23, 42, 0.22);
+    box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.08) inset;
+    backdrop-filter: blur(6px);
+  }
+  .ld-home-welcome-pill--live {
+    border-color: rgba(94, 234, 212, 0.55);
+    background: rgba(94, 234, 212, 0.16);
+    color: #ccfbf1;
+  }
+  .ld-home-welcome-dot {
+    width: 0.45rem;
+    height: 0.45rem;
+    border-radius: 50%;
+    background: #22c55e;
+    box-shadow: 0 0 0 2px rgba(34, 197, 94, 0.35);
+    flex-shrink: 0;
+  }
+  .ld-home-kpi-row {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.75rem;
+    margin-bottom: 1.25rem;
+  }
+  @media (min-width: 768px) {
+    .ld-home-kpi-row { grid-template-columns: repeat(4, 1fr); }
+  }
+  .ld-home-kpi {
+    border-radius: 1rem;
+    padding: 1rem 1.2rem 1rem 1.35rem;
+    border: none;
+    box-shadow: 0 2px 8px rgba(15,23,42,0.07), 0 8px 24px -6px rgba(15,23,42,0.09);
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.18s ease, box-shadow 0.18s ease;
+  }
+  .ld-home-kpi:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 16px rgba(15,23,42,0.08), 0 20px 40px -8px rgba(15,23,42,0.13);
+  }
+  /* Shared left accent bar */
+  .ld-home-kpi::before {
+    content: "";
+    position: absolute;
+    left: 0; top: 18%; bottom: 18%;
+    width: 4px;
+    border-radius: 0 4px 4px 0;
+  }
+  /* KPI 1 — Tracker rows: brand teal */
+  .ld-home-kpi:nth-child(1) {
+    background: linear-gradient(135deg, #ffffff 0%, #f0fdfc 100%);
+    border: 1px solid rgba(20,184,166,0.18) !important;
+  }
+  .ld-home-kpi:nth-child(1)::before { background: linear-gradient(180deg, #2dd4bf, #0f766e); }
+  .ld-home-kpi:nth-child(1) .ld-home-kpi__val { color: #0f766e; }
+
+  /* KPI 2 — Open issues: warm amber (alert signal) */
+  .ld-home-kpi:nth-child(2) {
+    background: linear-gradient(135deg, #ffffff 0%, #fefce8 100%);
+    border: 1px solid rgba(234,179,8,0.2) !important;
+  }
+  .ld-home-kpi:nth-child(2)::before { background: linear-gradient(180deg, #fbbf24, #d97706); }
+  .ld-home-kpi:nth-child(2) .ld-home-kpi__val { color: #b45309; }
+
+  /* KPI 3 — SAP retry: slate (neutral/ok) */
+  .ld-home-kpi:nth-child(3) {
+    background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+    border: 1px solid rgba(100,116,139,0.15) !important;
+  }
+  .ld-home-kpi:nth-child(3)::before { background: linear-gradient(180deg, #94a3b8, #475569); }
+  .ld-home-kpi:nth-child(3) .ld-home-kpi__val { color: #334155; }
+
+  /* KPI 4 — Live: brand deep green (status) */
+  .ld-home-kpi:nth-child(4) {
+    background: linear-gradient(135deg, #ffffff 0%, #f0f9f8 100%);
+    border: 1px solid rgba(44,94,88,0.15) !important;
+  }
+  .ld-home-kpi:nth-child(4)::before { background: linear-gradient(180deg, #4ade80, #15803d); }
+  .ld-home-kpi:nth-child(4) .ld-home-kpi__val { color: #15803d; font-size: 1rem; letter-spacing: 0; }
+
+  .ld-home-kpi__val {
+    font-size: 1.65rem;
+    font-weight: 900;
+    letter-spacing: -0.04em;
+    line-height: 1;
+  }
+  .ld-home-kpi__lbl {
+    font-size: 0.62rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.09em;
+    color: #94a3b8;
+    margin-top: 0.32rem;
+  }
+  .ld-home-kpi--alert .ld-home-kpi__val { color: #b45309; }
+  .ld-home-alerts-card h3 {
+    font-size: 0.95rem;
+    font-weight: 800;
+    margin: 0 0 0.75rem;
+    color: #0f172a;
+  }
+  .ld-home-alert-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.65rem;
+    padding: 0.55rem 0;
+    border-bottom: 1px solid rgba(241, 245, 249, 1);
+    text-decoration: none;
+    color: inherit;
+  }
+  .ld-home-alert-row:last-child { border-bottom: none; }
+  .ld-home-alert-row:hover { background: rgba(44, 94, 88, 0.04); margin: 0 -0.5rem; padding-left: 0.5rem; padding-right: 0.5rem; border-radius: 0.5rem; }
+  .ld-home-alert-dot {
+    width: 0.45rem;
+    height: 0.45rem;
+    border-radius: 50%;
+    margin-top: 0.35rem;
+    flex-shrink: 0;
+  }
+  .ld-home-alert-dot--warn { background: #ca8a04; }
+  .ld-home-alert-dot--danger { background: #dc2626; }
+  .ld-home-alert-t { font-weight: 700; font-size: 0.82rem; color: #334155; }
+  .ld-home-alert-m { font-size: 0.78rem; color: #64748b; line-height: 1.35; margin-top: 0.12rem; }
+  /* ── Tiles ── */
+  .ld-home-tile {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    padding: 1.5rem 1.6rem;
+    border-radius: 1.25rem;
+    border: none;
+    text-decoration: none;
+    color: inherit;
+    box-shadow: 0 2px 8px rgba(15,23,42,0.07), 0 12px 32px -8px rgba(15,23,42,0.1);
+    transition: transform 0.22s ease, box-shadow 0.22s ease;
+    position: relative;
+    overflow: hidden;
+  }
+  /* Delivery — cool teal wash */
+  .ld-home-tile--delivery {
+    background: linear-gradient(145deg, #ffffff 0%, #f0fdfc 60%, #e6faf8 100%);
+    border: 1px solid rgba(13,148,136,0.14) !important;
+  }
+  /* Tracker — warm slate-teal wash */
+  .ld-home-tile--tracker {
+    background: linear-gradient(145deg, #ffffff 0%, #f8fafc 50%, #f0f9f8 100%);
+    border: 1px solid rgba(44,94,88,0.14) !important;
+  }
+  /* Corner glow — very subtle, brand teal only */
+  .ld-home-tile::after {
+    content: "";
+    position: absolute;
+    top: -30%; right: -15%;
+    width: 50%;
+    height: 65%;
+    border-radius: 50%;
+    pointer-events: none;
+    opacity: 0.3;
+  }
+  .ld-home-tile--delivery::after {
+    background: radial-gradient(circle, rgba(20,184,166,0.35) 0%, transparent 70%);
+  }
+  .ld-home-tile--tracker::after {
+    background: radial-gradient(circle, rgba(44,94,88,0.25) 0%, transparent 70%);
+  }
+  .ld-home-tile:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 16px rgba(15,23,42,0.08), 0 28px 56px -12px rgba(15,23,42,0.16);
+  }
+  .ld-home-tile-icon {
+    width: 3rem;
+    height: 3rem;
+    border-radius: 0.9rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.3rem;
+    margin-bottom: 1rem;
+    flex-shrink: 0;
+    position: relative;
+    z-index: 1;
+  }
+  .ld-home-tile--delivery .ld-home-tile-icon {
+    background: linear-gradient(145deg, #f0fdfc, #ccfbf1);
+    color: #0f766e;
+    box-shadow: 0 2px 8px rgba(15,118,110,0.15), 0 0 0 1px rgba(20,184,166,0.3);
+  }
+  .ld-home-tile--tracker .ld-home-tile-icon {
+    background: linear-gradient(145deg, #f0f9f8, #cce8e5);
+    color: #2c5e58;
+    box-shadow: 0 2px 8px rgba(44,94,88,0.15), 0 0 0 1px rgba(44,94,88,0.25);
+  }
+  .ld-home-tile h3 {
+    font-size: 1.08rem;
+    font-weight: 800;
+    margin: 0 0 0.4rem;
+    letter-spacing: -0.02em;
+    color: #0f172a;
+    position: relative;
+    z-index: 1;
+  }
+  .ld-home-tile p {
+    margin: 0;
+    font-size: 0.86rem;
+    color: #475569;
+    line-height: 1.55;
+    flex: 1;
+    position: relative;
+    z-index: 1;
+  }
+  .ld-home-tile-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    margin-top: 1.15rem;
+    font-size: 0.83rem;
+    font-weight: 800;
+    letter-spacing: 0.01em;
+    color: #0f766e;
+    position: relative;
+    z-index: 1;
+  }
+  .ld-home-note {
+    margin-top: 1.25rem;
+    padding: 1rem 1.15rem;
+    border-radius: 0.75rem;
+    background: rgba(44, 94, 88, 0.06);
+    border: 1px dashed rgba(44, 94, 88, 0.28);
+    font-size: 0.85rem;
+    color: #475569;
+  }
+  .ld-home-chart-title {
+    font-size: 0.95rem;
+    font-weight: 800;
+    margin: 0 0 0.25rem;
+    color: #0f172a;
+  }
+  .ld-home-chart-sub {
+    font-size: 0.78rem;
+    color: #64748b;
+    margin-bottom: 1rem;
+  }
+  .ld-home-bars {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-around;
+    gap: 0.3rem;
+    height: 148px;
+    padding: 0 0.1rem;
+    border-bottom: 1px solid rgba(226,232,240,0.9);
+  }
+  .ld-home-bar-col {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.28rem;
+    min-width: 0;
+  }
+  .ld-home-bar {
+    width: 100%;
+    max-width: 2.5rem;
+    margin: 0 auto;
+    border-radius: 0.35rem 0.35rem 0 0;
+    min-height: 6px;
+    transition: height 0.4s ease;
+  }
+  .ld-home-bar-meta {
+    font-size: 0.6rem;
+    font-weight: 700;
+    color: #94a3b8;
+    text-align: center;
+    line-height: 1.2;
+    white-space: nowrap;
+  }
+  .ld-home-bar-val { font-size: 0.78rem; font-weight: 800; }
+  /* Legend */
+  .ld-status-legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem 0.75rem;
+  }
+  .ld-sl-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    font-size: 0.68rem;
+    color: #475569;
+    font-weight: 600;
+  }
+  .ld-sl-dot {
+    width: 0.5rem;
+    height: 0.5rem;
+    border-radius: 50%;
+    background: var(--c, #94a3b8);
+    flex-shrink: 0;
+  }
+  .ld-home-issuero {
+    display: flex;
+    flex-direction: column;
+    gap: 0.65rem;
+  }
+  .ld-home-issuero__row {
+    display: grid;
+    grid-template-columns: 1fr min(42%, 7rem);
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.78rem;
+  }
+  .ld-home-issuero__track {
+    height: 0.55rem;
+    border-radius: 999px;
+    background: rgba(226, 232, 240, 0.95);
+    overflow: hidden;
+  }
+  .ld-home-issuero__fill {
+    height: 100%;
+    border-radius: inherit;
+    background: linear-gradient(90deg, #f59e0b, #ea580c);
+    min-width: 4px;
+    transition: width 0.35s ease;
+  }
+  .ld-home-issuero__fill--danger {
+    background: linear-gradient(90deg, #f87171, #dc2626);
+  }
+  .ld-home-spark {
+    height: 72px;
+    border-radius: 0.5rem;
+    background: linear-gradient(180deg, rgba(44, 94, 88, 0.08) 0%, transparent 100%);
+    position: relative;
+    overflow: hidden;
+    margin-top: 0.5rem;
+  }
+  .ld-home-spark svg {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+</style>
+{% endblock %}
+
+{% block page_content %}
+<div class="ld-home-welcome p-3 p-md-4 mb-3">
+  <img
+    class="ld-home-welcome__art"
+    src="/logistics_delivery/ChatGPT%20Image%20Jun%209%2C%202026%2C%2010_44_34%20AM.png"
+    alt=""
+    width="800"
+    height="800"
+    decoding="async"
+    loading="eager"
+    fetchpriority="high"
+  />
+  <div class="ld-home-welcome__inner">
+    <h2 class="ld-home-welcome__title">Welcome back, {{ frappe.session.user }}!</h2>
+    <p class="ld-home-welcome__lead">
+      Capture LRNs and SAP invoices, then track shipments from one place. Use the tracker to spot SAP
+      tracking and POD gaps — open issues also appear in the bell notifications in the header.
+    </p>
+    <div class="ld-home-welcome-pills" role="list" aria-label="Active integrations">
+      <span class="ld-home-welcome-pill ld-home-welcome-pill--live" role="listitem">
+        <span class="ld-home-welcome-dot" aria-hidden="true"></span>Portal
+      </span>
+      <span class="ld-home-welcome-pill" role="listitem">RDS tracker</span>
+      <span class="ld-home-welcome-pill" role="listitem">SAP Service Layer</span>
+    </div>
+  </div>
+</div>
+
+<div class="ld-home-grid mb-3">
+  <a class="ld-home-tile ld-home-tile--delivery" href="/logistics_delivery/delivery">
+    <div class="ld-home-tile-icon" aria-hidden="true">▣</div>
+    <h3>Delivery entry</h3>
+    <p>LRN number, SAP invoice number, and date — quick capture with validation.</p>
+    <span class="ld-home-tile-cta">Open delivery →</span>
+  </a>
+  <a class="ld-home-tile ld-home-tile--tracker" href="/logistics_delivery/tracker_report">
+    <div class="ld-home-tile-icon" aria-hidden="true">≡</div>
+    <h3>Tracker report</h3>
+    <p>Shipment grid, SAP sync, POD status, admin payloads, and bulk SAP retry.</p>
+    <span class="ld-home-tile-cta">Open tracker →</span>
+  </a>
+</div>
+
+<div class="ld-home-kpi-row">
+  <div class="ld-home-kpi">
+    <div class="ld-home-kpi__val" id="ld-kpi-total">—</div>
+    <div class="ld-home-kpi__lbl">Tracker rows</div>
+  </div>
+  <div class="ld-home-kpi ld-home-kpi--alert">
+    <div class="ld-home-kpi__val" id="ld-kpi-issues">—</div>
+    <div class="ld-home-kpi__lbl">Open report issues</div>
+  </div>
+  <div class="ld-home-kpi">
+    <div class="ld-home-kpi__val" id="ld-kpi-retry">—</div>
+    <div class="ld-home-kpi__lbl">SAP retry queue</div>
+  </div>
+  <div class="ld-home-kpi">
+    <div class="ld-home-kpi__val" style="font-size: 0.95rem; line-height: 1.35;">Live</div>
+    <div class="ld-home-kpi__lbl">Data source</div>
+  </div>
+</div>
+
+<div class="row g-3 mb-3">
+  <div class="col-lg-7">
+    <div class="ld-card p-3 p-md-4 h-100">
+      <h3 class="ld-home-chart-title">Delhivery status mix</h3>
+      <p class="ld-home-chart-sub mb-0">Latest 150 tracker rows — all Delhivery status types.</p>
+      <div id="ld-chart-bars" class="ld-home-bars" aria-label="Status distribution"></div>
+      <!-- legend -->
+      <div class="ld-status-legend mt-3" id="ld-status-legend">
+        <span class="ld-sl-item" style="--c:#6366f1"><span class="ld-sl-dot"></span>Manifested</span>
+        <span class="ld-sl-item" style="--c:#f59e0b"><span class="ld-sl-dot"></span>Not Picked</span>
+        <span class="ld-sl-item" style="--c:#3b82f6"><span class="ld-sl-dot"></span>In Transit</span>
+        <span class="ld-sl-item" style="--c:#8b5cf6"><span class="ld-sl-dot"></span>Pending</span>
+        <span class="ld-sl-item" style="--c:#06b6d4"><span class="ld-sl-dot"></span>Dispatched</span>
+        <span class="ld-sl-item" style="--c:#22c55e"><span class="ld-sl-dot"></span>Delivered</span>
+        <span class="ld-sl-item" style="--c:#f97316"><span class="ld-sl-dot"></span>RT In Transit</span>
+        <span class="ld-sl-item" style="--c:#fb923c"><span class="ld-sl-dot"></span>RT Pending</span>
+        <span class="ld-sl-item" style="--c:#fdba74"><span class="ld-sl-dot"></span>RT Dispatched</span>
+        <span class="ld-sl-item" style="--c:#ef4444"><span class="ld-sl-dot"></span>RTO</span>
+        <span class="ld-sl-item" style="--c:#64748b"><span class="ld-sl-dot"></span>Lost</span>
+      </div>
+    </div>
+  </div>
+  <div class="col-lg-5">
+    <div class="ld-card p-3 p-md-4 h-100">
+      <h3 class="ld-home-chart-title">Report issues by type</h3>
+      <p class="ld-home-chart-sub mb-0">From the same open issues list as notifications.</p>
+      <div id="ld-chart-issues" class="ld-home-issuero"></div>
+      <p class="small text-muted mb-0 mt-2 d-none" id="ld-chart-issues-empty">No open issues — bars appear when SAP tracking or POD gaps exist.</p>
+    </div>
+  </div>
+</div>
+
+<div id="report-alerts" class="ld-card ld-home-alerts-card p-3 p-md-4 mb-3">
+  <h3>Report failures &amp; gaps</h3>
+  <p class="small text-muted mb-2">SAP LR tracking retries and SAP-POD (Fix it) cases from the tracker database.</p>
+  <div id="ld-home-alerts-list"></div>
+  <p class="small text-muted mb-0 mt-2 d-none" id="ld-home-alerts-empty">No open issues right now.</p>
+  <div class="text-end mt-2">
+    <a href="/logistics_delivery/tracker_report" class="small fw-semibold" style="color: #2c5e58;">Full tracker report →</a>
+  </div>
+</div>
+
+{% endblock %}
+
+{% block page_scripts %}
+<script>
+  (function () {
+    var listEl = document.getElementById("ld-home-alerts-list");
+    var emptyEl = document.getElementById("ld-home-alerts-empty");
+    var kpiIssues = document.getElementById("ld-kpi-issues");
+    var kpiRetry = document.getElementById("ld-kpi-retry");
+    var kpiTotal = document.getElementById("ld-kpi-total");
+    var RETRY_API =
+      "/api/method/khanal_tech_integrations.api.logistics_delivery.tracker_data.count_sap_retry_pending";
+    var TRACK_API =
+      "/api/method/khanal_tech_integrations.api.logistics_delivery.tracker_data.get_tracker_records?page=1&page_size=1";
+    var TRACK_SAMPLE_API =
+      "/api/method/khanal_tech_integrations.api.logistics_delivery.tracker_data.get_tracker_records?page=1&page_size=150";
+
+    function trackerUrl(lr) {
+      var u = "/logistics_delivery/tracker_report";
+      if (lr) u += "?lrnum=" + encodeURIComponent(String(lr).trim());
+      return u;
+    }
+
+    function fillHomeAlerts(alerts) {
+      if (!listEl) return;
+      listEl.innerHTML = "";
+      if (!alerts || !alerts.length) {
+        if (emptyEl) emptyEl.classList.remove("d-none");
+        return;
+      }
+      if (emptyEl) emptyEl.classList.add("d-none");
+      alerts.slice(0, 12).forEach(function (a) {
+        var row = document.createElement("a");
+        row.href = trackerUrl(a.lrnum);
+        row.className = "ld-home-alert-row";
+        var dot = document.createElement("span");
+        dot.className =
+          "ld-home-alert-dot " + (a.severity === "danger" ? "ld-home-alert-dot--danger" : "ld-home-alert-dot--warn");
+        var body = document.createElement("div");
+        var t = document.createElement("div");
+        t.className = "ld-home-alert-t";
+        t.textContent = (a.title || "Issue") + " · LR " + (a.lrnum || "—");
+        var m = document.createElement("div");
+        m.className = "ld-home-alert-m";
+        m.textContent = a.message || "";
+        body.appendChild(t);
+        body.appendChild(m);
+        row.appendChild(dot);
+        row.appendChild(body);
+        listEl.appendChild(row);
+      });
+    }
+
+    /* All Delhivery status buckets (UD / DL / RT / LT types) */
+    var STATUS_BUCKETS = [
+      { key: "manifested",    label: "Manifested",    short: "MFD",  color: "#6366f1", match: function(s){ return s==="manifested" || s==="ud_manifested"; } },
+      { key: "not_picked",    label: "Not Picked",    short: "NP",   color: "#f59e0b", match: function(s){ return s.includes("not_picked") || s.includes("not picked"); } },
+      { key: "in_transit",    label: "In Transit",    short: "IT",   color: "#3b82f6", match: function(s){ return s.includes("in_transit") || s.includes("in transit") || (s.includes("transit") && !s.includes("return")); } },
+      { key: "pending",       label: "Pending",       short: "PND",  color: "#8b5cf6", match: function(s){ return s.includes("pending") && !s.includes("return"); } },
+      { key: "dispatched",    label: "Dispatched",    short: "DIS",  color: "#06b6d4", match: function(s){ return s.includes("dispatched") && !s.includes("return"); } },
+      { key: "delivered",     label: "Delivered",     short: "DL",   color: "#22c55e", match: function(s){ return s.includes("delivered") || s==="dl"; } },
+      { key: "rt_in_transit", label: "RT In Transit", short: "R-IT", color: "#f97316", match: function(s){ return (s.includes("transit") && s.includes("return")) || s==="rt_in_transit"; } },
+      { key: "rt_pending",    label: "RT Pending",    short: "R-PN", color: "#fb923c", match: function(s){ return s.includes("pending") && s.includes("return"); } },
+      { key: "rt_dispatched", label: "RT Dispatched", short: "R-DI", color: "#fdba74", match: function(s){ return s.includes("dispatched") && s.includes("return"); } },
+      { key: "rto",           label: "RTO",           short: "RTO",  color: "#ef4444", match: function(s){ return s.includes("rto") || s==="dl_rto"; } },
+      { key: "lost",          label: "Lost",          short: "LST",  color: "#64748b", match: function(s){ return s.includes("lost") || s==="lt" || s==="lt_lost"; } },
+    ];
+
+    function renderStatusBars(records) {
+      var el = document.getElementById("ld-chart-bars");
+      if (!el) return;
+
+      /* Count per bucket */
+      var counts = {};
+      STATUS_BUCKETS.forEach(function(b){ counts[b.key] = 0; });
+      (records || []).forEach(function(r) {
+        var s = (r.delhivery_status || "").toLowerCase().trim();
+        for (var i = 0; i < STATUS_BUCKETS.length; i++) {
+          if (STATUS_BUCKETS[i].match(s)) { counts[STATUS_BUCKETS[i].key]++; return; }
+        }
+        /* unknown — lump into the closest visible bucket */
+      });
+
+      var active = STATUS_BUCKETS.filter(function(b){ return counts[b.key] > 0; });
+      var total  = active.reduce(function(sum, b){ return sum + counts[b.key]; }, 0);
+
+      if (!total) {
+        el.innerHTML = '<div class="small text-muted w-100 text-center py-4">No tracker rows in this sample yet.</div>';
+        return;
+      }
+
+      var maxCount = active.reduce(function(mx, b){ return Math.max(mx, counts[b.key]); }, 1);
+      function barH(n){ return Math.max(6, Math.round((n / maxCount) * 128)); }
+
+      el.innerHTML = "";
+      /* Show all active buckets; if none active yet show all with 0 */
+      var toShow = active.length ? active : STATUS_BUCKETS;
+      toShow.forEach(function(b) {
+        var n = counts[b.key] || 0;
+        var col = document.createElement("div");
+        col.className = "ld-home-bar-col";
+        col.title = b.label + ": " + n;
+
+        var bar = document.createElement("div");
+        bar.className = "ld-home-bar";
+        bar.style.height = barH(n) + "px";
+        bar.style.background = "linear-gradient(180deg, " + b.color + "cc, " + b.color + ")";
+
+        var val = document.createElement("div");
+        val.className = "ld-home-bar-val";
+        val.style.color = b.color;
+        val.textContent = String(n);
+
+        var meta = document.createElement("div");
+        meta.className = "ld-home-bar-meta";
+        meta.textContent = b.short;
+
+        col.appendChild(bar);
+        col.appendChild(val);
+        col.appendChild(meta);
+        el.appendChild(col);
+      });
+    }
+
+    function renderIssueBars(alerts) {
+      var el = document.getElementById("ld-chart-issues");
+      var empty = document.getElementById("ld-chart-issues-empty");
+      if (!el) return;
+      var counts = { sap_track: 0, sap_pod_fix: 0, sap_pod_blocked: 0 };
+      (alerts || []).forEach(function (a) {
+        if (Object.prototype.hasOwnProperty.call(counts, a.kind)) counts[a.kind]++;
+      });
+      var sum = counts.sap_track + counts.sap_pod_fix + counts.sap_pod_blocked;
+      el.innerHTML = "";
+      if (!sum) {
+        if (empty) empty.classList.remove("d-none");
+        return;
+      }
+      if (empty) empty.classList.add("d-none");
+      var max = Math.max(counts.sap_track, counts.sap_pod_fix, counts.sap_pod_blocked, 1);
+      var rows = [
+        { k: "sap_track", label: "SAP LR tracking", danger: false },
+        { k: "sap_pod_fix", label: "SAP POD (Fix it)", danger: false },
+        { k: "sap_pod_blocked", label: "SAP POD (no DocEntry)", danger: true },
+      ];
+      rows.forEach(function (r) {
+        var n = counts[r.k] || 0;
+        var row = document.createElement("div");
+        row.className = "ld-home-issuero__row";
+        var lab = document.createElement("div");
+        lab.innerHTML =
+          "<strong>" +
+          r.label +
+          '</strong><br><span class="text-muted">' +
+          n +
+          " open</span>";
+        var track = document.createElement("div");
+        track.className = "ld-home-issuero__track";
+        var fill = document.createElement("div");
+        fill.className =
+          "ld-home-issuero__fill" + (r.danger ? " ld-home-issuero__fill--danger" : "");
+        fill.style.width = Math.round((n / max) * 100) + "%";
+        track.appendChild(fill);
+        row.appendChild(lab);
+        row.appendChild(track);
+        el.appendChild(row);
+      });
+    }
+
+    function load() {
+      var p1 =
+        typeof window.ldFetchReportAlerts === "function"
+          ? window.ldFetchReportAlerts()
+          : Promise.resolve({ alerts: [], count: 0 });
+      var p2 = fetch(RETRY_API, { credentials: "same-origin", headers: { Accept: "application/json" } })
+        .then(function (r) {
+          return r.json();
+        })
+        .catch(function () {
+          return {};
+        });
+      var p3 = fetch(TRACK_API, { credentials: "same-origin", headers: { Accept: "application/json" } })
+        .then(function (r) {
+          return r.json();
+        })
+        .catch(function () {
+          return {};
+        });
+      var p4 = fetch(TRACK_SAMPLE_API, { credentials: "same-origin", headers: { Accept: "application/json" } })
+        .then(function (r) {
+          return r.json();
+        })
+        .catch(function () {
+          return {};
+        });
+
+      Promise.all([p1, p2, p3, p4]).then(function (arr) {
+        var pack = arr[0] || {};
+        var alerts = pack.alerts || [];
+        var n = typeof pack.count === "number" ? pack.count : alerts.length;
+        if (kpiIssues) kpiIssues.textContent = String(n);
+        fillHomeAlerts(alerts);
+        if (typeof window.ldApplyReportAlerts === "function") window.ldApplyReportAlerts(alerts);
+        renderIssueBars(alerts);
+
+        var d2 = arr[1] || {};
+        var msg2 = d2.message !== undefined ? d2.message : d2;
+        var c2 = msg2 && typeof msg2.count === "number" ? msg2.count : "—";
+        if (kpiRetry) kpiRetry.textContent = String(c2);
+
+        var d3 = arr[2] || {};
+        var msg3 = d3.message !== undefined ? d3.message : d3;
+        var t3 = msg3 && typeof msg3.total === "number" ? msg3.total : "—";
+        if (kpiTotal) kpiTotal.textContent = String(t3);
+
+        var d4 = arr[3] || {};
+        var msg4 = d4.message !== undefined ? d4.message : d4;
+        var rec4 = (msg4 && msg4.records) || [];
+        renderStatusBars(rec4);
+      });
+    }
+    load();
+  })();
+</script>
+{% endblock %}

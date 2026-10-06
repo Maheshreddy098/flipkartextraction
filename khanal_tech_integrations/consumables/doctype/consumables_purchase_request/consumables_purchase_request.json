@@ -1,0 +1,307 @@
+{
+ "actions": [],
+ "autoname": "naming_series:",
+ "creation": "2026-05-08 00:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "naming_series",
+  "status",
+  "cmr_reference",
+  "split_from",
+  "requesting_plant",
+  "receiving_plant",
+  "column_break_1",
+  "requested_by",
+  "requested_on",
+  "section_warehouse",
+  "warehouse_decision",
+  "warehouse_available_qty",
+  "warehouse_notes",
+  "warehouse_approver",
+  "warehouse_approver_date",
+  "column_break_warehouse",
+  "fulfillment_date",
+  "section_sap",
+  "vendor_code",
+  "sap_po_series",
+  "sap_document_date",
+  "sap_delivery_date",
+  "sap_tax_date",
+  "sap_ship_to_code",
+  "sap_bill_to_code",
+  "sap_draft_doc_entry",
+  "sap_po_doc_entry",
+  "sap_po_doc_num",
+  "column_break_2",
+  "sap_grpo_doc_entry",
+  "sap_grpo_doc_num",
+  "sap_last_error",
+  "section_items",
+  "line_items",
+  "section_remarks",
+  "remarks"
+ ],
+ "fields": [
+  {
+   "default": "CPR-.YYYY.-.#####",
+   "fieldname": "naming_series",
+   "fieldtype": "Select",
+   "label": "Series",
+   "options": "CPR-.YYYY.-.#####",
+   "reqd": 1
+  },
+  {
+   "default": "Draft",
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Status",
+   "options": "Draft\nSubmitted\nInventory Check\nAwaiting Warehouse Decision\nRequest Fulfilled\nPO Pending\nPO Posting\nPO Raised\nGRN Done\nTransfer Pending\nCancelled",
+   "reqd": 1
+  },
+  {
+   "fieldname": "cmr_reference",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Material Request",
+   "options": "Consumables Material Request"
+  },
+  {
+   "description": "Set only when this request was created by splitting items off another Purchase Request. Used to send mistakenly-split items back.",
+   "fieldname": "split_from",
+   "fieldtype": "Link",
+   "label": "Split From",
+   "options": "Consumables Purchase Request",
+   "read_only": 1
+  },
+  {
+   "fieldname": "requesting_plant",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Requesting Plant",
+   "options": "Consumables Plant",
+   "reqd": 1
+  },
+  {
+   "description": "If set, the PO is delivered to this plant. After GRN, an inventory transfer to the requesting plant is auto-created.",
+   "fieldname": "receiving_plant",
+   "fieldtype": "Link",
+   "label": "Receiving Plant (if different)",
+   "options": "Consumables Plant"
+  },
+  {
+   "fieldname": "column_break_1",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "requested_by",
+   "fieldtype": "Link",
+   "label": "Requested By",
+   "options": "User",
+   "read_only": 1
+  },
+  {
+   "fieldname": "requested_on",
+   "fieldtype": "Datetime",
+   "label": "Requested On",
+   "read_only": 1
+  },
+  {
+   "fieldname": "section_warehouse",
+   "fieldtype": "Section Break",
+   "label": "Warehouse Review"
+  },
+  {
+   "fieldname": "warehouse_decision",
+   "fieldtype": "Select",
+   "label": "Warehouse Decision",
+   "options": "\nFulfill from Inventory\nEscalate to Procurement",
+   "read_only_depends_on": "eval: doc.status !== 'Awaiting Warehouse Decision'"
+  },
+  {
+   "fieldname": "warehouse_available_qty",
+   "fieldtype": "Float",
+   "label": "Available Quantity",
+   "read_only": 1
+  },
+  {
+   "fieldname": "warehouse_notes",
+   "fieldtype": "Text",
+   "label": "Warehouse Notes",
+   "read_only_depends_on": "eval: !['Awaiting Warehouse Decision'].includes(doc.status)"
+  },
+  {
+   "fieldname": "warehouse_approver",
+   "fieldtype": "Link",
+   "label": "Warehouse Approver",
+   "options": "User",
+   "read_only": 1
+  },
+  {
+   "fieldname": "warehouse_approver_date",
+   "fieldtype": "Datetime",
+   "label": "Approved On",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_warehouse",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "fulfillment_date",
+   "fieldtype": "Date",
+   "label": "Fulfillment Date",
+   "read_only": 1
+  },
+  {
+   "fieldname": "section_sap",
+   "fieldtype": "Section Break",
+   "label": "SAP Details"
+  },
+  {
+   "fieldname": "vendor_code",
+   "fieldtype": "Data",
+   "label": "Vendor Code (SAP CardCode)"
+  },
+  {
+   "description": "SAP B1 document numbering series (NNM1) for Purchase Orders.",
+   "fieldname": "sap_po_series",
+   "fieldtype": "Int",
+   "label": "PO Series No. (SAP)",
+   "non_negative": 1
+  },
+  {
+   "fieldname": "sap_document_date",
+   "fieldtype": "Date",
+   "label": "Document Date (SAP)"
+  },
+  {
+   "fieldname": "sap_delivery_date",
+   "fieldtype": "Date",
+   "label": "Delivery Date (SAP)"
+  },
+  {
+   "fieldname": "sap_tax_date",
+   "fieldtype": "Date",
+   "label": "Posting / Tax Date (SAP)"
+  },
+  {
+   "fieldname": "sap_ship_to_code",
+   "fieldtype": "Data",
+   "label": "Ship-To Code (SAP)"
+  },
+  {
+   "fieldname": "sap_bill_to_code",
+   "fieldtype": "Data",
+   "label": "Bill-To Code (SAP)"
+  },
+  {
+   "fieldname": "sap_draft_doc_entry",
+   "fieldtype": "Data",
+   "label": "SAP Draft Doc Entry",
+   "read_only": 1
+  },
+  {
+   "fieldname": "sap_po_doc_entry",
+   "fieldtype": "Data",
+   "label": "SAP PO Doc Entry",
+   "read_only": 1
+  },
+  {
+   "fieldname": "sap_po_doc_num",
+   "fieldtype": "Data",
+   "label": "SAP PO Doc Num",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_2",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "sap_grpo_doc_entry",
+   "fieldtype": "Data",
+   "label": "SAP GRPO Doc Entry",
+   "read_only": 1
+  },
+  {
+   "fieldname": "sap_grpo_doc_num",
+   "fieldtype": "Data",
+   "label": "SAP GRPO Doc Num",
+   "read_only": 1
+  },
+  {
+   "fieldname": "sap_last_error",
+   "fieldtype": "Text",
+   "label": "Last SAP Error",
+   "read_only": 1
+  },
+  {
+   "fieldname": "section_items",
+   "fieldtype": "Section Break",
+   "label": "Items"
+  },
+  {
+   "fieldname": "line_items",
+   "fieldtype": "Table",
+   "label": "Line Items",
+   "options": "Consumables Purchase Request Item",
+   "reqd": 1
+  },
+  {
+   "fieldname": "section_remarks",
+   "fieldtype": "Section Break",
+   "label": "Remarks"
+  },
+  {
+   "fieldname": "remarks",
+   "fieldtype": "Text",
+   "label": "Remarks"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2026-05-11 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Consumables",
+ "name": "Consumables Purchase Request",
+ "naming_rule": "By \"Naming Series\" field",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "role": "Consumables Super Admin",
+   "write": 1
+  },
+  {
+   "create": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "role": "Consumables Store Manager",
+   "write": 1
+  },
+  {
+   "create": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "role": "Consumables Procurement User",
+   "write": 1
+  },
+  {
+   "read": 1,
+   "role": "Consumables Store User"
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

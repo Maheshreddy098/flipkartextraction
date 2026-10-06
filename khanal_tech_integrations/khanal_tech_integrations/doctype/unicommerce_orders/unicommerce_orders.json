@@ -1,0 +1,637 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "field:uniware_id",
+ "creation": "2022-08-25 13:18:48.408019",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "order_details_tab",
+  "section_order_info",
+  "uniware_id",
+  "channel_id",
+  "channel_name",
+  "status",
+  "column_break_order_info_2",
+  "order_date",
+  "created",
+  "displayorderdatetime",
+  "updated",
+  "section_customer_sap",
+  "customer_name",
+  "city",
+  "district",
+  "state",
+  "pin_code",
+  "cod",
+  "column_break_customer_2",
+  "sap_ar_invoice_docentry",
+  "sap_ar_invoice_docnum",
+  "sap_delivery_docentry",
+  "sap_delivery_docnum",
+  "sap_ar_creditnote_docentry",
+  "section_line_items",
+  "line_items",
+  "shipping_details_tab",
+  "section_shipment",
+  "shipment_status",
+  "column_break_wjrib",
+  "shipment_date",
+  "section_packages",
+  "shippingpackages",
+  "return_details_tab",
+  "section_return_info",
+  "return_code",
+  "type",
+  "returnfacilitycode",
+  "shippingprovider",
+  "column_break_return_2",
+  "trackingstatus",
+  "trackingnumber",
+  "statuscode",
+  "providerstatus",
+  "column_break_tghb",
+  "putawaycode",
+  "returninvoicecode",
+  "returninvoicedisplaycode",
+  "actioncode",
+  "inventoryreceiveddate",
+  "returncompleteddate",
+  "section_break_tugv",
+  "returnitems",
+  "reconciliation_tab",
+  "section_uc_source",
+  "uc_taxable_value",
+  "uc_cgst",
+  "uc_total",
+  "column_break_uc_source",
+  "uc_sgst",
+  "uc_igst",
+  "uc_shipping",
+  "section_ar_invoice_recon",
+  "ar_invoice_reconciled",
+  "ar_invoice_reconciliation_status",
+  "ar_invoice_unit_price_expected",
+  "ar_invoice_unit_price_actual",
+  "ar_invoice_unit_price_diff",
+  "column_break_ar_invoice_recon",
+  "ar_invoice_tax_expected",
+  "ar_invoice_tax_actual",
+  "ar_invoice_tax_diff",
+  "ar_invoice_mismatch_reason",
+  "section_ar_creditnote_recon",
+  "ar_creditnote_reconciled",
+  "ar_creditnote_reconciliation_status",
+  "ar_creditnote_unit_price_expected",
+  "ar_creditnote_unit_price_actual",
+  "ar_creditnote_unit_price_diff",
+  "column_break_ar_cn_recon",
+  "ar_creditnote_tax_expected",
+  "ar_creditnote_tax_actual",
+  "ar_creditnote_tax_diff",
+  "ar_creditnote_mismatch_reason",
+  "pipeline_tab",
+  "section_pipeline",
+  "pipeline_status",
+  "attempt_count",
+  "posting_started_at",
+  "batch_hold_since",
+  "column_break_pipeline_2",
+  "last_error",
+  "section_payload_json",
+  "payload_json",
+  "order_json_tab",
+  "order_json"
+ ],
+ "fields": [
+  {
+   "fieldname": "order_details_tab",
+   "fieldtype": "Tab Break",
+   "label": "Order Details"
+  },
+  {
+   "fieldname": "section_order_info",
+   "fieldtype": "Section Break",
+   "label": "Order Info"
+  },
+  {
+   "description": "Order ID provided by Uniware",
+   "fieldname": "uniware_id",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Uniware Order ID",
+   "reqd": 1,
+   "unique": 1
+  },
+  {
+   "description": "Order ID provided by the Channel to Uniware",
+   "fieldname": "channel_id",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Channel Order ID"
+  },
+  {
+   "fieldname": "channel_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Channel Name"
+  },
+  {
+   "fieldname": "status",
+   "fieldtype": "Data",
+   "in_standard_filter": 1,
+   "label": "Uniware Status"
+  },
+  {
+   "fieldname": "column_break_order_info_2",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "order_date",
+   "fieldtype": "Date",
+   "in_list_view": 1,
+   "label": "Order Date"
+  },
+  {
+   "fieldname": "created",
+   "fieldtype": "Datetime",
+   "label": "Created on Uniware"
+  },
+  {
+   "fieldname": "displayorderdatetime",
+   "fieldtype": "Datetime",
+   "label": "Channel Created Date"
+  },
+  {
+   "fieldname": "updated",
+   "fieldtype": "Datetime",
+   "label": "Updated"
+  },
+  {
+   "fieldname": "section_customer_sap",
+   "fieldtype": "Section Break",
+   "label": "Customer & SAP References"
+  },
+  {
+   "fieldname": "customer_name",
+   "fieldtype": "Data",
+   "label": "Customer Name"
+  },
+  {
+   "fieldname": "city",
+   "fieldtype": "Data",
+   "label": "City"
+  },
+  {
+   "fieldname": "district",
+   "fieldtype": "Data",
+   "hidden": 1,
+   "label": "District"
+  },
+  {
+   "fieldname": "state",
+   "fieldtype": "Data",
+   "label": "State"
+  },
+  {
+   "fieldname": "pin_code",
+   "fieldtype": "Int",
+   "label": "PIN Code"
+  },
+  {
+   "fieldname": "cod",
+   "fieldtype": "Data",
+   "label": "COD"
+  },
+  {
+   "fieldname": "column_break_customer_2",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "sap_ar_invoice_docentry",
+   "fieldtype": "Data",
+   "label": "SAP AR Invoice DocEntry"
+  },
+  {
+   "fieldname": "sap_ar_invoice_docnum",
+   "fieldtype": "Data",
+   "label": "SAP AR Invoice DocNum"
+  },
+  {
+   "fieldname": "sap_delivery_docentry",
+   "fieldtype": "Data",
+   "label": "SAP Delivery DocEntry"
+  },
+  {
+   "fieldname": "sap_delivery_docnum",
+   "fieldtype": "Data",
+   "label": "SAP Delivery Docnum"
+  },
+  {
+   "fieldname": "sap_ar_creditnote_docentry",
+   "fieldtype": "Data",
+   "label": "SAP AR CreditNote DocEntry"
+  },
+  {
+   "fieldname": "section_line_items",
+   "fieldtype": "Section Break",
+   "label": "Order Line Items"
+  },
+  {
+   "fieldname": "line_items",
+   "fieldtype": "Table",
+   "label": "Order Line Items",
+   "options": "Order Line Items"
+  },
+  {
+   "fieldname": "shipping_details_tab",
+   "fieldtype": "Tab Break",
+   "label": "Shipping Details"
+  },
+  {
+   "fieldname": "section_shipment",
+   "fieldtype": "Section Break",
+   "label": "Shipment"
+  },
+  {
+   "fieldname": "shipment_status",
+   "fieldtype": "Data",
+   "label": "Shipment Status"
+  },
+  {
+   "fieldname": "column_break_wjrib",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "shipment_date",
+   "fieldtype": "Datetime",
+   "label": "Shipment Date"
+  },
+  {
+   "fieldname": "section_packages",
+   "fieldtype": "Section Break",
+   "label": "Packages"
+  },
+  {
+   "fieldname": "shippingpackages",
+   "fieldtype": "JSON",
+   "label": "Shipping Packages Details"
+  },
+  {
+   "fieldname": "return_details_tab",
+   "fieldtype": "Tab Break",
+   "label": "Return Details"
+  },
+  {
+   "fieldname": "section_return_info",
+   "fieldtype": "Section Break",
+   "label": "Return Info"
+  },
+  {
+   "fieldname": "return_code",
+   "fieldtype": "Data",
+   "label": "Return Code"
+  },
+  {
+   "fieldname": "type",
+   "fieldtype": "Data",
+   "label": "type"
+  },
+  {
+   "fieldname": "returnfacilitycode",
+   "fieldtype": "Data",
+   "label": "returnFacilityCode"
+  },
+  {
+   "fieldname": "shippingprovider",
+   "fieldtype": "Data",
+   "label": "shippingProvider"
+  },
+  {
+   "fieldname": "column_break_return_2",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "trackingstatus",
+   "fieldtype": "Data",
+   "label": "trackingStatus"
+  },
+  {
+   "fieldname": "trackingnumber",
+   "fieldtype": "Data",
+   "label": "TrackingNumber"
+  },
+  {
+   "fieldname": "statuscode",
+   "fieldtype": "Data",
+   "label": "statusCode"
+  },
+  {
+   "fieldname": "providerstatus",
+   "fieldtype": "Data",
+   "label": "providerStatus"
+  },
+  {
+   "fieldname": "column_break_tghb",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "putawaycode",
+   "fieldtype": "Data",
+   "label": "putawayCode"
+  },
+  {
+   "fieldname": "returninvoicecode",
+   "fieldtype": "Data",
+   "label": "returnInvoiceCode"
+  },
+  {
+   "fieldname": "returninvoicedisplaycode",
+   "fieldtype": "Data",
+   "label": "returnInvoiceDisplayCode"
+  },
+  {
+   "fieldname": "actioncode",
+   "fieldtype": "Data",
+   "label": "actionCode"
+  },
+  {
+   "fieldname": "inventoryreceiveddate",
+   "fieldtype": "Data",
+   "label": "inventoryReceivedDate"
+  },
+  {
+   "fieldname": "returncompleteddate",
+   "fieldtype": "Data",
+   "label": "returnCompletedDate"
+  },
+  {
+   "fieldname": "section_break_tugv",
+   "fieldtype": "Section Break",
+   "label": "Return Items"
+  },
+  {
+   "fieldname": "returnitems",
+   "fieldtype": "JSON",
+   "label": "returnItems"
+  },
+  {
+   "fieldname": "reconciliation_tab",
+   "fieldtype": "Tab Break",
+   "label": "Reconciliation"
+  },
+  {
+   "fieldname": "section_uc_source",
+   "fieldtype": "Section Break",
+   "label": "UC Source Financials"
+  },
+  {
+   "fieldname": "uc_taxable_value",
+   "fieldtype": "Float",
+   "label": "UC Taxable Value (ex-tax)",
+   "read_only": 1,
+   "description": "Raw taxable value from Unicommerce order at fetch time."
+  },
+  {
+   "fieldname": "uc_cgst",
+   "fieldtype": "Float",
+   "label": "UC CGST",
+   "read_only": 1
+  },
+  {
+   "fieldname": "uc_total",
+   "fieldtype": "Float",
+   "label": "UC Total (incl. tax + shipping)",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_uc_source",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "uc_sgst",
+   "fieldtype": "Float",
+   "label": "UC SGST",
+   "read_only": 1
+  },
+  {
+   "fieldname": "uc_igst",
+   "fieldtype": "Float",
+   "label": "UC IGST",
+   "read_only": 1
+  },
+  {
+   "fieldname": "uc_shipping",
+   "fieldtype": "Float",
+   "label": "UC Shipping",
+   "read_only": 1
+  },
+  {
+   "fieldname": "section_ar_invoice_recon",
+   "fieldtype": "Section Break",
+   "label": "AR Invoice"
+  },
+  {
+   "fieldname": "ar_invoice_reconciled",
+   "fieldtype": "Check",
+   "label": "AR Invoice Reconciled (Matched)"
+  },
+  {
+   "fieldname": "ar_invoice_reconciliation_status",
+   "fieldtype": "Data",
+   "label": "AR Invoice Reconciliation Status"
+  },
+  {
+   "fieldname": "ar_invoice_unit_price_expected",
+   "fieldtype": "Float",
+   "label": "AR Invoice Unit Price Expected (ex-tax)"
+  },
+  {
+   "fieldname": "ar_invoice_unit_price_actual",
+   "fieldtype": "Float",
+   "label": "AR Invoice Unit Price Actual (ex-tax)"
+  },
+  {
+   "fieldname": "ar_invoice_unit_price_diff",
+   "fieldtype": "Float",
+   "label": "AR Invoice Unit Price Diff (abs)"
+  },
+  {
+   "fieldname": "column_break_ar_invoice_recon",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "ar_invoice_tax_expected",
+   "fieldtype": "Float",
+   "label": "AR Invoice Tax Expected"
+  },
+  {
+   "fieldname": "ar_invoice_tax_actual",
+   "fieldtype": "Float",
+   "label": "AR Invoice Tax Actual"
+  },
+  {
+   "fieldname": "ar_invoice_tax_diff",
+   "fieldtype": "Float",
+   "label": "AR Invoice Tax Diff (abs)"
+  },
+  {
+   "fieldname": "ar_invoice_mismatch_reason",
+   "fieldtype": "Small Text",
+   "label": "Invoice Mismatch Reason",
+   "read_only": 1,
+   "description": "Auto-populated on reconciliation refresh: explains why SAP vs UC totals differ."
+  },
+  {
+   "fieldname": "section_ar_creditnote_recon",
+   "fieldtype": "Section Break",
+   "label": "AR Credit Note"
+  },
+  {
+   "fieldname": "ar_creditnote_reconciled",
+   "fieldtype": "Check",
+   "label": "AR Credit Note Reconciled (Matched)"
+  },
+  {
+   "fieldname": "ar_creditnote_reconciliation_status",
+   "fieldtype": "Data",
+   "label": "AR Credit Note Reconciliation Status"
+  },
+  {
+   "fieldname": "ar_creditnote_unit_price_expected",
+   "fieldtype": "Float",
+   "label": "AR Credit Note Unit Price Expected (ex-tax)"
+  },
+  {
+   "fieldname": "ar_creditnote_unit_price_actual",
+   "fieldtype": "Float",
+   "label": "AR Credit Note Unit Price Actual (ex-tax)"
+  },
+  {
+   "fieldname": "ar_creditnote_unit_price_diff",
+   "fieldtype": "Float",
+   "label": "AR Credit Note Unit Price Diff (abs)"
+  },
+  {
+   "fieldname": "column_break_ar_cn_recon",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "ar_creditnote_tax_expected",
+   "fieldtype": "Float",
+   "label": "AR Credit Note Tax Expected"
+  },
+  {
+   "fieldname": "ar_creditnote_tax_actual",
+   "fieldtype": "Float",
+   "label": "AR Credit Note Tax Actual"
+  },
+  {
+   "fieldname": "ar_creditnote_tax_diff",
+   "fieldtype": "Float",
+   "label": "AR Credit Note Tax Diff (abs)"
+  },
+  {
+   "fieldname": "ar_creditnote_mismatch_reason",
+   "fieldtype": "Small Text",
+   "label": "Credit Note Mismatch Reason",
+   "read_only": 1,
+   "description": "Auto-populated on reconciliation refresh: explains why SAP vs UC CN totals differ."
+  },
+  {
+   "fieldname": "pipeline_tab",
+   "fieldtype": "Tab Break",
+   "label": "Pipeline"
+  },
+  {
+   "fieldname": "section_pipeline",
+   "fieldtype": "Section Break",
+   "label": "Processing"
+  },
+  {
+   "fieldname": "pipeline_status",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Pipeline Status",
+   "options": "fetched\nbatch_hold\nready\nposting\nverify\nposted\nfailed\ndead"
+  },
+  {
+   "default": "0",
+   "fieldname": "attempt_count",
+   "fieldtype": "Int",
+   "label": "Attempt Count"
+  },
+  {
+   "fieldname": "posting_started_at",
+   "fieldtype": "Datetime",
+   "label": "Posting Started At"
+  },
+  {
+   "description": "Timestamp the order first entered batch_hold. Cleared when the order leaves batch_hold. Used with attempt_count to escalate stuck holds to 'dead' after the configured max attempts / max hours.",
+   "fieldname": "batch_hold_since",
+   "fieldtype": "Datetime",
+   "label": "Batch Hold Since",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_pipeline_2",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "last_error",
+   "fieldtype": "Small Text",
+   "label": "Last Error"
+  },
+  {
+   "fieldname": "section_payload_json",
+   "fieldtype": "Section Break",
+   "label": "Payload JSON"
+  },
+  {
+   "fieldname": "payload_json",
+   "fieldtype": "Code",
+   "label": "Payload JSON",
+   "options": "JSON"
+  },
+  {
+   "fieldname": "order_json_tab",
+   "fieldtype": "Tab Break",
+   "label": "Order JSON"
+  },
+  {
+   "fieldname": "order_json",
+   "fieldtype": "JSON",
+   "label": "Order JSON"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2026-06-04 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Khanal Tech Integrations",
+ "name": "Unicommerce Orders",
+ "naming_rule": "By fieldname",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

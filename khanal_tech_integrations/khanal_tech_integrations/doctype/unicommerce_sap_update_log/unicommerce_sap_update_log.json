@@ -1,0 +1,66 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2022-09-05 23:31:05.016547",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "period_start_date",
+  "execution_start_time",
+  "period_end_date",
+  "execution_end_date",
+  "type"
+ ],
+ "fields": [
+  {
+   "fieldname": "period_start_date",
+   "fieldtype": "Data",
+   "label": "Period Start Date"
+  },
+  {
+   "fieldname": "execution_start_time",
+   "fieldtype": "Datetime",
+   "label": "Execution Start Time"
+  },
+  {
+   "fieldname": "period_end_date",
+   "fieldtype": "Data",
+   "label": "Period End Date"
+  },
+  {
+   "fieldname": "execution_end_date",
+   "fieldtype": "Datetime",
+   "label": "Execution End Date"
+  },
+  {
+   "fieldname": "type",
+   "fieldtype": "Data",
+   "label": "Type"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2022-10-06 14:58:19.252484",
+ "modified_by": "Administrator",
+ "module": "Khanal Tech Integrations",
+ "name": "Unicommerce SAP update log",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

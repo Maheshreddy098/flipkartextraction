@@ -1,0 +1,18 @@
+include MANIFEST.in
+include requirements.txt
+include *.json
+include *.md
+include *.py
+include *.txt
+recursive-include khanal_tech_integrations *.css
+recursive-include khanal_tech_integrations *.csv
+recursive-include khanal_tech_integrations *.html
+recursive-include khanal_tech_integrations *.ico
+recursive-include khanal_tech_integrations *.js
+recursive-include khanal_tech_integrations *.json
+recursive-include khanal_tech_integrations *.md
+recursive-include khanal_tech_integrations *.png
+recursive-include khanal_tech_integrations *.py
+recursive-include khanal_tech_integrations *.svg
+recursive-include khanal_tech_integrations *.txt
+recursive-exclude khanal_tech_integrations *.pyc

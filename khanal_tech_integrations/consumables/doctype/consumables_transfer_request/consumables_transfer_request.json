@@ -1,0 +1,262 @@
+{
+ "actions": [],
+ "autoname": "naming_series:",
+ "creation": "2026-04-29 00:00:00.000000",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "naming_series",
+  "status",
+  "from_plant",
+  "from_warehouse",
+  "to_plant",
+  "to_warehouse",
+  "cmr_reference",
+  "section_break_requestor",
+  "requested_by",
+  "requested_on",
+  "submitted_by",
+  "submitted_on",
+  "approved_by",
+  "approved_on",
+  "dispatched_by",
+  "dispatched_on",
+  "received_by",
+  "received_on",
+  "section_break_sap",
+  "sap_transfer_request_doc_entry",
+  "sap_transfer_request_doc_num",
+  "sap_transfer_doc_entry",
+  "sap_transfer_doc_num",
+  "sap_last_error",
+  "sap_retry_count",
+  "section_break_items",
+  "line_items",
+  "remarks",
+  "rejection_reason",
+  "receipt_notes"
+ ],
+ "fields": [
+  {
+   "default": "CTR-.YYYY.-.#####",
+   "fieldname": "naming_series",
+   "fieldtype": "Select",
+   "label": "Series",
+   "options": "CTR-.YYYY.-.#####"
+  },
+  {
+   "default": "Draft",
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Status",
+   "options": "Draft\nSubmitted\nApproved\nIn Transit\nCompleted\nPartially Received\nRejected\nFailed"
+  },
+  {
+   "fieldname": "from_plant",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "From Plant",
+   "options": "Consumables Plant",
+   "reqd": 1
+  },
+  {
+   "fieldname": "from_warehouse",
+   "fieldtype": "Data",
+   "label": "From Warehouse",
+   "reqd": 1
+  },
+  {
+   "fieldname": "to_plant",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "To Plant",
+   "options": "Consumables Plant",
+   "reqd": 1
+  },
+  {
+   "fieldname": "to_warehouse",
+   "fieldtype": "Data",
+   "label": "To Warehouse",
+   "reqd": 1
+  },
+  {
+   "fieldname": "section_break_requestor",
+   "fieldtype": "Section Break",
+   "label": "Audit Trail"
+  },
+  {
+   "fieldname": "requested_by",
+   "fieldtype": "Link",
+   "label": "Requested By",
+   "options": "User"
+  },
+  {
+   "fieldname": "requested_on",
+   "fieldtype": "Datetime",
+   "label": "Requested On"
+  },
+  {
+   "fieldname": "submitted_by",
+   "fieldtype": "Link",
+   "label": "Submitted By",
+   "options": "User"
+  },
+  {
+   "fieldname": "submitted_on",
+   "fieldtype": "Datetime",
+   "label": "Submitted On"
+  },
+  {
+   "fieldname": "approved_by",
+   "fieldtype": "Link",
+   "label": "Approved By",
+   "options": "User"
+  },
+  {
+   "fieldname": "approved_on",
+   "fieldtype": "Datetime",
+   "label": "Approved On"
+  },
+  {
+   "fieldname": "dispatched_by",
+   "fieldtype": "Link",
+   "label": "Dispatched By",
+   "options": "User"
+  },
+  {
+   "fieldname": "dispatched_on",
+   "fieldtype": "Datetime",
+   "label": "Dispatched On"
+  },
+  {
+   "fieldname": "received_by",
+   "fieldtype": "Link",
+   "label": "Received By",
+   "options": "User"
+  },
+  {
+   "fieldname": "received_on",
+   "fieldtype": "Datetime",
+   "label": "Received On"
+  },
+  {
+   "fieldname": "section_break_sap",
+   "fieldtype": "Section Break",
+   "label": "SAP References"
+  },
+  {
+   "fieldname": "sap_transfer_request_doc_entry",
+   "fieldtype": "Data",
+   "label": "SAP Transfer Request Doc Entry",
+   "read_only": 1
+  },
+  {
+   "fieldname": "sap_transfer_request_doc_num",
+   "fieldtype": "Data",
+   "label": "SAP Transfer Request Doc Num",
+   "read_only": 1
+  },
+  {
+   "fieldname": "sap_transfer_doc_entry",
+   "fieldtype": "Data",
+   "label": "SAP Transfer Doc Entry",
+   "read_only": 1
+  },
+  {
+   "fieldname": "sap_transfer_doc_num",
+   "fieldtype": "Data",
+   "label": "SAP Transfer Doc Num",
+   "read_only": 1
+  },
+  {
+   "fieldname": "sap_last_error",
+   "fieldtype": "Text",
+   "label": "SAP Last Error",
+   "read_only": 1
+  },
+  {
+   "default": "0",
+   "fieldname": "sap_retry_count",
+   "fieldtype": "Int",
+   "label": "SAP Retry Count",
+   "read_only": 1
+  },
+  {
+   "fieldname": "section_break_items",
+   "fieldtype": "Section Break",
+   "label": "Line Items"
+  },
+  {
+   "fieldname": "line_items",
+   "fieldtype": "Table",
+   "label": "Line Items",
+   "options": "Consumables Transfer Request Item",
+   "reqd": 1
+  },
+  {
+   "fieldname": "cmr_reference",
+   "fieldtype": "Data",
+   "label": "CMR Reference",
+   "read_only": 1
+  },
+  {
+   "fieldname": "remarks",
+   "fieldtype": "Text",
+   "label": "Remarks"
+  },
+  {
+   "fieldname": "rejection_reason",
+   "fieldtype": "Text",
+   "label": "Rejection Reason"
+  },
+  {
+   "fieldname": "receipt_notes",
+   "fieldtype": "Text",
+   "label": "Receipt Notes"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2026-04-29 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Consumables",
+ "name": "Consumables Transfer Request",
+ "naming_series": "CTR-.YYYY.-.#####",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "print": 1,
+   "read": 1,
+   "role": "Consumables Super Admin",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "email": 1,
+   "print": 1,
+   "read": 1,
+   "role": "Consumables Store Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "email": 1,
+   "print": 1,
+   "read": 1,
+   "role": "Consumables Store User",
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "title_field": "name",
+ "track_changes": 1
+}

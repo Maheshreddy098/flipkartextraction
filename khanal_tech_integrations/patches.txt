@@ -1,0 +1,7 @@
+[pre_model_sync]
+
+[post_model_sync]
+khanal_tech_integrations.patches.seed_uc_sap_settings_defaults
+khanal_tech_integrations.patches.migrate_uc_order_staging_to_unicommerce_orders
+khanal_tech_integrations.patches.backfill_unicommerce_order_fields
+khanal_tech_integrations.patches.backfill_batch_hold_since

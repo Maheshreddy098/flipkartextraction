@@ -1,0 +1,128 @@
+[
+ {
+  "docstatus": 0,
+  "doctype": "Workflow State",
+  "icon": "",
+  "modified": "2024-03-13 16:49:10.457720",
+  "name": "Cancel",
+  "style": "",
+  "workflow_state_name": "Cancel"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow State",
+  "icon": "question-sign",
+  "modified": "2024-02-21 18:19:41.175875",
+  "name": "Pending",
+  "style": "",
+  "workflow_state_name": "Pending"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow State",
+  "icon": "",
+  "modified": "2024-03-08 13:49:41.116007",
+  "name": "Send for Approval",
+  "style": "",
+  "workflow_state_name": "Send for Approval"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow State",
+  "icon": "remove",
+  "modified": "2024-02-21 18:19:41.179218",
+  "name": "Rejected",
+  "style": "Danger",
+  "workflow_state_name": "Rejected"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow State",
+  "icon": "",
+  "modified": "2024-03-19 15:38:38.973076",
+  "name": "Cancelled",
+  "style": "Danger",
+  "workflow_state_name": "Cancelled"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow State",
+  "icon": "",
+  "modified": "2024-03-25 13:21:07.716875",
+  "name": "CEO Approval required",
+  "style": "Warning",
+  "workflow_state_name": "CEO Approval required"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow State",
+  "icon": "",
+  "modified": "2024-03-19 15:39:09.245036",
+  "name": "Sent for Approval",
+  "style": "Info",
+  "workflow_state_name": "Sent for Approval"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow State",
+  "icon": "",
+  "modified": "2024-03-06 11:00:22.909475",
+  "name": "Draft",
+  "style": "Primary",
+  "workflow_state_name": "Draft"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow State",
+  "icon": "ok-sign",
+  "modified": "2024-02-21 18:19:41.178370",
+  "name": "Approved",
+  "style": "Success",
+  "workflow_state_name": "Approved"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow State",
+  "icon": "info-sign",
+  "modified": "2026-05-11 00:00:00.000000",
+  "name": "Awaiting Warehouse Decision",
+  "style": "Default",
+  "workflow_state_name": "Awaiting Warehouse Decision"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow State",
+  "icon": "info-sign",
+  "modified": "2026-05-11 00:00:00.000000",
+  "name": "Request Fulfilled",
+  "style": "Success",
+  "workflow_state_name": "Request Fulfilled"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow State",
+  "icon": "info-sign",
+  "modified": "2026-05-11 00:00:00.000000",
+  "name": "PO Pending",
+  "style": "Warning",
+  "workflow_state_name": "PO Pending"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow State",
+  "icon": "info-sign",
+  "modified": "2026-05-11 00:00:00.000000",
+  "name": "PO Raised",
+  "style": "Success",
+  "workflow_state_name": "PO Raised"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow State",
+  "icon": "info-sign",
+  "modified": "2026-05-11 00:00:00.000000",
+  "name": "GRN Done",
+  "style": "Success",
+  "workflow_state_name": "GRN Done"
+ }
+]

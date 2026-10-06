@@ -1,0 +1,162 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "format:PID-{####}",
+ "creation": "2024-02-21 16:21:05.502804",
+ "default_view": "List",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "created_date",
+  "employee_count",
+  "sap_absoluteentry",
+  "sap_production_number",
+  "sap_status",
+  "user_email",
+  "issue_for_production_docentry",
+  "journalentry_docentry",
+  "receipt_from_production_docentry",
+  "section_break_kmdu",
+  "output_created_data",
+  "process_type",
+  "user_name",
+  "status",
+  "error_message",
+  "column_break_td7f",
+  "pre_pro_associate_table_tab",
+  "expected_output_table",
+  "wastage_loss"
+ ],
+ "fields": [
+  {
+   "fieldname": "created_date",
+   "fieldtype": "Datetime",
+   "label": "Created Date"
+  },
+  {
+   "allow_bulk_edit": 1,
+   "fieldname": "expected_output_table",
+   "fieldtype": "Table",
+   "label": "Expected Output Table",
+   "options": "Expected Output Table"
+  },
+  {
+   "allow_bulk_edit": 1,
+   "fieldname": "pre_pro_associate_table_tab",
+   "fieldtype": "Table",
+   "ignore_user_permissions": 1,
+   "label": "Pre Pro Associate Table",
+   "options": "Pre Pro Associate Table"
+  },
+  {
+   "fieldname": "employee_count",
+   "fieldtype": "Data",
+   "label": "Employee Count"
+  },
+  {
+   "fieldname": "process_type",
+   "fieldtype": "Data",
+   "label": "Process Type"
+  },
+  {
+   "allow_bulk_edit": 1,
+   "fieldname": "wastage_loss",
+   "fieldtype": "Table",
+   "label": "Wastage Loss",
+   "options": "Wastage Loss Table"
+  },
+  {
+   "fieldname": "section_break_kmdu",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "output_created_data",
+   "fieldtype": "Datetime",
+   "label": "Output Created Data"
+  },
+  {
+   "fieldname": "column_break_td7f",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "label": "Status",
+   "options": "\nInput Submitted\nInput Approved\nOutput Submitted\nOutput Approved\nProduction Rejected"
+  },
+  {
+   "fieldname": "sap_absoluteentry",
+   "fieldtype": "Data",
+   "label": "SAP AbsoluteEntry"
+  },
+  {
+   "fieldname": "sap_status",
+   "fieldtype": "Select",
+   "label": "SAP Status",
+   "options": "\nProduction Created\nProduction Released\nIssue For Production\nReceipt From Production\nProduction Completed\nProduction Cancelled"
+  },
+  {
+   "fieldname": "error_message",
+   "fieldtype": "Text",
+   "label": "Error Message"
+  },
+  {
+   "fieldname": "user_email",
+   "fieldtype": "Link",
+   "label": "User Email",
+   "options": "User"
+  },
+  {
+   "fetch_from": "user_email.full_name",
+   "fieldname": "user_name",
+   "fieldtype": "Data",
+   "label": "User Name"
+  },
+  {
+   "fieldname": "issue_for_production_docentry",
+   "fieldtype": "Data",
+   "label": "Issue for production DocEntry"
+  },
+  {
+   "fieldname": "receipt_from_production_docentry",
+   "fieldtype": "Data",
+   "label": "Receipt from production DocEntry"
+  },
+  {
+   "fieldname": "journalentry_docentry",
+   "fieldtype": "Data",
+   "label": "JournalEntry DocEntry"
+  },
+  {
+   "fieldname": "sap_production_number",
+   "fieldtype": "Data",
+   "label": "SAP Production DocNum"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2024-04-02 12:07:11.129998",
+ "modified_by": "Administrator",
+ "module": "Khanal Tech Integrations",
+ "name": "Production Kiosk",
+ "naming_rule": "Expression",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

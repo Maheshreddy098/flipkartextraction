@@ -1,0 +1,366 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Kiosk-specific styles */
+@layer base {
+  html {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
+    font-variation-settings: normal;
+  }
+
+  body {
+    background: linear-gradient(135deg, #ffffff 0%, #f8fafc 50%, #f1f5f9 100%);
+    color: #1e293b;
+    overflow-x: hidden;
+    overflow-y: auto;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    height: auto;
+    min-height: 100vh;
+  }
+
+  html {
+    overflow-x: hidden;
+    overflow-y: auto;
+    height: auto;
+  }
+
+  #app {
+    overflow-x: hidden;
+    overflow-y: auto;
+    height: auto;
+    min-height: 100vh;
+  }
+}
+
+@layer components {
+  /* Professional Button Styles */
+  .kiosk-btn {
+    @apply px-8 py-4 text-lg font-semibold rounded-xl transition-all duration-300;
+    @apply shadow-lg hover:shadow-2xl active:scale-95;
+    @apply border border-transparent;
+    @apply backdrop-blur-sm;
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .kiosk-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+    transition: left 0.5s;
+  }
+  
+  .kiosk-btn:hover::before {
+    left: 100%;
+  }
+  
+  .kiosk-btn-primary {
+    @apply kiosk-btn;
+    background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+    @apply text-white hover:shadow-blue-500/25;
+    box-shadow: 0 10px 25px -5px rgba(59, 130, 246, 0.3);
+  }
+
+  .kiosk-btn-secondary {
+    @apply kiosk-btn;
+    background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+    @apply text-slate-700 hover:shadow-slate-500/25;
+    box-shadow: 0 10px 25px -5px rgba(148, 163, 184, 0.3);
+  }
+
+  .kiosk-btn-success {
+    @apply kiosk-btn;
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+    @apply text-white hover:shadow-emerald-500/25;
+    box-shadow: 0 10px 25px -5px rgba(16, 185, 129, 0.3);
+  }
+
+  .kiosk-btn-danger {
+    @apply kiosk-btn;
+    background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+    @apply text-white hover:shadow-red-500/25;
+    box-shadow: 0 10px 25px -5px rgba(239, 68, 68, 0.3);
+  }
+
+  /* Professional Card Styles */
+  .kiosk-card {
+    @apply rounded-2xl p-8;
+    @apply border border-slate-200;
+    @apply transition-all duration-300;
+    background: rgba(255, 255, 255, 0.9);
+    box-shadow:
+      0 25px 50px -12px rgba(0, 0, 0, 0.1),
+      0 0 0 1px rgba(255, 255, 255, 0.1),
+      inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  }
+
+  /* Kiosk Grid Styles */
+  .kiosk-grid {
+    @apply grid gap-6;
+  }
+  
+  .kiosk-grid-2 {
+    @apply kiosk-grid grid-cols-2;
+  }
+  
+  .kiosk-grid-3 {
+    @apply kiosk-grid grid-cols-3;
+  }
+  
+  .kiosk-grid-4 {
+    @apply kiosk-grid grid-cols-4;
+  }
+
+  /* Professional Typography */
+  .kiosk-title {
+    @apply text-5xl font-bold;
+    @apply bg-gradient-to-r from-slate-800 to-slate-600;
+    @apply bg-clip-text text-transparent;
+    @apply leading-tight tracking-tight;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+
+  .kiosk-subtitle {
+    @apply text-3xl font-semibold;
+    @apply text-slate-700;
+    @apply leading-relaxed tracking-wide;
+  }
+
+  .kiosk-text {
+    @apply text-lg;
+    @apply text-slate-600;
+    @apply leading-relaxed;
+    font-weight: 450;
+  }
+
+  .kiosk-text-sm {
+    @apply text-base;
+    @apply text-slate-500;
+    @apply leading-relaxed;
+    font-weight: 400;
+  }
+
+  .kiosk-heading {
+    @apply text-2xl font-semibold;
+    @apply text-slate-800;
+    @apply leading-tight tracking-wide;
+  }
+
+  /* Professional Input Styles */
+  .kiosk-input {
+    @apply w-full px-6 py-4 text-lg rounded-xl;
+    @apply border-2 border-slate-200;
+    @apply focus:border-blue-500 focus:outline-none;
+    @apply transition-all duration-300;
+    background: rgba(255, 255, 255, 0.9);
+    color: #1e293b;
+    box-shadow:
+      0 4px 6px -1px rgba(0, 0, 0, 0.1),
+      0 2px 4px -1px rgba(0, 0, 0, 0.06),
+      inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  }
+
+  .kiosk-input:focus {
+    border-color: #3b82f6;
+    box-shadow:
+      0 0 0 3px rgba(59, 130, 246, 0.1),
+      0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  }
+
+  .kiosk-input::placeholder {
+    @apply text-slate-400;
+  }
+
+  /* Professional Product Card */
+  .kiosk-product-card {
+    @apply kiosk-card cursor-pointer transition-all duration-300;
+    @apply hover:shadow-2xl hover:scale-105 hover:-translate-y-2;
+    @apply active:scale-95;
+  }
+  
+  .kiosk-product-card:hover {
+    transform: translateY(-8px) scale(1.02);
+  }
+  
+  .kiosk-product-card.selected {
+    @apply ring-4 ring-blue-500/50;
+    box-shadow: 
+      0 25px 50px -12px rgba(59, 130, 246, 0.4),
+      0 0 0 1px rgba(59, 130, 246, 0.2);
+  }
+
+  /* Professional Layout */
+  .kiosk-container {
+    @apply min-h-screen;
+    background: transparent;
+  }
+
+  .kiosk-header {
+    @apply border-b border-slate-200;
+    @apply transition-all duration-300;
+    background: rgba(255, 255, 255, 0.9);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  }
+
+  .kiosk-content {
+    @apply flex-1 overflow-hidden;
+    @apply relative;
+  }
+
+  .kiosk-footer {
+    @apply border-t border-slate-200;
+    @apply transition-all duration-300;
+    background: rgba(255, 255, 255, 0.9);
+    box-shadow: 0 -8px 32px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Professional Animations */
+  .kiosk-fade-in {
+    animation: fadeIn 0.6s ease-out;
+  }
+  
+  .kiosk-slide-up {
+    animation: slideUp 0.8s ease-out;
+  }
+  
+  .kiosk-scale-in {
+    animation: scaleIn 0.5s ease-out;
+  }
+  
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  @keyframes slideUp {
+    from {
+      opacity: 0;
+      transform: translateY(40px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  @keyframes scaleIn {
+    from {
+      opacity: 0;
+      transform: scale(0.9);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+  
+  /* Professional Navigation */
+  .kiosk-nav-link {
+    @apply flex items-center space-x-2 px-4 py-3 rounded-xl;
+    @apply text-slate-600;
+    @apply hover:text-blue-600;
+    @apply hover:bg-blue-50;
+    @apply transition-all duration-300;
+    @apply font-medium;
+  }
+
+  .kiosk-nav-link.active {
+    @apply text-blue-600;
+    @apply bg-blue-100;
+    @apply shadow-lg;
+  }
+}
+
+@layer utilities {
+  /* Custom animations */
+  @keyframes fade-in {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  
+  @keyframes slide-up {
+    from { 
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to { 
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  .animate-fade-in {
+    animation: fade-in 0.5s ease-out;
+  }
+  
+  .animate-slide-up {
+    animation: slide-up 0.5s ease-out;
+  }
+
+  /* Kiosk-specific utilities */
+  .kiosk-fullscreen {
+    @apply fixed inset-0 z-50;
+  }
+  
+  .kiosk-center {
+    @apply flex items-center justify-center;
+  }
+  
+  .kiosk-no-scroll {
+    @apply overflow-hidden;
+  }
+  
+  .kiosk-touch-target {
+    @apply min-h-[60px] min-w-[60px];
+  }
+}
+
+/* Responsive design for kiosk */
+@media (max-width: 768px) {
+  .kiosk-grid-4 {
+    @apply grid-cols-2;
+  }
+  
+  .kiosk-grid-3 {
+    @apply grid-cols-2;
+  }
+  
+  .kiosk-title {
+    @apply text-3xl;
+  }
+  
+  .kiosk-subtitle {
+    @apply text-xl;
+  }
+}
+
+@media (max-width: 480px) {
+  .kiosk-grid-4,
+  .kiosk-grid-3,
+  .kiosk-grid-2 {
+    @apply grid-cols-1;
+  }
+  
+  .kiosk-title {
+    @apply text-2xl;
+  }
+  
+  .kiosk-subtitle {
+    @apply text-lg;
+  }
+}

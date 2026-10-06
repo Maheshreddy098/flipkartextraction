@@ -1,0 +1,232 @@
+<div class="row" id="GenricReportsPanel">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-header text-white" style="background-color: #351753; position: relative;">
+                <div class="bokeh-container">
+                    <!-- Bokeh particles will be dynamically added here -->
+                </div>
+                <h5 class="text-800 fw-bold" style="font-family: 'Arial', sans-serif; text-align: center; margin: 0;">
+                    <span style="color: #d18023;">✩</span>
+                    <span style="color: #fbeeee; font-family: 'Georgia', serif; font-style: italic;">{{
+                        report_display_name.replace('_', ' ') if report_display_name else 'Custom' }}
+                        Report</span>
+                    <span style="color: #5ac1cd;">✩</span>
+                </h5>
+                <div id="genericButtonWrapper"
+                    style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); display: flex; align-items: center; gap: 8px;">
+                    <div id="genericfetchButton" class="blinking-star" style="cursor: pointer;">
+                        <i class="fas fa-sync-alt" aria-hidden="true"></i>
+                    </div>
+                    <span id="genericlastFetchedDisplay"
+                        style="color: #fff; font-size: 14px; font-family: Arial, Helvetica, sans-serif;"
+                        data-saptime=""></span>
+                </div>
+            </div>
+            <div class="card-body" id="cardBody" style="background-color: #bbd1d3f9;">
+                <div class="d-flex mb-0 justify-content-end align-items-center"
+                    style="margin-bottom: 0; margin-top: -4px;">
+                    <div class="d-flex align-items-center">
+                        <img class="export-button" data-export-type="excel"
+                            src="https://img.icons8.com/?size=100&id=UECmBSgBOvPT&format=png&color=000000"
+                            alt="Export Excel" style="cursor: pointer; width: 24px; height: 24px; margin-right: 8px;" />
+
+                        <!-- Desktop PDF Button -->
+                        <img class="export-button" data-export-type="pdf"
+                            src="https://img.icons8.com/?size=100&id=13417&format=png&color=000000" alt="Export PDF"
+                            style="cursor: pointer; width: 24px; height: 24px; margin-right: 8px;" />
+                    </div>
+                </div>
+                <div class="table-container" style="max-height: 1000px; overflow-y: auto; margin-top: 0;">
+                    <table id="genericTable" class="table table-striped table-bordered d-none"
+                        style="width:100%; background-color: #b8cac7;">
+                        <thead class="bg-secondary text-white" style="position: sticky; top: 0; z-index: 1;">
+                            <tr>
+                                <!-- Headers will be dynamically added here -->
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Rows will be dynamically added here -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+ {% include "templates/includes/generic_custom_report_charts.html" %}
+ 
+<script>
+
+    displayGenericDataTable = function () {
+        if (window.allgenericData) {
+            const reports = window.allgenericData;
+            const tableBody = document.querySelector('#genericTable tbody');
+            tableBody.innerHTML = '';
+
+            if (reports.length > 0) {
+                // alert('Displaying data in table format');
+
+                console.log('Full API Response:', reports);
+
+                // Parse the JSON data from the 'data' field and create an array of parsed objects
+                // var parsedData = reports.map(function (item) {
+                //     return JSON.parse(item.sap_data_row);
+                // });
+
+                var parsedData = reports;
+
+                var columns = Object.keys(parsedData[0]); // Get column names dynamically from the first object in the parsed data
+                displayChart(parsedData, "{{ report_display_name }}");
+              
+                // Clear existing headings in <thead> and add new ones
+                var headerRow = '';
+                columns.forEach(function (column) {
+                    headerRow += '<th>' + column.replace(/_/g, ' ') + '</th>';
+                });
+
+                // ✅ Build search row (as a second <tr> inside <thead>)
+                let searchRow = '<tr id="genericSearchRow">';
+                columns.forEach(function (column, idx) {
+                    const title = column.replace(/_/g, ' ');
+                    searchRow += `
+                        <th>
+                            <input type="text" placeholder="${title}" data-col-index="${idx}"
+                                style="width: 100%; padding:4px; font-size:13px; border:1px solid #ccc; background-color:#fff;">
+                        </th>`;
+                });
+                searchRow += '</tr>';
+
+                $('#genericTable thead').html('<tr>' + headerRow + '</tr>' + searchRow);
+
+                // Append rows of data
+                var rows = '';
+                parsedData.forEach(function (item) {
+                    rows += '<tr>';
+                    columns.forEach(function (column) {
+                        const value = item[column];
+                        const isNumeric = !isNaN(value);
+                        const isCurrencyField = /amount|amt|price/i.test(column); // case-insensitive check
+                        const isYearField = /year/i.test(column); // case-insensitive check
+
+                        let formattedValue;
+
+                        if (isYearField) {
+                            formattedValue = value;
+                        } else if (isNumeric && isCurrencyField) {
+                            formattedValue = '₹ ' + Number(value).toLocaleString('en-IN');
+                        } else if (isNumeric) {
+                            formattedValue = Number(value).toLocaleString('en-IN');
+                        } else {
+                            formattedValue = value;
+                        }
+                        rows += '<td data-raw="' + value + '">' + formattedValue + '</td>';
+                    });
+                    rows += '</tr>';
+                });
+                $('#genericTable tbody').html(rows);
+
+                if ($.fn.DataTable.isDataTable('#genericTable')) {
+                    $('#genericTable').DataTable().destroy();
+                }
+                
+
+                $(document).ready(function () {
+                    const jdtable = $('#genericTable')
+                    // Detect columns dynamically
+                    const columnCount = jdtable.find('thead th').length;
+                    const columnDefs = [];
+
+                    for (let colIndex = 0; colIndex < columnCount; colIndex++) {
+                        // Inspect first non-empty cell in this column to detect if numeric
+                        let isNumeric = false;
+                        jdtable.find('tbody tr').each(function () {
+                            const cell = $(this).find('td').eq(colIndex);
+                            const raw = cell.data('raw');
+                            if (raw !== undefined) {
+                                // Check if raw value is a number (integer or float)
+                                if (!isNaN(raw)) {
+                                    isNumeric = true;
+                                }
+                                return false; // break loop after first data-raw found
+                            }
+                        });
+
+                        if (isNumeric) {
+                            // For numeric columns with data-raw, add render function
+                            columnDefs.push({
+                                targets: [colIndex],
+                                render: function (data, type, row, meta) {
+                                    var td = meta.settings.aoData[meta.row].anCells[meta.col];
+                                    var raw = $(td).data('raw');
+
+                                    if (type === 'sort' || type === 'type') {
+                                        return raw !== undefined ? raw : data;
+                                    }
+
+                                    if (type === 'filter') {
+                                        if (raw !== undefined && raw !== null) {
+                                            return raw.toString();
+                                        } else if (data !== undefined && data !== null) {
+                                            return data.toString();
+                                        } else {
+                                            return '';
+                                        }
+                                    }
+
+                                    return data;
+                                }
+                            });
+                        }
+                    }
+
+                    // Initialize DataTable with dynamic columnDefs
+                    var dt = jdtable.DataTable({
+                        columnDefs: columnDefs,
+                        orderCellsTop: true // ✅ ensures only first header row handles sorting
+                    });
+
+                    // ✅ Apply column-wise search                    
+                    $('#genericSearchRow input').on('keyup change', function () {
+                        const colIndex = $(this).data('col-index');
+                        dt.column(colIndex).search(this.value).draw();
+                    });
+
+                    $('#genericTable').removeClass('d-none');                    
+                    $('#genericTable_filter').hide();
+
+
+                    // Update bar chart on search, page, or order change
+                    // jdtable.on('search.dt page.dt order.dt', function () {
+                    //     // Get only the displayed (filtered) data
+                    //     const displayedData = jdtable.rows({ search: 'applied' }).data().toArray();
+                    //     // Map displayedData back to report objects
+                    //     const filteredReports = displayedData.map(row => {
+                    //         const rowData = {};
+                    //         $('#genericTable thead th').each(function (index) {
+                    //             const columnName = $(this).text().replace(/ /g, '_'); // Match header text to keys
+                    //             rowData[columnName] = row[index];
+                    //         });
+                    //         return { sap_data_row: JSON.stringify(rowData) };
+                    //     });
+                    //       //showBarChart(filteredReports);
+                    // });
+
+                    // Initial chart with all data
+                    // showBarChart(reports);
+                });
+
+            } else {
+                tableBody.innerHTML = '<tr><td colspan="10">No data available</td></tr>';
+            }
+        }
+    };
+
+
+
+
+    document.getElementById("genericfetchButton").addEventListener("click", function () {
+        fetchLatestDataFromSAP("{{ report_name }}");
+    });
+
+</script>

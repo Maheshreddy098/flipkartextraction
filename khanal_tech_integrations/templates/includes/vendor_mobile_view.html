@@ -1,0 +1,206 @@
+<div class="row">
+    <div class="col-lg-12">
+      <div class="card">
+       <div class="card-header text-white" style="background-color: #351753;">
+  <div class="bokeh-container"></div>
+
+  <!-- Title on its own line -->
+  <h5 class="text-800 fw-bold text-center mb-2"
+      style="font-family: 'Arial', sans-serif; margin: 0;">
+    <span style="color: #d18023;">✩</span>
+    <span style="color: #fbeeee; font-family: 'Georgia', serif; font-style: italic;">Vendor Reports</span>
+    <span style="color: #5ac1cd;">✩</span>
+  </h5>
+
+  <!-- Sync button and last fetched display on next line, right-aligned -->
+  <div class="d-flex justify-content-end mt-2" style="gap: 6px; padding-right: 10px;">
+    <div id="fetchMobileVendorButton" class="blinking-star" style="cursor: pointer;">
+      <i class="fas fa-sync-alt" aria-hidden="true"></i>
+    </div>
+    <span id="lastFetchedDisplay6"
+      style="color: #fff; font-size: 13px; font-family: Arial, Helvetica, sans-serif;"></span>
+  </div>
+</div>
+
+        <div class="card-body" id="cardBodyCard" style="background-color: #bbd1d3f9;">       
+  
+          <div class="d-flex justify-content-between align-items-center mb-3">
+            <!-- Search input aligned left -->
+            <div class="d-flex align-items-center">
+              <input
+                type="text"
+                id="vendorSearchInput"
+                placeholder="Search by Card Code or Name..."
+                class="form-control"
+                style="font-size: 14px; height: 36px; width: 300px;"
+              />
+            </div>
+            
+            <!-- Export buttons aligned right -->
+            <div class="d-flex align-items-center" style="height: 36px;">
+              <img id="exportMobileExcel" 
+                src="https://img.icons8.com/?size=100&id=UECmBSgBOvPT&format=png&color=000000"
+                alt="Export Excel" 
+                style="cursor: pointer; width: 24px; height: 24px; margin-right: 8px;" 
+                title="Export to Excel"
+              />
+              <img id="exportMobilePDF" 
+                src="https://img.icons8.com/?size=100&id=13417&format=png&color=000000" 
+                alt="Export PDF"
+                style="cursor: pointer; width: 24px; height: 24px;" 
+                title="Export to PDF"
+              />
+            </div>
+          </div>
+  
+          <div id="vendorCardsContainer" class="row">
+            <p class="text-center text-muted" id="loadingIndicator1">Loading Vendor data...</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  {% block javascripts %}
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js"></script>
+  <link rel="stylesheet" href="assets/css/vendor_star.css" />
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+  <script src="assets/js/vendor_star.js" defer></script>
+  
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      console.log('Vendor Card View page loaded');
+  
+       window.loadVendorReports = function() {
+          const url = `/api/method/khanal_tech_integrations.www.kfl_main.vendor.get_context?is_api_call=true&page_size=10000`;
+        console.log('Fetching Vendor Reports from URL:', url);
+  
+        const cardsContainer = document.getElementById('vendorCardsContainer');
+        const loadingIndicator1 = document.getElementById('loadingIndicator1');
+        if (loadingIndicator1) loadingIndicator1.style.display = 'block';
+        cardsContainer.innerHTML = '';
+  
+        if (typeof showLoader === 'function') showLoader();
+  
+        fetch(url)
+          .then(response => {
+            if (!response.ok) {
+              throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            return response.json();
+          })
+          .then(data => {
+            if (typeof hideLoader === 'function') hideLoader();
+            if (loadingIndicator1) loadingIndicator1.style.display = 'none';
+  
+            console.log('API Response:', data);
+  
+            if (data.message && data.message.vendor_reports) {
+              window.allVendorData = data.message.vendor_reports;
+              renderVendorCards(window.allVendorData);
+            } else {
+              throw new Error('Invalid data structure received');
+            }
+          })
+          .catch(error => {
+            if (typeof hideLoader === 'function') hideLoader();
+            if (loadingIndicator1) loadingIndicator1.style.display = 'none';
+            console.error('Error fetching reports:', error);
+            cardsContainer.innerHTML = `<p class="text-center text-danger">Error loading data: ${error.message}</p>`;
+          });
+      };
+  
+      function renderVendorCards(reports) {
+        const cardsContainer = document.getElementById('vendorCardsContainer');
+        cardsContainer.innerHTML = '';
+  
+        if (!reports.length) {
+          cardsContainer.innerHTML = '<p class="text-center text-muted">No matching reports found.</p>';
+          return;
+        }
+  
+        let html = '';
+        reports.forEach(report => {
+          html += `
+            <div class="col-12 mb-3">
+                        <div class="card shadow-sm hover-card">
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <h6 class="card-title fw-bold mb-2">Card Code: ${report.card_code || 'N/A'}</h6>
+                                        <div class="d-flex justify-content-between flex-wrap">
+                                            <div class="me-3">
+                                                <p class="mb-1"><strong>Card Name:</strong> ${report.card_name || 'N/A'}</p>
+                                                <p class="mb-1"><strong>Mobile:</strong> ${report.vendor_mobile_no || 'N/A'}</p>
+                                                <p class="mb-1"><strong>Email:</strong> ${report.vendor_email || 'N/A'}</p>
+                                            </div>
+                                            <div>
+                                                <p class="mb-1"><strong>Registered:</strong> ${report.registered_date || 'N/A'}</p>
+                                                <p class="mb-1"><strong>Days Supplied:</strong> ${report.days_supplied || '0'}</p>
+                                                <p class="mb-1"><strong>Total Quantity:</strong> ${report.total_quantity_supplied || '0'} Ltr</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>`;
+        });
+  
+        cardsContainer.innerHTML = html;
+      }
+  
+      document.getElementById('vendorSearchInput').addEventListener('input', function (e) {
+        const search = e.target.value.toLowerCase().trim();
+        const filtered = window.allVendorData.filter(r =>
+          (r.card_code && r.card_code.toLowerCase().includes(search)) ||
+          (r.card_name && r.card_name.toLowerCase().includes(search))
+        );
+        renderVendorCards(filtered);
+      });
+  
+   // Initialize other event listeners
+   
+  
+  // Attach event listener to the button after DOM is ready
+  document.getElementById('fetchMobileVendorButton').addEventListener('click', fetchVendorSupplyDataFromSAP);
+  
+  
+  // Initial load
+  loadVendorReports();
+  
+  // Export functions
+  document.getElementById('exportMobileExcel').addEventListener('click', () => {
+      const data = window.allVendorData;
+      const worksheet = XLSX.utils.json_to_sheet(data);
+      const workbook = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(workbook, worksheet, "Vendors");
+      XLSX.writeFile(workbook, "VendorReport.xlsx");
+  });
+  
+  document.getElementById('exportMobilePDF').addEventListener('click', () => {
+      const { jsPDF } = window.jspdf;
+      const doc = new jsPDF();
+      doc.autoTable({
+          head: [['Card Code','Card Name','Mobile No','Email','Registered Date','Days Supplied','Total Quantity']],
+          body: window.allVendorData.map(row => [
+              row.card_code || '',
+              row.card_name || '',
+              row.vendor_mobile_no || '',
+              row.vendor_email || '',
+              row.registered_date || '',
+              row.days_supplied || '',
+              row.total_quantity_supplied || ''
+          ])
+      });
+      doc.save('VendorReport.pdf');
+  });
+  });
+  
+  // Cooldown for fetch button
+  document.addEventListener("DOMContentLoaded", function () {
+  refreshCooldown("fetchMobileVendorButton", "lastFetchedDisplay6", 0.1);
+  });
+  </script>
+  {% endblock javascripts %}

@@ -1,0 +1,786 @@
+{% extends "khanal_tech_integrations/www/intranet/base.html" %}
+
+{% block content %}
+
+
+<div class="row">
+  <div class="col-lg-12">
+
+
+    <div class="card">
+      <div class="card-header ">
+
+
+        <div class="row g-3 mb-3">
+          <div class="col-xxl-9">
+            <div class="row gx-0 flex-between-center">
+              <div class="col-sm-auto d-flex align-items-center">
+              </div>
+              <div class="col-md-auto p-3">
+                <form class="row align-items-center g-3">
+                  <div class="col-auto">
+                    <h6 class="text-700 mb-0">Showing Data For: </h6>
+                  </div>
+
+
+                  <div class="col-md-auto position-relative">
+                    <div id="LogisticdashBoard"
+                      style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc; width: 100%">
+                      <i class="fa fa-calendar"></i>&nbsp;
+                      <span></span> <i class="fa fa-caret-down"></i>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+            <div class="row g-3 mb-3">
+              <div class="col-sm-6 col-md-4">
+                <div class="card overflow-hidden" style="min-width: 12rem">
+                  <div class="bg-holder bg-card"
+                    style="background-image:url(/assets/khanal_tech_integrations/assets/img/icons/spot-illustrations/corner-1.png);">
+                  </div>
+                  <!--/.bg-holder-->
+
+                  <div class="card-body position-relative">
+                    <h6 class="lead  text-800 font-sans-serif fw-semi-bold w-md-75 w-xl-100 mx-auto ">Total SO Created
+                    </h6>
+                    <!-- <span class="badge badge-soft-warning rounded-pill ms-2">-0.23%</span> -->
+                    <div class="display-4 fs-4 mb-2 fw-normal font-sans-serif text-warning"
+                      data-countup='{"endValue":{{Total_So}}}'>0</div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm-6 col-md-4">
+                <div class="card overflow-hidden" style="min-width: 12rem">
+                  <div class="bg-holder bg-card"
+                    style="background-image:url(/assets/khanal_tech_integrations/assets/img/icons/spot-illustrations/corner-2.png);">
+                  </div>
+                  <!--/.bg-holder-->
+
+                  <div class="card-body position-relative">
+                    <h6 class="lead  text-800 font-sans-serif fw-semi-bold w-md-75 w-xl-100 mx-auto ">Total DN Created
+                    </h6>
+                    <!-- <span class="badge badge-soft-info rounded-pill ms-2">0.0%</span> -->
+                    <div class="display-4 fs-4 mb-2 fw-normal font-sans-serif text-info"
+                      data-countup='{"endValue":{{DN_count}}}'>0</div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="card overflow-hidden" style="min-width: 12rem">
+                  <div class="bg-holder bg-card"
+                    style="background-image:url(/assets/khanal_tech_integrations/assets/img/icons/spot-illustrations/corner-3.png);">
+                  </div>
+                  <!--/.bg-holder-->
+
+                  <div class="card-body position-relative">
+                    <h6 class="lead  text-800 font-sans-serif fw-semi-bold w-md-75 w-xl-100 mx-auto ">Total INV Created
+                    </h6>
+                    <!-- <span class="badge badge-soft-success rounded-pill ms-2">9.54%</span> -->
+                    <div class="display-4 fs-4 mb-2 fw-normal font-sans-serif"
+                      data-countup='{"endValue":{{INV_count}}}'>0</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+          
+        </div>
+        <div class="row">
+          <div class="col-md-6 col-xxl-4">
+            <div class="card echart-session-by-browser-card h-100">
+              <div class="card-header">
+                <div class="row flex-between-end">
+                  <div class="col-auto align-self-center">
+                    <h5 class="mb-0" >Sales Order Progress Breakdown </h5>
+                  </div>
+
+                </div>
+              </div>
+              <div class="card-body d-flex flex-column justify-content-between py-0 bg-light">
+                <div class="my-auto py-5 py-md-0">
+                  <!-- Find the JS file for the following chart at: src/js/charts/echarts/session-by-browser.js-->
+                  <!-- If you are not using gulp based workflow, you can find the transpiled code at: public/assets/js/theme.js-->
+                  <div class="echart-most-leads my-2" data-echart-responsive="true"></div>
+                 
+                </div>
+                <div class="border-top">
+                  <table class="table table-sm mb-0">
+                    <tbody>
+                      <tr>
+                        <td class="py-3">
+                          <div class="d-flex align-items-center">
+                            <!-- <img src="../assets/img/icons/chrome-logo.png" alt="" width="16" /> -->
+                            <h6 class="text-600 mb-0 ms-2">Total SO Created</h6>
+                          </div>
+                        </td>
+                        <td class="py-3">
+                          <div class="d-flex align-items-center">
+                            <!-- <span class="fas fa-circle fs--2 me-2 text-primary"></span> -->
+                            <h6 class="fw-normal text-700 mb-0">{{Total_So}}</h6>
+                          </div>
+                        </td>
+                        <td class="py-3">
+                          <div class="d-flex align-items-center justify-content-end">
+                            <!-- <span class="fas fa-caret-down text-danger"></span> -->
+                            <h6 class="fs--2 mb-0 ms-2 text-700"></h6>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td class="py-3">
+                          <div class="d-flex align-items-center">
+                            <!-- <img src="../assets/img/icons/safari-logo.png" alt="" width="16" /> -->
+                            <h6 class="text-600 mb-0 ms-2" >Still in SalesOrder</h6>
+                          </div>
+                        </td>
+                        <td class="py-3">
+                          <div class="d-flex align-items-center">
+                            <!-- <span class="fas fa-circle fs--2 me-2 text-success"></span> -->
+                            <h6 class="fw-normal text-700 mb-0" id="PercentageStiil_in_SalesOrder">{{Stiil_in_SalesOrder}}</h6>
+                          </div>
+                        </td>
+                        <td class="py-3">
+                          <div class="d-flex align-items-center justify-content-end">
+                            <!-- <span class="fas fa-caret-up text-success"></span> -->
+                            <h6 class="fs--2 mb-0 ms-2 text-700">{{Stiil_in_SalesOrderPerCentage}}%</h6>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td class="py-3">
+                          <div class="d-flex align-items-center">
+                            <!-- <img src="../assets/img/icons/firefox-logo.png" alt="" width="16" /> -->
+                            <h6 class="text-600 mb-0 ms-2">Still in DeliveryNotes</h6>
+                          </div>
+                        </td>
+                        <td class="py-3">
+                          <div class="d-flex align-items-center">
+                            <!-- <span class="fas fa-circle fs--2 me-2 text-info"></span> -->
+                            <h6 class="fw-normal text-700 mb-0" id="PercentageDeliveryNotes">{{Still_in_DeliveryNotes}}</h6>
+                          </div>
+                        </td>
+                        <td class="py-3">
+                          <div class="d-flex align-items-center justify-content-end">
+                            <!-- <span class="fas fa-caret-up text-success"></span> -->
+                            <h6 class="fs--2 mb-0 ms-2 text-700">{{DeliveryNotesPerCentage}}%</h6>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td class="py-3">
+                          <div class="d-flex align-items-center">
+                            <!-- <img src="../assets/img/icons/firefox-logo.png" alt="" width="16" /> -->
+                            <h6 class="text-600 mb-0 ms-2">Total Invoice Created</h6>
+                          </div>
+                        </td>
+                        <td class="py-3">
+                          <div class="d-flex align-items-center">
+                            <!-- <span class="fas fa-circle fs--2 me-2 text-info"></span> -->
+                            <h6 class="fw-normal text-700 mb-0" id="PercentageInvComplete">{{INV_count}}</h6>
+                          </div>
+                        </td>
+                        <td class="py-3">
+                          <div class="d-flex align-items-center justify-content-end">
+                            <!-- <span class="fas fa-caret-up text-success"></span> -->
+                            <h6 class="fs--2 mb-0 ms-2 text-700">{{InvComplete}}%</h6>
+                          </div>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            
+            </div>
+          </div>
+      
+          <div class="col-md-6 col-xxl-4">
+            <div class="card h-100" dir="ltr">
+              <div class="card-header">
+                <div class="row flex-between-end">
+                  <div class="col-auto align-self-center">
+                    <h5 class="mb-0" >Order Fulfillment WareHouse-wise </h5>
+                  </div>
+
+                </div>
+              </div>
+              <div class="card-body bg-light">
+                <div class="tab-content">
+
+                  <div class="echart-doughnut-rounded-chart" style="min-height: 320px;" data-echart-responsive="true">
+                  </div>
+
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row g-3 mb-3 mt-5" id="chart-row">
+          {% set User_doc = frappe.get_doc('User', frappe.session.user ) %}
+          {% for i in User_doc.roles %}
+          {% if i.role == "Sales Logistics Master Viewer"%}
+          <div class="col-lg-12 chart-column">
+            <div class="card h-100" >
+              <div class="card-header">
+                <div class="row flex-between-end">
+                  <div class="col-auto align-self-center">
+                    <h5 class="mb-0" >Sales Person Progress </h5>
+                  </div>
+                
+                </div>
+              </div>
+              <div class="card-body bg-light" >
+                <div class="tab-content" >
+                    <div class="echart-horizontal-bar-chart-example" style="min-height:900px;" data-echart-responsive="true"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          {% endif %}
+          {% if i.role == "Sales Logistics Report Viewer"%}
+          <div class="col-lg-12 chart-column">
+            <div class="card h-100">
+              <div class="card-header">
+                <div class="row flex-between-end">
+                  <div class="col-auto align-self-center">
+                    <h5 class="mb-0" >Delivery Notes Breakdown Transpoter-wise</h5>
+                  </div>
+                
+                </div>
+              </div>
+              <div class="card-body bg-light">
+                <div class="tab-content">
+                    <div class="echart-pie-chart-example" style="min-height: 900px;" data-echart-responsive="true"></div>
+                  
+                </div>
+              </div>
+            </div>
+          </div>
+          {% endif %}
+          {% endfor %}
+        </div>
+       
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+
+// ---------------------------sales person  --------------------------
+var echartsPieChartInit = function echartsPieChartInit() {
+  var newData = {{ SingleListDn | safe }}
+    .map(function (item) {
+    return {
+      value: item[1],
+      name: item[0] + " " + item[1],
+      // itemStyle: {
+      //   color: utils.getColor('primary')
+      // }
+    };
+  });
+
+  var $pieChartEl = document.querySelector('.echart-pie-chart-example');
+
+  if ($pieChartEl) {
+    var chart = window.echarts.init($pieChartEl);
+
+    var getDefaultOptions = function getDefaultOptions() {
+      return {
+        legend: {
+          left: 'left',
+          textStyle: {
+            color: utils.getGrays()['600']
+          }
+        },
+        series: [{
+          type: 'pie',
+          radius: window.innerWidth < 130 ? '15%' : '50%',
+          label: {
+            color: utils.getGrays()['700']
+          },
+          center: ['40%', '70%'],
+          data: [],
+          emphasis: {
+            itemStyle: {
+              shadowBlur: 10,
+              shadowOffsetX: 0,
+              shadowColor: utils.rgbaColor(utils.getGrays()['600'], 0.5)
+            }
+          }
+        }],
+        tooltip: {
+          trigger: 'item',
+          padding: [7, 10],
+          backgroundColor: utils.getGrays()['100'],
+          borderColor: utils.getGrays()['300'],
+          textStyle: {
+            color: utils.getColors().dark
+          },
+          borderWidth: 1,
+          transitionDuration: 0,
+          axisPointer: {
+            type: 'none'
+          }
+        }
+      };
+    };
+
+    var userOptions = {
+      series: [{
+        data: newData
+      }]
+    };
+
+    echartSetOption(chart, userOptions, getDefaultOptions); //- set chart radius on window resize
+
+    utils.resize(function () {
+      if (window.innerWidth < 530) {
+        chart.setOption({
+          series: [{
+            radius: '45%'
+          }]
+        });
+      } else {
+        chart.setOption({
+          series: [{
+            radius: '60%'
+          }]
+        });
+      }
+    });
+  }
+};
+
+
+
+// --------------------------- end sales person --------------------------
+
+
+// ---------------------------  warehouselist tracking --------------------------
+  var newData = {{ WareSingleListDn | safe }}
+.map(function (item) {
+    return {
+      value: item[1],
+      name: item[0] + " " + item[1],
+      // itemStyle: {
+      //   color: utils.getColor('primary')
+      // }
+    };
+  });
+
+  var echartsDoughnutRoundedChartInit = function echartsDoughnutRoundedChartInit() {
+    var $doughnutRoundedChartEl = document.querySelector('.echart-doughnut-rounded-chart');
+
+    if ($doughnutRoundedChartEl) {
+      // Get options from data attribute
+      var userOptions = utils.getData($doughnutRoundedChartEl, 'options');
+      var chart = window.echarts.init($doughnutRoundedChartEl);
+
+      var getDefaultOptions = function getDefaultOptions() {
+        return {
+          legend: {
+            orient: 'vertical',
+            left: 'left',
+            textStyle: {
+              color: utils.getGrays()['600']
+            }
+          },
+          series: [{
+            type: 'pie',
+            radius: ['40%', '70%'],
+            center: window.innerWidth < 530 ? ['65%', '55%'] : ['50%', '55%'],
+            avoidLabelOverlap: false,
+            itemStyle: {
+              borderRadius: 10,
+              borderColor: utils.getGrays()['100'],
+              borderWidth: 2
+            },
+            label: {
+              show: false,
+              position: 'center'
+            },
+            labelLine: {
+              show: false
+            },
+            data: newData, // set data to newData variable
+          }],
+          tooltip: {
+            trigger: 'item',
+            padding: [7, 10],
+            backgroundColor: utils.getGrays()['100'],
+            borderColor: utils.getGrays()['300'],
+            textStyle: {
+              color: utils.getColors().dark
+            },
+            borderWidth: 1,
+            transitionDuration: 0,
+            axisPointer: {
+              type: 'none'
+            }
+          }
+        };
+      };
+
+      echartSetOption(chart, userOptions, getDefaultOptions);
+      utils.resize(function () {
+        if (window.innerWidth < 530) {
+          chart.setOption({
+            series: [{
+              center: ['65%', '55%']
+            }]
+          });
+        } else {
+          chart.setOption({
+            series: [{
+              center: ['50%', '55%']
+            }]
+          });
+        }
+      });
+    }
+  };
+// ---------------------------  end  warehouselist tracking --------------------------
+
+
+
+// ---------------------------    salesperson  graph --------------------------
+var echartsBasicBarChartInit = function echartsBasicBarChartInit() {
+  var $barChartEl = document.querySelector('.echart-basic-bar-chart-example');
+
+  if ($barChartEl) {
+    // Get options from data attribute
+    var userOptions = utils.getData($barChartEl, 'options');
+    var chart = window.echarts.init($barChartEl);
+    var data = {{Finalresult| safe}}
+    // Sort data in ascending order by so_count
+    data.sort(function(a, b) {
+      return b.so_count - a.so_count;
+    });
+
+    var xAxisData = [];
+    var seriesData = [];
+
+    for (var i = 0; i < data.length; i++) {
+      var item = data[i];
+      xAxisData.push(item.salesperson_name);
+      seriesData.push(item.so_count);
+    }
+
+    var getDefaultOptions = function getDefaultOptions() {
+      return {
+        tooltip: {
+          trigger: 'axis',
+          padding: [7, 10],
+          backgroundColor: utils.getGrays()['100'],
+          borderColor: utils.getGrays()['300'],
+          textStyle: {
+            color: utils.getColors().dark
+          },
+          borderWidth: 1,
+          formatter: tooltipFormatter,
+          transitionDuration: 0,
+          axisPointer: {
+            type: 'none'
+          }
+        },
+        xAxis: {
+          type: 'category',
+          data: xAxisData,
+          axisLine: {
+            lineStyle: {
+              color: utils.getGrays()['300'],
+              type: 'solid'
+            }
+          },
+          axisTick: {
+            show: false
+          },
+          axisLabel: {
+            color: utils.getGrays()['400'],
+            margin: 15,
+            formatter: function (value) {
+              if (value.length > 10) {
+                return value.substring(0, 10) + '...';
+              } else {
+                return value;
+              }
+            }
+          },
+          splitLine: {
+            show: false
+          }
+        },
+        yAxis: {
+          type: 'value',
+          boundaryGap: true,
+          axisLabel: {
+            show: true,
+            color: utils.getGrays()['400'],
+            margin: 15
+          },
+          splitLine: {
+            show: true,
+            lineStyle: {
+              color: utils.getGrays()['200']
+            }
+          },
+          axisTick: {
+            show: false
+          },
+          axisLine: {
+            show: false
+          },
+          min: 0
+        },
+        series: [{
+          type: 'bar',
+          name: 'Total',
+          data: seriesData,
+          lineStyle: {
+            color: utils.getColor('primary')
+          },
+          itemStyle: {
+            color: utils.getColor('primary'),
+            barBorderRadius: [3, 3, 0, 0]
+          },
+          showSymbol: false,
+          symbol: 'circle',
+          smooth: false,
+          hoverAnimation: true
+        }],
+        grid: {
+          right: '3%',
+          left: '10%',
+          bottom: '10%',
+          top: '5%'
+        }
+      };
+    };
+  
+    echartSetOption(chart, null, getDefaultOptions);
+  }
+};
+
+// ---------------------------   end  salesperson  graph --------------------------
+
+// -------------------------------- Delivery Note  --------------------------
+
+var echartsHorizontalBarChartInit = function echartsHorizontalBarChartInit() {
+  var $horizontalBarChartEl = document.querySelector('.echart-horizontal-bar-chart-example');
+
+  if ($horizontalBarChartEl) {
+    // Get options from data attribute
+    var userOptions = utils.getData($horizontalBarChartEl, 'options');
+    var chart = window.echarts.init($horizontalBarChartEl);
+    var data = {{Finalresult| safe}}
+
+    // Sort the data by so_count in ascending order
+    data.sort(function(a, b) {
+      return a.so_count - b.so_count;
+    });
+
+    var getDefaultOptions = function getDefaultOptions() {
+      return {
+        tooltip: {
+          trigger: 'axis',
+          padding: [7, 10],
+          backgroundColor: utils.getGrays()['100'],
+          borderColor: utils.getGrays()['300'],
+          textStyle: {
+            color: utils.getColors().dark
+          },
+          borderWidth: 1,
+          formatter: tooltipFormatter,
+          transitionDuration: 0,
+          axisPointer: {
+            type: 'none'
+          }
+        },
+        xAxis: {
+          type: 'value',
+          boundaryGap: false,
+          axisLine: {
+            show: true,
+            lineStyle: {
+              color: utils.getGrays()['300']
+            }
+          },
+          axisTick: {
+            show: true
+          },
+          axisLabel: {
+            color: utils.getGrays()['500']
+          },
+          splitLine: {
+            show: false
+          },
+          min: 0 // set the minimum value to 0
+        },
+        yAxis: {
+            type: 'category',
+            data: data.map(function (item) {
+              return item.salesperson_name; 
+              // return item[0];
+            }),
+            boundaryGap: true,
+            axisLabel: {
+              show: true,
+              color: utils.getGrays()['900'],
+              margin: 1,
+              fontSize: 9,
+              
+            },
+            splitLine: {
+              show: true,
+              lineStyle: {
+                color: utils.getGrays()['200']
+              }
+            },
+            axisTick: {
+              show: false
+            },
+            axisLine: {
+              lineStyle: {
+                color: utils.getGrays()['300']
+              }
+            }
+          },
+        series: [{
+          type: 'bar',
+          name: 'Total',
+          data: data.map(function(item) {
+            return item.so_count; // extract the sales order count
+          }),
+          lineStyle: {
+            color: utils.getColor('primary')
+          },
+          itemStyle: {
+            color: utils.getColor('primary'),
+            barBorderRadius: [0, 3, 3, 0]
+          },
+          showSymbol: false,
+          symbol: 'circle',
+          smooth: false,
+          hoverAnimation: true
+        }],
+        grid: {
+            right: '3%',
+            left: '10%',
+            bottom: '10%',
+            top: '5%'
+          }
+        };
+      };
+
+      echartSetOption(chart, userOptions, getDefaultOptions);
+    }
+  };
+// -------------------------------- end  Delivery Note  --------------------------
+</script>
+{% endblock content %}
+
+
+
+{% block javascripts %}
+<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.21/lodash.min.js"></script> -->
+
+<script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+<script src="/assets/khanal_tech_integrations/assets/js/echarts-example.js"></script>
+
+<script>
+// $(document).ready(function() {
+//   resizeCharts();
+
+//   $(window).on('resize', function() {
+//     resizeCharts();
+//   });
+
+//   function resizeCharts() {
+//     $('.chart-column').each(function() {
+//       var chart = $(this).find('.echart-horizontal-bar-chart-example, .echart-pie-chart-example');
+//       if (chart.height() > 900) {
+//         $(this).removeClass('col-lg-6').addClass('col-lg-12');
+//       } else {
+//         $(this).removeClass('col-lg-12').addClass('col-lg-6');
+//       }
+//     });
+//   }
+// });
+
+  $(function () {
+
+    value = location.protocol + '//' + location.host + location.pathname
+    if (window.location.href == value) {
+      // var start = moment().subtract(29, 'days');
+      // var end = moment();
+      function cb(start, end) {
+        $('#LogisticdashBoard span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
+      }
+    }
+    else {
+      url = new URL(window.location.href)
+      var startdate = url.searchParams.get("startDate");
+      var enddate = url.searchParams.get("endDate");
+      var start = new Date(startdate).toDateString().slice(4, 15);
+      var end = new Date(enddate).toDateString().slice(4, 15);
+      if (start == 'lid Date') {
+        function cb(start, end) {
+          $('#LogisticdashBoard span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
+        }
+      }
+      else {
+        $('#LogisticdashBoard span').html(start + ' - ' + end);
+      }
+    }
+
+
+    start = moment().subtract(29, 'days');
+    end = moment();
+    $('#LogisticdashBoard').daterangepicker({
+      startDate: start,
+      endDate: end,
+
+      ranges: {
+        'Today': [moment(), moment()],
+        'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+        'Last 7 Days': [moment().subtract(6, 'days'), moment()],
+        'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+        'This Month': [moment().startOf('month'), moment().endOf('month')],
+        'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+      }
+    },
+      cb
+    );
+
+    cb(start, end);
+
+
+
+  });
+
+  $('#LogisticdashBoard').on('apply.daterangepicker', function (ev, picker) {
+    var startDate = picker.startDate.format('YYYY-MM-DD');
+    var endDate = picker.endDate.format('YYYY-MM-DD');
+
+    var url = "/intranet/?startDate=" + startDate + "&endDate=" + endDate;
+    window.location.href = url;
+
+  });
+</script>
+
+
+
+{% endblock javascripts %}
+
+
+
+
+
+
+

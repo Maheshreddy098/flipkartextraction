@@ -1,0 +1,74 @@
+{% extends "khanal_tech_integrations/www/kfl_main/base.html" %}
+
+{% block content %}
+   {% include "/templates/includes/dashboard_partial.html" %}
+
+{% endblock content %}
+
+<div id="imageCarousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="3000">
+  <div class="carousel-inner">
+    <div class="carousel-item active">
+      <img src="/assets/khanal_tech_integrations/assets/img/kfl_dash/dogimg1.png" class="d-block w-100" alt="Image 3">
+    </div>
+    <div class="carousel-item">
+      <img src="/assets/khanal_tech_integrations/assets/img/kfl_dash/dogimg2.png" class="d-block w-100" alt="Image 2">
+    </div>
+    <div class="carousel-item">
+      
+      <img src="https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExemprYXI3OXI2eWs5YWR2bnNua3VpaG9jY2NtanhkbnI4aGRrb3A5dCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/WMCi0RCwRKUnuL3HZK/giphy.gif" class="d-block w-100" alt="Dogee GIF" style="height: 330px; float: right;">
+
+    </div>
+  </div>
+
+  <div class="carousel-item">
+      
+    <img src="https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExZHRsZHJ5MGdweTc0bmNrenY1ZnZubHU1Y3JoM29lcjlqMWkxdG42byZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/TCPsSOYutvPgY/giphy.gif" class="d-block w-100" alt="Dogee GIF" style="height: 330px; float: right;">
+
+
+  </div>
+</div>
+
+
+
+  <button class="carousel-control-prev" type="button" data-bs-target="#imageCarousel" data-bs-slide="prev">
+    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Previous</span>
+  </button>
+  <button class="carousel-control-next" type="button" data-bs-target="#imageCarousel" data-bs-slide="next">
+    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Next</span>
+  </button>
+</div>
+
+{% block javascripts %}
+<!-- <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+<script>
+  $(function () {
+    function cb(start, end) {
+      $('#LogisticdashBoard span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
+    }
+    const start = moment().subtract(29, 'days');
+    const end = moment();
+    $('#LogisticdashBoard').daterangepicker({
+      startDate: start,
+      endDate: end,
+      ranges: {
+        'Today': [moment(), moment()],
+        'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+        'Last 7 Days': [moment().subtract(6, 'days'), moment()],
+        'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+        'This Month': [moment().startOf('month'), moment().endOf('month')],
+        'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+      }
+    }, cb);
+    cb(start, end);
+    $('#LogisticdashBoard').on('apply.daterangepicker', function (ev, picker) {
+      const startDate = picker.startDate.format('YYYY-MM-DD');
+      const endDate = picker.endDate.format('YYYY-MM-DD');
+      const url = `/kfl_main/?startDate=${startDate}&endDate=${endDate}`;
+      window.location.href = url;
+    });
+  });
+</script> -->
+{% endblock javascripts %}

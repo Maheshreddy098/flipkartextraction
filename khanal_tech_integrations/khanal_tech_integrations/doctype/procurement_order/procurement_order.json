@@ -1,0 +1,166 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "field:purchase_no",
+ "creation": "2023-04-13 15:15:20.095700",
+ "default_view": "List",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "location",
+  "securityname",
+  "description",
+  "invoicenumber",
+  "value",
+  "section_break_c4fk",
+  "purchase_no",
+  "vendor_code",
+  "vendorname",
+  "item_code",
+  "quantity",
+  "price",
+  "section_break_qur9",
+  "vehiclein",
+  "vehicleout",
+  "vehiclenumber",
+  "drivername",
+  "drivernumber",
+  "column_break_3zs2",
+  "image"
+ ],
+ "fields": [
+  {
+   "fieldname": "item_code",
+   "fieldtype": "Data",
+   "label": "Item Code"
+  },
+  {
+   "fieldname": "description",
+   "fieldtype": "Data",
+   "label": "Description"
+  },
+  {
+   "fetch_from": "purchase_no.vendorname",
+   "fetch_if_empty": 1,
+   "fieldname": "vendor_code",
+   "fieldtype": "Data",
+   "label": "Vendor Code"
+  },
+  {
+   "fieldname": "price",
+   "fieldtype": "Data",
+   "label": "Amount"
+  },
+  {
+   "fieldname": "value",
+   "fieldtype": "Data",
+   "label": "Invoice Value"
+  },
+  {
+   "fieldname": "image",
+   "fieldtype": "Attach Image",
+   "label": "Image"
+  },
+  {
+   "fieldname": "purchase_no",
+   "fieldtype": "Link",
+   "label": "Purchase No",
+   "options": "SAP Purchase Order",
+   "unique": 1
+  },
+  {
+   "fieldname": "location",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Location",
+   "options": "HN Malur\nDogsee Mahadevapura\nEcom Mahadevapura\nHN Thubrahalli\nNandi Hills\nATP",
+   "reqd": 1
+  },
+  {
+   "fieldname": "invoicenumber",
+   "fieldtype": "Data",
+   "label": "Invoice Number"
+  },
+  {
+   "fieldname": "section_break_c4fk",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "securityname",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Security Name",
+   "reqd": 1
+  },
+  {
+   "fieldname": "section_break_qur9",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "vehiclein",
+   "fieldtype": "Datetime",
+   "label": "Vehicle In"
+  },
+  {
+   "fieldname": "vehicleout",
+   "fieldtype": "Datetime",
+   "label": "Vehicle Out"
+  },
+  {
+   "fieldname": "vehiclenumber",
+   "fieldtype": "Data",
+   "label": "Vehicle Number"
+  },
+  {
+   "fieldname": "drivername",
+   "fieldtype": "Data",
+   "label": "Driver Name"
+  },
+  {
+   "fieldname": "drivernumber",
+   "fieldtype": "Data",
+   "label": "Driver Number"
+  },
+  {
+   "fieldname": "quantity",
+   "fieldtype": "Data",
+   "label": "Quantity / packs / Box ( Pcs , kg , Litre )",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_3zs2",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "vendorname",
+   "fieldtype": "Data",
+   "label": "Vendor Name"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2024-03-20 16:28:14.200629",
+ "modified_by": "Administrator",
+ "module": "Khanal Tech Integrations",
+ "name": "Procurement Order",
+ "naming_rule": "By fieldname",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

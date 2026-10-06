@@ -1,0 +1,174 @@
+{% extends "khanal_tech_integrations/www/intranet/base.html" %}
+
+{% block content %}
+<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+
+
+<div class="row mb-3">
+  <div class="col">
+    <div class="card bg-100 shadow-none border">
+      <div class="row gx-0 flex-between-center">
+        <div class="col-sm-auto d-flex align-items-center"><img class="ms-n2"
+            src="/assets/khanal_tech_integrations/assets/img/illustrations/crm-bar-chart.png" alt="" width="90" />
+          <div>
+            <h6 class="text-primary fs--1 mb-0">Welcome to </h6>
+            <h4 class="text-primary fw-bold mb-0">KhanalFoods <span class="text-info fw-medium">My Order</span></h4>
+          </div><img class="ms-n4 d-md-none d-lg-block"
+            src="/assets/khanal_tech_integrations/assets/img/illustrations/crm-line-chart.png" alt="" width="150" />
+        </div>
+        <div class="col-md-auto p-3">
+          <!-- <form class="row align-items-center g-3">
+            <div class="col-auto">
+              <h6 class="text-700 mb-0">Showing Data For: </h6>
+            </div>
+
+
+            <div class="col-md-auto position-relative">
+              <div id="reportrange"
+                style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc; width: 100%">
+                <i class="fa fa-calendar"></i>&nbsp;
+                <span></span> <i class="fa fa-caret-down"></i>
+              </div>
+            </div>
+
+          </form> -->
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+<div class="row mb-3">
+  <div class="col">
+    <div class="card bg-100 shadow-none border">
+      <div class="card-header">
+        <div class="row flex-between-end">
+          <div class="col-auto align-self-center">
+            <h5 class="mb-0" data-anchor="data-anchor">Prozo Order</h5>
+
+          </div>
+
+        </div>
+      </div>
+      <div class="card-body pt-0">
+        <div class="tab-content">
+          <div class="tab-pane preview-tab-pane active" role="tabpanel"
+            aria-labelledby="tab-dom-2190de4e-5b61-4e58-923a-d0604c18408f"
+            id="dom-2190de4e-5b61-4e58-923a-d0604c18408f">
+            <div id="tableExample3"
+              data-list='{"valueNames":["Customer","docnum","slno","date","number","WHSECode"],"page":15,"pagination":true}'>
+              <div class="row justify-content-end g-0">
+                <div class="col-auto col-sm-5 mb-3">
+                  <form>
+                    <div class="input-group">
+                      <input class="form-control form-control-sm shadow-none search" type="search"
+                        placeholder="Search..." aria-label="search" />
+                      <div class="input-group-text bg-transparent"><span class="fa fa-search fs--1 text-600"></span>
+                      </div>
+                    </div>
+                  </form>
+                </div>
+              </div>
+              <div class="table-responsive scrollbar">
+                <table class="table table-bordered table-striped fs--1 mb-0">
+                  <thead class="bg-200 text-900">
+                    <tr>
+                      <!-- <th class="sort" data-sort="Customer">Customer</th>
+                      <th class="sort" data-sort="email">Email</th>
+                      <th class="sort" data-sort="age">Age</th> -->
+                      <th class="sort" data-sort="slno">#</th>
+                      <th class="sort" data-sort="date">Date </th>
+                      <th class="sort" data-sort="docnum">Doc No. </th>
+                      <th class="sort" data-sort="number">Customer No.</th>
+                      <th class="sort" data-sort="Customer">Customer Name</th>
+                      <th class="sort" data-sort="WHSECode">Warehouse</th>
+
+                      <!-- <th class="sort" data-sort="invoiceamount">Invoice Amount</th> -->
+                      <!-- <th class="sort" data-sort="status">Status</th> -->
+                      <th class="sort"></th>
+                    </tr>
+                  </thead>
+                  <tbody class="list">
+                    {% for pz_order in PZ_orders %}
+                    <tr>
+                      <td class="slno"><b>{{ loop.index }}</b> </td>
+                      <td class="date"><i>{{pz_order.DocDate}}</i> </td>
+                      <td class="docnum"><b>{{pz_order.DocNum}}</b> </td>
+                      <td class="number">{{pz_order.CardCode}}</td>
+                      <td class="Customer">{{pz_order.CardName}}</td>
+                      <td class="WHSECode">{{pz_order.U_SubConPONo}}</td>
+                      <td><button onclick="Order_Creation({{pz_order.DocEntry}})"
+                          style="background-color: #0d8fc9; color: white;"
+                          class="btn btn-primary  text-end">Update</button></td>
+                    </tr>
+                    {% endfor %}
+                  </tbody>
+                </table>
+              </div>
+              <div class="d-flex justify-content-center mt-3">
+                <button class="btn btn-sm btn-falcon-default me-1" type="button" title="Previous"
+                  data-list-pagination="prev"><span class="fas fa-chevron-left"></span></button>
+                <ul class="pagination mb-0"></ul>
+                <button class="btn btn-sm btn-falcon-default ms-1" type="button" title="Next"
+                  data-list-pagination="next"><span class="fas fa-chevron-right"> </span></button>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+{% endblock content %}
+
+
+
+{% block javascripts %}
+<script>
+  function Order_Creation(docentryNum) {
+    alert(docentryNum)
+    $.ajax({
+      method: "GET",
+      url: "/",
+      data: {
+        cmd: "khanal_tech_integrations.utils.prozo.orders.Order_Creation_flow",
+        docentry: docentryNum,
+      },
+      dataType: "json",
+      success: function (response) {
+        // console.log(response.message)
+        if (response.message == 200) {
+          swal("Request Sent Waiting For Approval", {
+            icon: "success",
+          });
+        }
+        else if (response.message == 405) {
+
+          swal("The amount must be an integer", {
+            icon: "error",
+          });
+
+        }
+        else {
+          swal("Bad Request", {
+            icon: "warning",
+          });
+
+        }
+
+
+      }
+
+    })
+  }
+</script>
+{% endblock javascripts %}
